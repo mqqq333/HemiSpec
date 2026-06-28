@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import inspect
 from pathlib import Path
 
 import matplotlib
@@ -8,6 +9,10 @@ matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
 import numpy as np
+
+
+def _boxplot_label_keyword(boxplot_func) -> str:
+    return "tick_labels" if "tick_labels" in inspect.signature(boxplot_func).parameters else "labels"
 
 
 def plot_heatmap(matrix: np.ndarray, out_png: str | Path, title: str, flip_diag: bool = True) -> None:
@@ -31,10 +36,13 @@ def plot_within_between_box(
     title: str,
 ) -> None:
     fig, ax = plt.subplots(figsize=(3.1, 3.0))
-    ax.boxplot([within, between], labels=["Within", "Between"], showfliers=False)
+    # Matplotlib 3.9 deprecated ``labels`` in favor of ``tick_labels`` and
+    # Matplotlib 3.11 removes the old keyword. Select the supported keyword
+    # explicitly instead of catching broad TypeError from inside boxplot.
+    label_key = _boxplot_label_keyword(ax.boxplot)
+    ax.boxplot([within, between], **{label_key: ["Within", "Between"], "showfliers": False})
     ax.set_ylabel("Similarity")
     ax.set_title(title, fontsize=10)
     fig.tight_layout()
     fig.savefig(out_png, dpi=300)
     plt.close(fig)
-
