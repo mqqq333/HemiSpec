@@ -1,0 +1,110 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hemispec-toolkit"
+version = "0.1.0"
+description = "HemiSpec toolkit for reconstruction-derived hemispheric specificity analysis from NIfTI maps."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+dependencies = [
+  "numpy>=1.23",
+  "nibabel>=5.0",
+  "pandas>=1.5",
+  "openpyxl>=3.1",
+  "scipy>=1.9",
+  "matplotlib>=3.5",
+]
+authors = [
+  {name = "HemiSpec Toolkit Authors"}
+]
+keywords = [
+  "neuroimaging",
+  "nifti",
+  "brain",
+  "hemisphere reconstruction",
+  "structural specificity",
+  "ANS",
+  "RNS",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Medical Science Apps.",
+]
+
+[project.urls]
+Homepage = "https://mqqq333.github.io/HemiSpec/"
+Documentation = "https://mqqq333.github.io/HemiSpec/"
+Repository = "https://github.com/mqqq333/HemiSpec"
+Issues = "https://github.com/mqqq333/HemiSpec/issues"
+
+[project.optional-dependencies]
+model = [
+  "torch>=2.0",
+]
+classifier = [
+  "scikit-learn>=1.3,<1.8",
+  "joblib>=1.3",
+]
+gui = [
+]
+dev = [
+  "pytest>=7",
+  "build>=1.0",
+  "pyinstaller>=6.0",
+  "ruff>=0.8",
+]
+
+[project.scripts]
+hemispec = "hemispec.cli:main"
+hemispec-gui = "hemispec.gui:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+hemispec = [
+  "py.typed",
+  "resources/preprocess/*.sh",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+norecursedirs = [
+  ".venv-build",
+  "build",
+  "dist",
+  "reference",
+  "assets",
+  "outputs",
+  "data",
+  "classifier_models",
+  "TRT_outputs",
+]
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+src = ["src", "tests"]
+extend-exclude = [
+  "assets",
+  "build",
+  "data",
+  "dist",
+  "outputs",
+  "reference",
+]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+

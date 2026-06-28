@@ -1,0 +1,30 @@
+/* Keep the desktop side navigation visually clean.
+   The default Material generator footer is disabled in mkdocs.yml; hide the
+   resulting empty footer meta bar so it cannot overlap the left navigation.
+   If future copyright/social footer content is added through mkdocs.yml,
+   remove or narrow this rule first. */
+.md-footer-meta {
+  display: none;
+}
+
+/* Lightweight attribution kept inside the page content instead of the footer,
+   so the site still credits Material for MkDocs without a bottom bar. */
+.site-credits {
+  margin-top: 2rem;
+  font-size: 0.68rem;
+  color: var(--md-default-fg-color--light);
+}
+.site-credits a {
+  color: var(--md-default-fg-color--light);
+  text-decoration: underline;
+  text-underline-offset: 0.12rem;
+}
+/* Add a safe bottom buffer for the left navigation.
+   On short screens or Windows taskbar-heavy layouts, the last navigation items
+   can sit flush against the viewport bottom and appear partially hidden. */
+.md-sidebar--primary .md-sidebar__inner {
+  padding-bottom: 6rem;
+}
+
+
+

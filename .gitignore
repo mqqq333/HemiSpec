@@ -1,0 +1,79 @@
+# Python bytecode / package metadata
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+*.egg
+
+# Virtual envs / temp build envs
+.venv/
+.venv-build/
+venv/
+.tmp_*/
+
+# Build / packaging / docs artifacts
+build/
+dist/
+site/
+.cache/
+whl_gui_check/
+/workdir/
+examples/synthetic_quickstart/workdir/
+
+# QA / tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Local outputs, data, and references
+outputs/
+data/
+reference/
+p2a-session/
+
+# Local/private release assets: commit manifests/readmes only
+assets/*
+!assets/README.md
+!assets/models/
+assets/models/*
+!assets/models/README.md
+!assets/atlases/
+assets/atlases/*
+!assets/atlases/README.md
+!assets/atlases/glasser/
+assets/atlases/glasser/*
+!assets/atlases/glasser/README.md
+!assets/atlases/glasser/ASSET_MANIFEST.template.yml
+
+# Real neuroimaging/model/bundle payloads
+*.nii
+*.nii.gz
+*.pth
+*.pt
+*.ckpt
+*.joblib
+*.pkl
+*.xlsx
+*.tar.gz
+*.zip
+*.mat
+*.npz
+*.h5
+*.hdf5
+*.parquet
+*.feather
+examples/input_sample/*
+!examples/input_sample/README.md
+
+# OS / editors / local agent coordination
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.obsidian/
+CLAUDE.md
+PRIVATE_NOTES.md
+.env

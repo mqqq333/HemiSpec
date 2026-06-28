@@ -1,0 +1,18 @@
+# EditorConfig keeps cross-platform edits predictable.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{cmd,bat,ps1}]
+end_of_line = crlf
+
+[*.{png,jpg,jpeg,gif,zip,pdf,nii,nii.gz,pth,pt,ckpt,joblib,pkl,xlsx,tar.gz}]
+insert_final_newline = false
+trim_trailing_whitespace = false

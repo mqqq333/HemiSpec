@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+title: "HemiSpec: Reconstruction-derived Hemispheric Specificity"
+message: "If you use HemiSpec, please cite the software release and the original ANS/RNS framework paper listed in the documentation."
+type: software
+license: MIT
+repository-code: "https://github.com/mqqq333/HemiSpec"
+url: "https://mqqq333.github.io/HemiSpec/"
+version: "0.1.0"
+authors:
+  - name: "HemiSpec Toolkit Authors"

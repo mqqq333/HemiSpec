@@ -1,0 +1,17 @@
+include LICENSE
+include README.md
+include pyproject.toml
+include src/hemispec/py.typed
+recursive-include src/hemispec/resources *.sh
+
+global-exclude __pycache__
+global-exclude *.py[cod]
+global-exclude .DS_Store
+
+prune assets
+prune build
+prune dist
+prune data
+prune outputs
+prune reference
+prune p2a-session

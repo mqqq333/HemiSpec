@@ -1,0 +1,26 @@
+asset_type: atlas_bundle
+name: glasser_hcp_mni_1p5mm
+version: TBD
+date: TBD
+status: local-development
+files:
+  - path: assets/atlases/glasser/MNI_Glasser_HCP_v1.0_1p5mm.nii.gz
+    role: atlas_nifti
+    sha256: TBD
+  - path: assets/atlases/glasser/Glasser_label_index_mapping.xlsx
+    role: label_table
+    sha256: TBD
+source: TBD
+license: TBD
+citation: TBD
+voxel_size: 1.5mm
+space: MNI
+compatible_with:
+  package: hemispec-toolkit
+  version: TBD
+environment_variables:
+  HEMISPEC_GLASSER_ATLAS: path to atlas NIfTI
+  HEMISPEC_GLASSER_LABEL_TABLE: path to label table
+notes:
+  - Keep atlas files out of git unless explicitly approved as release assets.
+  - If distributed, publish checksums and license/provenance with the release.

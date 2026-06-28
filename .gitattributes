@@ -1,0 +1,35 @@
+# Normalize cross-platform text files and protect binary assets.
+* text=auto
+
+*.py text eol=lf
+*.sh text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.toml text eol=lf
+*.css text eol=lf
+*.svg text eol=lf
+*.json text eol=lf
+*.csv text eol=lf
+*.html text eol=lf
+*.txt text eol=lf
+
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.zip binary
+*.pdf binary
+*.nii binary
+*.nii.gz binary
+*.pth binary
+*.pt binary
+*.ckpt binary
+*.joblib binary
+*.pkl binary
+*.xlsx binary
+*.tar.gz binary
