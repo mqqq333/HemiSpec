@@ -9,3 +9,11 @@ python -m pytest
 ```
 
 When adding a feature, prefer a synthetic or tiny generated fixture over committing binary data.
+
+GUI tests are marked with `@pytest.mark.gui`. Public CI runs the non-GUI suite with:
+
+```bash
+python -m pytest -m "not gui"
+```
+
+Run the full suite locally on a machine with a display to include GUI checks.

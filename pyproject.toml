@@ -81,6 +81,9 @@ hemispec = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = [
+  "gui: tests requiring a graphical display/Tk",
+]
 norecursedirs = [
   ".venv-build",
   "build",

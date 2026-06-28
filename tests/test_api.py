@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 import nibabel as nib
@@ -37,6 +38,20 @@ from hemispec.gui import HemiSpecGui
 from hemispec.hemisphere_classifier import apply_classifier_feature_transform, build_classifier_feature_table
 from hemispec.workflow import run_bilateral_workflow, summarize_bilateral_roi_features, summarize_subject_metrics
 from hemispec.roi import RoiSummaryConfig, summarize_maps_by_atlas
+
+
+
+
+def _has_tk_display() -> bool:
+    if os.name == "nt":
+        return True
+    return bool(os.environ.get("DISPLAY") or os.environ.get("WAYLAND_DISPLAY"))
+
+
+GUI_REQUIRES_DISPLAY = pytest.mark.skipif(
+    not _has_tk_display(),
+    reason="Tk GUI tests require a graphical display",
+)
 
 
 def _save(path: Path, arr: np.ndarray) -> None:
@@ -434,6 +449,8 @@ def test_cli_trt_dispatches_to_reliability(monkeypatch, tmp_path):
     assert calls[0][0] == "reliability"
 
 
+@pytest.mark.gui
+@GUI_REQUIRES_DISPLAY
 def test_gui_trt_dispatches_to_reliability(monkeypatch):
     calls = []
 
@@ -587,17 +604,40 @@ def test_discover_local_dgn_bundles_prefers_explicit_direction_checkpoint_names(
     assert bundles["L_to_R"].checkpoint.name == "best_netG_L2R.pth"
 
 
-def test_default_asset_resolvers_find_local_project_assets():
-    model_root = resolve_dgn_model_root()
-    classifier_dir = resolve_classifier_model_dir()
-    atlas_path = resolve_glasser_atlas_path()
-    label_table = resolve_glasser_label_table()
+def test_default_asset_resolvers_find_project_asset_layout(monkeypatch, tmp_path):
+    for name in (
+        "HEMISPEC_ASSET_ROOT",
+        "HEMISPEC_DGN_MODEL_ROOT",
+        "HEMISPEC_MODEL_ROOT",
+        "HEMISPEC_CLASSIFIER_MODEL_DIR",
+        "HEMISPEC_GLASSER_ATLAS",
+        "HEMISPEC_GLASSER_LABEL_TABLE",
+    ):
+        monkeypatch.delenv(name, raising=False)
 
-    assert model_root.parts[-3:] == ("assets", "models", "dgn")
-    assert (model_root / "outputs_bi_stable_L" / "ckpts").exists()
-    assert classifier_dir.name == "OUT_noICBM_train_ICBM_external_saved_models"
-    assert atlas_path.name == "MNI_Glasser_HCP_v1.0_1p5mm.nii.gz"
-    assert label_table.name == "Glasser_label_index_mapping.xlsx"
+    model_root = tmp_path / "assets" / "models" / "dgn"
+    (model_root / "outputs_bi_stable_L" / "ckpts").mkdir(parents=True)
+    (model_root / "outputs_bi_stable_R" / "ckpts").mkdir(parents=True)
+    classifier_expected = (
+        tmp_path
+        / "assets"
+        / "models"
+        / "hemisphere_classifier"
+        / "OUT_noICBM_train_ICBM_external_saved_models"
+    )
+    classifier_expected.mkdir(parents=True)
+    atlas_expected = tmp_path / "assets" / "atlases" / "glasser" / "MNI_Glasser_HCP_v1.0_1p5mm.nii.gz"
+    label_expected = tmp_path / "assets" / "atlases" / "glasser" / "Glasser_label_index_mapping.xlsx"
+    atlas_expected.parent.mkdir(parents=True)
+    atlas_expected.write_bytes(b"toy atlas placeholder")
+    label_expected.write_bytes(b"toy label placeholder")
+
+    monkeypatch.chdir(tmp_path)
+
+    assert resolve_dgn_model_root() == model_root
+    assert resolve_classifier_model_dir() == classifier_expected
+    assert resolve_glasser_atlas_path() == atlas_expected
+    assert resolve_glasser_label_table() == label_expected
 
 
 def test_dgn_crop_and_paste_direction_mapping():
@@ -636,6 +676,8 @@ def test_validation_target_hemisphere_resolution():
         resolve_validation_hemis(("target",), "auto", maps_dir="unknown")
 
 
+@pytest.mark.gui
+@GUI_REQUIRES_DISPLAY
 def test_gui_has_workbench_pages_and_defaults():
     app = HemiSpecGui()
     try:
@@ -659,6 +701,8 @@ def test_gui_has_workbench_pages_and_defaults():
         app.destroy()
 
 
+@pytest.mark.gui
+@GUI_REQUIRES_DISPLAY
 def test_gui_builds_public_api_configs():
     app = HemiSpecGui()
     try:
