@@ -55,6 +55,7 @@ classifier = [
   "joblib>=1.3",
 ]
 gui = [
+  "customtkinter>=5.2",
 ]
 dev = [
   "pytest>=7",

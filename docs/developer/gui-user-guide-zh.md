@@ -1,89 +1,51 @@
-# HemiSpec GUI 使用说明
+﻿# HemiSpec GUI 使用说明
 
-HemiSpec GUI 是英文界面的研究工具工作台，用于部署训练好的 DGN 模型、计算 ANS/RNS，并完成 ROI 导出、TRT 信度检验和半球分类验证。GUI 不包含模型训练功能；`train_code/` 只作为开发参考。
+HemiSpec GUI 是一个紧凑的标准流程启动器。它面向普通用户：用户提供预处理后的 GM maps，HemiSpec 使用已配置的模型流程生成 ANS/RNS 输出。GUI 不提供训练功能，也不暴露调试级模型参数。
 
 ## 启动方式
 
-当前 GUI exe 位于：
-
-```text
-<local-hemispec-toolkit>\dist\hemispec_gui\hemispec_gui.exe
-```
-
-直接双击 `hemispec_gui.exe` 即可打开 GUI。注意不要只移动这个 exe；它需要和同目录下的 `_internal/` 文件夹一起保留。
-
-命令行 exe 是：
-
-```text
-<local-hemispec-toolkit>\dist\hemispec.exe
-```
-
-这个文件用于 CLI，例如：
+源码环境：
 
 ```powershell
-cd <local-hemispec-toolkit>
-.\dist\hemispec.exe workflow --help
+python -m pip install -e .[gui]
+hemispec-gui
 ```
 
-开发阶段或需要完整 PyTorch/DGN runtime 时，推荐用 d2l 环境启动：
-
-```powershell
-scripts\hemispec_gui_d2l.cmd
-```
-
-也可以从源码启动：
-
-```powershell
-$env:PYTHONPATH='src'
-<torch-env-python> -m hemispec.gui
-```
-
-## 输入预处理要求
-
-DGN 推理和 ANS/RNS 计算前，应先使用项目提供的预处理脚本：
+编译后的 Windows GUI 位于：
 
 ```text
-src/hemispec/resources/preprocess/process_single_subject_GM_v2_reorient.sh
+dist/hemispec_gui/hemispec_gui.exe
 ```
 
-GUI 的输入应是预处理后的 GM map：
+注意：这是 onedir 分发形式，不要只移动 `hemispec_gui.exe`，需要保留整个 `dist/hemispec_gui/` 文件夹。
 
-```text
-*_GM_masked.nii.gz
-```
+## GUI 暴露的用户决策
 
-示例输入位于：
+当前 GUI 是单页布局，包含五个模块：
 
-```text
-examples/input_sample/
-```
+1. **Input GM maps**：输入预处理后的 GM map glob，例如 `derivatives/*_GM_masked.nii.gz`。
+2. **Output workspace**：输出目录。流程会创建 `recon/`、`metrics/`、`subject_maps/`、`subject_hemi_maps/`、`tables/`。
+3. **Optional ROI table**：可选 ROI 表格导出。默认使用本地配置的 Glasser atlas，也可以选择自定义 atlas 和 label table。
+4. **Optional validation**：可选 hemisphere-classifier validation 和 TRT reliability。classifier validation 需要 ROI table。
+5. **Run HemiSpec**：运行流程，查看日志，打开输出目录，复制等价 CLI 命令。
 
-## 页面结构
+## GUI 不暴露的参数
 
-GUI 左侧导航包含：
+以下参数由 HemiSpec 默认配置封装，普通用户不需要选择：
 
-```text
-Full Workflow           双向 DGN + 双侧 ANS/RNS + ROI + classifier + optional TRT
-Single Direction        单方向 DGN + ANS/RNS，用于调试或单侧分析
-DGN Inference           只运行 DGN 半球重建
-Compute ANS/RNS         已有 GM 与 reconstructed GM 时单独计算 ANS/RNS
-TRT Reliability         对 ANS/RNS map 做 test-retest 信度检验
-Hemisphere Classifier   用保存好的 ROI-level 半球分类模型验证分类准确率
-Structural Specificity  做 within-subject vs between-subject 结构特异性检验
-```
+- DGN model root
+- device / CPU / CUDA
+- ANS/RNS threshold 和 epsilon
+- 文件后缀和 session regex
+- classifier bundle 路径
+- ROI statistic
+- TRT 详细参数
 
-底部 `Run log` 会显示运行进度、输出路径和错误 traceback。
+高级用户应通过 CLI 或 Python API 控制这些参数。
 
-## Generate ANS/RNS?? Full Workflow?
+## 输出
 
-???????????????? GM ????GUI ??????? HemiSpec DGN ???????????
-
-```text
-L_to_R = left hemisphere -> generated right hemisphere
-R_to_L = right hemisphere -> generated left hemisphere
-```
-
-???? voxel-wise / subject-level ANS ? RNS???????????????????? ROI ???
+标准 workflow 的主要输出是 voxel-wise 和 subject-level ANS/RNS maps：
 
 ```text
 subject_maps/<subject>_ANS.nii.gz
@@ -95,113 +57,22 @@ subject_hemi_maps/<subject>_RNS.R.nii.gz
 tables/subject_metric_summary.csv
 ```
 
-ROI table ?????????? ROI table??????? Glasser atlas????????? atlas/label table ????? parcellation ? ROI-wise ?????????? ROI ????????? ROI table????? voxel-wise ANS/RNS map?
-
-?????
+如果启用 ROI table 且 atlas 可用，会额外生成：
 
 ```text
-Preprocessed GM glob        ?? GM ?????
-Output workspace            ????
-Also export ROI table       ????? ROI-wise CSV
-Optional ROI atlas NIfTI    ????? Glasser atlas???????? atlas
-Optional ROI label table    ????? Glasser label table
-Run hemisphere classifier   ????? ROI table
-Run TRT reliability         ?????????????
+tables/roi_features_bilateral.csv
+tables/roi_features_bilateral_wide.csv
 ```
 
-?? root?checkpoint?device?GM threshold?RNS epsilon?suffix?regex ??????????????????????????????? CLI ? advanced/debug ?????
+如果启用 classifier 或 TRT，会在对应子目录生成 validation summary。
 
-????? `docs/developer/outputs-zh.md`?
+## CLI 等价命令
 
-## Single Direction
-
-用于只跑一个方向：
-
-```text
-L_to_R -> 生成右半球
-R_to_L -> 生成左半球
-```
-
-单方向输出适合调试模型、检查 checkpoint、或者复现实验中的单侧 TRT。正式部署分析建议优先使用 `Full Workflow`。
-
-## Compute ANS/RNS
-
-当你已经有 actual GM 和 DGN-reconstructed GM 时，可以直接用此页计算：
-
-```text
-ANS = abs(GM - recon)
-RNS = abs(GM - recon) / (abs(GM) + abs(recon) + eps)
-```
-
-导出路线：
-
-```text
-voxel-wise  保存 group/subject NIfTI maps
-ROI-wise    用 atlas 汇总为 ROI CSV
-```
-
-## TRT Reliability
-
-输入应是每个被试两个 session/run 的 ANS/RNS map，例如：
-
-```text
-sub-MSC01_run-01_ANS.nii.gz
-sub-MSC01_run-02_ANS.nii.gz
-sub-MSC01_run-01_RNS.nii.gz
-sub-MSC01_run-02_RNS.nii.gz
-```
-
-默认解析规则：
-
-```text
-File regex: (sub-MSC\d+).*?(run-\d+)
-Session A:  run-01
-Session B:  run-02
-```
-
-对于 `Full Workflow` 输出，TRT 通常使用 `subject_maps/`，并选择 L/R 两个半球。对于单方向输出，可使用：
-
-```text
-Hemispheres / ROIs: auto
-DGN direction:      auto
-```
-
-## Hemisphere Classifier
-
-半球分类页面加载已经保存好的 sklearn/joblib 模型，不重新训练。当前模型目录：
-
-```text
-assets/models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models/
-```
-
-可以输入两种形式：
-
-```text
-1. 已有 ROI-wise ANS/RNS CSV
-2. ANS/RNS maps + atlas，由 GUI 先生成 ROI features 再分类
-```
-
-分类器会把左半球和右半球 ROI-wise feature 输入模型，并输出 prediction、probability、accuracy 和 confusion matrix。
+GUI 中的 **Copy CLI Command** 会复制对应的 `hemispec workflow` 命令。建议在论文分析或批量任务中保存该命令，以保证可复现。
 
 ## 常见问题
 
-如果 GUI 提示 PyTorch 不可用，说明当前启动方式不适合跑 DGN。用：
-
-```powershell
-scripts\hemispec_gui_d2l.cmd
-```
-
-如果文件名不是 MSC 格式，需要修改 `TRT file regex` 或 `File regex`，推荐使用 named groups：
-
-```text
-(?P<subject>sub-[0-9]+).*?(?P<session>ses-[0-9]+)
-```
-
-如果 ROI 导出失败，优先检查：
-
-```text
-1. atlas 与 ANS/RNS map 的 shape 是否一致
-2. affine 是否一致
-3. label table 是否能被 pandas 读取
-4. 输入 map 是否包含有限值而不是全 NaN
-```
+- 如果 DGN 模型缺失，检查 `HEMISPEC_DGN_MODEL_ROOT` 或本地 `assets/models/dgn/`。
+- 如果 ROI table 未生成，检查 atlas NIfTI 是否存在，或关闭 ROI table 只保留 voxel-wise ANS/RNS 输出。
+- 如果 classifier validation 失败，先确认 ROI table 已启用，并且 classifier bundle 已配置。
+- 如果需要集群批量运行，优先使用 CLI，不建议用 GUI 批量处理大队列。

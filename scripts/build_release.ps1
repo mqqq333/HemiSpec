@@ -14,6 +14,24 @@ if (-not $Python) {
     }
 }
 
+$PythonParts = @($Python -split "\s+" | Where-Object { $_ })
+$PythonExe = $PythonParts[0]
+$PythonArgs = @()
+if ($PythonParts.Count -gt 1) {
+    $PythonArgs = $PythonParts[1..($PythonParts.Count - 1)]
+}
+
+function Invoke-PythonStep {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Label,
+        [Parameter(Mandatory = $true)]
+        [string[]]$Arguments
+    )
+
+    Invoke-NativeStep $Label { & $PythonExe @PythonArgs @Arguments }
+}
+
 function Invoke-NativeStep {
     param(
         [Parameter(Mandatory = $true)]
@@ -53,8 +71,8 @@ function Test-GuiStarts {
     Stop-Process -Id $process.Id -Force
 }
 
-Invoke-NativeStep "Ensuring build backend is available..." { & $Python -m pip install --upgrade build }
-Invoke-NativeStep "Building lightweight wheel..." { & $Python -m build --wheel }
+Invoke-PythonStep "Ensuring build backend is available..." @("-m", "pip", "install", "--upgrade", "build")
+Invoke-PythonStep "Building lightweight wheel..." @("-m", "build", "--wheel")
 
 $Wheel = Get-ChildItem -Path "dist" -Filter "hemispec_toolkit-*.whl" |
     Sort-Object LastWriteTime -Descending |
@@ -64,20 +82,21 @@ if (-not $Wheel) {
     throw "No hemispec_toolkit wheel found under dist/."
 }
 
-Invoke-NativeStep "Installing built wheel for local entry-point check: $($Wheel.Name)" { & $Python -m pip install --force-reinstall $Wheel.FullName }
-Invoke-NativeStep "Checking module CLI..." { & $Python -m hemispec --help }
+Invoke-PythonStep "Installing built wheel for local entry-point check: $($Wheel.Name)" @("-m", "pip", "install", "--force-reinstall", $Wheel.FullName)
+Invoke-PythonStep "Checking module CLI..." @("-m", "hemispec", "--help")
 Invoke-NativeStep "Checking console CLI..." { & hemispec --help }
 
+Invoke-PythonStep "Installing GUI optional dependency for smoke/build..." @("-m", "pip", "install", "customtkinter>=5.2")
 $GuiEntry = (Get-Command hemispec-gui -ErrorAction Stop).Source
 Test-GuiStarts "hemispec-gui console entry" $GuiEntry
 
 if (-not $SkipExe) {
     # The editable install is only for PyInstaller's source checkout analysis after
     # the wheel entry points have already been checked above.
-    Invoke-NativeStep "Installing PyInstaller/dev tools..." { & $Python -m pip install -e ".[dev]" }
-    Invoke-NativeStep "Building CLI executable from hemispec.spec..." { & $Python -m PyInstaller --clean --noconfirm hemispec.spec }
+    Invoke-PythonStep "Installing PyInstaller/dev tools..." @("-m", "pip", "install", "-e", ".[dev,gui]")
+    Invoke-PythonStep "Building CLI executable from hemispec.spec..." @("-m", "PyInstaller", "--clean", "--noconfirm", "hemispec.spec")
     Invoke-NativeStep "Checking compiled CLI executable..." { & ".\dist\hemispec.exe" --help }
-    Invoke-NativeStep "Building GUI executable from hemispec_gui.spec..." { & $Python -m PyInstaller --clean --noconfirm hemispec_gui.spec }
+    Invoke-PythonStep "Building GUI executable from hemispec_gui.spec..." @("-m", "PyInstaller", "--clean", "--noconfirm", "hemispec_gui.spec")
     Test-GuiStarts "compiled hemispec_gui.exe" ".\dist\hemispec_gui\hemispec_gui.exe"
 }
 

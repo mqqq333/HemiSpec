@@ -513,29 +513,24 @@ def test_cli_trt_dispatches_to_reliability(monkeypatch, tmp_path):
     assert calls[0][0] == "reliability"
 
 
-@pytest.mark.gui
-@GUI_REQUIRES_DISPLAY
-def test_gui_trt_dispatches_to_reliability(monkeypatch):
-    calls = []
+def test_gui_trt_toggle_reaches_standard_workflow_config():
+    state = {
+        "input_glob": "E:/data/*_GM_masked.nii.gz",
+        "out_dir": "E:/out",
+        "export_roi_table": False,
+        "roi_atlas": "",
+        "roi_label_table": "",
+        "run_classifier": False,
+        "run_trt": True,
+        **gui_module.ENCAPSULATED_DEFAULTS,
+    }
 
-    def fake_reliability(config):
-        calls.append(("reliability", config))
-        return api.ValidationRunResult(summary_rows=[], summary_csv=config.out_dir / "validation_summary.csv", out_dir=config.out_dir)
+    config = gui_module.make_workflow_config(state)
 
-    def fake_specificity(config):
-        calls.append(("specificity", config))
-        return api.ValidationRunResult(summary_rows=[], summary_csv=config.out_dir / "validation_summary.csv", out_dir=config.out_dir)
-
-    monkeypatch.setattr(gui_module, "validate_reliability", fake_reliability)
-    monkeypatch.setattr(gui_module, "validate_specificity", fake_specificity)
-
-    app = HemiSpecGui()
-    try:
-        app._run_background = lambda _label, fn: fn()
-        app._run_validation(app.trt_vars)
-        assert calls[0][0] == "reliability"
-    finally:
-        app.destroy()
+    assert isinstance(config, BilateralWorkflowConfig)
+    assert config.run_trt is True
+    assert config.trt_session_a == "run-01"
+    assert config.trt_session_b == "run-02"
 
 
 def test_hemisphere_classification_uses_default_model_and_requires_features(tmp_path):
@@ -742,68 +737,42 @@ def test_validation_target_hemisphere_resolution():
 
 @pytest.mark.gui
 @GUI_REQUIRES_DISPLAY
-def test_gui_has_workbench_pages_and_defaults():
+def test_gui_is_single_standard_workflow_and_defaults():
     app = HemiSpecGui()
     try:
-        assert set(app.pages) == {"workflow", "pipeline", "infer", "compute", "trt", "hemi_classify", "specificity"}
-        assert app.active_page == "workflow"
-        assert app.page_title_var.get() == "Generate ANS/RNS"
-        assert app.workflow_vars["run_classifier"].get() is False
-        assert app.workflow_vars["export_roi_table"].get() is True
-        assert app.workflow_vars["run_trt"].get() is False
-        assert app.pipeline_vars["direction"].get() == "L_to_R"
-        assert Path(app.pipeline_vars["model_root"].get()).parts[-3:] == ("assets", "models", "dgn")
-        assert app.pipeline_vars["roi_stat"].get() == "mean"
-        assert app.trt_vars["hemis"].get() == "auto"
-        assert app.trt_vars["dgn_direction"].get() == "auto"
-        app._show_page("hemi_classify")
-        assert app.active_page == "hemi_classify"
-        assert app.page_title_var.get() == "Hemisphere Classifier"
-        assert app.hemi_classify_vars["classifier_model_dir"].get().endswith(
-            "OUT_noICBM_train_ICBM_external_saved_models"
-        )
+        assert not hasattr(app, "pages")
+        assert app.vars["run_classifier"].get() is False
+        assert app.vars["export_roi_table"].get() is True
+        assert app.vars["run_trt"].get() is False
+        assert app.vars["input_glob"].get().endswith("*_GM_masked.nii.gz")
+        assert "HemiSpec" in app.title()
     finally:
         app.destroy()
 
 
-@pytest.mark.gui
-@GUI_REQUIRES_DISPLAY
-def test_gui_builds_public_api_configs(tmp_path):
-    fake_checkpoint = tmp_path / "fake_l2r.pth"
-    fake_checkpoint.write_bytes(b"fake checkpoint for GUI config construction")
-    app = HemiSpecGui()
-    try:
-        workflow_config = app._workflow_config(app.workflow_vars)
-        assert isinstance(workflow_config, BilateralWorkflowConfig)
-        assert workflow_config.run_classifier is False
-        assert workflow_config.run_trt is False
-        assert workflow_config.write_nan_outside is True
-        assert workflow_config.export_roi_table is True
-        assert workflow_config.roi_atlas is not None
+def test_gui_builds_only_standard_workflow_config(tmp_path):
+    atlas = tmp_path / "atlas.nii.gz"
+    labels = tmp_path / "labels.xlsx"
+    atlas.write_bytes(b"placeholder")
+    labels.write_bytes(b"placeholder")
+    state = {
+        "input_glob": "E:/data/*_GM_masked.nii.gz",
+        "out_dir": str(tmp_path / "out"),
+        "export_roi_table": True,
+        "roi_atlas": str(atlas),
+        "roi_label_table": str(labels),
+        "run_classifier": True,
+        "run_trt": True,
+        **gui_module.ENCAPSULATED_DEFAULTS,
+    }
 
-        app.pipeline_vars["checkpoint"].set(str(fake_checkpoint))
-        pipeline = app._pipeline_config(app.pipeline_vars)
-        assert isinstance(pipeline, PipelineRunConfig)
-        assert pipeline.inference.direction == "L_to_R"
-        assert pipeline.inference.model.direction == "L_to_R"
-        assert pipeline.inference.model.target_hemisphere == "right"
-        assert pipeline.inference.model.checkpoint.exists()
-        assert pipeline.roi_atlas is not None
-        assert pipeline.roi_atlas.name == "MNI_Glasser_HCP_v1.0_1p5mm.nii.gz"
-        assert "assets" in pipeline.roi_atlas.parts
-        assert pipeline.save_subject_maps is True
+    workflow_config = gui_module.make_workflow_config(state)
 
-        validation = app._validation_config(app.trt_vars)
-        assert isinstance(validation, ValidationConfig)
-        assert validation.hemis == ("AUTO",)
-        assert validation.dgn_direction == "auto"
-        assert validation.session_a == "run-01"
-        assert validation.session_b == "run-02"
-
-        classifier = app._hemi_classification_config(app.hemi_classify_vars)
-        assert isinstance(classifier, HemisphereClassificationConfig)
-        assert classifier.classifier_model_dir is not None
-        assert classifier.classifier_model_dir.name == "OUT_noICBM_train_ICBM_external_saved_models"
-        assert classifier.kinds == ("ANS", "RNS")
-    finally:
-        app.destroy()
+    assert isinstance(workflow_config, BilateralWorkflowConfig)
+    assert workflow_config.run_classifier is True
+    assert workflow_config.run_trt is True
+    assert workflow_config.write_nan_outside is True
+    assert workflow_config.export_roi_table is True
+    assert workflow_config.roi_atlas == atlas
+    assert workflow_config.roi_label_table == labels
+    assert workflow_config.device == "auto"

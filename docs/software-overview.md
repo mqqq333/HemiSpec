@@ -1,8 +1,6 @@
 # Software overview
 
-HemiSpec is being organized as a small software ecosystem rather than a source-only
-repository: a Python package, a CLI, a GUI entry point, and compiled desktop
-folders built from the same public API.
+HemiSpec is organized as a small software ecosystem rather than a source-only repository: a Python package, a CLI, a GUI entry point, and compiled desktop folders built from the same public API.
 
 <figure markdown="span">
   ![HemiSpec workflow overview](assets/figures/hemispec-workflow-overview.svg){ width="100%" }
@@ -14,22 +12,31 @@ folders built from the same public API.
 | Layer | Public name | Status | Purpose |
 | --- | --- | --- | --- |
 | Python package | `hemispec-toolkit` | In development / wheel builds locally | Installable API and command entry points. |
-| CLI | `hemispec` | In development / local smoke tests pass | Scriptable workflows for servers and clusters. |
-| GUI | `hemispec-gui` | Source GUI and lightweight EXE smoke-tested locally | Desktop workbench for setup, run, inspect, and export. |
+| CLI | `hemispec` | In development / local tests pass | Scriptable workflows for servers and clusters. |
+| GUI | `hemispec-gui` | Compact standard-workflow GUI smoke-tested locally | Desktop launcher for ANS/RNS generation, optional ROI tables, and optional validation. |
 | Compiled app | HemiSpec Desktop / HemiSpec Model App | Release target | Folder distributions for users who should not manage Python environments. |
 
 <figure markdown="span">
-  ![HemiSpec GUI preview](assets/figures/hemispec-gui-preview.svg){ width="100%" }
-  <figcaption>GUI design preview. This is a public-safe schematic, not a screenshot of real subject data.</figcaption>
+  ![HemiSpec GUI preview](assets/figures/hemispec-gui-preview.png){ width="100%" }
+  <figcaption>Current compact GUI preview with public-safe placeholder paths. The GUI is a thin launcher over `hemispec workflow`.</figcaption>
 </figure>
+
+## Current GUI scope
+
+The default GUI is intentionally narrow. It exposes the decisions normal users need to obtain ANS/RNS maps:
+
+- preprocessed GM input glob,
+- output workspace,
+- optional ROI table export with atlas and label table paths,
+- optional hemisphere-classifier validation,
+- optional TRT reliability,
+- run/open/copy-CLI/log controls.
+
+It does not expose model checkpoints, device selection, thresholds, suffix rules, classifier bundle paths, or TRT regexes. Those advanced settings remain available through the CLI/API so that the GUI remains reproducible and easy to maintain.
 
 ## Current release split
 
-- **Lightweight package/app:** compute, ROI export, validation, and inspection
-  without bundling private model/data assets.
-- **Model-enabled package/app:** end-to-end DGN inference plus ANS/RNS workflows
-  when approved DGN weights, atlas files, and model manifests are available.
+- **Lightweight package/app:** CLI, compact GUI, compute, ROI export, validation, and inspection without bundling private model/data assets.
+- **Model-enabled package/app:** end-to-end DGN inference plus ANS/RNS workflows when approved DGN weights, atlas files, classifier bundles, and model manifests are available.
 
-The default public build should avoid silently bundling private `assets/`; model
-and atlas bundles should be explicit release artifacts with checksums, license
-notes, and compatibility metadata.
+The default public build should avoid silently bundling private `assets/`; model and atlas bundles should be explicit release artifacts with checksums, license notes, and compatibility metadata.

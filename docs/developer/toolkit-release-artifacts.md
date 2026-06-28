@@ -1,4 +1,4 @@
-# Release artifacts
+﻿# Release artifacts
 
 HemiSpec should be released as aligned software artifacts, not just as a source
 folder.
@@ -57,7 +57,7 @@ snapshot. Before publishing, verify these artifacts from a clean environment:
 ```text
 PyPI/wheel       dist/hemispec_toolkit-*.whl installs import path hemispec
 CLI             hemispec --help and documented subcommands pass
-GUI entry       hemispec-gui starts the workbench
+GUI entry       hemispec-gui starts the compact standard-workflow GUI
 Windows app     dist/hemispec_gui/hemispec_gui.exe works as a complete folder
 Asset bundle    optional, approved, manifest + checksum + license/provenance
 ```
@@ -100,3 +100,4 @@ HEMISPEC_CLASSIFIER_MODEL_DIR
 HEMISPEC_GLASSER_ATLAS
 HEMISPEC_GLASSER_LABEL_TABLE
 ```
+

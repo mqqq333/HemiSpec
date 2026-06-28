@@ -181,8 +181,7 @@ code paths.
 ## Bilateral workflow API
 
 For the release workflow, use `BilateralWorkflowConfig` and
-`run_bilateral_workflow`. This is the API entry point behind the GUI
-`Full Workflow` page and the CLI `hemispec workflow` command.
+`run_bilateral_workflow`. This is the API entry point behind the compact GUI standard workflow and the CLI `hemispec workflow` command.
 
 ```python
 from pathlib import Path
@@ -264,17 +263,10 @@ GUI fields -> config dataclass -> API function
 The CLI follows this rule for `models`, `infer`, `run`, `workflow`, `compute`,
 `trt`, `specificity`, and `hemi-classify`.
 
-The GUI now follows the same rule through the HemiSpec workbench pages:
+The compact GUI now follows the same rule through a single standard workflow surface:
 
 ```text
-Full Workflow
-Single Direction
-DGN Inference
-Compute ANS/RNS
-TRT Reliability
-Hemisphere Classifier
-Structural Specificity
+Input GM maps -> Output workspace -> Optional ROI table -> Optional validation -> Run HemiSpec
 ```
 
-The GUI is intentionally a thin interface over the public API. New workflow
-logic should be added to the API first, then exposed through CLI and GUI.
+The GUI intentionally exposes only normal-user decisions. Model roots, devices, thresholds, suffix rules, classifier bundle paths, and TRT regexes remain encapsulated in documented defaults or available through CLI/API for advanced users. New workflow logic should be added to the API first, then exposed through CLI and GUI.

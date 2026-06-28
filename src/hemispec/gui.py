@@ -2,110 +2,53 @@ from __future__ import annotations
 
 import contextlib
 import io
+import re
+import subprocess
+import sys
 import threading
 import traceback
 import tkinter as tk
 from pathlib import Path
-from tkinter import filedialog, messagebox, ttk
+from tkinter import filedialog, messagebox
 from typing import Callable
 
 from .api import (
-    DGNInferenceConfig,
-    DGNModelBundle,
-    HemisphereClassificationConfig,
-    MetricComputeConfig,
-    PipelineRunConfig,
-    ValidationConfig,
-    compute_metrics,
-    default_classifier_output_path,
     default_input_glob,
-    default_trt_output_path,
-    discover_local_dgn_bundles,
     resolve_classifier_model_dir,
     resolve_dgn_model_root,
     resolve_glasser_atlas_path,
     resolve_glasser_label_table,
-    run_dgn_inference,
-    run_pipeline,
-    validate_reliability,
-    validate_hemisphere_classification,
-    validate_specificity,
 )
-from .workflow import BilateralWorkflowConfig, run_bilateral_workflow
+from .workflow import BilateralWorkflowConfig, BilateralWorkflowResult, run_bilateral_workflow
+
+try:  # optional dependency: installed with hemispec-toolkit[gui]
+    import customtkinter as ctk
+except ImportError:  # pragma: no cover - exercised only on machines without GUI extra
+    ctk = None  # type: ignore[assignment]
 
 
 APP_TITLE = "HemiSpec"
-APP_SUBTITLE = "Standard ANS/RNS Generation Workbench"
+APP_SUBTITLE = "ANS/RNS Generation Workbench"
+APP_DESCRIPTION = (
+    "Generate voxel-wise reconstruction-derived hemispheric specificity maps from "
+    "preprocessed GM inputs using the packaged HemiSpec workflow."
+)
 PREPROCESS_NOTE = (
-    "Preprocess T1 images with the packaged HemiSpec preprocessing script first. "
-    "Runtime inputs should be preprocessed GM maps ending with *_GM_masked.nii.gz."
+    "Input files should be preprocessed grey-matter maps, typically ending with "
+    "*_GM_masked.nii.gz. Run the packaged preprocessing script before this step."
 )
-STANDARD_WORKFLOW_NOTE = (
-    "Standard mode uses the HemiSpec model assets resolved from the installed package, "
-    "local assets, or HEMISPEC_* environment variables. Users choose their GM inputs "
-    "and output workspace to generate voxel-wise ANS/RNS maps. ROI tables are optional "
-    "and can use the default Glasser atlas or a user-provided atlas."
+ROI_NOTE = (
+    "Voxel-wise ANS/RNS maps are the primary output. ROI tables are optional and can "
+    "use the default Glasser atlas or a user-provided atlas/label table."
 )
-DGN_RUNTIME_HELP = (
-    "DGN inference requires PyTorch. For full local model inference on this workstation, "
-    "start the GUI with scripts\\hemispec_gui_d2l.cmd or run the source GUI from the d2l "
-    "conda environment. The lightweight packaged EXE can still run compute, TRT, "
-    "specificity, and classifier workflows that do not require torch."
+VALIDATION_NOTE = (
+    "Classifier validation uses ROI features, so enabling it also enables ROI table export. "
+    "TRT reliability uses the default paired-session settings. Advanced settings remain "
+    "available through the CLI/API."
 )
 
-COLORS = {
-    "bg": "#f6f8fb",
-    "panel": "#ffffff",
-    "panel_alt": "#f9fafb",
-    "sidebar": "#111827",
-    "sidebar_muted": "#9ca3af",
-    "sidebar_active": "#2563eb",
-    "text": "#111827",
-    "muted": "#6b7280",
-    "border": "#d9e1ec",
-    "accent": "#2563eb",
-    "accent_dark": "#1d4ed8",
-    "success": "#15803d",
-    "log_bg": "#0f172a",
-    "log_fg": "#e5e7eb",
-}
-
-PAGE_META = {
-    "workflow": (
-        "Generate ANS/RNS",
-        "Use the standard HemiSpec model workflow to export ANS/RNS maps and tables for downstream analysis.",
-    ),
-    "pipeline": (
-        "Single Direction",
-        "Run one trained DGN direction and metric computation for debugging or focused analyses.",
-    ),
-    "infer": (
-        "DGN Inference",
-        "Deploy trained DGN checkpoints to generate contralateral GM reconstructions.",
-    ),
-    "compute": (
-        "Compute ANS/RNS",
-        "Calculate voxel-wise maps, ROI-wise features, or both from actual and reconstructed GM.",
-    ),
-    "trt": (
-        "TRT Reliability",
-        "Estimate test-retest reliability from paired ANS/RNS sessions.",
-    ),
-    "hemi_classify": (
-        "Hemisphere Classifier",
-        "Validate ROI-level ANS/RNS features with saved hemisphere-classifier bundles.",
-    ),
-    "specificity": (
-        "Structural Specificity",
-        "Measure within-subject versus between-subject structural specificity.",
-    ),
-}
-
-NAV_ORDER = ["workflow", "pipeline", "infer", "compute", "trt", "hemi_classify", "specificity"]
-
-DEFAULT_FILE_REGEX = r"(sub-MSC\d+).*?(run-\d+)"
-DEFAULT_DGN_MODEL_ROOT = str(resolve_dgn_model_root())
 DEFAULT_INPUT_GLOB = default_input_glob()
+DEFAULT_DGN_MODEL_ROOT = str(resolve_dgn_model_root())
 DEFAULT_GLASSER_ATLAS = str(resolve_glasser_atlas_path())
 DEFAULT_GLASSER_LABEL_TABLE = str(resolve_glasser_label_table())
 DEFAULT_CLASSIFIER_MODEL_DIR = str(resolve_classifier_model_dir())
@@ -140,13 +83,39 @@ WORKFLOW_ENCAPSULATED_FIELDS = (
 )
 WORKFLOW_REQUIRED_FIELDS = WORKFLOW_VISIBLE_FIELDS + WORKFLOW_ENCAPSULATED_FIELDS
 
+ENCAPSULATED_DEFAULTS = {
+    "model_root": DEFAULT_DGN_MODEL_ROOT,
+    "device": "auto",
+    "roi_stat": "mean",
+    "classifier_model_dir": DEFAULT_CLASSIFIER_MODEL_DIR,
+    "classifier_mode": "single",
+    "export_voxelwise": True,
+    "write_nan_outside": True,
+    "trt_file_regex": r"(sub-MSC\d+).*?(run-\d+)",
+    "trt_session_a": "run-01",
+    "trt_session_b": "run-02",
+    "gm_thresh": 0.15,
+    "eps": 1e-6,
+    "pred_suffix": "_PRED_LR_full",
+    "actual_suffix": "",
+    "clip_low": None,
+    "clip_high": None,
+    "verbose_every": 50,
+}
 
-def _bool(value: tk.BooleanVar) -> bool:
-    return bool(value.get())
+
+class MissingGuiDependency(RuntimeError):
+    """Raised when the optional customtkinter GUI dependency is not installed."""
 
 
-def _csv_labels(value: str) -> tuple[str, ...]:
-    return tuple(part.strip().upper() for part in value.split(",") if part.strip())
+def ensure_gui_dependency() -> None:
+    if ctk is None:
+        raise MissingGuiDependency(
+            "The HemiSpec GUI requires customtkinter. Install it with:\n"
+            "  pip install hemispec-toolkit[gui]\n"
+            "or from the repository with:\n"
+            "  py -3.12 -m pip install -e .[gui]"
+        )
 
 
 def _optional_path(value: str) -> Path | None:
@@ -154,851 +123,548 @@ def _optional_path(value: str) -> Path | None:
     return Path(text) if text else None
 
 
-def _classifier_model_dir(value: str, mode: str) -> Path | None:
-    path = _optional_path(value)
-    if path is None:
+def _path_exists_or_empty(value: str) -> bool:
+    text = value.strip()
+    return not text or Path(text).exists()
+
+
+def default_output_dir() -> str:
+    return str(Path.cwd() / "hemispec_outputs" / "gui_run")
+
+
+def make_workflow_config(state: dict[str, object]) -> BilateralWorkflowConfig:
+    """Convert GUI state into the single workflow config used by CLI/API.
+
+    This is deliberately separate from widgets so tests can enforce the same
+    validation rules even when GUI controls are refactored.
+    """
+
+    input_glob = str(state["input_glob"]).strip()
+    out_dir = str(state["out_dir"]).strip()
+    export_roi_table = bool(state.get("export_roi_table", True))
+    run_classifier = bool(state.get("run_classifier", False))
+    run_trt = bool(state.get("run_trt", False))
+
+    if not input_glob:
+        raise ValueError("GM input glob is required.")
+    if not out_dir:
+        raise ValueError("Output workspace is required.")
+
+    if run_classifier:
+        export_roi_table = True
+
+    roi_atlas = _optional_path(str(state.get("roi_atlas", ""))) if export_roi_table or run_classifier else None
+    roi_label_table = _optional_path(str(state.get("roi_label_table", ""))) if export_roi_table or run_classifier else None
+    if run_classifier and roi_atlas is not None and not roi_atlas.exists():
+        raise ValueError(f"Classifier validation requires an existing ROI atlas: {roi_atlas}")
+
+    clip_low = state.get("clip_low", ENCAPSULATED_DEFAULTS["clip_low"])
+    clip_high = state.get("clip_high", ENCAPSULATED_DEFAULTS["clip_high"])
+    clip_recon = None
+    if clip_low is not None and clip_high is not None:
+        clip_recon = (float(clip_low), float(clip_high))
+
+    return BilateralWorkflowConfig(
+        input_glob=input_glob,
+        out_dir=Path(out_dir),
+        model_root=_optional_path(str(state.get("model_root", ENCAPSULATED_DEFAULTS["model_root"]))),
+        device=str(state.get("device", ENCAPSULATED_DEFAULTS["device"])),  # type: ignore[arg-type]
+        gm_thresh=float(state.get("gm_thresh", ENCAPSULATED_DEFAULTS["gm_thresh"])),
+        eps=float(state.get("eps", ENCAPSULATED_DEFAULTS["eps"])),
+        clip_recon=clip_recon,
+        reconstructed_suffix_to_strip=str(state.get("pred_suffix", ENCAPSULATED_DEFAULTS["pred_suffix"])),
+        actual_suffix_to_strip=str(state.get("actual_suffix", ENCAPSULATED_DEFAULTS["actual_suffix"])),
+        export_voxelwise=bool(state.get("export_voxelwise", ENCAPSULATED_DEFAULTS["export_voxelwise"])),
+        write_nan_outside=bool(state.get("write_nan_outside", ENCAPSULATED_DEFAULTS["write_nan_outside"])),
+        export_roi_table=export_roi_table,
+        roi_atlas=roi_atlas,
+        roi_label_table=roi_label_table,
+        roi_stat=str(state.get("roi_stat", ENCAPSULATED_DEFAULTS["roi_stat"])),  # type: ignore[arg-type]
+        run_classifier=run_classifier,
+        classifier_model_dir=_optional_path(
+            str(state.get("classifier_model_dir", ENCAPSULATED_DEFAULTS["classifier_model_dir"]))
+        ),
+        classifier_mode=str(state.get("classifier_mode", ENCAPSULATED_DEFAULTS["classifier_mode"])),
+        run_trt=run_trt,
+        trt_file_regex=str(state.get("trt_file_regex", ENCAPSULATED_DEFAULTS["trt_file_regex"])),
+        trt_session_a=str(state.get("trt_session_a", ENCAPSULATED_DEFAULTS["trt_session_a"])),
+        trt_session_b=str(state.get("trt_session_b", ENCAPSULATED_DEFAULTS["trt_session_b"])),
+        verbose_every=int(state.get("verbose_every", ENCAPSULATED_DEFAULTS["verbose_every"])),
+    )
+
+
+def workflow_cli_command(state: dict[str, object]) -> str:
+    """Return a reproducible CLI command equivalent to the visible GUI choices."""
+
+    config = make_workflow_config(state)
+    parts = [
+        "hemispec",
+        "workflow",
+        "--input-glob",
+        _quote(config.input_glob),
+        "--out-dir",
+        _quote(str(config.out_dir)),
+    ]
+    if not config.export_roi_table:
+        parts.append("--no-roi-table")
+    else:
+        if config.roi_atlas is not None:
+            parts.extend(["--roi-atlas", _quote(str(config.roi_atlas))])
+        if config.roi_label_table is not None:
+            parts.extend(["--roi-label-table", _quote(str(config.roi_label_table))])
+    if config.run_classifier:
+        parts.append("--run-classifier")
+    if config.run_trt:
+        parts.append("--run-trt")
+    return " ".join(parts)
+
+
+def _quote(value: str) -> str:
+    escaped = value.replace('"', '\\"')
+    if not re.fullmatch(r"[A-Za-z0-9_./:\\-]+", escaped):
+        return f'"{escaped}"'
+    return escaped
+
+
+def _open_path(path: Path) -> None:
+    path.mkdir(parents=True, exist_ok=True)
+    if sys.platform.startswith("win"):
+        subprocess.Popen(["explorer", str(path)])
+    elif sys.platform == "darwin":
+        subprocess.Popen(["open", str(path)])
+    else:
+        subprocess.Popen(["xdg-open", str(path)])
+
+
+class _StdoutProxy(io.TextIOBase):
+    def __init__(self, emit: Callable[[str], None]) -> None:
+        self._emit = emit
+
+    def write(self, text: str) -> int:
+        if text:
+            self._emit(text)
+        return len(text)
+
+    def flush(self) -> None:
         return None
-    if mode != "single" and path == Path(DEFAULT_CLASSIFIER_MODEL_DIR):
-        return None
-    return path
 
 
-def _torch_runtime_status() -> tuple[bool, str]:
-    try:
-        import torch
-    except ImportError:
-        return False, "DGN runtime: PyTorch not available"
-    version = getattr(torch, "__version__", "unknown")
-    cuda = "CUDA" if torch.cuda.is_available() else "CPU"
-    return True, f"DGN runtime: torch {version} / {cuda}"
-
-
-class ScrollableFrame(ttk.Frame):
-    def __init__(self, parent: tk.Misc) -> None:
-        super().__init__(parent, style="App.TFrame")
-        self.canvas = tk.Canvas(self, bg=COLORS["bg"], highlightthickness=0)
-        self.scrollbar = ttk.Scrollbar(self, orient="vertical", command=self.canvas.yview)
-        self.body = ttk.Frame(self.canvas, style="App.TFrame")
-
-        self.window_id = self.canvas.create_window((0, 0), window=self.body, anchor="nw")
-        self.canvas.configure(yscrollcommand=self.scrollbar.set)
-
-        self.canvas.grid(row=0, column=0, sticky="nsew")
-        self.scrollbar.grid(row=0, column=1, sticky="ns")
-        self.grid_rowconfigure(0, weight=1)
-        self.grid_columnconfigure(0, weight=1)
-
-        self.body.bind("<Configure>", self._sync_scroll_region)
-        self.canvas.bind("<Configure>", self._sync_canvas_width)
-        self.canvas.bind_all("<MouseWheel>", self._on_mousewheel)
-
-    def _sync_scroll_region(self, _event: tk.Event) -> None:
-        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
-
-    def _sync_canvas_width(self, event: tk.Event) -> None:
-        self.canvas.itemconfigure(self.window_id, width=event.width)
-
-    def _on_mousewheel(self, event: tk.Event) -> None:
-        if self.winfo_ismapped():
-            self.canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
-
-
-class HemiSpecGui(tk.Tk):
+class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
     def __init__(self) -> None:
+        ensure_gui_dependency()
         super().__init__()
+        ctk.set_appearance_mode("light")
+        ctk.set_default_color_theme("blue")
+
         self.title(f"{APP_TITLE} - {APP_SUBTITLE}")
-        self.geometry("1180x780")
-        self.minsize(1040, 700)
-        self.configure(bg=COLORS["bg"])
+        self.geometry("1080x760")
+        self.minsize(960, 680)
 
-        self.pages: dict[str, ScrollableFrame] = {}
-        self.nav_buttons: dict[str, tk.Button] = {}
-        self.run_buttons: list[ttk.Button] = []
-        self.active_page = "pipeline"
-        self.status_var = tk.StringVar(value="Ready")
-        self.dgn_runtime_available, dgn_runtime_text = _torch_runtime_status()
-        self.dgn_status_var = tk.StringVar(value=dgn_runtime_text)
-        self.page_title_var = tk.StringVar()
-        self.page_subtitle_var = tk.StringVar()
+        self.is_running = False
+        self.last_out_dir: Path | None = None
+        self.vars: dict[str, object] = {}
+        self.status_var = ctk.StringVar(value="Ready")
+        self.summary_var = ctk.StringVar(value="Primary output: voxel-wise ANS/RNS maps")
 
-        self._configure_styles()
-        self._build_shell()
-        self._build_pages()
-        self._show_page("workflow")
+        self._build_state()
+        self._build_layout()
+        self._sync_roi_state()
 
-    def _configure_styles(self) -> None:
-        style = ttk.Style(self)
-        with contextlib.suppress(tk.TclError):
-            style.theme_use("clam")
+    def _build_state(self) -> None:
+        self.vars = {
+            "input_glob": ctk.StringVar(value=DEFAULT_INPUT_GLOB),
+            "out_dir": ctk.StringVar(value=default_output_dir()),
+            "export_roi_table": ctk.BooleanVar(value=True),
+            "roi_atlas": ctk.StringVar(value=DEFAULT_GLASSER_ATLAS),
+            "roi_label_table": ctk.StringVar(value=DEFAULT_GLASSER_LABEL_TABLE),
+            "run_classifier": ctk.BooleanVar(value=False),
+            "run_trt": ctk.BooleanVar(value=False),
+        }
+        for key, value in ENCAPSULATED_DEFAULTS.items():
+            if key not in self.vars:
+                self.vars[key] = value
 
-        default_font = ("Segoe UI", 10)
-        heading_font = ("Segoe UI Semibold", 16)
-        section_font = ("Segoe UI Semibold", 11)
-
-        style.configure(".", font=default_font)
-        style.configure("App.TFrame", background=COLORS["bg"])
-        style.configure("Panel.TFrame", background=COLORS["panel"])
-        style.configure("Alt.TFrame", background=COLORS["panel_alt"])
-        style.configure("Title.TLabel", background=COLORS["bg"], foreground=COLORS["text"], font=heading_font)
-        style.configure("Subtitle.TLabel", background=COLORS["bg"], foreground=COLORS["muted"], font=("Segoe UI", 10))
-        style.configure("Section.TLabel", background=COLORS["panel"], foreground=COLORS["text"], font=section_font)
-        style.configure("Hint.TLabel", background=COLORS["panel"], foreground=COLORS["muted"], font=("Segoe UI", 9))
-        style.configure("Field.TLabel", background=COLORS["panel"], foreground=COLORS["text"], font=default_font)
-        style.configure("TEntry", padding=6)
-        style.configure("TCombobox", padding=4)
-        style.configure("TCheckbutton", background=COLORS["panel"], foreground=COLORS["text"], font=default_font)
-        style.configure("Accent.TButton", padding=(14, 8), foreground="#ffffff", background=COLORS["accent"])
-        style.map(
-            "Accent.TButton",
-            background=[("active", COLORS["accent_dark"]), ("disabled", "#93c5fd")],
-            foreground=[("disabled", "#f8fafc")],
-        )
-        style.configure("Secondary.TButton", padding=(12, 7))
-
-    def _build_shell(self) -> None:
+    def _build_layout(self) -> None:
+        self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
-        self.grid_columnconfigure(1, weight=1)
 
-        sidebar = tk.Frame(self, bg=COLORS["sidebar"], width=238)
-        sidebar.grid(row=0, column=0, sticky="nsew")
-        sidebar.grid_propagate(False)
-
-        tk.Label(
-            sidebar,
-            text=APP_TITLE,
-            bg=COLORS["sidebar"],
-            fg="#ffffff",
-            font=("Segoe UI Semibold", 22),
-            anchor="w",
-        ).pack(fill="x", padx=22, pady=(24, 2))
-        tk.Label(
-            sidebar,
-            text="Standard ANS/RNS generator",
-            bg=COLORS["sidebar"],
-            fg=COLORS["sidebar_muted"],
-            font=("Segoe UI", 9),
-            anchor="w",
-            wraplength=180,
-            justify="left",
-        ).pack(fill="x", padx=22, pady=(0, 24))
-
-        for key in NAV_ORDER:
-            title, _subtitle = PAGE_META[key]
-            button = tk.Button(
-                sidebar,
-                text=title,
-                command=lambda page=key: self._show_page(page),
-                anchor="w",
-                bd=0,
-                padx=18,
-                pady=10,
-                relief="flat",
-                cursor="hand2",
-                font=("Segoe UI", 10),
-            )
-            button.pack(fill="x", padx=12, pady=2)
-            self.nav_buttons[key] = button
-
-        tk.Frame(sidebar, bg=COLORS["sidebar"]).pack(fill="both", expand=True)
-        tk.Label(
-            sidebar,
-            text="Standard mode: your GM maps in, HemiSpec ANS/RNS outputs out.",
-            bg=COLORS["sidebar"],
-            fg=COLORS["sidebar_muted"],
-            wraplength=185,
-            justify="left",
-            font=("Segoe UI", 8),
-        ).pack(fill="x", padx=22, pady=(8, 22))
-
-        main = ttk.Frame(self, style="App.TFrame")
-        main.grid(row=0, column=1, sticky="nsew")
-        main.grid_rowconfigure(1, weight=1)
+        main = ctk.CTkFrame(self, corner_radius=0, fg_color="#f6f8fb")
+        main.grid(row=0, column=0, sticky="nsew")
         main.grid_columnconfigure(0, weight=1)
+        main.grid_rowconfigure(1, weight=1)
 
-        header = ttk.Frame(main, style="App.TFrame")
-        header.grid(row=0, column=0, sticky="ew", padx=26, pady=(22, 12))
+        header = ctk.CTkFrame(main, fg_color="transparent")
+        header.grid(row=0, column=0, padx=22, pady=(14, 8), sticky="ew")
         header.grid_columnconfigure(0, weight=1)
-
-        ttk.Label(header, textvariable=self.page_title_var, style="Title.TLabel").grid(row=0, column=0, sticky="w")
-        ttk.Label(header, textvariable=self.page_subtitle_var, style="Subtitle.TLabel").grid(
-            row=1, column=0, sticky="w", pady=(3, 0)
-        )
-        status = tk.Label(
+        title_block = ctk.CTkFrame(header, fg_color="transparent")
+        title_block.grid(row=0, column=0, sticky="ew")
+        title_block.grid_columnconfigure(0, weight=1)
+        ctk.CTkLabel(
+            title_block,
+            text="HemiSpec",
+            anchor="w",
+            font=ctk.CTkFont(size=25, weight="bold"),
+            text_color="#0f172a",
+        ).grid(row=0, column=0, sticky="w")
+        ctk.CTkLabel(
+            title_block,
+            text="Reconstruction-derived Hemispheric Specificity - ANS/RNS generation",
+            anchor="w",
+            font=ctk.CTkFont(size=13),
+            text_color="#475569",
+        ).grid(row=1, column=0, pady=(1, 0), sticky="w")
+        ctk.CTkLabel(
             header,
             textvariable=self.status_var,
-            bg="#eaf1ff",
-            fg=COLORS["accent_dark"],
-            padx=12,
-            pady=6,
-            font=("Segoe UI Semibold", 9),
-        )
-        status.grid(row=0, column=1, rowspan=2, sticky="e")
-        dgn_status = tk.Label(
-            header,
-            textvariable=self.dgn_status_var,
-            bg="#e8f8ef" if self.dgn_runtime_available else "#fff4e5",
-            fg=COLORS["success"] if self.dgn_runtime_available else "#9a3412",
-            padx=12,
-            pady=6,
-            font=("Segoe UI Semibold", 9),
-        )
-        dgn_status.grid(row=0, column=2, rowspan=2, sticky="e", padx=(8, 0))
+            anchor="e",
+            text_color="#2563eb",
+            font=ctk.CTkFont(size=13, weight="bold"),
+        ).grid(row=0, column=1, padx=(18, 0), sticky="e")
 
-        self.content_stack = ttk.Frame(main, style="App.TFrame")
-        self.content_stack.grid(row=1, column=0, sticky="nsew", padx=22)
-        self.content_stack.grid_rowconfigure(0, weight=1)
-        self.content_stack.grid_columnconfigure(0, weight=1)
+        content = ctk.CTkScrollableFrame(main, fg_color="#f6f8fb")
+        content.grid(row=1, column=0, padx=22, pady=(0, 8), sticky="nsew")
+        content.grid_columnconfigure(0, weight=1)
 
-        log_panel = tk.Frame(main, bg=COLORS["panel"], highlightbackground=COLORS["border"], highlightthickness=1)
-        log_panel.grid(row=2, column=0, sticky="ew", padx=26, pady=(10, 20))
-        log_panel.grid_columnconfigure(0, weight=1)
+        self._build_input_card(content, 0)
+        self._build_output_card(content, 1)
+        self._build_roi_card(content, 2)
+        self._build_validation_card(content, 3)
+        self._build_run_card(content, 4)
 
-        tk.Label(
-            log_panel,
-            text="Run log",
-            bg=COLORS["panel"],
-            fg=COLORS["text"],
-            font=("Segoe UI Semibold", 10),
-            anchor="w",
-        ).grid(row=0, column=0, sticky="w", padx=14, pady=(10, 6))
-        ttk.Button(log_panel, text="Clear", style="Secondary.TButton", command=self._clear_log).grid(
-            row=0, column=1, padx=12, pady=(8, 4), sticky="e"
-        )
-        self.log = tk.Text(
-            log_panel,
-            height=8,
-            wrap="word",
-            bg=COLORS["log_bg"],
-            fg=COLORS["log_fg"],
-            insertbackground=COLORS["log_fg"],
-            relief="flat",
-            padx=12,
-            pady=10,
-            font=("Consolas", 9),
-        )
-        self.log.grid(row=1, column=0, columnspan=2, sticky="ew", padx=12, pady=(0, 12))
-
-    def _build_pages(self) -> None:
-        for key in NAV_ORDER:
-            page = ScrollableFrame(self.content_stack)
-            page.grid(row=0, column=0, sticky="nsew")
-            self.pages[key] = page
-
-        self.workflow_vars = self._build_workflow_page(self.pages["workflow"].body)
-        self.pipeline_vars = self._build_pipeline_page(self.pages["pipeline"].body)
-        self.infer_vars = self._build_infer_page(self.pages["infer"].body)
-        self.compute_vars = self._build_compute_page(self.pages["compute"].body)
-        self.trt_vars = self._build_validation_page(self.pages["trt"].body, "trt")
-        self.hemi_classify_vars = self._build_hemi_classify_page(self.pages["hemi_classify"].body)
-        self.spec_vars = self._build_validation_page(self.pages["specificity"].body, "specificity")
-
-    def _show_page(self, key: str) -> None:
-        self.active_page = key
-        title, subtitle = PAGE_META[key]
-        self.page_title_var.set(title)
-        self.page_subtitle_var.set(subtitle)
-        self.pages[key].tkraise()
-        for page, button in self.nav_buttons.items():
-            active = page == key
-            button.configure(
-                bg=COLORS["sidebar_active"] if active else COLORS["sidebar"],
-                fg="#ffffff" if active else "#d1d5db",
-                activebackground=COLORS["sidebar_active"] if active else "#1f2937",
-                activeforeground="#ffffff",
-            )
-
-    def _build_workflow_page(self, parent: tk.Misc) -> dict[str, object]:
-        self._notice(parent, PREPROCESS_NOTE)
-        self._notice(parent, STANDARD_WORKFLOW_NOTE)
-        vars_: dict[str, object] = {}
-
-        inputs = self._section(
-            parent,
-            "1. Input and output",
-            "Select preprocessed GM maps and the workspace where HemiSpec will write ANS/RNS maps, ROI tables, and summaries.",
-        )
-        vars_["input_glob"] = self._field(inputs, "Preprocessed GM glob", 0, DEFAULT_INPUT_GLOB)
-        vars_["out_dir"] = self._field(
-            inputs,
-            "Output workspace",
-            1,
-            str(default_trt_output_path("hemispec_ans_rns")),
-            browse="dir",
+        footer = ctk.CTkFrame(main, height=28, corner_radius=0, fg_color="#f6f8fb")
+        footer.grid(row=2, column=0, sticky="ew")
+        footer.grid_columnconfigure(0, weight=1)
+        ctk.CTkLabel(footer, textvariable=self.summary_var, text_color="#64748b", font=ctk.CTkFont(size=12)).grid(
+            row=0, column=0, padx=22, pady=(0, 8), sticky="w"
         )
 
-        outputs = self._section(
-            parent,
-            "2. Primary ANS/RNS outputs",
-            "The standard workflow runs both DGN directions with the configured HemiSpec model and exports voxel-wise and subject-level ANS/RNS maps. These maps are the primary output; ROI tables are optional downstream features.",
-        )
-        vars_["export_roi_table"] = self._check(outputs, "Also export ROI table", 0, True)
-        vars_["roi_atlas"] = self._field(outputs, "Optional ROI atlas NIfTI", 1, DEFAULT_GLASSER_ATLAS, browse="file")
-        vars_["roi_label_table"] = self._field(outputs, "Optional ROI label table", 2, DEFAULT_GLASSER_LABEL_TABLE, browse="file")
-        vars_["run_classifier"] = self._check(outputs, "Also run bundled hemisphere-classifier validation", 3, False)
-        vars_["run_trt"] = self._check(outputs, "Also run TRT reliability for repeated sessions", 4, False)
+    def _card(
+        self,
+        parent: object,
+        row: int,
+        title: str,
+        note: str,
+        *,
+        accent: str,
+        bg: str,
+        border: str,
+    ) -> object:
+        card = ctk.CTkFrame(parent, fg_color=bg, border_color=border, border_width=1, corner_radius=14)
+        card.grid(row=row, column=0, sticky="ew", pady=(0, 10))
+        card.grid_columnconfigure(1, weight=1)
 
-        self._notice(
-            parent,
-            "Encapsulated defaults: DGN model bundle, classifier bundle, ANS/RNS thresholds, suffix rules, and session regex are resolved automatically. Atlas paths are optional and only affect ROI-table export; voxel-wise ANS/RNS maps remain the main result.",
-        )
-
-        vars_["model_root"] = self._hidden_text(DEFAULT_DGN_MODEL_ROOT)
-        vars_["device"] = self._hidden_text("auto")
-        vars_["roi_stat"] = self._hidden_text("mean")
-        vars_["classifier_model_dir"] = self._hidden_text(DEFAULT_CLASSIFIER_MODEL_DIR)
-        vars_["classifier_mode"] = self._hidden_text("single")
-        vars_["export_voxelwise"] = self._hidden_bool(True)
-        vars_["write_nan_outside"] = self._hidden_bool(True)
-        vars_["trt_file_regex"] = self._hidden_text(DEFAULT_FILE_REGEX)
-        vars_["trt_session_a"] = self._hidden_text("run-01")
-        vars_["trt_session_b"] = self._hidden_text("run-02")
-        vars_["gm_thresh"] = self._hidden_text("0.15")
-        vars_["eps"] = self._hidden_text("1e-6")
-        vars_["pred_suffix"] = self._hidden_text("_PRED_LR_full")
-        vars_["actual_suffix"] = self._hidden_text("")
-        vars_["clip_low"] = self._hidden_text("")
-        vars_["clip_high"] = self._hidden_text("")
-        vars_["verbose_every"] = self._hidden_text("50")
-
-        self._actions(parent, "Generate ANS/RNS", lambda: self._run_workflow(vars_))
-        return vars_
-
-    def _section(self, parent: tk.Misc, title: str, description: str = "") -> ttk.Frame:
-        shell = tk.Frame(parent, bg=COLORS["panel"], highlightbackground=COLORS["border"], highlightthickness=1)
-        shell.pack(fill="x", padx=4, pady=(0, 12))
-        tk.Label(
-            shell,
+        title_row = ctk.CTkFrame(card, fg_color="transparent")
+        title_row.grid(row=0, column=0, columnspan=3, padx=16, pady=(12, 1), sticky="ew")
+        title_row.grid_columnconfigure(1, weight=1)
+        accent_bar = ctk.CTkFrame(title_row, width=6, height=22, fg_color=accent, corner_radius=4)
+        accent_bar.grid(row=0, column=0, padx=(0, 8), sticky="nsw")
+        accent_bar.grid_propagate(False)
+        ctk.CTkLabel(
+            title_row,
             text=title,
-            bg=COLORS["panel"],
-            fg=COLORS["text"],
-            font=("Segoe UI Semibold", 12),
-            anchor="w",
-        ).pack(fill="x", padx=16, pady=(14, 2))
-        if description:
-            tk.Label(
-                shell,
-                text=description,
-                bg=COLORS["panel"],
-                fg=COLORS["muted"],
-                font=("Segoe UI", 9),
-                wraplength=820,
-                justify="left",
-                anchor="w",
-            ).pack(fill="x", padx=16, pady=(0, 10))
-        body = ttk.Frame(shell, style="Panel.TFrame")
-        body.pack(fill="x", padx=16, pady=(6, 16))
-        body.grid_columnconfigure(1, weight=1)
-        return body
+            font=ctk.CTkFont(size=17, weight="bold"),
+            text_color=accent,
+        ).grid(row=0, column=1, sticky="w")
 
-    def _notice(self, parent: tk.Misc, text: str) -> None:
-        box = tk.Frame(parent, bg="#eef5ff", highlightbackground="#bfdbfe", highlightthickness=1)
-        box.pack(fill="x", padx=4, pady=(0, 12))
-        tk.Label(
-            box,
-            text=text,
-            bg="#eef5ff",
-            fg="#1e3a8a",
-            justify="left",
-            wraplength=900,
-            font=("Segoe UI", 9),
-        ).pack(fill="x", padx=14, pady=10)
+        ctk.CTkLabel(card, text=note, wraplength=760, justify="left", text_color="#475569").grid(
+            row=1, column=0, columnspan=3, padx=16, pady=(0, 8), sticky="w"
+        )
+        return card
 
-    def _field(
-        self,
-        parent: ttk.Frame,
-        label: str,
-        row: int,
-        default: str = "",
-        browse: str | None = None,
-        width: int = 20,
-    ) -> tk.StringVar:
-        var = tk.StringVar(value=default)
-        ttk.Label(parent, text=label, style="Field.TLabel").grid(row=row, column=0, sticky="w", padx=(0, 12), pady=5)
-        ttk.Entry(parent, textvariable=var, width=width).grid(row=row, column=1, sticky="ew", pady=5)
-        if browse:
-            ttk.Button(parent, text="Browse", style="Secondary.TButton", command=lambda: self._browse(var, browse)).grid(
-                row=row, column=2, sticky="ew", padx=(8, 0), pady=5
-            )
-        return var
+    def _build_input_card(self, parent: object, row: int) -> None:
+        card = self._card(
+            parent,
+            row,
+            "Input GM maps",
+            PREPROCESS_NOTE,
+            accent="#2563eb",
+            bg="#eff6ff",
+            border="#bfdbfe",
+        )
+        self._entry_row(card, 2, "GM input glob", "input_glob", self._browse_input_file)
 
-    def _combo(
-        self,
-        parent: ttk.Frame,
-        label: str,
-        row: int,
-        values: list[str],
-        default: str,
-    ) -> tk.StringVar:
-        var = tk.StringVar(value=default)
-        ttk.Label(parent, text=label, style="Field.TLabel").grid(row=row, column=0, sticky="w", padx=(0, 12), pady=5)
-        box = ttk.Combobox(parent, textvariable=var, values=values, state="readonly", width=18)
-        box.grid(row=row, column=1, sticky="w", pady=5)
-        return var
+    def _build_output_card(self, parent: object, row: int) -> None:
+        card = self._card(
+            parent,
+            row,
+            "Output workspace",
+            "Choose where HemiSpec writes reconstructions, maps, tables, and logs.",
+            accent="#15803d",
+            bg="#f0fdf4",
+            border="#bbf7d0",
+        )
+        self._entry_row(card, 2, "Output directory", "out_dir", self._browse_output_dir)
+        ctk.CTkLabel(
+            card,
+            text="Creates: recon/ | metrics/ | subject_maps/ | subject_hemi_maps/ | tables/",
+            text_color="#64748b",
+            font=ctk.CTkFont(size=12),
+        ).grid(row=3, column=1, padx=(0, 16), pady=(0, 10), sticky="w")
 
-    def _check(self, parent: ttk.Frame, label: str, row: int, default: bool) -> tk.BooleanVar:
-        var = tk.BooleanVar(value=default)
-        ttk.Checkbutton(parent, text=label, variable=var).grid(row=row, column=1, sticky="w", pady=5)
-        return var
+    def _build_roi_card(self, parent: object, row: int) -> None:
+        card = self._card(
+            parent,
+            row,
+            "Optional ROI table",
+            ROI_NOTE,
+            accent="#7c3aed",
+            bg="#f5f3ff",
+            border="#ddd6fe",
+        )
+        roi_check = ctk.CTkCheckBox(
+            card,
+            text="Export ROI table",
+            variable=self.vars["export_roi_table"],
+            command=self._sync_roi_state,
+        )
+        roi_check.grid(row=2, column=0, columnspan=3, padx=16, pady=(0, 8), sticky="w")
+        self.roi_widgets: list[object] = []
+        self.roi_widgets.extend(self._entry_row(card, 3, "ROI atlas NIfTI", "roi_atlas", self._browse_atlas_file))
+        self.roi_widgets.extend(self._entry_row(card, 4, "ROI label table", "roi_label_table", self._browse_label_file))
 
-    def _hidden_text(self, default: str = "") -> tk.StringVar:
-        return tk.StringVar(value=default)
-
-    def _hidden_bool(self, default: bool) -> tk.BooleanVar:
-        return tk.BooleanVar(value=default)
-
-    def _actions(self, parent: tk.Misc, label: str, command: Callable[[], None]) -> None:
-        actions = ttk.Frame(parent, style="App.TFrame")
-        actions.pack(fill="x", padx=4, pady=(0, 18))
-        button = ttk.Button(actions, text=label, style="Accent.TButton", command=command)
-        button.pack(side="right")
-        self.run_buttons.append(button)
-
-    def _browse(self, var: tk.StringVar, mode: str) -> None:
-        if mode == "dir":
-            value = filedialog.askdirectory()
-        elif mode == "save_csv":
-            value = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("CSV files", "*.csv"), ("All files", "*.*")])
-        else:
-            value = filedialog.askopenfilename()
-        if value:
-            var.set(value)
-
-    def _build_pipeline_page(self, parent: tk.Misc) -> dict[str, object]:
-        self._notice(parent, PREPROCESS_NOTE)
-        vars_: dict[str, object] = {}
-
-        inputs = self._section(parent, "Input and trained DGN", "Select one deployed DGN direction and the preprocessed GM maps.")
-        vars_["input_glob"] = self._field(inputs, "Preprocessed GM glob", 0, DEFAULT_INPUT_GLOB)
-        vars_["direction"] = self._combo(inputs, "DGN direction", 1, ["L_to_R", "R_to_L"], "L_to_R")
-        vars_["model_root"] = self._field(inputs, "DGN model root", 2, DEFAULT_DGN_MODEL_ROOT, browse="dir")
-        vars_["checkpoint"] = self._field(inputs, "Checkpoint override", 3, "", browse="file")
-        vars_["device"] = self._combo(inputs, "Device", 4, ["auto", "cpu", "cuda"], "auto")
-
-        outputs = self._section(parent, "Outputs", "Choose where reconstructed GM and downstream ANS/RNS outputs are written.")
-        vars_["recon_dir"] = self._field(outputs, "Reconstructed GM directory", 0, str(default_trt_output_path("recon_L_to_R")), browse="dir")
-        vars_["metrics_dir"] = self._field(outputs, "ANS/RNS output directory", 1, str(default_trt_output_path("ANS_RNS_L_to_R")), browse="dir")
-        vars_["output_suffix"] = self._field(outputs, "Reconstruction suffix", 2, "_PRED_LR_full.nii.gz")
-        vars_["save_subject"] = self._check(outputs, "Save per-subject ANS/RNS maps", 3, True)
-        vars_["export_voxelwise"] = self._check(outputs, "Export group voxel-wise NIfTI maps", 4, True)
-        vars_["write_nan_outside"] = self._check(outputs, "Write NaN outside valid voxels", 5, False)
-
-        roi = self._section(parent, "Optional ROI route", "Provide an atlas to add ROI-wise ANS/RNS CSV export.")
-        vars_["roi_atlas"] = self._field(roi, "ROI atlas NIfTI", 0, DEFAULT_GLASSER_ATLAS, browse="file")
-        vars_["roi_label_table"] = self._field(roi, "ROI label table", 1, DEFAULT_GLASSER_LABEL_TABLE, browse="file")
-        vars_["roi_out_csv"] = self._field(roi, "ROI output CSV", 2, "", browse="save_csv")
-        vars_["roi_stat"] = self._combo(roi, "ROI statistic", 3, ["mean", "median"], "mean")
-
-        params = self._section(parent, "Parameters", "Defaults match the current ANS/RNS runtime contract.")
-        vars_["gm_thresh"] = self._field(params, "GM threshold", 0, "0.15")
-        vars_["eps"] = self._field(params, "RNS epsilon", 1, "1e-6")
-        vars_["pred_suffix"] = self._field(params, "Pred suffix to strip", 2, "_PRED_LR_full")
-        vars_["actual_suffix"] = self._field(params, "Actual suffix to strip", 3, "")
-        vars_["clip_low"] = self._field(params, "Clip low", 4, "")
-        vars_["clip_high"] = self._field(params, "Clip high", 5, "")
-        vars_["verbose_every"] = self._field(params, "Verbose every", 6, "50")
-
-        self._actions(parent, "Run DGN + ANS/RNS", lambda: self._run_pipeline(vars_))
-        return vars_
-
-    def _build_infer_page(self, parent: tk.Misc) -> dict[str, object]:
-        self._notice(parent, PREPROCESS_NOTE)
-        vars_: dict[str, object] = {}
-
-        section = self._section(parent, "Inference setup", "Load a trained DGN model and generate contralateral GM maps.")
-        vars_["input_glob"] = self._field(section, "Preprocessed GM glob", 0, DEFAULT_INPUT_GLOB)
-        vars_["direction"] = self._combo(section, "Direction", 1, ["L_to_R", "R_to_L"], "L_to_R")
-        vars_["model_root"] = self._field(section, "DGN model root", 2, DEFAULT_DGN_MODEL_ROOT, browse="dir")
-        vars_["checkpoint"] = self._field(section, "Checkpoint override", 3, "", browse="file")
-        vars_["device"] = self._combo(section, "Device", 4, ["auto", "cpu", "cuda"], "auto")
-
-        out = self._section(parent, "Output", "Generated maps are pasted back into the full GM volume.")
-        vars_["recon_dir"] = self._field(out, "Reconstructed GM directory", 0, str(default_trt_output_path("recon_L_to_R")), browse="dir")
-        vars_["output_suffix"] = self._field(out, "Output suffix", 1, "_PRED_LR_full.nii.gz")
-        vars_["clip_low"] = self._field(out, "Clip low", 2, "")
-        vars_["clip_high"] = self._field(out, "Clip high", 3, "")
-
-        self._actions(parent, "Run DGN inference", lambda: self._run_infer(vars_))
-        return vars_
-
-    def _build_compute_page(self, parent: tk.Misc) -> dict[str, object]:
-        self._notice(parent, PREPROCESS_NOTE)
-        vars_: dict[str, object] = {}
-
-        inputs = self._section(parent, "Actual and reconstructed GM", "Compute ANS/RNS from matched actual and DGN-reconstructed GM maps.")
-        vars_["actual_glob"] = self._field(inputs, "Preprocessed GM glob", 0, DEFAULT_INPUT_GLOB)
-        vars_["predicted_glob"] = self._field(inputs, "DGN-reconstructed GM glob", 1, str(default_trt_output_path("recon_L_to_R", "*.nii.gz")))
-        vars_["out_dir"] = self._field(inputs, "Output directory", 2, str(default_trt_output_path("ANS_RNS_L_to_R")), browse="dir")
-
-        routes = self._section(parent, "Export routes", "Use voxel-wise maps, ROI-wise CSV features, or both.")
-        vars_["export_voxelwise"] = self._check(routes, "Export group voxel-wise NIfTI maps", 0, True)
-        vars_["save_subject"] = self._check(routes, "Save per-subject ANS/RNS maps", 1, True)
-        vars_["write_nan_outside"] = self._check(routes, "Write NaN outside valid voxels", 2, False)
-        vars_["roi_atlas"] = self._field(routes, "ROI atlas NIfTI", 3, DEFAULT_GLASSER_ATLAS, browse="file")
-        vars_["roi_label_table"] = self._field(routes, "ROI label table", 4, DEFAULT_GLASSER_LABEL_TABLE, browse="file")
-        vars_["roi_out_csv"] = self._field(routes, "ROI output CSV", 5, "", browse="save_csv")
-        vars_["roi_stat"] = self._combo(routes, "ROI statistic", 6, ["mean", "median"], "mean")
-
-        params = self._section(parent, "Metric parameters", "Defaults follow the published ANS/RNS preprocessing contract.")
-        vars_["gm_thresh"] = self._field(params, "GM threshold", 0, "0.15")
-        vars_["eps"] = self._field(params, "RNS epsilon", 1, "1e-6")
-        vars_["pred_suffix"] = self._field(params, "Pred suffix to strip", 2, "_PRED_LR_full")
-        vars_["actual_suffix"] = self._field(params, "Actual suffix to strip", 3, "")
-
-        self._actions(parent, "Compute ANS/RNS", lambda: self._run_compute(vars_))
-        return vars_
-
-    def _build_validation_page(self, parent: tk.Misc, mode: str) -> dict[str, object]:
-        vars_: dict[str, object] = {"mode": mode}
-        default_out = (
-            str(default_trt_output_path("trt_L_to_R_auto_hemi"))
-            if mode == "trt"
-            else str(default_trt_output_path("specificity_L_to_R_auto_hemi"))
+    def _build_validation_card(self, parent: object, row: int) -> None:
+        card = self._card(
+            parent,
+            row,
+            "Optional validation",
+            VALIDATION_NOTE,
+            accent="#c2410c",
+            bg="#fff7ed",
+            border="#fed7aa",
+        )
+        ctk.CTkCheckBox(
+            card,
+            text="Run hemisphere-classifier validation (requires ROI table)",
+            variable=self.vars["run_classifier"],
+            command=self._sync_classifier_state,
+        ).grid(row=2, column=0, columnspan=3, padx=16, pady=(0, 8), sticky="w")
+        ctk.CTkCheckBox(card, text="Run TRT reliability", variable=self.vars["run_trt"]).grid(
+            row=3, column=0, columnspan=3, padx=16, pady=(0, 12), sticky="w"
         )
 
-        inputs = self._section(parent, "ANS/RNS maps", "Point to per-subject ANS/RNS maps produced by the compute step.")
-        vars_["maps_dir"] = self._field(inputs, "Maps directory", 0, str(default_trt_output_path("ANS_RNS_L_to_R", "subject_maps")), browse="dir")
-        vars_["out_dir"] = self._field(inputs, "Output directory", 1, default_out, browse="dir")
-        vars_["kinds"] = self._field(inputs, "Kinds", 2, "ANS,RNS")
-        vars_["suffix_template"] = self._field(inputs, "Suffix template", 3, "_{kind}.nii.gz")
-        vars_["file_regex"] = self._field(inputs, "File regex", 4, r"(sub-MSC\d+).*?(run-\d+)")
-        vars_["session_a"] = self._field(inputs, "Session A", 5, "run-01")
-        vars_["session_b"] = self._field(inputs, "Session B", 6, "run-02")
-
-        settings = self._section(parent, "Validation settings", "Use auto/target hemispheres for one-direction DGN outputs.")
-        vars_["hemis"] = self._field(settings, "Hemispheres / ROIs", 0, "auto")
-        vars_["dgn_direction"] = self._combo(settings, "DGN direction", 1, ["auto", "L_to_R", "R_to_L", "bilateral"], "auto")
-        vars_["metric"] = self._combo(settings, "Similarity metric", 2, ["pearson", "spearman"], "pearson")
-        vars_["mask_type"] = self._combo(settings, "Mask type", 3, ["rate", "max"], "rate")
-        vars_["thr"] = self._field(settings, "Mask threshold", 4, "0")
-        vars_["rate_thr"] = self._field(settings, "Rate threshold", 5, "0.3")
-        vars_["mask_mode"] = self._combo(settings, "Mask mode", 6, ["union", "intersect"], "union")
-        vars_["hemi_slices"] = self._field(settings, "Custom hemi slices", 7, "")
-        vars_["symmetrize"] = self._check(settings, "Symmetrize hemispheres", 8, True)
-        vars_["write_plots"] = self._check(settings, "Write summary plots", 9, True)
-
-        label = "Run TRT reliability" if mode == "trt" else "Run specificity validation"
-        self._actions(parent, label, lambda: self._run_validation(vars_))
-        return vars_
-
-    def _build_hemi_classify_page(self, parent: tk.Misc) -> dict[str, object]:
-        vars_: dict[str, object] = {}
-
-        features = self._section(parent, "ROI-level features", "Use an existing ROI CSV, or provide an atlas to derive ROI features from maps.")
-        vars_["maps_dir"] = self._field(features, "ANS/RNS maps directory", 0, str(default_trt_output_path("ANS_RNS_L_to_R", "subject_maps")), browse="dir")
-        vars_["roi_csv"] = self._field(features, "ROI-wise ANS/RNS CSV", 1, "", browse="file")
-        vars_["roi_atlas"] = self._field(features, "ROI atlas NIfTI", 2, DEFAULT_GLASSER_ATLAS, browse="file")
-        vars_["roi_label_table"] = self._field(features, "ROI label table", 3, DEFAULT_GLASSER_LABEL_TABLE, browse="file")
-
-        model = self._section(parent, "Saved classifier", "Runtime loads saved sklearn/joblib bundles only; training is out of scope.")
-        vars_["classifier_model_dir"] = self._field(
-            model,
-            "Classifier model directory",
-            0,
-            DEFAULT_CLASSIFIER_MODEL_DIR,
-            browse="dir",
+    def _build_run_card(self, parent: object, row: int) -> None:
+        card = self._card(
+            parent,
+            row,
+            "Run HemiSpec",
+            "Review the equivalent CLI command, run the workflow, and inspect logs.",
+            accent="#0f172a",
+            bg="#f8fafc",
+            border="#cbd5e1",
         )
-        vars_["classifier_mode"] = self._combo(model, "Classifier mode", 1, ["single", "paired_residual"], "single")
-        vars_["checkpoint"] = self._field(model, "Single checkpoint override", 2, "", browse="file")
-        vars_["out_dir"] = self._field(model, "Output directory", 3, str(default_classifier_output_path("gui_run")), browse="dir")
-        vars_["kinds"] = self._field(model, "Kinds", 4, "ANS,RNS")
-        vars_["suffix_template"] = self._field(model, "Suffix template", 5, "_{kind}.nii.gz")
-        vars_["file_regex"] = self._field(model, "File regex", 6, r"(?P<subject>.+?)_{kind}\.nii(?:\.gz)?$")
-        vars_["device"] = self._combo(model, "Device", 7, ["auto", "cpu", "cuda"], "auto")
+        actions = ctk.CTkFrame(card, fg_color="transparent")
+        actions.grid(row=2, column=0, columnspan=3, padx=16, pady=(0, 8), sticky="ew")
+        actions.grid_columnconfigure(4, weight=1)
+        self.run_button = ctk.CTkButton(actions, text="Run HemiSpec", command=self._run_clicked, height=36)
+        self.run_button.grid(row=0, column=0, padx=(0, 10), sticky="w")
+        ctk.CTkButton(actions, text="Copy CLI Command", command=self._copy_cli, height=36, fg_color="#334155").grid(
+            row=0, column=1, padx=(0, 10), sticky="w"
+        )
+        ctk.CTkButton(actions, text="Open Output Folder", command=self._open_output, height=36, fg_color="#475569").grid(
+            row=0, column=2, padx=(0, 10), sticky="w"
+        )
+        ctk.CTkButton(actions, text="Clear Log", command=self._clear_log, height=36, fg_color="#64748b").grid(
+            row=0, column=3, sticky="w"
+        )
 
-        self._actions(parent, "Run hemisphere classifier", lambda: self._run_hemi_classify(vars_))
-        return vars_
+        self.cli_box = ctk.CTkTextbox(card, height=48, wrap="word", fg_color="#f8fafc", text_color="#0f172a")
+        self.cli_box.grid(row=3, column=0, columnspan=3, padx=16, pady=(0, 8), sticky="ew")
+        self._refresh_cli_box()
 
-    def _append_log(self, text: str) -> None:
-        self.log.insert("end", text)
-        self.log.see("end")
+        self.log_box = ctk.CTkTextbox(card, height=150, wrap="word", fg_color="#0f172a", text_color="#e5e7eb")
+        self.log_box.grid(row=4, column=0, columnspan=3, padx=16, pady=(0, 14), sticky="ew")
+        self._log("Ready. Configure inputs and click Run HemiSpec.\n")
+
+    def _entry_row(self, parent: object, row: int, label: str, var_key: str, browse: Callable[[], None]) -> list[object]:
+        label_widget = ctk.CTkLabel(parent, text=label, text_color="#111827")
+        label_widget.grid(row=row, column=0, padx=16, pady=(0, 8), sticky="w")
+        entry = ctk.CTkEntry(parent, textvariable=self.vars[var_key], height=34)
+        entry.grid(row=row, column=1, padx=(0, 8), pady=(0, 8), sticky="ew")
+        entry.bind("<KeyRelease>", lambda _event: self._refresh_cli_box())
+        button = ctk.CTkButton(parent, text="Browse", width=88, command=browse, fg_color="#475569")
+        button.grid(row=row, column=2, padx=(0, 16), pady=(0, 8), sticky="e")
+        return [label_widget, entry, button]
+
+    def _browse_input_file(self) -> None:
+        path = filedialog.askopenfilename(title="Select one GM map to build a folder glob")
+        if not path:
+            return
+        p = Path(path)
+        suffix = "*_GM_masked.nii.gz" if p.name.endswith("_GM_masked.nii.gz") else f"*{''.join(p.suffixes)}"
+        self.vars["input_glob"].set(str(p.parent / suffix))  # type: ignore[union-attr]
+        self._refresh_cli_box()
+
+    def _browse_output_dir(self) -> None:
+        path = filedialog.askdirectory(title="Select output workspace")
+        if path:
+            self.vars["out_dir"].set(path)  # type: ignore[union-attr]
+            self._refresh_cli_box()
+
+    def _browse_atlas_file(self) -> None:
+        path = filedialog.askopenfilename(title="Select ROI atlas NIfTI", filetypes=[("NIfTI", "*.nii *.nii.gz"), ("All", "*")])
+        if path:
+            self.vars["roi_atlas"].set(path)  # type: ignore[union-attr]
+            self._refresh_cli_box()
+
+    def _browse_label_file(self) -> None:
+        path = filedialog.askopenfilename(
+            title="Select ROI label table", filetypes=[("Tables", "*.xlsx *.csv *.tsv"), ("All", "*")]
+        )
+        if path:
+            self.vars["roi_label_table"].set(path)  # type: ignore[union-attr]
+            self._refresh_cli_box()
+
+    def _sync_classifier_state(self) -> None:
+        if bool(self.vars["run_classifier"].get()):  # type: ignore[union-attr]
+            self.vars["export_roi_table"].set(True)  # type: ignore[union-attr]
+        self._sync_roi_state()
+
+    def _sync_roi_state(self) -> None:
+        roi_enabled = bool(self.vars["export_roi_table"].get()) or bool(self.vars["run_classifier"].get())  # type: ignore[union-attr]
+        state = "normal" if roi_enabled else "disabled"
+        warned = False
+        for widget in getattr(self, "roi_widgets", []):
+            try:
+                widget.configure(state=state)
+            except (tk.TclError, AttributeError, ValueError) as exc:
+                if not warned:
+                    self._log(f"[warning] Could not update ROI widget state: {exc}\n")
+                    warned = True
+        self._refresh_cli_box()
+
+    def _state_snapshot(self) -> dict[str, object]:
+        snapshot: dict[str, object] = {}
+        for key in WORKFLOW_VISIBLE_FIELDS:
+            value = self.vars[key]
+            snapshot[key] = value.get() if hasattr(value, "get") else value
+        snapshot.update(ENCAPSULATED_DEFAULTS)
+        return snapshot
+
+    def _validate_state(self) -> dict[str, object]:
+        state = self._state_snapshot()
+        make_workflow_config(state)
+        if bool(state["export_roi_table"]):
+            atlas = str(state.get("roi_atlas", ""))
+            label_table = str(state.get("roi_label_table", ""))
+            if atlas and not _path_exists_or_empty(atlas):
+                self._log(f"[warning] ROI atlas not found; workflow will continue without ROI tables unless classifier validation requires ROI features: {atlas}\n")
+            if label_table and not _path_exists_or_empty(label_table):
+                self._log(f"[warning] ROI label table not found; labels will be skipped if ROI export runs: {label_table}\n")
+        return state
+
+    def _refresh_cli_box(self) -> None:
+        if not hasattr(self, "cli_box"):
+            return
+        try:
+            cli = workflow_cli_command(self._state_snapshot())
+        except Exception as exc:  # keep GUI responsive while fields are being edited
+            cli = f"# incomplete configuration: {exc}"
+        self.cli_box.configure(state="normal")
+        self.cli_box.delete("1.0", "end")
+        self.cli_box.insert("1.0", cli)
+        self.cli_box.configure(state="disabled")
+
+    def _copy_cli(self) -> None:
+        try:
+            cli = workflow_cli_command(self._state_snapshot())
+        except Exception as exc:
+            messagebox.showerror("Cannot build CLI command", str(exc))
+            return
+        self.clipboard_clear()
+        self.clipboard_append(cli)
+        self.status_var.set("CLI command copied")
+
+    def _open_output(self) -> None:
+        try:
+            out = Path(str(self.vars["out_dir"].get()))  # type: ignore[union-attr]
+            if not out.exists():
+                messagebox.showinfo("Output folder not found", "Run the workflow first, or choose an existing output folder.")
+                return
+            _open_path(out)
+        except Exception as exc:
+            messagebox.showerror("Cannot open output folder", str(exc))
 
     def _clear_log(self) -> None:
-        self.log.delete("1.0", "end")
+        self.log_box.configure(state="normal")
+        self.log_box.delete("1.0", "end")
+        self.log_box.configure(state="disabled")
 
-    def _set_running(self, is_running: bool) -> None:
-        state = "disabled" if is_running else "normal"
-        for button in self.run_buttons:
-            button.configure(state=state)
-
-    def _run_background(self, label: str, fn: Callable[[], None]) -> None:
-        self.status_var.set(f"Running: {label}")
-        self._set_running(True)
-        self._append_log(f"\n[{label}] started\n")
-
-        def worker() -> None:
-            buf = io.StringIO()
-            ok = True
-            with contextlib.redirect_stdout(buf), contextlib.redirect_stderr(buf):
-                try:
-                    fn()
-                except Exception:
-                    ok = False
-                    traceback.print_exc()
-            self.after(0, lambda: self._finish(label, ok, buf.getvalue()))
-
-        threading.Thread(target=worker, daemon=True).start()
-
-    def _require_dgn_runtime(self) -> bool:
-        if self.dgn_runtime_available:
-            return True
-        self._append_log(f"\n[DGN runtime] {DGN_RUNTIME_HELP}\n")
-        messagebox.showerror(APP_TITLE, DGN_RUNTIME_HELP)
-        return False
-
-    def _finish(self, label: str, ok: bool, text: str) -> None:
-        self._append_log(text)
-        status = "finished" if ok else "failed"
-        self._append_log(f"[{label}] {status}\n")
-        self.status_var.set("Ready" if ok else f"Failed: {label}")
-        self._set_running(False)
-        if not ok:
-            messagebox.showerror(APP_TITLE, "Task failed. Check the run log for details.")
-
-    def _resolve_model(self, vars_: dict[str, object]) -> DGNModelBundle:
-        direction = str(vars_["direction"].get())
-        checkpoint = str(vars_["checkpoint"].get()).strip()
-        if checkpoint:
-            return DGNModelBundle(
-                checkpoint=Path(checkpoint),
-                direction=direction,  # type: ignore[arg-type]
-                source_hemisphere="left" if direction == "L_to_R" else "right",
-                target_hemisphere="right" if direction == "L_to_R" else "left",
-            )
-        model_root = str(vars_["model_root"].get()).strip() or None
-        bundles = discover_local_dgn_bundles(model_root)
-        if direction not in bundles:
-            raise RuntimeError(
-                f"No local DGN bundle found for {direction}. "
-                "Set HEMISPEC_DGN_MODEL_ROOT, check local assets/models/dgn, or choose a checkpoint override."
-            )
-        return bundles[direction]
-
-    def _parse_clip(self, vars_: dict[str, object]) -> tuple[float, float] | None:
-        low = str(vars_["clip_low"].get()).strip()
-        high = str(vars_["clip_high"].get()).strip()
-        if not low and not high:
-            return None
-        if not low or not high:
-            raise ValueError("Both clip low and clip high are required when clipping is enabled.")
-        return float(low), float(high)
-
-    def _metric_config(self, vars_: dict[str, object]) -> MetricComputeConfig:
-        return MetricComputeConfig(
-            actual_glob=str(vars_["actual_glob"].get()),
-            reconstructed_glob=str(vars_["predicted_glob"].get()),
-            out_dir=Path(str(vars_["out_dir"].get())),
-            gm_thresh=float(str(vars_["gm_thresh"].get())),
-            eps=float(str(vars_["eps"].get())),
-            reconstructed_suffix_to_strip=str(vars_["pred_suffix"].get()),
-            actual_suffix_to_strip=str(vars_["actual_suffix"].get()),
-            export_voxelwise=_bool(vars_["export_voxelwise"]),
-            save_subject_maps=_bool(vars_["save_subject"]),
-            write_nan_outside=_bool(vars_["write_nan_outside"]),
-            roi_atlas=_optional_path(str(vars_["roi_atlas"].get())),
-            roi_out_csv=_optional_path(str(vars_["roi_out_csv"].get())),
-            roi_label_table=_optional_path(str(vars_["roi_label_table"].get())),
-            roi_stat=str(vars_["roi_stat"].get()),  # type: ignore[arg-type]
-        )
-
-    def _inference_config(self, vars_: dict[str, object]) -> DGNInferenceConfig:
-        return DGNInferenceConfig(
-            model=self._resolve_model(vars_),
-            input_glob=str(vars_["input_glob"].get()),
-            out_dir=Path(str(vars_["recon_dir"].get())),
-            device=str(vars_["device"].get()),  # type: ignore[arg-type]
-            direction=str(vars_["direction"].get()),  # type: ignore[arg-type]
-            clip_recon=self._parse_clip(vars_),
-            output_suffix=str(vars_["output_suffix"].get()),
-        )
-
-    def _pipeline_config(self, vars_: dict[str, object]) -> PipelineRunConfig:
-        return PipelineRunConfig(
-            inference=self._inference_config(vars_),
-            metrics_out_dir=Path(str(vars_["metrics_dir"].get())),
-            gm_thresh=float(str(vars_["gm_thresh"].get())),
-            eps=float(str(vars_["eps"].get())),
-            reconstructed_suffix_to_strip=str(vars_["pred_suffix"].get()),
-            actual_suffix_to_strip=str(vars_["actual_suffix"].get()),
-            save_subject_maps=_bool(vars_["save_subject"]),
-            write_nan_outside=_bool(vars_["write_nan_outside"]),
-            verbose_every=int(str(vars_["verbose_every"].get())),
-            export_voxelwise=_bool(vars_["export_voxelwise"]),
-            roi_atlas=_optional_path(str(vars_["roi_atlas"].get())),
-            roi_out_csv=_optional_path(str(vars_["roi_out_csv"].get())),
-            roi_label_table=_optional_path(str(vars_["roi_label_table"].get())),
-            roi_stat=str(vars_["roi_stat"].get()),  # type: ignore[arg-type]
-        )
-
-    def _workflow_config(self, vars_: dict[str, object]) -> BilateralWorkflowConfig:
-        classifier_mode = str(vars_["classifier_mode"].get())
-        return BilateralWorkflowConfig(
-            input_glob=str(vars_["input_glob"].get()),
-            out_dir=Path(str(vars_["out_dir"].get())),
-            model_root=_optional_path(str(vars_["model_root"].get())),
-            device=str(vars_["device"].get()),
-            gm_thresh=float(str(vars_["gm_thresh"].get())),
-            eps=float(str(vars_["eps"].get())),
-            clip_recon=self._parse_clip(vars_),
-            reconstructed_suffix_to_strip=str(vars_["pred_suffix"].get()),
-            actual_suffix_to_strip=str(vars_["actual_suffix"].get()),
-            export_voxelwise=_bool(vars_["export_voxelwise"]),
-            write_nan_outside=_bool(vars_["write_nan_outside"]),
-            export_roi_table=_bool(vars_["export_roi_table"]),
-            roi_atlas=_optional_path(str(vars_["roi_atlas"].get())),
-            roi_label_table=_optional_path(str(vars_["roi_label_table"].get())),
-            roi_stat=str(vars_["roi_stat"].get()),
-            run_classifier=_bool(vars_["run_classifier"]),
-            classifier_model_dir=_classifier_model_dir(str(vars_["classifier_model_dir"].get()), classifier_mode),
-            classifier_mode=classifier_mode,
-            run_trt=_bool(vars_["run_trt"]),
-            trt_file_regex=str(vars_["trt_file_regex"].get()),
-            trt_session_a=str(vars_["trt_session_a"].get()),
-            trt_session_b=str(vars_["trt_session_b"].get()),
-            verbose_every=int(str(vars_["verbose_every"].get())),
-        )
-
-    def _validation_config(self, vars_: dict[str, object]) -> ValidationConfig:
-        return ValidationConfig(
-            maps_dir=Path(str(vars_["maps_dir"].get())),
-            out_dir=Path(str(vars_["out_dir"].get())),
-            kinds=_csv_labels(str(vars_["kinds"].get())),
-            suffix_template=str(vars_["suffix_template"].get()),
-            file_regex=str(vars_["file_regex"].get()),
-            session_a=str(vars_["session_a"].get()),
-            session_b=str(vars_["session_b"].get()),
-            hemis=_csv_labels(str(vars_["hemis"].get())),
-            dgn_direction=str(vars_["dgn_direction"].get()),  # type: ignore[arg-type]
-            hemi_slices=str(vars_["hemi_slices"].get()).strip() or None,
-            metric=str(vars_["metric"].get()).lower(),  # type: ignore[arg-type]
-            mask_type=str(vars_["mask_type"].get()).lower(),  # type: ignore[arg-type]
-            thr=float(str(vars_["thr"].get())),
-            rate_thr=float(str(vars_["rate_thr"].get())),
-            mask_mode=str(vars_["mask_mode"].get()).lower(),  # type: ignore[arg-type]
-            symmetrize=_bool(vars_["symmetrize"]),
-            write_plots=_bool(vars_["write_plots"]),
-        )
-
-    def _hemi_classification_config(self, vars_: dict[str, object]) -> HemisphereClassificationConfig:
-        classifier_mode = str(vars_["classifier_mode"].get())
-        return HemisphereClassificationConfig(
-            maps_dir=Path(str(vars_["maps_dir"].get())),
-            roi_csv=_optional_path(str(vars_["roi_csv"].get())),
-            atlas_path=_optional_path(str(vars_["roi_atlas"].get())),
-            label_table=_optional_path(str(vars_["roi_label_table"].get())),
-            classifier_checkpoint=_optional_path(str(vars_["checkpoint"].get())),
-            classifier_model_dir=_classifier_model_dir(str(vars_["classifier_model_dir"].get()), classifier_mode),
-            classifier_mode=classifier_mode,  # type: ignore[arg-type]
-            out_dir=_optional_path(str(vars_["out_dir"].get())),
-            kinds=_csv_labels(str(vars_["kinds"].get())),
-            suffix_template=str(vars_["suffix_template"].get()),
-            file_regex=str(vars_["file_regex"].get()),
-            device=str(vars_["device"].get()),  # type: ignore[arg-type]
-        )
-
-    def _run_pipeline(self, vars_: dict[str, object]) -> None:
-        if not self._require_dgn_runtime():
+    def _run_clicked(self) -> None:
+        if self.is_running:
+            return
+        try:
+            state = self._validate_state()
+            config = make_workflow_config(state)
+        except Exception as exc:
+            messagebox.showerror("Invalid HemiSpec configuration", str(exc))
             return
 
-        def job() -> None:
-            result = run_pipeline(self._pipeline_config(vars_))
-            print("[done] DGN inference + ANS/RNS compute complete")
-            print(f"reconstructed: {len(result.reconstructed_paths)}")
-            print(f"pairs: {result.metrics.n_pairs}")
-            print(f"metrics: {result.metrics.out_dir}")
-            if result.metrics.subject_maps_dir:
-                print(f"subject_maps: {result.metrics.subject_maps_dir}")
-            if result.metrics.roi_csv:
-                print(f"roi_csv: {result.metrics.roi_csv}")
+        self.is_running = True
+        self.last_out_dir = config.out_dir
+        self.run_button.configure(state="disabled", text="Running...")
+        self.status_var.set("Running HemiSpec workflow")
+        self._log("\n[run] Starting HemiSpec standard workflow\n")
+        self._log(f"[run] output: {config.out_dir}\n")
+        self._log(f"[run] CLI: {workflow_cli_command(state)}\n")
 
-        self._run_background("pipeline", job)
+        thread = threading.Thread(target=self._run_worker, args=(config,), daemon=True)
+        thread.start()
 
-    def _run_workflow(self, vars_: dict[str, object]) -> None:
-        if not self._require_dgn_runtime():
+    def _run_worker(self, config: BilateralWorkflowConfig) -> None:
+        try:
+            with contextlib.redirect_stdout(_StdoutProxy(self._threadsafe_log)), contextlib.redirect_stderr(
+                _StdoutProxy(self._threadsafe_log)
+            ):
+                result = run_bilateral_workflow(config)
+            self.after(0, lambda: self._run_finished(result, None))
+        except Exception as exc:  # pragma: no cover - GUI worker path
+            detail = traceback.format_exc()
+            self.after(0, lambda: self._run_finished(None, (exc, detail)))
+
+    def _run_finished(self, result: BilateralWorkflowResult | None, error: tuple[BaseException, str] | None) -> None:
+        self.is_running = False
+        self.run_button.configure(state="normal", text="Run HemiSpec")
+        if error is not None:
+            exc, detail = error
+            self.status_var.set("Failed")
+            self._log(f"[error] {exc}\n{detail}\n")
+            messagebox.showerror("HemiSpec workflow failed", str(exc))
             return
+        assert result is not None
+        self.status_var.set("Done")
+        self.summary_var.set(f"Done: {result.combined_maps_dir}")
+        self._log("[done] HemiSpec workflow complete\n")
+        self._log(f"subject_maps: {result.combined_maps_dir}\n")
+        self._log(f"subject_hemi_maps: {result.hemi_maps_dir}\n")
+        self._log(f"subject_summary_csv: {result.subject_summary_csv}\n")
+        self._log(f"roi_csv: {result.roi_csv if result.roi_csv else 'skipped'}\n")
+        self._log(f"roi_wide_csv: {result.roi_wide_csv if result.roi_wide_csv else 'skipped'}\n")
+        if result.classifier is not None:
+            self._log(f"classifier_summary: {result.classifier.summary_csv}\n")
+        if result.trt is not None:
+            self._log(f"trt_summary: {result.trt.summary_csv}\n")
 
-        def job() -> None:
-            result = run_bilateral_workflow(self._workflow_config(vars_))
-            print("[done] bilateral HemiSpec workflow complete")
-            print(f"L_to_R reconstructed: {len(result.l_to_r.reconstructed_paths)}")
-            print(f"R_to_L reconstructed: {len(result.r_to_l.reconstructed_paths)}")
-            print(f"bilateral_subject_maps: {result.combined_maps_dir}")
-            print(f"hemisphere_maps: {result.hemi_maps_dir}")
-            if result.roi_csv:
-                print(f"roi_csv: {result.roi_csv}")
-            else:
-                print("roi_csv: skipped")
-            if result.roi_wide_csv:
-                print(f"roi_wide_csv: {result.roi_wide_csv}")
-            else:
-                print("roi_wide_csv: skipped")
-            print(f"subject_summary_csv: {result.subject_summary_csv}")
-            if result.classifier:
-                print(f"classifier_summary_csv: {result.classifier.summary_csv}")
-                if result.classifier.accuracy is not None:
-                    print(f"classifier_accuracy_mean: {result.classifier.accuracy:.6f}")
-            if result.trt:
-                print(f"trt_summary_csv: {result.trt.summary_csv}")
+    def _threadsafe_log(self, text: str) -> None:
+        self.after(0, lambda: self._log(text))
 
-        self._run_background("workflow", job)
-
-    def _run_infer(self, vars_: dict[str, object]) -> None:
-        if not self._require_dgn_runtime():
+    def _log(self, text: str) -> None:
+        if not hasattr(self, "log_box"):
             return
-
-        def job() -> None:
-            outputs = run_dgn_inference(self._inference_config(vars_))
-            print("[done] DGN inference complete")
-            print(f"outputs: {len(outputs)}")
-            for path in outputs[:10]:
-                print(path)
-
-        self._run_background("infer", job)
-
-    def _run_compute(self, vars_: dict[str, object]) -> None:
-        def job() -> None:
-            result = compute_metrics(self._metric_config(vars_))
-            print("[done] ANS/RNS compute complete")
-            print(f"pairs: {result.n_pairs}")
-            print(f"out_dir: {result.out_dir}")
-            if result.subject_maps_dir:
-                print(f"subject_maps: {result.subject_maps_dir}")
-            if result.roi_csv:
-                print(f"roi_csv: {result.roi_csv}")
-
-        self._run_background("compute", job)
-
-    def _run_validation(self, vars_: dict[str, object]) -> None:
-        mode = str(vars_["mode"])
-
-        def job() -> None:
-            config = self._validation_config(vars_)
-            run = validate_reliability(config) if mode == "trt" else validate_specificity(config)
-            for row in run.summary_rows:
-                print(
-                    f"[{row.kind}_{row.hemi}] N={row.n_subjects} vox={row.n_voxels} "
-                    f"MR={row.match_rate:.1f}% SI={row.specificity_index:.4f} "
-                    f"t={row.t_value:.2f} p={row.p_value:.2e}"
-                )
-            print(f"[done] outputs written to {run.out_dir}")
-
-        self._run_background(mode, job)
-
-    def _run_hemi_classify(self, vars_: dict[str, object]) -> None:
-        def job() -> None:
-            result = validate_hemisphere_classification(self._hemi_classification_config(vars_))
-            print(result.message)
-            if result.accuracy is not None:
-                print(f"accuracy_mean: {result.accuracy:.6f}")
-            print(f"n_samples: {result.n_samples}")
-            if result.summary_csv:
-                print(f"summary_csv: {result.summary_csv}")
-            if result.predictions_csv:
-                print(f"predictions_csv: {result.predictions_csv}")
-
-        self._run_background("hemi-classify", job)
+        self.log_box.configure(state="normal")
+        self.log_box.insert("end", text)
+        self.log_box.see("end")
+        self.log_box.configure(state="disabled")
 
 
 def main() -> None:
+    try:
+        ensure_gui_dependency()
+    except MissingGuiDependency as exc:
+        root = tk.Tk()
+        root.withdraw()
+        messagebox.showerror("Missing HemiSpec GUI dependency", str(exc))
+        root.destroy()
+        raise SystemExit(str(exc)) from exc
     app = HemiSpecGui()
     app.mainloop()
 

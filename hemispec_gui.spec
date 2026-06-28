@@ -1,8 +1,11 @@
 # -*- mode: python ; coding: utf-8 -*-
 
-from PyInstaller.utils.hooks import collect_data_files
+from PyInstaller.utils.hooks import collect_all, collect_data_files
 
 datas = collect_data_files('hemispec')
+ctk_datas, ctk_binaries, ctk_hiddenimports = collect_all('customtkinter')
+datas += ctk_datas
+binaries = ctk_binaries
 # Keep the default GUI build lightweight. This collects package-owned data
 # under src/hemispec only; it does not bundle repository-level local assets/.
 # Release model/atlas bundles separately, or copy an approved asset bundle next to
@@ -11,9 +14,9 @@ datas = collect_data_files('hemispec')
 a = Analysis(
     ['scripts/hemispec_gui_entry.py'],
     pathex=[],
-    binaries=[],
+    binaries=binaries,
     datas=datas,
-    hiddenimports=[
+    hiddenimports=ctk_hiddenimports + [
         'joblib',
         'openpyxl',
         'openpyxl.cell',

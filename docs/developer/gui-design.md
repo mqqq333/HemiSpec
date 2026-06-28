@@ -1,4 +1,4 @@
-# HemiSpec GUI design plan
+﻿# HemiSpec GUI design plan
 
 This document is a design target for the compiled HemiSpec desktop app. It is
 not a claim that every item is already implemented. The GUI should remain a thin
@@ -11,9 +11,7 @@ front end over the same public `hemispec` API used by the CLI and PyPI package.
 **Primary public artifacts:** `hemispec-toolkit` on PyPI, `hemispec` CLI,
 `hemispec-gui`, and a compiled Windows folder distribution.
 
-HemiSpec is a workflow workbench for cross-hemispheric DGN reconstruction,
-ANS/RNS metric computation, ROI feature export, reliability/specificity
-validation, and manuscript-ready reporting. ANS/RNS are metric names, not the app
+HemiSpec is currently implemented as a compact standard-workflow GUI for cross-hemispheric DGN reconstruction, ANS/RNS metric computation, optional ROI feature export, and optional validation. Broader expanded-interface ideas below are design notes, not current public UI scope. ANS/RNS are metric names, not the app
 brand.
 
 ## Release modes
@@ -69,9 +67,9 @@ Primary actions:
 - `Save project config`
 - `Load project config`
 
-### 2. Full workflow
+### 2. Standard workflow
 
-Purpose: one-screen end-to-end workflow for normal users.
+Purpose: compact single-page end-to-end workflow for normal users.
 
 Current product decision (2026-06-28): the normal GUI user is assumed to use the
 standard HemiSpec model workflow to obtain voxel-wise ANS/RNS maps for their own
@@ -98,7 +96,7 @@ Controls should be grouped by user intent:
 - Optional validation: classifier on/off and TRT on/off; classifier requires ROI table export.
 - Encapsulated/developer settings: device, model root, checkpoint override, thresholds, suffix rules, regexes, and classifier bundle paths.
 
-### 3. DGN inference
+### 3. DGN inference (advanced/future)
 
 Purpose: run and debug reconstruction only.
 
@@ -189,9 +187,9 @@ Use the same identity as the MkDocs Material homepage:
 
 Layout:
 
-- Left sidebar: persistent workflow navigation.
-- Top header: page title, runtime mode badge, PyTorch/CUDA status, global status.
-- Main body: cards/sections with validation status.
+- Top header: HemiSpec title, compact subtitle, and global status.
+- Main body: color-separated cards for Input, Output, Optional ROI, Optional validation, and Run.
+- Footer: concise output/status summary.
 - Bottom panel: run log with copy/save controls.
 
 ## Validation and guardrails
@@ -200,7 +198,7 @@ Before launching a run, the GUI should check:
 
 - input glob resolves to at least one file,
 - output directory is writable,
-- DGN checkpoint exists when DGN inference is requested,
+- DGN checkpoint exists when DGN inference (advanced/future) is requested,
 - atlas and label table exist when ROI export is requested,
 - classifier directory exists when classifier validation is enabled,
 - PyTorch import and device availability for DGN pages,
@@ -299,16 +297,16 @@ should guide normal users through Setup -> Run -> Inspect -> Export.
 ### Recommended V1 wireframe
 
 ```text
-┌─ HemiSpec  [Lightweight]  CUDA: n/a  ● ready  v0.x ──────────────┐
-├──────────┬──────────────────────────────────────────────────────┤
-│ Setup    │  Pipeline: GM -> DGN -> ANS/RNS -> ROI -> validation │
-│ Run   ◀  │  ▸ Runtime  ▸ Metrics  ▸ ROI  ▸ Validation  ▸ Output │
-│ Inspect  │  [Run 1 subject]  [Run batch]  [Show CLI]            │
-│ Export   │                                                      │
-│ Advanced │  Status cards, tables, and figures for current page   │
-├──────────┴──────────────────────────────────────────────────────┤
-│ Log  [████████░░ 8/10]  ETA 2m  [Cancel][Copy][Save]             │
-└─────────────────────────────────────────────────────────────────┘
+鈹屸攢 HemiSpec  [Lightweight]  CUDA: n/a  鈼?ready  v0.x 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?
+鈹溾攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?
+鈹?Setup    鈹? Pipeline: GM -> DGN -> ANS/RNS -> ROI -> validation 鈹?
+鈹?Run   鈼€  鈹? 鈻?Runtime  鈻?Metrics  鈻?ROI  鈻?Validation  鈻?Output 鈹?
+鈹?Inspect  鈹? [Run 1 subject]  [Run batch]  [Show CLI]            鈹?
+鈹?Export   鈹?                                                     鈹?
+鈹?Advanced 鈹? Status cards, tables, and figures for current page   鈹?
+鈹溾攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹粹攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?
+鈹?Log  [鈻堚枅鈻堚枅鈻堚枅鈻堚枅鈻戔枒 8/10]  ETA 2m  [Cancel][Copy][Save]             鈹?
+鈹斺攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?
 ```
 
 ### Implementation priority
@@ -328,4 +326,5 @@ local web UI such as FastAPI + PyWebView because it can better reuse the MkDocs
 Material visual language and support richer tables/plots. In either case, keep
 the analysis runtime in the `hemispec` package and do not duplicate computation in
 the GUI layer.
+
 

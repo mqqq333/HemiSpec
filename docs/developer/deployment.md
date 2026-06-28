@@ -109,17 +109,11 @@ dist/hemispec_gui/hemispec_gui.exe
 The EXE is convenient for users without command-line Python experience, but the
 Python package is easier to update and debug on clusters.
 
-The current lightweight GUI EXE does not bundle PyTorch. It can open the
-HemiSpec workbench and run non-Torch workflows, but DGN inference from the GUI
-requires `HEMISPEC_D2L_PYTHON` plus the launcher, or a separate model-enabled/Torch bundle.
+The current lightweight GUI EXE does not bundle PyTorch. It can open the compact standard-workflow GUI, but model-enabled DGN inference requires a PyTorch environment and approved DGN assets, or a separate model-enabled/Torch bundle.
 
 ## 4. Model-enabled deployment
 
-The current Python package/CLI includes trained DGN inference entry points. The
-current source GUI is model-enabled through the same public API: it can run DGN
-inference, ANS/RNS computation, TRT reliability, hemisphere-classifier
-validation, and structural specificity. Rebuild the GUI EXE after source changes
-before treating `dist/` as a release artifact.
+The current Python package/CLI includes trained DGN inference entry points. The current GUI intentionally exposes only the standard ANS/RNS workflow with optional ROI, classifier, and TRT branches; lower-level inference, compute, specificity, and classifier commands remain available through CLI/API. Rebuild the GUI EXE after source changes before treating `dist/` as a release artifact.
 
 The model-enabled release should include or load:
 
@@ -127,7 +121,7 @@ The model-enabled release should include or load:
 1. package-owned DGN runtime code
 2. trained model checkpoint/weights
 3. preprocessing/cropping rules
-4. inference command and GUI workbench page
+4. inference command and compact GUI standard workflow
 5. reconstructed GM output naming convention
 6. ANS/RNS compute and validation pipeline
 ```
