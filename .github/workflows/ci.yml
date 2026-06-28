@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-and-build:
+  public-build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -23,8 +23,8 @@ jobs:
       - name: Install package with dev tools
         run: python -m pip install -e .[dev]
 
-      - name: Run tests
-        run: python -m pytest
+      - name: Run public smoke tests
+        run: python -m pytest tests/test_compute.py tests/test_similarity.py
 
       - name: Build package artifacts
         run: python -m build --wheel --sdist

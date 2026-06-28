@@ -29,10 +29,10 @@ coverage.xml
 htmlcov/
 
 # Local outputs, data, and references
-outputs/
-data/
-reference/
-p2a-session/
+/outputs/
+/data/
+/reference/
+/p2a-session/
 
 # Local/private release assets: commit manifests/readmes only
 assets/*
