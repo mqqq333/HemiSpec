@@ -1,8 +1,8 @@
 # 输出文件说明
 
-## Full Workflow 输出
+## Generate ANS/RNS / Full Workflow ??
 
-`hemispec workflow` 和 GUI 的 `Full Workflow` 页面会从预处理后的 GM 图像开始，运行双向 DGN、计算双侧 ANS/RNS、导出 ROI 特征、运行半球分类器，并可选运行 TRT。
+`hemispec workflow` ? GUI ? `Generate ANS/RNS` ????????? GM ????????? DGN?????? voxel-wise / subject-level ANS/RNS ??????ROI table ???? atlas-derived ?????????? ROI table?TRT ???????
 
 典型目录结构：
 
@@ -17,10 +17,10 @@ subject_hemi_maps/<subject>_ANS.L.nii.gz   左半球 ANS
 subject_hemi_maps/<subject>_ANS.R.nii.gz   右半球 ANS
 subject_hemi_maps/<subject>_RNS.L.nii.gz   左半球 RNS
 subject_hemi_maps/<subject>_RNS.R.nii.gz   右半球 RNS
-tables/roi_features_bilateral.csv          ROI-wise 长表
-tables/roi_features_bilateral_wide.csv     ROI-wise 宽表
+tables/roi_features_bilateral.csv          ?? ROI-wise ??
+tables/roi_features_bilateral_wide.csv     ?? ROI-wise ??
 tables/subject_metric_summary.csv          被试级半球/全脑均值
-hemisphere_classifier/                     半球分类预测和准确率
+hemisphere_classifier/                     ????????????
 trt/                                       可选 TRT 输出
 ```
 

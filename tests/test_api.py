@@ -397,6 +397,70 @@ def test_bilateral_workflow_merges_directions_and_runs_optional_steps(monkeypatc
     assert trt_calls["config"].hemis == ("L", "R")
 
 
+def test_bilateral_workflow_config_defaults_to_ans_rns_without_classifier(tmp_path):
+    config = BilateralWorkflowConfig(input_glob=str(tmp_path / "*.nii.gz"), out_dir=tmp_path / "workflow")
+    assert config.export_roi_table is True
+    assert config.run_classifier is False
+
+
+def test_bilateral_workflow_can_skip_roi_when_atlas_is_unavailable(monkeypatch, tmp_path):
+    gm_dir = tmp_path / "gm"
+    gm_dir.mkdir()
+    _save(gm_dir / "sub-MSC01_run-01_GM_masked.nii.gz", np.ones((115, 134, 102), dtype=np.float32))
+
+    def fake_discover(_root=None):
+        return {
+            "L_to_R": DGNModelBundle(checkpoint=tmp_path / "l2r.pth", direction="L_to_R"),
+            "R_to_L": DGNModelBundle(checkpoint=tmp_path / "r2l.pth", direction="R_to_L"),
+        }
+
+    seen_roi_atlases = []
+
+    def fake_run_pipeline(config):
+        seen_roi_atlases.append(config.roi_atlas)
+        direction = config.inference.direction
+        subject_dir = config.metrics_out_dir / "subject_maps"
+        subject_dir.mkdir(parents=True)
+        value = 1.0 if direction == "R_to_L" else 2.0
+        ans = np.full((115, 134, 102), value, dtype=np.float32)
+        rns = np.full((115, 134, 102), value + 1.0, dtype=np.float32)
+        _save(subject_dir / "sub-MSC01_run-01_GM_masked_ANS.nii.gz", ans)
+        _save(subject_dir / "sub-MSC01_run-01_GM_masked_RNS.nii.gz", rns)
+        return api.PipelineRunResult(
+            reconstructed_paths=[config.inference.out_dir / "sub-MSC01_run-01_GM_masked_PRED_LR_full.nii.gz"],
+            metrics=api.MetricComputeResult(
+                n_actual=1,
+                n_reconstructed=1,
+                n_pairs=1,
+                missing_actual=[],
+                missing_reconstructed=[],
+                out_dir=config.metrics_out_dir,
+                subject_maps_dir=subject_dir,
+                roi_csv=config.roi_out_csv,
+            ),
+        )
+
+    monkeypatch.setattr(workflow, "discover_local_dgn_bundles", fake_discover)
+    monkeypatch.setattr(workflow, "run_pipeline", fake_run_pipeline)
+    monkeypatch.setattr(workflow, "resolve_glasser_atlas_path", lambda: tmp_path / "missing_atlas.nii.gz")
+
+    result = run_bilateral_workflow(
+        BilateralWorkflowConfig(
+            input_glob=str(gm_dir / "*.nii.gz"),
+            out_dir=tmp_path / "workflow_no_roi",
+            run_classifier=False,
+            run_trt=False,
+            verbose_every=0,
+        )
+    )
+
+    assert seen_roi_atlases == [None, None]
+    assert (result.combined_maps_dir / "sub-MSC01_run-01_GM_masked_ANS.nii.gz").exists()
+    assert result.subject_summary_csv.exists()
+    assert result.roi_csv is None
+    assert result.roi_wide_csv is None
+
+
 def test_summarize_bilateral_roi_features_writes_explicit_metric_hemi_tables(tmp_path):
     roi_csv = tmp_path / "roi.csv"
     pd.DataFrame(
@@ -683,8 +747,9 @@ def test_gui_has_workbench_pages_and_defaults():
     try:
         assert set(app.pages) == {"workflow", "pipeline", "infer", "compute", "trt", "hemi_classify", "specificity"}
         assert app.active_page == "workflow"
-        assert app.page_title_var.get() == "Full Workflow"
-        assert app.workflow_vars["run_classifier"].get() is True
+        assert app.page_title_var.get() == "Generate ANS/RNS"
+        assert app.workflow_vars["run_classifier"].get() is False
+        assert app.workflow_vars["export_roi_table"].get() is True
         assert app.workflow_vars["run_trt"].get() is False
         assert app.pipeline_vars["direction"].get() == "L_to_R"
         assert Path(app.pipeline_vars["model_root"].get()).parts[-3:] == ("assets", "models", "dgn")
@@ -703,16 +768,20 @@ def test_gui_has_workbench_pages_and_defaults():
 
 @pytest.mark.gui
 @GUI_REQUIRES_DISPLAY
-def test_gui_builds_public_api_configs():
+def test_gui_builds_public_api_configs(tmp_path):
+    fake_checkpoint = tmp_path / "fake_l2r.pth"
+    fake_checkpoint.write_bytes(b"fake checkpoint for GUI config construction")
     app = HemiSpecGui()
     try:
         workflow_config = app._workflow_config(app.workflow_vars)
         assert isinstance(workflow_config, BilateralWorkflowConfig)
-        assert workflow_config.run_classifier is True
+        assert workflow_config.run_classifier is False
         assert workflow_config.run_trt is False
         assert workflow_config.write_nan_outside is True
+        assert workflow_config.export_roi_table is True
         assert workflow_config.roi_atlas is not None
 
+        app.pipeline_vars["checkpoint"].set(str(fake_checkpoint))
         pipeline = app._pipeline_config(app.pipeline_vars)
         assert isinstance(pipeline, PipelineRunConfig)
         assert pipeline.inference.direction == "L_to_R"

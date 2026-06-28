@@ -15,7 +15,7 @@ hemispec models          list discoverable local trained DGN model bundles
 hemispec infer           run trained DGN inference on preprocessed GM maps
 hemispec compute         compute ANS/RNS maps from actual and reconstructed GM maps
 hemispec run             run DGN inference followed by ANS/RNS computation
-hemispec workflow        run the bilateral HemiSpec workflow
+hemispec workflow        run bilateral DGN and generate ANS/RNS outputs
 hemispec trt             test-retest reliability validation
 hemispec specificity     structural specificity validation
 hemispec hemi-classify   ROI-level hemisphere-classifier validation
@@ -27,13 +27,15 @@ Use `hemispec` for the command-line interface and `hemispec-gui` for the graphic
 
 ## ROI outputs
 
-ROI export is currently exposed through options on `compute`, `run`, and `workflow`:
+ROI export is currently exposed through options on `compute`, `run`, and `workflow`. For `workflow`, ROI export is optional and can be skipped with `--no-roi-table`; classifier validation is opt-in with `--run-classifier` and requires ROI features.
 
 ```text
 --roi-atlas
 --roi-out-csv
 --roi-label-table
 --roi-stat
+--no-roi-table
+--run-classifier
 ```
 
 There is not yet a standalone `roi` subcommand.

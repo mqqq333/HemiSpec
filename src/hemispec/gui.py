@@ -35,10 +35,16 @@ from .workflow import BilateralWorkflowConfig, run_bilateral_workflow
 
 
 APP_TITLE = "HemiSpec"
-APP_SUBTITLE = "Hemisphere Reconstruction Structural Specificity Toolkit"
+APP_SUBTITLE = "Standard ANS/RNS Generation Workbench"
 PREPROCESS_NOTE = (
     "Preprocess T1 images with the packaged HemiSpec preprocessing script first. "
     "Runtime inputs should be preprocessed GM maps ending with *_GM_masked.nii.gz."
+)
+STANDARD_WORKFLOW_NOTE = (
+    "Standard mode uses the HemiSpec model assets resolved from the installed package, "
+    "local assets, or HEMISPEC_* environment variables. Users choose their GM inputs "
+    "and output workspace to generate voxel-wise ANS/RNS maps. ROI tables are optional "
+    "and can use the default Glasser atlas or a user-provided atlas."
 )
 DGN_RUNTIME_HELP = (
     "DGN inference requires PyTorch. For full local model inference on this workstation, "
@@ -66,8 +72,8 @@ COLORS = {
 
 PAGE_META = {
     "workflow": (
-        "Full Workflow",
-        "Run bilateral DGN, ANS/RNS maps, ROI features, classifier validation, and optional TRT.",
+        "Generate ANS/RNS",
+        "Use the standard HemiSpec model workflow to export ANS/RNS maps and tables for downstream analysis.",
     ),
     "pipeline": (
         "Single Direction",
@@ -103,6 +109,36 @@ DEFAULT_INPUT_GLOB = default_input_glob()
 DEFAULT_GLASSER_ATLAS = str(resolve_glasser_atlas_path())
 DEFAULT_GLASSER_LABEL_TABLE = str(resolve_glasser_label_table())
 DEFAULT_CLASSIFIER_MODEL_DIR = str(resolve_classifier_model_dir())
+
+WORKFLOW_VISIBLE_FIELDS = (
+    "input_glob",
+    "out_dir",
+    "export_roi_table",
+    "roi_atlas",
+    "roi_label_table",
+    "run_classifier",
+    "run_trt",
+)
+WORKFLOW_ENCAPSULATED_FIELDS = (
+    "model_root",
+    "device",
+    "roi_stat",
+    "classifier_model_dir",
+    "classifier_mode",
+    "export_voxelwise",
+    "write_nan_outside",
+    "trt_file_regex",
+    "trt_session_a",
+    "trt_session_b",
+    "gm_thresh",
+    "eps",
+    "pred_suffix",
+    "actual_suffix",
+    "clip_low",
+    "clip_high",
+    "verbose_every",
+)
+WORKFLOW_REQUIRED_FIELDS = WORKFLOW_VISIBLE_FIELDS + WORKFLOW_ENCAPSULATED_FIELDS
 
 
 def _bool(value: tk.BooleanVar) -> bool:
@@ -237,7 +273,7 @@ class HemiSpecGui(tk.Tk):
         ).pack(fill="x", padx=22, pady=(24, 2))
         tk.Label(
             sidebar,
-            text="Structural specificity workbench",
+            text="Standard ANS/RNS generator",
             bg=COLORS["sidebar"],
             fg=COLORS["sidebar_muted"],
             font=("Segoe UI", 9),
@@ -266,7 +302,7 @@ class HemiSpecGui(tk.Tk):
         tk.Frame(sidebar, bg=COLORS["sidebar"]).pack(fill="both", expand=True)
         tk.Label(
             sidebar,
-            text="Runtime scope: trained model deployment, metric export, and validation.",
+            text="Standard mode: your GM maps in, HemiSpec ANS/RNS outputs out.",
             bg=COLORS["sidebar"],
             fg=COLORS["sidebar_muted"],
             wraplength=185,
@@ -373,40 +409,58 @@ class HemiSpecGui(tk.Tk):
 
     def _build_workflow_page(self, parent: tk.Misc) -> dict[str, object]:
         self._notice(parent, PREPROCESS_NOTE)
+        self._notice(parent, STANDARD_WORKFLOW_NOTE)
         vars_: dict[str, object] = {}
 
-        inputs = self._section(parent, "Inputs and local model assets", "Use preprocessed GM maps; configured local DGN directions are discovered automatically.")
+        inputs = self._section(
+            parent,
+            "1. Input and output",
+            "Select preprocessed GM maps and the workspace where HemiSpec will write ANS/RNS maps, ROI tables, and summaries.",
+        )
         vars_["input_glob"] = self._field(inputs, "Preprocessed GM glob", 0, DEFAULT_INPUT_GLOB)
-        vars_["out_dir"] = self._field(inputs, "Workflow output directory", 1, str(default_trt_output_path("full_workflow")), browse="dir")
-        vars_["model_root"] = self._field(inputs, "DGN model root", 2, DEFAULT_DGN_MODEL_ROOT, browse="dir")
-        vars_["device"] = self._combo(inputs, "Device", 3, ["auto", "cpu", "cuda"], "auto")
+        vars_["out_dir"] = self._field(
+            inputs,
+            "Output workspace",
+            1,
+            str(default_trt_output_path("hemispec_ans_rns")),
+            browse="dir",
+        )
 
-        roi = self._section(parent, "ROI and classifier", "Export Glasser ROI features and validate left/right ROI features with the saved classifier.")
-        vars_["roi_atlas"] = self._field(roi, "ROI atlas NIfTI", 0, DEFAULT_GLASSER_ATLAS, browse="file")
-        vars_["roi_label_table"] = self._field(roi, "ROI label table", 1, DEFAULT_GLASSER_LABEL_TABLE, browse="file")
-        vars_["roi_stat"] = self._combo(roi, "ROI statistic", 2, ["mean", "median"], "mean")
-        vars_["run_classifier"] = self._check(roi, "Run hemisphere classifier", 3, True)
-        vars_["classifier_model_dir"] = self._field(roi, "Classifier model directory", 4, DEFAULT_CLASSIFIER_MODEL_DIR, browse="dir")
-        vars_["classifier_mode"] = self._combo(roi, "Classifier mode", 5, ["single", "paired_residual"], "single")
+        outputs = self._section(
+            parent,
+            "2. Primary ANS/RNS outputs",
+            "The standard workflow runs both DGN directions with the configured HemiSpec model and exports voxel-wise and subject-level ANS/RNS maps. These maps are the primary output; ROI tables are optional downstream features.",
+        )
+        vars_["export_roi_table"] = self._check(outputs, "Also export ROI table", 0, True)
+        vars_["roi_atlas"] = self._field(outputs, "Optional ROI atlas NIfTI", 1, DEFAULT_GLASSER_ATLAS, browse="file")
+        vars_["roi_label_table"] = self._field(outputs, "Optional ROI label table", 2, DEFAULT_GLASSER_LABEL_TABLE, browse="file")
+        vars_["run_classifier"] = self._check(outputs, "Also run bundled hemisphere-classifier validation", 3, False)
+        vars_["run_trt"] = self._check(outputs, "Also run TRT reliability for repeated sessions", 4, False)
 
-        outputs = self._section(parent, "Outputs and TRT", "Voxel-wise, ROI-wise, subject mean summaries, and optional test-retest reliability.")
-        vars_["export_voxelwise"] = self._check(outputs, "Export direction-level group voxel-wise maps", 0, True)
-        vars_["write_nan_outside"] = self._check(outputs, "Write NaN outside valid voxels", 1, True)
-        vars_["run_trt"] = self._check(outputs, "Run TRT reliability for repeated sessions", 2, False)
-        vars_["trt_file_regex"] = self._field(outputs, "TRT file regex", 3, DEFAULT_FILE_REGEX)
-        vars_["trt_session_a"] = self._field(outputs, "TRT session A", 4, "run-01")
-        vars_["trt_session_b"] = self._field(outputs, "TRT session B", 5, "run-02")
+        self._notice(
+            parent,
+            "Encapsulated defaults: DGN model bundle, classifier bundle, ANS/RNS thresholds, suffix rules, and session regex are resolved automatically. Atlas paths are optional and only affect ROI-table export; voxel-wise ANS/RNS maps remain the main result.",
+        )
 
-        params = self._section(parent, "Parameters", "Defaults match the current deployment contract.")
-        vars_["gm_thresh"] = self._field(params, "GM threshold", 0, "0.15")
-        vars_["eps"] = self._field(params, "RNS epsilon", 1, "1e-6")
-        vars_["pred_suffix"] = self._field(params, "Pred suffix to strip", 2, "_PRED_LR_full")
-        vars_["actual_suffix"] = self._field(params, "Actual suffix to strip", 3, "")
-        vars_["clip_low"] = self._field(params, "Clip low", 4, "")
-        vars_["clip_high"] = self._field(params, "Clip high", 5, "")
-        vars_["verbose_every"] = self._field(params, "Verbose every", 6, "50")
+        vars_["model_root"] = self._hidden_text(DEFAULT_DGN_MODEL_ROOT)
+        vars_["device"] = self._hidden_text("auto")
+        vars_["roi_stat"] = self._hidden_text("mean")
+        vars_["classifier_model_dir"] = self._hidden_text(DEFAULT_CLASSIFIER_MODEL_DIR)
+        vars_["classifier_mode"] = self._hidden_text("single")
+        vars_["export_voxelwise"] = self._hidden_bool(True)
+        vars_["write_nan_outside"] = self._hidden_bool(True)
+        vars_["trt_file_regex"] = self._hidden_text(DEFAULT_FILE_REGEX)
+        vars_["trt_session_a"] = self._hidden_text("run-01")
+        vars_["trt_session_b"] = self._hidden_text("run-02")
+        vars_["gm_thresh"] = self._hidden_text("0.15")
+        vars_["eps"] = self._hidden_text("1e-6")
+        vars_["pred_suffix"] = self._hidden_text("_PRED_LR_full")
+        vars_["actual_suffix"] = self._hidden_text("")
+        vars_["clip_low"] = self._hidden_text("")
+        vars_["clip_high"] = self._hidden_text("")
+        vars_["verbose_every"] = self._hidden_text("50")
 
-        self._actions(parent, "Run full workflow", lambda: self._run_workflow(vars_))
+        self._actions(parent, "Generate ANS/RNS", lambda: self._run_workflow(vars_))
         return vars_
 
     def _section(self, parent: tk.Misc, title: str, description: str = "") -> ttk.Frame:
@@ -485,6 +539,12 @@ class HemiSpecGui(tk.Tk):
         var = tk.BooleanVar(value=default)
         ttk.Checkbutton(parent, text=label, variable=var).grid(row=row, column=1, sticky="w", pady=5)
         return var
+
+    def _hidden_text(self, default: str = "") -> tk.StringVar:
+        return tk.StringVar(value=default)
+
+    def _hidden_bool(self, default: bool) -> tk.BooleanVar:
+        return tk.BooleanVar(value=default)
 
     def _actions(self, parent: tk.Misc, label: str, command: Callable[[], None]) -> None:
         actions = ttk.Frame(parent, style="App.TFrame")
@@ -783,6 +843,7 @@ class HemiSpecGui(tk.Tk):
             actual_suffix_to_strip=str(vars_["actual_suffix"].get()),
             export_voxelwise=_bool(vars_["export_voxelwise"]),
             write_nan_outside=_bool(vars_["write_nan_outside"]),
+            export_roi_table=_bool(vars_["export_roi_table"]),
             roi_atlas=_optional_path(str(vars_["roi_atlas"].get())),
             roi_label_table=_optional_path(str(vars_["roi_label_table"].get())),
             roi_stat=str(vars_["roi_stat"].get()),
@@ -862,8 +923,14 @@ class HemiSpecGui(tk.Tk):
             print(f"R_to_L reconstructed: {len(result.r_to_l.reconstructed_paths)}")
             print(f"bilateral_subject_maps: {result.combined_maps_dir}")
             print(f"hemisphere_maps: {result.hemi_maps_dir}")
-            print(f"roi_csv: {result.roi_csv}")
-            print(f"roi_wide_csv: {result.roi_wide_csv}")
+            if result.roi_csv:
+                print(f"roi_csv: {result.roi_csv}")
+            else:
+                print("roi_csv: skipped")
+            if result.roi_wide_csv:
+                print(f"roi_wide_csv: {result.roi_wide_csv}")
+            else:
+                print("roi_wide_csv: skipped")
             print(f"subject_summary_csv: {result.subject_summary_csv}")
             if result.classifier:
                 print(f"classifier_summary_csv: {result.classifier.summary_csv}")

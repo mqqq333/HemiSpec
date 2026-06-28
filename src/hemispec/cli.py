@@ -124,7 +124,7 @@ def add_run_parser(sub: argparse._SubParsersAction) -> None:
 def add_workflow_parser(sub: argparse._SubParsersAction) -> None:
     p = sub.add_parser(
         "workflow",
-        help="Run the full bilateral HemiSpec workflow: L2R/R2L DGN, ANS/RNS, ROI features, classifier, and optional TRT.",
+        help="Run the standard bilateral HemiSpec workflow: L2R/R2L DGN and voxel-wise ANS/RNS, with optional ROI table, classifier, and TRT outputs.",
     )
     p.add_argument("--input-glob", required=True, help="Glob for preprocessed *_GM_masked.nii.gz files.")
     p.add_argument("--out-dir", required=True, help="Workflow output directory.")
@@ -142,10 +142,12 @@ def add_workflow_parser(sub: argparse._SubParsersAction) -> None:
     p.add_argument("--actual-suffix-to-strip", default="")
     p.add_argument("--no-voxelwise", action="store_true", help="Do not save direction-level group voxel-wise maps.")
     p.add_argument("--write-zero-outside", action="store_true", help="Write 0 outside valid voxels instead of NaN.")
-    p.add_argument("--roi-atlas", default=None, help="Atlas NIfTI for ROI-wise ANS/RNS export. Defaults to a configured/local Glasser atlas.")
-    p.add_argument("--roi-label-table", default=None, help="Optional atlas label table. Defaults to a configured/local Glasser label table.")
+    p.add_argument("--no-roi-table", action="store_true", help="Skip optional atlas-derived ROI table export; voxel-wise ANS/RNS maps are still written unless --run-classifier requires ROI features.")
+    p.add_argument("--roi-atlas", default=None, help="Optional atlas NIfTI for ROI-wise ANS/RNS export. Defaults to a configured/local Glasser atlas when available.")
+    p.add_argument("--roi-label-table", default=None, help="Optional atlas label table. Defaults to a configured/local Glasser label table when available.")
     p.add_argument("--roi-stat", choices=["mean", "median"], default="mean")
-    p.add_argument("--no-classifier", action="store_true", help="Skip saved hemisphere-classifier validation.")
+    p.add_argument("--run-classifier", action="store_true", help="Run saved hemisphere-classifier validation; requires ROI table export.")
+    p.add_argument("--no-classifier", action="store_false", dest="run_classifier", help=argparse.SUPPRESS)
     p.add_argument(
         "--classifier-mode",
         choices=["single", "paired_residual"],
@@ -166,7 +168,7 @@ def add_workflow_parser(sub: argparse._SubParsersAction) -> None:
     p.add_argument("--trt-no-symmetrize", action="store_true")
     p.add_argument("--trt-no-plots", action="store_true")
     p.add_argument("--verbose-every", type=int, default=50)
-    p.set_defaults(func=cmd_workflow)
+    p.set_defaults(func=cmd_workflow, run_classifier=False)
 
 
 def add_validation_common(p: argparse.ArgumentParser) -> None:
@@ -382,11 +384,12 @@ def cmd_workflow(args: argparse.Namespace) -> None:
                 actual_suffix_to_strip=args.actual_suffix_to_strip,
                 export_voxelwise=not args.no_voxelwise,
                 write_nan_outside=not args.write_zero_outside,
+                export_roi_table=not args.no_roi_table,
                 roi_atlas=Path(args.roi_atlas) if args.roi_atlas else None,
                 roi_label_table=Path(args.roi_label_table) if args.roi_label_table else None,
                 roi_stat=args.roi_stat,
                 roi_ignore_zero=True,
-                run_classifier=not args.no_classifier,
+                run_classifier=args.run_classifier,
                 classifier_model_dir=Path(args.classifier_model_dir) if args.classifier_model_dir else None,
                 classifier_mode=args.classifier_mode,
                 classifier_out_dir=Path(args.classifier_out_dir) if args.classifier_out_dir else None,
@@ -410,8 +413,14 @@ def cmd_workflow(args: argparse.Namespace) -> None:
         print(f"  R_to_L reconstructed: {len(result.r_to_l.reconstructed_paths)}")
         print(f"  bilateral_subject_maps: {result.combined_maps_dir}")
         print(f"  hemisphere_maps: {result.hemi_maps_dir}")
-        print(f"  roi_csv: {result.roi_csv}")
-        print(f"  roi_wide_csv: {result.roi_wide_csv}")
+        if result.roi_csv:
+            print(f"  roi_csv: {result.roi_csv}")
+        else:
+            print("  roi_csv: skipped")
+        if result.roi_wide_csv:
+            print(f"  roi_wide_csv: {result.roi_wide_csv}")
+        else:
+            print("  roi_wide_csv: skipped")
         print(f"  subject_summary_csv: {result.subject_summary_csv}")
         if result.classifier:
             print(f"  classifier_summary_csv: {result.classifier.summary_csv}")

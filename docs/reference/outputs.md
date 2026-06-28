@@ -4,7 +4,7 @@ HemiSpec outputs should be predictable enough for downstream statistics, machine
 
 ## Current output groups
 
-The current toolkit writes outputs under user-selected directories. A bilateral workflow should produce reconstruction outputs, ANS/RNS maps, ROI tables, classifier summaries, and optional TRT validation summaries.
+The current toolkit writes outputs under user-selected directories. A bilateral workflow should always produce reconstruction outputs and voxel-wise/subject-level ANS/RNS maps. ROI tables are optional atlas-derived outputs, classifier summaries require ROI tables, and TRT validation summaries are optional.
 
 A recommended public layout is:
 
@@ -17,6 +17,7 @@ outputs/
   hemispec_workflow/       bilateral workflow outputs
     subject_maps/          merged bilateral subject-level ANS/RNS maps
     subject_hemi_maps/     hemisphere-split subject-level ANS/RNS maps
+    tables/                subject summaries and optional ROI tables
   trt_validation/          test-retest reliability outputs
   structural_specificity/   structural specificity validation outputs
 ```

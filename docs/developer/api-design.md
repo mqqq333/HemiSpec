@@ -193,16 +193,16 @@ run = run_bilateral_workflow(
         input_glob="/data/gm/*_GM_masked.nii.gz",
         out_dir=Path("/data/hemispec/full_workflow"),
         device="auto",
-        run_classifier=True,
+        run_classifier=False,  # opt in only when ROI table/classifier validation is needed
         run_trt=False,
     )
 )
 
 print(run.combined_maps_dir)
 print(run.hemi_maps_dir)
-print(run.roi_csv)
-print(run.roi_wide_csv)
 print(run.subject_summary_csv)
+print(run.roi_csv)       # optional: present when ROI atlas export is enabled and available
+print(run.roi_wide_csv)  # optional: present when ROI atlas export is enabled and available
 ```
 
 The workflow runs both deployed DGN directions:
@@ -222,8 +222,11 @@ subject_hemi_maps/<subject>_RNS.L.nii.gz
 subject_hemi_maps/<subject>_RNS.R.nii.gz
 ```
 
-The ROI outputs include both a long table for the saved classifier adapter and
-a wide table for direct downstream use:
+When ROI atlas export is enabled and an atlas is available, ROI outputs include
+both a long table for the saved classifier adapter and a wide table for direct
+downstream use. If no atlas is provided, voxel-wise ANS/RNS maps remain the
+primary output and users can extract ROI features with their own downstream
+methods:
 
 ```text
 tables/roi_features_bilateral.csv

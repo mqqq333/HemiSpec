@@ -45,11 +45,12 @@ class BilateralWorkflowConfig:
     actual_suffix_to_strip: str = ""
     export_voxelwise: bool = True
     write_nan_outside: bool = True
+    export_roi_table: bool = True
     roi_atlas: Path | None = None
     roi_label_table: Path | None = None
     roi_stat: str = "mean"
     roi_ignore_zero: bool = True
-    run_classifier: bool = True
+    run_classifier: bool = False
     classifier_model_dir: Path | None = None
     classifier_mode: str = "single"
     classifier_out_dir: Path | None = None
@@ -74,8 +75,8 @@ class BilateralWorkflowResult:
     r_to_l: PipelineRunResult
     combined_maps_dir: Path
     hemi_maps_dir: Path
-    roi_csv: Path
-    roi_wide_csv: Path
+    roi_csv: Path | None
+    roi_wide_csv: Path | None
     subject_summary_csv: Path
     classifier: HemisphereClassificationResult | None = None
     trt: ValidationRunResult | None = None
@@ -91,8 +92,8 @@ def run_bilateral_workflow(config: BilateralWorkflowConfig) -> BilateralWorkflow
     for directory in (recon_dir, metrics_dir, combined_dir, hemi_dir, tables_dir):
         directory.mkdir(parents=True, exist_ok=True)
 
-    roi_atlas = config.roi_atlas or resolve_glasser_atlas_path()
-    roi_label_table = config.roi_label_table or resolve_glasser_label_table()
+    roi_atlas = _resolve_optional_roi_atlas(config)
+    roi_label_table = _resolve_optional_roi_label_table(config) if roi_atlas is not None else None
     bundles = discover_local_dgn_bundles(config.model_root)
     missing = [direction for direction in ("L_to_R", "R_to_L") if direction not in bundles]
     if missing:
@@ -108,24 +109,32 @@ def run_bilateral_workflow(config: BilateralWorkflowConfig) -> BilateralWorkflow
         hemi_dir,
         write_nan_outside=config.write_nan_outside,
     )
-    roi_csv = tables_dir / "roi_features_bilateral.csv"
-    roi_wide_csv = tables_dir / "roi_features_bilateral_wide.csv"
-    summarize_maps_by_atlas(
-        RoiSummaryConfig(
-            maps_glob=str(combined_dir / "*.nii.gz"),
-            atlas_path=roi_atlas,
-            out_csv=roi_csv,
-            label_table=roi_label_table,
-            stat=config.roi_stat,
-            ignore_zero=config.roi_ignore_zero,
+    roi_csv: Path | None = None
+    roi_wide_csv: Path | None = None
+    if roi_atlas is not None:
+        roi_csv = tables_dir / "roi_features_bilateral.csv"
+        roi_wide_csv = tables_dir / "roi_features_bilateral_wide.csv"
+        summarize_maps_by_atlas(
+            RoiSummaryConfig(
+                maps_glob=str(combined_dir / "*.nii.gz"),
+                atlas_path=roi_atlas,
+                out_csv=roi_csv,
+                label_table=roi_label_table,
+                stat=config.roi_stat,
+                ignore_zero=config.roi_ignore_zero,
+            )
         )
-    )
-    summarize_bilateral_roi_features(roi_csv, roi_wide_csv)
+        summarize_bilateral_roi_features(roi_csv, roi_wide_csv)
     subject_summary_csv = tables_dir / "subject_metric_summary.csv"
     summarize_subject_metrics(combined_dir, subject_summary_csv)
 
     classifier_result = None
     if config.run_classifier:
+        if roi_csv is None or roi_atlas is None:
+            raise RuntimeError(
+                "Hemisphere classifier validation requires ROI table export. "
+                "Provide an ROI atlas, keep export_roi_table enabled, or disable run_classifier."
+            )
         classifier_result = validate_hemisphere_classification(
             HemisphereClassificationConfig(
                 maps_dir=combined_dir,
@@ -172,6 +181,29 @@ def run_bilateral_workflow(config: BilateralWorkflowConfig) -> BilateralWorkflow
         classifier=classifier_result,
         trt=trt_result,
     )
+
+
+def _resolve_optional_roi_atlas(config: BilateralWorkflowConfig) -> Path | None:
+    """Return an ROI atlas when ROI tables/classifier are requested and available.
+
+    Voxel-wise ANS/RNS maps are the primary workflow output. Missing atlas assets
+    should not block that primary output unless the user explicitly requests a
+    downstream step that requires ROI features, such as classifier validation.
+    """
+
+    if not config.export_roi_table and not config.run_classifier:
+        return None
+    atlas = config.roi_atlas or resolve_glasser_atlas_path()
+    if atlas.exists():
+        return atlas
+    if config.run_classifier:
+        raise RuntimeError(f"Hemisphere classifier validation requires an existing ROI atlas: {atlas}")
+    return None
+
+
+def _resolve_optional_roi_label_table(config: BilateralWorkflowConfig) -> Path | None:
+    label_table = config.roi_label_table or resolve_glasser_label_table()
+    return label_table if label_table.exists() else None
 
 
 def summarize_subject_metrics(maps_dir: Path, out_csv: Path) -> pd.DataFrame:
@@ -229,7 +261,7 @@ def _run_one_direction(
     direction: str,
     recon_root: Path,
     metrics_root: Path,
-    roi_atlas: Path,
+    roi_atlas: Path | None,
     roi_label_table: Path | None,
 ) -> PipelineRunResult:
     return run_pipeline(
@@ -253,7 +285,7 @@ def _run_one_direction(
             verbose_every=config.verbose_every,
             export_voxelwise=config.export_voxelwise,
             roi_atlas=roi_atlas,
-            roi_out_csv=metrics_root / direction / "roi_summary.csv",
+            roi_out_csv=(metrics_root / direction / "roi_summary.csv") if roi_atlas is not None else None,
             roi_label_table=roi_label_table,
             roi_stat=config.roi_stat,  # type: ignore[arg-type]
             roi_ignore_zero=config.roi_ignore_zero,

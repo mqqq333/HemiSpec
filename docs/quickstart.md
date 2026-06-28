@@ -97,9 +97,17 @@ hemispec workflow \
   --input-glob "derivatives/*_GM_masked.nii.gz" \
   --model-root <model-root> \
   --out-dir outputs/hemispec_workflow
+
+# Optional ROI table with a custom atlas:
+hemispec workflow \
+  --input-glob "derivatives/*_GM_masked.nii.gz" \
+  --model-root <model-root> \
+  --out-dir outputs/hemispec_workflow \
+  --roi-atlas atlas/custom_atlas.nii.gz \
+  --roi-label-table atlas/custom_labels.xlsx
 ```
 
-The workflow command is the closest current entry point to the planned HemiSpec Toolkit experience: bilateral DGN inference, ANS/RNS maps, ROI features, hemisphere classifier validation, and optional TRT reliability.
+The workflow command is the closest current entry point to the planned HemiSpec Toolkit experience: bilateral DGN inference and voxel-wise/subject-level ANS/RNS maps as the primary output. ROI tables are optional atlas-derived outputs, hemisphere-classifier validation is opt-in with `--run-classifier`, and TRT reliability remains optional.
 
 ## 7. Validate maps
 
