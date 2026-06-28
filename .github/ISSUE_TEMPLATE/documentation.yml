@@ -1,0 +1,28 @@
+name: Documentation request
+description: Request a docs clarification, tutorial, or example
+title: "[Docs]: "
+labels: ["documentation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please describe the public-safe documentation need. Do not attach private subject-level data or unpublished result tables.
+  - type: textarea
+    id: page
+    attributes:
+      label: Page or topic
+      description: Which page, tutorial, method note, or workflow needs improvement?
+    validations:
+      required: true
+  - type: textarea
+    id: request
+    attributes:
+      label: Requested change
+      description: What should be added, corrected, or made clearer?
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Optional background, expected user path, or public-safe example.

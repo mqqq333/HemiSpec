@@ -12,6 +12,7 @@ HemiSpec Toolkit is organized as a deployable Python package plus local-only res
 │   └── input_sample/                     # local/approved input placeholder only
 ├── docs/                                 # developer, architecture, deployment, and method notes
 ├── scripts/                              # release and local launcher helpers; no core runtime logic
+│   └── research/                         # local research utilities, not public runtime API
 ├── assets/                               # local runtime assets; payloads ignored, manifests tracked
 │   ├── atlases/glasser/                  # local Glasser atlas + label table, not tracked
 │   └── models/                           # local DGN/classifier bundles, not tracked

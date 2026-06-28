@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: HemiSpec documentation
+    url: https://mqqq333.github.io/HemiSpec/
+    about: Read the public documentation before filing an issue.

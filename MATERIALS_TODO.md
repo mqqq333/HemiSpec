@@ -4,8 +4,8 @@ This file tracks the materials still needed before the HemiSpec site should be p
 
 ## P0: Needed before public release
 
-- Manuscript figures: project owner approved adding current manuscript-derived figures to the homepage on 2026-06-28. Still avoid private subject-level data, unpublished raw result tables, and unapproved exact-result claims; do not push/deploy without explicit user approval.
-- Decide whether the toolkit source is copied into this repository, linked as a companion repository, or managed as a submodule.
+- Manuscript figures: project owner approved adding current manuscript-derived figures to the homepage on 2026-06-28. **Done for initial homepage:** public-safe figures are present under `docs/assets/figures/`; keep avoiding private subject-level data, unpublished raw result tables, and unapproved exact-result claims.
+- Decide whether the toolkit source is copied into this repository, linked as a companion repository, or managed as a submodule. **Done:** HemiSpec is now the single active repository; old repositories are legacy/reference only.
 - Add a small, license-safe example dataset or synthetic input/output fixture. **Done:** toolkit now includes a public-safe synthetic quickstart generator and runner.
 - Add a model bundle policy: repository, GitHub Releases, Zenodo/OSF, or private request.
 - Decide the release artifact split: PyPI `hemispec-toolkit`, CLI `hemispec`, GUI `hemispec-gui`, lightweight compiled app, and model-enabled compiled app.
@@ -25,9 +25,9 @@ This file tracks the materials still needed before the HemiSpec site should be p
 
 ## P2: Useful polish
 
-- Enable GitHub Pages in repository settings with GitHub Actions as the source after the docs workflow is committed and pushed.
-- Add issue templates for bug reports and documentation requests.
-- Add a changelog and release notes.
+- Enable GitHub Pages in repository settings with GitHub Actions as the source after the docs workflow is committed and pushed. **Done for workflow:** the docs workflow is configured and recent GitHub Actions deployments are successful; spot-check the live Pages URL before each tagged release.
+- Add issue templates for bug reports and documentation requests. **Done:** YAML issue templates exist under `.github/ISSUE_TEMPLATE/`.
+- Add a changelog and release notes. **Done:** `CHANGELOG.md` exists; keep release notes updated per version.
 - Keep package, CLI, GUI, and public documentation names strictly aligned to HemiSpec / `hemispec`.
 - Add contributor notes for method citations and data-use boundaries.
 

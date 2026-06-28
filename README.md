@@ -24,7 +24,7 @@ src/hemispec/              Python package, public API, CLI, GUI, workflows
 docs/                      MkDocs Material documentation website
 tests/                     pytest regression tests with synthetic fixtures
 examples/                  public-safe examples and IO contracts
-scripts/                   release/local launcher helpers
+scripts/                   release/local launcher helpers; research utilities are isolated in scripts/research
 assets/                    local atlas/model placement docs and manifests only
 .github/workflows/         CI and GitHub Pages workflows
 ```
