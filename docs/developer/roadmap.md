@@ -13,7 +13,7 @@ The release includes the unified HemiSpec repository, documentation website, `he
 1. Keep the release downloadable and reproducible: checksum release assets, smoke-test the CLI, and run the synthetic quickstart from the released wheel. Baseline established on 2026-06-29; see [v0.1.0 release verification](release-verification-v0.1.0.md).
 2. Make first-run documentation clearer: prominent download links, quickstart path, and asset/model boundaries.
 3. Harden external asset handling: manifest/checksum/license/provenance templates for DGN, atlas, and classifier bundles.
-4. Improve GUI diagnostics: show DGN model, Glasser atlas, classifier bundle, and torch availability as found/missing before a workflow starts.
+4. Improve GUI diagnostics: setup status card now shows DGN model, Glasser atlas, classifier bundle, and PyTorch availability as found/missing; next steps are checksum display and richer first-run guidance.
 5. Improve error messages and logs for missing models, missing atlas files, missing classifier bundles, and missing optional dependencies.
 
 ## v0.2 candidates

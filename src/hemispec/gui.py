@@ -1,6 +1,7 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import contextlib
+import importlib.util
 import io
 import re
 import subprocess
@@ -8,17 +9,20 @@ import sys
 import threading
 import traceback
 import tkinter as tk
+from dataclasses import dataclass
 from pathlib import Path
 from tkinter import filedialog, messagebox
 from typing import Callable
 
 from .api import (
     default_input_glob,
+    discover_local_dgn_bundles,
     resolve_classifier_model_dir,
     resolve_dgn_model_root,
     resolve_glasser_atlas_path,
     resolve_glasser_label_table,
 )
+from .hemisphere_classifier import discover_classifier_models
 from .workflow import BilateralWorkflowConfig, BilateralWorkflowResult, run_bilateral_workflow
 
 try:  # optional dependency: installed with hemispec-toolkit[gui]
@@ -52,6 +56,7 @@ DEFAULT_DGN_MODEL_ROOT = str(resolve_dgn_model_root())
 DEFAULT_GLASSER_ATLAS = str(resolve_glasser_atlas_path())
 DEFAULT_GLASSER_LABEL_TABLE = str(resolve_glasser_label_table())
 DEFAULT_CLASSIFIER_MODEL_DIR = str(resolve_classifier_model_dir())
+_TORCH_AVAILABLE_CACHE: bool | None = None
 
 WORKFLOW_VISIBLE_FIELDS = (
     "input_glob",
@@ -102,6 +107,190 @@ ENCAPSULATED_DEFAULTS = {
     "clip_high": None,
     "verbose_every": 50,
 }
+
+
+@dataclass(frozen=True)
+class RuntimeAssetStatus:
+    """Readiness record for GUI-visible runtime dependencies/assets."""
+
+    key: str
+    label: str
+    ok: bool
+    path: Path | None
+    message: str
+    guidance: str
+
+
+def _is_torch_available() -> bool:
+    """Return per-process torch availability without importing the heavy package."""
+
+    global _TORCH_AVAILABLE_CACHE
+    if _TORCH_AVAILABLE_CACHE is None:
+        _TORCH_AVAILABLE_CACHE = importlib.util.find_spec("torch") is not None
+    return _TORCH_AVAILABLE_CACHE
+
+
+def build_runtime_asset_status(state: dict[str, object] | None = None) -> tuple[RuntimeAssetStatus, ...]:
+    """Return GUI-ready status rows for optional runtime assets.
+
+    The GUI keeps these checks shallow: it verifies paths, expected bundle
+    layouts, and Python-package availability without loading large models or
+    neuroimaging payloads.
+    """
+
+    values: dict[str, object] = dict(ENCAPSULATED_DEFAULTS)
+    if state:
+        values.update(state)
+
+    model_root = _optional_path(str(values.get("model_root", DEFAULT_DGN_MODEL_ROOT)))
+    classifier_dir = _optional_path(str(values.get("classifier_model_dir", DEFAULT_CLASSIFIER_MODEL_DIR)))
+    classifier_mode = str(values.get("classifier_mode", ENCAPSULATED_DEFAULTS["classifier_mode"]))
+    roi_atlas = _optional_path(str(values.get("roi_atlas", DEFAULT_GLASSER_ATLAS)))
+    roi_label_table = _optional_path(str(values.get("roi_label_table", DEFAULT_GLASSER_LABEL_TABLE)))
+
+    statuses = [
+        _dgn_status(model_root),
+        _atlas_status(roi_atlas, roi_label_table),
+        _classifier_status(classifier_dir, classifier_mode),
+        _torch_status(),
+    ]
+    return tuple(statuses)
+
+
+def runtime_mode_label(statuses: tuple[RuntimeAssetStatus, ...]) -> str:
+    """Return the GUI mode badge; classifier assets are intentionally optional."""
+
+    by_key = {item.key: item for item in statuses}
+    required = ("torch", "dgn", "atlas")
+    if all(by_key.get(key) is not None and by_key[key].ok for key in required):
+        return "Model-enabled"
+    return "Lightweight"
+
+
+def _dgn_status(model_root: Path | None) -> RuntimeAssetStatus:
+    if model_root is None:
+        return RuntimeAssetStatus(
+            key="dgn",
+            label="DGN model",
+            ok=False,
+            path=None,
+            message="missing model root",
+            guidance="Set HEMISPEC_DGN_MODEL_ROOT or place bundles under HemiSpec-Assets/models/dgn.",
+        )
+    resolved_root = resolve_dgn_model_root(model_root)
+    bundles = discover_local_dgn_bundles(model_root)
+    missing = [direction for direction in ("L_to_R", "R_to_L") if direction not in bundles]
+    if not missing:
+        checkpoints = ", ".join(f"{direction}: {bundle.checkpoint.name}" for direction, bundle in sorted(bundles.items()))
+        return RuntimeAssetStatus(
+            key="dgn",
+            label="DGN model",
+            ok=True,
+            path=resolved_root,
+            message=f"found bilateral checkpoints ({checkpoints})",
+            guidance="Ready for DGN inference.",
+        )
+    if model_root.exists():
+        message = f"partial/missing checkpoints ({', '.join(missing)} missing)"
+    else:
+        message = "missing model root path"
+    return RuntimeAssetStatus(
+        key="dgn",
+        label="DGN model",
+        ok=False,
+        path=resolved_root,
+        message=message,
+        guidance="Provide both L_to_R and R_to_L checkpoint bundles or use --model-root in CLI.",
+    )
+
+
+def _atlas_status(roi_atlas: Path | None, roi_label_table: Path | None) -> RuntimeAssetStatus:
+    atlas_ok = roi_atlas is not None and roi_atlas.exists()
+    label_ok = roi_label_table is not None and roi_label_table.exists()
+    if atlas_ok and label_ok:
+        return RuntimeAssetStatus(
+            key="atlas",
+            label="Glasser atlas",
+            ok=True,
+            path=roi_atlas,
+            message="found atlas and label table",
+            guidance="Ready for optional ROI export.",
+        )
+    missing = []
+    if not atlas_ok:
+        missing.append("atlas NIfTI")
+    if not label_ok:
+        missing.append("label table")
+    return RuntimeAssetStatus(
+        key="atlas",
+        label="Glasser atlas",
+        ok=False,
+        path=roi_atlas or roi_label_table,
+        message=f"missing {', '.join(missing)}",
+        guidance="Set HEMISPEC_GLASSER_ATLAS / HEMISPEC_GLASSER_LABEL_TABLE or browse custom ROI files.",
+    )
+
+
+def _classifier_status(classifier_dir: Path | None, classifier_mode: str) -> RuntimeAssetStatus:
+    if classifier_dir is None:
+        return RuntimeAssetStatus(
+            key="classifier",
+            label="Classifier bundle",
+            ok=False,
+            path=None,
+            message="missing classifier path",
+            guidance="Set HEMISPEC_CLASSIFIER_MODEL_DIR when classifier validation is needed.",
+        )
+    try:
+        models = discover_classifier_models(classifier_dir, ("ANS", "RNS"))
+    except Exception as exc:
+        return RuntimeAssetStatus(
+            key="classifier",
+            label="Classifier bundle",
+            ok=False,
+            path=classifier_dir,
+            message=f"cannot inspect bundle ({exc})",
+            guidance="Check classifier mode and bundle layout.",
+        )
+    if models:
+        metrics = ", ".join(metric for metric, _path in models)
+        return RuntimeAssetStatus(
+            key="classifier",
+            label="Classifier bundle",
+            ok=True,
+            path=classifier_dir,
+            message=f"found {metrics} model(s) for mode {classifier_mode}",
+            guidance="Ready when classifier validation is enabled.",
+        )
+    message = "missing classifier model files" if classifier_dir.exists() else "missing classifier directory"
+    return RuntimeAssetStatus(
+        key="classifier",
+        label="Classifier bundle",
+        ok=False,
+        path=classifier_dir,
+        message=message,
+        guidance="Classifier validation is optional; install a bundle or leave validation disabled.",
+    )
+
+
+def _torch_status() -> RuntimeAssetStatus:
+    if _is_torch_available():
+        return RuntimeAssetStatus(
+            key="torch",
+            label="PyTorch",
+            ok=True,
+            path=None,
+            message="available",
+            guidance="DGN inference can use the installed torch runtime.",
+        )
+    return RuntimeAssetStatus(
+        key="torch",
+        label="PyTorch",
+        ok=False,
+        path=None,
+        message="missing",
+        guidance="Install hemispec-toolkit[model] or torch for DGN inference.",
+    )
 
 
 class MissingGuiDependency(RuntimeError):
@@ -264,7 +453,9 @@ class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
         self.last_out_dir: Path | None = None
         self.vars: dict[str, object] = {}
         self.status_var = ctk.StringVar(value="Ready")
+        self.runtime_mode_var = ctk.StringVar(value="Mode: checking")
         self.summary_var = ctk.StringVar(value="Primary output: voxel-wise ANS/RNS maps")
+        self._status_refresh_after_id: str | None = None
 
         self._build_state()
         self._build_layout()
@@ -320,6 +511,13 @@ class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
             text_color="#2563eb",
             font=ctk.CTkFont(size=13, weight="bold"),
         ).grid(row=0, column=1, padx=(18, 0), sticky="e")
+        ctk.CTkLabel(
+            header,
+            textvariable=self.runtime_mode_var,
+            anchor="e",
+            text_color="#64748b",
+            font=ctk.CTkFont(size=12),
+        ).grid(row=1, column=1, padx=(18, 0), sticky="e")
 
         content = ctk.CTkScrollableFrame(main, fg_color="#f6f8fb")
         content.grid(row=1, column=0, padx=22, pady=(0, 8), sticky="nsew")
@@ -327,9 +525,10 @@ class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
 
         self._build_input_card(content, 0)
         self._build_output_card(content, 1)
-        self._build_roi_card(content, 2)
-        self._build_validation_card(content, 3)
-        self._build_run_card(content, 4)
+        self._build_status_card(content, 2)
+        self._build_roi_card(content, 3)
+        self._build_validation_card(content, 4)
+        self._build_run_card(content, 5)
 
         footer = ctk.CTkFrame(main, height=28, corner_radius=0, fg_color="#f6f8fb")
         footer.grid(row=2, column=0, sticky="ew")
@@ -400,6 +599,21 @@ class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
             text_color="#64748b",
             font=ctk.CTkFont(size=12),
         ).grid(row=3, column=1, padx=(0, 16), pady=(0, 10), sticky="w")
+
+    def _build_status_card(self, parent: object, row: int) -> None:
+        card = self._card(
+            parent,
+            row,
+            "Setup status",
+            "Check optional runtime assets before a long workflow run. Missing model/classifier assets do not block synthetic compute-only use, but DGN inference requires PyTorch and bilateral checkpoints.",
+            accent="#0891b2",
+            bg="#ecfeff",
+            border="#a5f3fc",
+        )
+        self.asset_status_frame = ctk.CTkFrame(card, fg_color="transparent")
+        self.asset_status_frame.grid(row=2, column=0, columnspan=3, padx=16, pady=(0, 12), sticky="ew")
+        self.asset_status_frame.grid_columnconfigure(1, weight=1)
+        self._refresh_runtime_status()
 
     def _build_roi_card(self, parent: object, row: int) -> None:
         card = self._card(
@@ -480,7 +694,7 @@ class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
         label_widget.grid(row=row, column=0, padx=16, pady=(0, 8), sticky="w")
         entry = ctk.CTkEntry(parent, textvariable=self.vars[var_key], height=34)
         entry.grid(row=row, column=1, padx=(0, 8), pady=(0, 8), sticky="ew")
-        entry.bind("<KeyRelease>", lambda _event: self._refresh_cli_box())
+        entry.bind("<KeyRelease>", lambda _event: self._on_config_changed())
         button = ctk.CTkButton(parent, text="Browse", width=88, command=browse, fg_color="#475569")
         button.grid(row=row, column=2, padx=(0, 16), pady=(0, 8), sticky="e")
         return [label_widget, entry, button]
@@ -492,19 +706,19 @@ class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
         p = Path(path)
         suffix = "*_GM_masked.nii.gz" if p.name.endswith("_GM_masked.nii.gz") else f"*{''.join(p.suffixes)}"
         self.vars["input_glob"].set(str(p.parent / suffix))  # type: ignore[union-attr]
-        self._refresh_cli_box()
+        self._on_config_changed()
 
     def _browse_output_dir(self) -> None:
         path = filedialog.askdirectory(title="Select output workspace")
         if path:
             self.vars["out_dir"].set(path)  # type: ignore[union-attr]
-            self._refresh_cli_box()
+            self._on_config_changed()
 
     def _browse_atlas_file(self) -> None:
         path = filedialog.askopenfilename(title="Select ROI atlas NIfTI", filetypes=[("NIfTI", "*.nii *.nii.gz"), ("All", "*")])
         if path:
             self.vars["roi_atlas"].set(path)  # type: ignore[union-attr]
-            self._refresh_cli_box()
+            self._on_config_changed()
 
     def _browse_label_file(self) -> None:
         path = filedialog.askopenfilename(
@@ -512,7 +726,7 @@ class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
         )
         if path:
             self.vars["roi_label_table"].set(path)  # type: ignore[union-attr]
-            self._refresh_cli_box()
+            self._on_config_changed()
 
     def _sync_classifier_state(self) -> None:
         if bool(self.vars["run_classifier"].get()):  # type: ignore[union-attr]
@@ -530,7 +744,7 @@ class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
                 if not warned:
                     self._log(f"[warning] Could not update ROI widget state: {exc}\n")
                     warned = True
-        self._refresh_cli_box()
+        self._on_config_changed()
 
     def _state_snapshot(self) -> dict[str, object]:
         snapshot: dict[str, object] = {}
@@ -551,6 +765,71 @@ class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
             if label_table and not _path_exists_or_empty(label_table):
                 self._log(f"[warning] ROI label table not found; labels will be skipped if ROI export runs: {label_table}\n")
         return state
+
+    def _on_config_changed(self) -> None:
+        self._refresh_cli_box()
+        self._schedule_runtime_status_refresh()
+
+    def _schedule_runtime_status_refresh(self, delay_ms: int = 300) -> None:
+        if not hasattr(self, "asset_status_frame"):
+            return
+        if self._status_refresh_after_id is not None:
+            try:
+                self.after_cancel(self._status_refresh_after_id)
+            except tk.TclError:
+                pass
+        self._status_refresh_after_id = self.after(delay_ms, self._refresh_runtime_status)
+
+    def _refresh_runtime_status(self) -> None:
+        self._status_refresh_after_id = None
+        if not hasattr(self, "asset_status_frame"):
+            return
+        for child in self.asset_status_frame.winfo_children():
+            child.destroy()
+
+        statuses = build_runtime_asset_status(self._state_snapshot())
+        self.runtime_mode_var.set(f"Mode: {runtime_mode_label(statuses)}")
+        for row, item in enumerate(statuses):
+            row_frame = ctk.CTkFrame(self.asset_status_frame, fg_color="transparent")
+            row_frame.grid(row=row, column=0, columnspan=2, sticky="ew", pady=3)
+            row_frame.grid_columnconfigure(1, weight=1)
+
+            color = "#15803d" if item.ok else "#b45309"
+            badge_bg = "#dcfce7" if item.ok else "#fef3c7"
+            badge_text = "found" if item.ok else "missing"
+            ctk.CTkLabel(
+                row_frame,
+                text=badge_text,
+                width=70,
+                fg_color=badge_bg,
+                text_color=color,
+                corner_radius=8,
+                font=ctk.CTkFont(size=12, weight="bold"),
+            ).grid(row=0, column=0, rowspan=2, padx=(0, 10), sticky="nw")
+
+            detail_frame = ctk.CTkFrame(row_frame, fg_color="transparent")
+            detail_frame.grid(row=0, column=1, sticky="ew")
+            detail_frame.grid_columnconfigure(0, weight=1)
+            message = f"{item.label}: {item.message}"
+            if item.path is not None:
+                message += f" | {item.path}"
+            ctk.CTkLabel(
+                detail_frame,
+                text=message,
+                text_color="#0f172a",
+                anchor="w",
+                justify="left",
+                wraplength=760,
+            ).grid(row=0, column=0, sticky="ew")
+            ctk.CTkLabel(
+                detail_frame,
+                text=item.guidance,
+                text_color="#64748b",
+                anchor="w",
+                justify="left",
+                wraplength=760,
+                font=ctk.CTkFont(size=12),
+            ).grid(row=1, column=0, sticky="ew", pady=(0, 4))
 
     def _refresh_cli_box(self) -> None:
         if not hasattr(self, "cli_box"):

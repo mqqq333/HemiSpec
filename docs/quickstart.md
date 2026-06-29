@@ -22,6 +22,10 @@ powershell -ExecutionPolicy Bypass -File examples\synthetic_quickstart\run_synth
 
 The generated maps are not anatomical data and should only be used to verify the public command/file contract.
 
+## Model-enabled DGN demo plan
+
+A full public DGN demo requires a separately approved external `HemiSpec-Assets` bundle with DGN checkpoints, atlas files, classifier bundles, checksums, licenses, and provenance. See [Model-enabled DGN workflow](tutorials/model-enabled-dgn-workflow.md) for the current public contract.
+
 ## 1. Prepare gray-matter maps
 
 Run the preprocessing workflow on T1-weighted MRI data to produce masked gray-matter maps. The toolkit packages the reference preprocessing script under `src/hemispec/resources/preprocess/`; real preprocessing still depends on local FSL installation and validated site-specific assumptions:
@@ -47,7 +51,7 @@ python -m pip install -e .[gui]
 hemispec-gui
 ```
 
-The GUI is intentionally a thin standard-workflow interface. Normal users choose:
+The GUI is intentionally a thin standard-workflow interface. Its setup status card reports whether DGN models, Glasser atlas files, classifier bundles, and PyTorch are found before a long run. Normal users choose:
 
 1. **Input GM maps**: a glob such as `derivatives/*_GM_masked.nii.gz`.
 2. **Output workspace**: where reconstructions, ANS/RNS maps, tables, and logs are written.

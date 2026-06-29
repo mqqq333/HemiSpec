@@ -67,6 +67,7 @@ nav:
       - DGN inference: tutorials/dgn-inference.md
       - Compute specificity maps: tutorials/compute-specificity.md
       - Handedness workflow: tutorials/handedness-workflow.md
+      - Model-enabled DGN workflow: tutorials/model-enabled-dgn-workflow.md
   - Reference:
       - Overview: reference/index.md
       - CLI: reference/cli.md

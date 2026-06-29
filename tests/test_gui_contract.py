@@ -1,12 +1,15 @@
 from pathlib import Path
 
 import hemispec.cli as cli
+import hemispec.gui as gui_module
 from hemispec.gui import (
     ENCAPSULATED_DEFAULTS,
     WORKFLOW_ENCAPSULATED_FIELDS,
     WORKFLOW_REQUIRED_FIELDS,
     WORKFLOW_VISIBLE_FIELDS,
+    build_runtime_asset_status,
     make_workflow_config,
+    runtime_mode_label,
     workflow_cli_command,
 )
 
@@ -128,3 +131,115 @@ def test_hidden_gui_defaults_match_cli_workflow_defaults() -> None:
     assert config.trt_symmetrize is (not args.trt_no_symmetrize)
     assert config.trt_write_plots is (not args.trt_no_plots)
     assert config.verbose_every == args.verbose_every
+
+
+def test_runtime_asset_status_reports_model_enabled_setup(monkeypatch, tmp_path: Path) -> None:
+    model_root = tmp_path / "models" / "dgn"
+    (model_root / "outputs_bi_stable_L" / "ckpts").mkdir(parents=True)
+    (model_root / "outputs_bi_stable_R" / "ckpts").mkdir(parents=True)
+    (model_root / "outputs_bi_stable_L" / "ckpts" / "best_netG_R2L.pth").write_bytes(b"toy")
+    (model_root / "outputs_bi_stable_R" / "ckpts" / "best_netG_L2R.pth").write_bytes(b"toy")
+
+    atlas = tmp_path / "atlases" / "glasser.nii.gz"
+    labels = tmp_path / "atlases" / "labels.xlsx"
+    atlas.parent.mkdir(parents=True)
+    atlas.write_bytes(b"atlas")
+    labels.write_bytes(b"labels")
+
+    classifier = tmp_path / "models" / "classifier"
+    for metric in ("GLS_ANS", "GLS_RNS"):
+        metric_dir = classifier / metric
+        metric_dir.mkdir(parents=True)
+        (metric_dir / f"{metric}_noICBM_train_ICBM_test_model_bundle.joblib").write_bytes(b"joblib")
+
+    monkeypatch.setattr(gui_module, "_is_torch_available", lambda: True)
+
+    statuses = build_runtime_asset_status(
+        _state(
+            model_root=str(model_root),
+            roi_atlas=str(atlas),
+            roi_label_table=str(labels),
+            classifier_model_dir=str(classifier),
+        )
+    )
+    by_key = {item.key: item for item in statuses}
+
+    assert by_key["dgn"].ok is True
+    assert by_key["atlas"].ok is True
+    assert by_key["classifier"].ok is True
+    assert by_key["torch"].ok is True
+    assert runtime_mode_label(statuses) == "Model-enabled"
+
+
+def test_runtime_asset_status_reports_lightweight_when_assets_missing(monkeypatch, tmp_path: Path) -> None:
+    monkeypatch.setattr(gui_module, "_is_torch_available", lambda: False)
+
+    statuses = build_runtime_asset_status(
+        _state(
+            model_root=str(tmp_path / "missing-dgn"),
+            roi_atlas=str(tmp_path / "missing-atlas.nii.gz"),
+            roi_label_table=str(tmp_path / "missing-labels.xlsx"),
+            classifier_model_dir=str(tmp_path / "missing-classifier"),
+        )
+    )
+    by_key = {item.key: item for item in statuses}
+
+    assert by_key["dgn"].ok is False
+    assert "missing" in by_key["dgn"].message
+    assert by_key["atlas"].ok is False
+    assert by_key["classifier"].ok is False
+    assert by_key["torch"].ok is False
+    assert runtime_mode_label(statuses) == "Lightweight"
+
+
+def test_runtime_mode_treats_classifier_as_optional(monkeypatch, tmp_path: Path) -> None:
+    model_root = tmp_path / "models" / "dgn"
+    (model_root / "outputs_bi_stable_L" / "ckpts").mkdir(parents=True)
+    (model_root / "outputs_bi_stable_R" / "ckpts").mkdir(parents=True)
+    (model_root / "outputs_bi_stable_L" / "ckpts" / "best_netG_R2L.pth").write_bytes(b"toy")
+    (model_root / "outputs_bi_stable_R" / "ckpts" / "best_netG_L2R.pth").write_bytes(b"toy")
+    atlas = tmp_path / "atlas.nii.gz"
+    labels = tmp_path / "labels.xlsx"
+    atlas.write_bytes(b"atlas")
+    labels.write_bytes(b"labels")
+    monkeypatch.setattr(gui_module, "_is_torch_available", lambda: True)
+
+    statuses = build_runtime_asset_status(
+        _state(
+            model_root=str(model_root),
+            roi_atlas=str(atlas),
+            roi_label_table=str(labels),
+            classifier_model_dir=str(tmp_path / "missing-classifier"),
+        )
+    )
+    by_key = {item.key: item for item in statuses}
+
+    assert by_key["classifier"].ok is False
+    assert runtime_mode_label(statuses) == "Model-enabled"
+
+
+def test_runtime_asset_status_reports_partial_dgn_bundle(monkeypatch, tmp_path: Path) -> None:
+    model_root = tmp_path / "models" / "dgn"
+    (model_root / "outputs_bi_stable_L" / "ckpts").mkdir(parents=True)
+    (model_root / "outputs_bi_stable_L" / "ckpts" / "best_netG_R2L.pth").write_bytes(b"toy")
+    monkeypatch.setattr(gui_module, "_is_torch_available", lambda: True)
+
+    statuses = build_runtime_asset_status(_state(model_root=str(model_root)))
+    dgn = {item.key: item for item in statuses}["dgn"]
+
+    assert dgn.ok is False
+    assert "partial/missing checkpoints" in dgn.message
+    assert "L_to_R" in dgn.message
+
+
+def test_runtime_asset_status_reports_partial_atlas(tmp_path: Path) -> None:
+    atlas = tmp_path / "atlas.nii.gz"
+    atlas.write_bytes(b"atlas")
+
+    statuses = build_runtime_asset_status(
+        _state(roi_atlas=str(atlas), roi_label_table=str(tmp_path / "missing-labels.xlsx"))
+    )
+    atlas_status = {item.key: item for item in statuses}["atlas"]
+
+    assert atlas_status.ok is False
+    assert atlas_status.message == "missing label table"

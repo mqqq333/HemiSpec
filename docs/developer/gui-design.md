@@ -192,6 +192,18 @@ Layout:
 - Footer: concise output/status summary.
 - Bottom panel: run log with copy/save controls.
 
+
+## Implemented v0.1.x status card
+
+The compact GUI now includes a setup status card in the standard workflow page. The card performs shallow, non-loading checks and reports:
+
+- DGN model: found when bilateral L_to_R and R_to_L checkpoints are discoverable;
+- Glasser atlas: found when both atlas NIfTI and label table paths exist;
+- classifier bundle: found when ANS/RNS classifier joblib bundles are discoverable;
+- PyTorch: available when the Python runtime can import/locate `torch`.
+
+This does not bundle assets into the lightweight release. It gives users clear next-step guidance before they start a model-enabled workflow.
+
 ## Validation and guardrails
 
 Before launching a run, the GUI should check:
