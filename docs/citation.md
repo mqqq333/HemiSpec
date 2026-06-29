@@ -8,14 +8,17 @@ Wang, G. et al. (2024). Using a deep generation network reveals neuroanatomical 
 
 ## HemiSpec handedness manuscript
 
-The HemiSpec handedness manuscript citation, final title, and bibliographic details will be added when the manuscript or preprint is public.
+If you use HemiSpec in work related to handedness or hemispheric lateralization, please also cite:
+
+Ma, Q. & Ma, C. Reconstruction-derived hemispheric specificity captures distributed structural information related to handedness. *(manuscript in preparation)*
+
+This manuscript evaluates whether ANS/RNS features capture structural information related to handedness beyond conventional GMV asymmetry indices, using T1-weighted MRI data from seven public datasets.
 
 ## Software citation
 
-A software citation entry should be added once the public package/release name, version, and archive DOI are decided.
+A software citation entry will be added once the public package release and archive DOI are confirmed.
 
 ## Documentation tooling
 
 This documentation site is built with [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
-
 

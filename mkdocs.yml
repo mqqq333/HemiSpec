@@ -52,26 +52,16 @@ plugins:
             Installation: 安装
             Quick start: 快速开始
             Data and models: 数据与模型
-            Learn: 学习
-            Software overview: 软件概述
             Methods: 方法
             Overview: 概述
             Reconstruction framework: 重建框架
             ANS and RNS metrics: ANS/RNS 指标
             Handedness extension: 利手性扩展
-            Tutorials: 教程
-            DGN inference: DGN 推理
-            Compute specificity maps: 计算特异性图
-            Handedness workflow: 利手性工作流
-            Model-enabled DGN workflow: 模型驱动工作流
             Reference: 参考手册
             CLI: 命令行
             Python API: Python API
             Outputs: 输出
-            Model bundles: 模型包
-            Asset bundles: 资产包
             Release artifacts: 发布产物
-            Manuscript figures: 论文图表
             Citation: 引用
             Developer: 开发者
             Architecture: 架构
@@ -105,28 +95,16 @@ nav:
       - Installation: installation.md
       - Quick start: quickstart.md
       - Data and models: data-and-models.md
-  - Learn:
-      - Software overview: software-overview.md
-      - Methods:
-          - Overview: methods/index.md
-          - Reconstruction framework: methods/reconstruction-framework.md
-          - ANS and RNS metrics: methods/ans-rns-metrics.md
-          - Handedness extension: methods/handedness-extension.md
-      - Tutorials:
-          - Overview: tutorials/index.md
-          - DGN inference: tutorials/dgn-inference.md
-          - Compute specificity maps: tutorials/compute-specificity.md
-          - Handedness workflow: tutorials/handedness-workflow.md
-          - Model-enabled DGN workflow: tutorials/model-enabled-dgn-workflow.md
+  - Methods:
+      - Overview: methods/index.md
+      - Reconstruction framework: methods/reconstruction-framework.md
+      - ANS and RNS metrics: methods/ans-rns-metrics.md
+      - Handedness extension: methods/handedness-extension.md
   - Reference:
-      - Overview: reference/index.md
       - CLI: reference/cli.md
       - Python API: reference/python-api.md
       - Outputs: reference/outputs.md
-      - Model bundles: reference/model-bundles.md
-      - Asset bundles: reference/asset-bundle.md
       - Release artifacts: release-artifacts.md
-      - Manuscript figures: manuscript-figures.md
       - Citation: citation.md
   - Developer:
       - Overview: developer/index.md

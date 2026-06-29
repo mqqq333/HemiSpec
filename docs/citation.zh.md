@@ -8,11 +8,15 @@ Wang, G. et al. (2024). Using a deep generation network reveals neuroanatomical 
 
 ## HemiSpec 利手性稿件
 
-HemiSpec 利手性稿件的引用、最终标题和书目细节将在稿件或预印本公开后添加。
+若在利手性或半球侧化相关工作中使用 HemiSpec，请同时引用：
+
+Ma, Q. & Ma, C. Reconstruction-derived hemispheric specificity captures distributed structural information related to handedness. *（稿件准备中）*
+
+该稿件使用来自七个公开数据集的 T1 加权 MRI 数据，评估 ANS/RNS 特征是否能在传统 GMV 不对称指数之外捕捉与利手性相关的结构信息。
 
 ## 软件引用
 
-软件引用条目将在公开包/发布名称、版本和存档 DOI 确定后添加。
+软件引用条目将在公开包发布和存档 DOI 确认后添加。
 
 ## 文档工具
 
