@@ -1,0 +1,93 @@
+{
+  "metric": "GLS_ANS",
+  "classifier_mode": "single",
+  "feature_transform": "hemi_zscore",
+  "model": "LogisticRegression(saga, class_weight=balanced) + median impute + standard scaler",
+  "train_subjects_noICBM": 538,
+  "train_samples": 1076,
+  "n_features": 180,
+  "inner_cv_scoring": "roc_auc",
+  "inner_splits": 5,
+  "best_params": {
+    "model__C": 0.1082636733874054,
+    "model__penalty": "l2"
+  },
+  "best_inner_cv_roc_auc": 0.9999479156744631,
+  "train_auc": 1.0,
+  "train_accuracy_0p5": 1.0,
+  "train_confusion_0LH_1RH": [
+    [
+      538,
+      0
+    ],
+    [
+      0,
+      538
+    ]
+  ],
+  "sklearn_version": "1.7.1",
+  "label_definition": {
+    "0": "LH atlas labels",
+    "1": "RH atlas labels"
+  },
+  "train_meta": {
+    "id_col": "subject",
+    "n_subjects": 538,
+    "n_samples": 1076,
+    "n_features": 180
+  },
+  "external_evaluations": [
+    {
+      "label": "ICBM_external",
+      "n_samples": 172,
+      "n_subjects": 86,
+      "accuracy": 0.9825581395348837,
+      "auc": 0.9995943753380205,
+      "left_recall": 1.0,
+      "right_recall": 0.9651162790697675,
+      "paired_rank_accuracy": 1.0,
+      "confusion_0LH_1RH": [
+        [
+          86,
+          0
+        ],
+        [
+          3,
+          83
+        ]
+      ]
+    },
+    {
+      "label": "SCH_external",
+      "n_samples": 1896,
+      "n_subjects": 948,
+      "accuracy": 0.8201476793248945,
+      "auc": 0.9101417151809716,
+      "left_recall": 0.9430379746835443,
+      "right_recall": 0.6972573839662447,
+      "paired_rank_accuracy": 0.880801687763713,
+      "confusion_0LH_1RH": [
+        [
+          894,
+          54
+        ],
+        [
+          287,
+          661
+        ]
+      ]
+    }
+  ],
+  "icbm_external_auc": 0.9995943753380205,
+  "icbm_external_acc": 0.9825581395348837,
+  "icbm_external_paired_rank_acc": 1.0,
+  "test_meta": {
+    "n_subjects": 86,
+    "n_samples": 172,
+    "n_features": 180
+  },
+  "sch_external_auc": 0.9101417151809716,
+  "sch_external_acc": 0.8201476793248945,
+  "sch_external_paired_rank_acc": 0.880801687763713,
+  "sch_external_right_recall": 0.6972573839662447
+}

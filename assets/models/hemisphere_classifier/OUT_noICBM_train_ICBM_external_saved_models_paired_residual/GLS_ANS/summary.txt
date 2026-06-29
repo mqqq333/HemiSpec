@@ -1,0 +1,7 @@
+metric: GLS_ANS
+classifier_mode: paired_residual
+feature_transform: subject_lr_residual_zscore
+best_inner_cv_roc_auc: 1.0
+icbm_external_acc: 1.0
+sch_external_acc: 0.8924050632911392
+sch_external_right_recall: 0.8924050632911392

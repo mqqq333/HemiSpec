@@ -1,0 +1,7 @@
+metric: GLS_RNS
+classifier_mode: single
+feature_transform: hemi_zscore
+best_inner_cv_roc_auc: 1.0
+icbm_external_acc: 1.0
+sch_external_acc: 0.760548523206751
+sch_external_right_recall: 0.6635021097046413

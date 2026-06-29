@@ -1,0 +1,188 @@
+[
+  {
+    "metric": "GLS_ANS",
+    "classifier_mode": "paired_residual",
+    "feature_transform": "subject_lr_residual_zscore",
+    "model": "LogisticRegression(saga, class_weight=balanced) + median impute + standard scaler",
+    "train_subjects_noICBM": 538,
+    "train_samples": 1076,
+    "n_features": 180,
+    "inner_cv_scoring": "roc_auc",
+    "inner_splits": 5,
+    "best_params": {
+      "model__C": 0.0006723357536499335,
+      "model__penalty": "l2"
+    },
+    "best_inner_cv_roc_auc": 1.0,
+    "train_auc": 1.0,
+    "train_accuracy_0p5": 1.0,
+    "train_confusion_0LH_1RH": [
+      [
+        538,
+        0
+      ],
+      [
+        0,
+        538
+      ]
+    ],
+    "sklearn_version": "1.7.1",
+    "label_definition": {
+      "0": "LH atlas labels",
+      "1": "RH atlas labels"
+    },
+    "train_meta": {
+      "id_col": "subject",
+      "n_subjects": 538,
+      "n_samples": 1076,
+      "n_features": 180
+    },
+    "external_evaluations": [
+      {
+        "label": "ICBM_external",
+        "n_samples": 172,
+        "n_subjects": 86,
+        "accuracy": 1.0,
+        "auc": 1.0,
+        "left_recall": 1.0,
+        "right_recall": 1.0,
+        "paired_rank_accuracy": 1.0,
+        "confusion_0LH_1RH": [
+          [
+            86,
+            0
+          ],
+          [
+            0,
+            86
+          ]
+        ]
+      },
+      {
+        "label": "SCH_external",
+        "n_samples": 1896,
+        "n_subjects": 948,
+        "accuracy": 0.8924050632911392,
+        "auc": 0.9630067296907547,
+        "left_recall": 0.8924050632911392,
+        "right_recall": 0.8924050632911392,
+        "paired_rank_accuracy": 0.8924050632911392,
+        "confusion_0LH_1RH": [
+          [
+            846,
+            102
+          ],
+          [
+            102,
+            846
+          ]
+        ]
+      }
+    ],
+    "icbm_external_auc": 1.0,
+    "icbm_external_acc": 1.0,
+    "icbm_external_paired_rank_acc": 1.0,
+    "test_meta": {
+      "n_subjects": 86,
+      "n_samples": 172,
+      "n_features": 180
+    },
+    "sch_external_auc": 0.9630067296907547,
+    "sch_external_acc": 0.8924050632911392,
+    "sch_external_paired_rank_acc": 0.8924050632911392,
+    "sch_external_right_recall": 0.8924050632911392
+  },
+  {
+    "metric": "GLS_RNS",
+    "classifier_mode": "paired_residual",
+    "feature_transform": "subject_lr_residual_zscore",
+    "model": "LogisticRegression(saga, class_weight=balanced) + median impute + standard scaler",
+    "train_subjects_noICBM": 538,
+    "train_samples": 1076,
+    "n_features": 180,
+    "inner_cv_scoring": "roc_auc",
+    "inner_splits": 5,
+    "best_params": {
+      "model__C": 0.0001,
+      "model__penalty": "l2"
+    },
+    "best_inner_cv_roc_auc": 1.0,
+    "train_auc": 1.0,
+    "train_accuracy_0p5": 1.0,
+    "train_confusion_0LH_1RH": [
+      [
+        538,
+        0
+      ],
+      [
+        0,
+        538
+      ]
+    ],
+    "sklearn_version": "1.7.1",
+    "label_definition": {
+      "0": "LH atlas labels",
+      "1": "RH atlas labels"
+    },
+    "train_meta": {
+      "id_col": "subject",
+      "n_subjects": 538,
+      "n_samples": 1076,
+      "n_features": 180
+    },
+    "external_evaluations": [
+      {
+        "label": "ICBM_external",
+        "n_samples": 172,
+        "n_subjects": 86,
+        "accuracy": 1.0,
+        "auc": 1.0,
+        "left_recall": 1.0,
+        "right_recall": 1.0,
+        "paired_rank_accuracy": 1.0,
+        "confusion_0LH_1RH": [
+          [
+            86,
+            0
+          ],
+          [
+            0,
+            86
+          ]
+        ]
+      },
+      {
+        "label": "SCH_external",
+        "n_samples": 1896,
+        "n_subjects": 948,
+        "accuracy": 0.8575949367088608,
+        "auc": 0.950113719311364,
+        "left_recall": 0.8575949367088608,
+        "right_recall": 0.8575949367088608,
+        "paired_rank_accuracy": 0.8575949367088608,
+        "confusion_0LH_1RH": [
+          [
+            813,
+            135
+          ],
+          [
+            135,
+            813
+          ]
+        ]
+      }
+    ],
+    "icbm_external_auc": 1.0,
+    "icbm_external_acc": 1.0,
+    "icbm_external_paired_rank_acc": 1.0,
+    "test_meta": {
+      "n_subjects": 86,
+      "n_samples": 172,
+      "n_features": 180
+    },
+    "sch_external_auc": 0.950113719311364,
+    "sch_external_acc": 0.8575949367088608,
+    "sch_external_paired_rank_acc": 0.8575949367088608,
+    "sch_external_right_recall": 0.8575949367088608
+  }
+]

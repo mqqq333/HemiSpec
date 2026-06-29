@@ -77,3 +77,9 @@ Thumbs.db
 CLAUDE.md
 PRIVATE_NOTES.md
 .env
+
+# Public reusable model bundles tracked with Git LFS
+!assets/models/dgn/
+!assets/models/dgn/**
+!assets/models/hemisphere_classifier/
+!assets/models/hemisphere_classifier/**

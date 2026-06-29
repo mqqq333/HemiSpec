@@ -1,0 +1,7 @@
+metric: GLS_ANS
+classifier_mode: single
+feature_transform: hemi_zscore
+best_inner_cv_roc_auc: 0.9999479156744631
+icbm_external_acc: 0.9825581395348837
+sch_external_acc: 0.8201476793248945
+sch_external_right_recall: 0.6972573839662447
