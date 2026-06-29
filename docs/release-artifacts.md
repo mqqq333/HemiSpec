@@ -1,15 +1,17 @@
 # Release artifacts
 
-HemiSpec will be published as software artifacts, not only as a GitHub source repository. The public website should explain and link to those artifacts; it is not the final user-facing product by itself.
+HemiSpec is published as software artifacts, not only as a GitHub source repository. The v0.1.0 first public beta is available at [https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0).
 
-## Planned public artifacts
+## v0.1.0 public artifacts
 
 ```text
-hemispec-toolkit-<version>-py3-none-any.whl      Python/PyPI package
-hemispec_toolkit-<version>.tar.gz                source distribution
-hemispec.exe                                     Windows CLI executable
-HemiSpec-GUI-Windows-<version>.zip               compiled GUI folder distribution
-HemiSpec-Assets-<version>.zip                    optional external asset bundle
+hemispec_toolkit-0.1.0-py3-none-any.whl          Python wheel
+hemispec_toolkit-0.1.0.tar.gz                    source distribution
+HemiSpec-CLI-v0.1.0-win64.exe                    Windows CLI executable
+HemiSpec-GUI-v0.1.0-win64.zip                    compiled GUI folder distribution
+HemiSpec-v0.1.0-SHA256SUMS.txt                   checksums
+HemiSpec-v0.1.0-RELEASE_ARTIFACTS.txt            verification and artifact manifest
+HemiSpec-Assets-<version>.zip                    optional external asset bundle, not part of v0.1.0 lightweight release
 ```
 
 The same public Python API powers the CLI, GUI, and compiled app so that examples and validation behavior remain reproducible.
@@ -55,3 +57,14 @@ The source repository should contain code, documentation, tests, examples, and a
 - **Model-enabled app:** compact GUI plus approved DGN/model/atlas/classifier assets and PyTorch runtime, packaged as a larger folder distribution or paired with an external asset bundle.
 
 Both variants should use the public `hemispec` package internally.
+
+
+## Post-release verification
+
+The v0.1.0 release was re-downloaded from GitHub on 2026-06-29. SHA256 checksums matched, the downloaded Windows CLI printed `--help`, and the downloaded wheel ran the public-safe synthetic quickstart in a fresh local verification workspace. See [v0.1.0 release verification](developer/release-verification-v0.1.0.md).
+
+## Related pages
+
+- [v0.1.0 release verification](developer/release-verification-v0.1.0.md)
+- [External asset bundles](reference/asset-bundle.md)
+- [Roadmap](developer/roadmap.md)

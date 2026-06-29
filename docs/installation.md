@@ -13,9 +13,22 @@ mkdocs serve
 
 MkDocs prints a local preview URL after startup.
 
-## Toolkit / PyPI package
+## Toolkit / release package
 
-During migration, use your local toolkit checkout. The public package target is the PyPI distribution `hemispec-toolkit` with import path `hemispec`:
+HemiSpec v0.1.0 is available from the GitHub Release page:
+
+```text
+https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0
+```
+
+Download the wheel for a lightweight Python install:
+
+```bash
+python -m pip install hemispec_toolkit-0.1.0-py3-none-any.whl
+hemispec --help
+```
+
+The PyPI target remains the distribution name `hemispec-toolkit`; public PyPI upload is still pending. During development, use your local toolkit checkout with import path `hemispec`:
 
 ```bash
 cd <local-toolkit-checkout>

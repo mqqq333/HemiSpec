@@ -11,6 +11,17 @@ HemiSpec is a unified software and documentation project for reconstruction-deri
   <img src="docs/assets/figures/hemispec-study-design.png" alt="HemiSpec study design overview" width="100%">
 </p>
 
+## Download v0.1.0
+
+HemiSpec v0.1.0 is available as a first public beta / research-software release:
+
+- GitHub Release: https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0
+- Windows CLI: `HemiSpec-CLI-v0.1.0-win64.exe`
+- Windows GUI: `HemiSpec-GUI-v0.1.0-win64.zip`
+- Python artifacts: `hemispec_toolkit-0.1.0-py3-none-any.whl` and `hemispec_toolkit-0.1.0.tar.gz`
+
+The default compiled artifacts are lightweight: they do not bundle torch, DGN model weights, atlas payloads, classifier bundles, real MRI inputs, or generated outputs. See [Data and models](docs/data-and-models.md) and [External asset bundles](docs/reference/asset-bundle.md) before running model-enabled workflows.
+
 ## Method boundary
 
 The ANS/RNS metric framework and the original cross-hemispheric DGN approach originate from Wang et al. 2024, *Patterns*, "Using a deep generation network reveals neuroanatomical specificity in hemispheres". HemiSpec builds on that framework and organizes the current handedness-focused workflow and reusable software tooling around it.

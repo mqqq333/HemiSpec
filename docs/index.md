@@ -4,6 +4,18 @@
 
 HemiSpec is not intended to rename the ANS/RNS metrics. Instead, it provides a clearer public home for the software, documentation, tutorials, and reproducible workflows built around those metrics.
 
+## What is HemiSpec?
+
+HemiSpec takes preprocessed gray-matter maps, compares each actual hemisphere with its contralaterally reconstructed counterpart, and produces reconstruction-derived ANS/RNS specificity maps plus optional ROI, classifier, and TRT validation outputs.
+
+HemiSpec v0.1.0 is a first public beta for research use. The source repository and default desktop downloads are lightweight; model weights, atlas payloads, classifier bundles, and real neuroimaging data are external assets.
+
+<p markdown="span">
+  [Download release](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0){ .md-button .md-button--primary }
+  [Quick start](quickstart.md){ .md-button }
+  [Assets and models](data-and-models.md){ .md-button }
+</p>
+
 ## Workflow overview
 
 <figure markdown="span">
@@ -30,7 +42,7 @@ The current HemiSpec manuscript extends the framework to handedness-related stru
 
 ## Current status
 
-This site is the unified public home for HemiSpec. The public command and import path are `hemispec`.
+This site is the unified public home for HemiSpec. The public command and import path are `hemispec`. HemiSpec v0.1.0 is published as a GitHub prerelease at [https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0).
 
 ## Where to start
 

@@ -73,6 +73,7 @@ nav:
       - Python API: reference/python-api.md
       - Outputs: reference/outputs.md
       - Model bundles: reference/model-bundles.md
+      - Asset bundles: reference/asset-bundle.md
   - Developer:
       - Overview: developer/index.md
       - Architecture: developer/architecture.md
@@ -88,6 +89,8 @@ nav:
       - Outputs zh: developer/outputs-zh.md
       - TRT and classifier: developer/trt-and-classifier-tasks.md
       - Toolkit release artifacts: developer/toolkit-release-artifacts.md
+      - Roadmap: developer/roadmap.md
+      - v0.1.0 release verification: developer/release-verification-v0.1.0.md
   - Release artifacts: release-artifacts.md
   - Data and models: data-and-models.md
   - Manuscript figures: manuscript-figures.md

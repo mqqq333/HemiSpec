@@ -27,7 +27,10 @@ The package and default PyInstaller specs do not bundle repository-level `assets
 A model-enabled local checkout or release bundle can use this layout:
 
 ```text
-<asset-root>/
+HemiSpec-Assets/
+  ASSET_MANIFEST.yml
+  SHA256SUMS.txt
+  LICENSES/
   models/
     dgn/
       <R_to_L-bundle>/ckpts/<checkpoint>.pth
@@ -38,7 +41,6 @@ A model-enabled local checkout or release bundle can use this layout:
     glasser/
       <atlas-nifti>.nii.gz
       <atlas-label-table>.xlsx
-  ASSET_MANIFEST.md
 ```
 
 Supported environment variables:
@@ -51,7 +53,7 @@ HEMISPEC_GLASSER_ATLAS
 HEMISPEC_GLASSER_LABEL_TABLE
 ```
 
-The GUI and CLI resolve explicit paths first, then environment variables, then local repository/distribution conventions.
+The GUI and CLI resolve explicit paths first, then environment variables, then local repository/distribution conventions. See [External asset bundles](reference/asset-bundle.md) for the manifest/checksum/license contract.
 
 ## External release channels
 
