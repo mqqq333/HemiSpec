@@ -1,17 +1,6 @@
 # 安装
 
-HemiSpec 有四个安装/发布层：文档站、Python 包、CLI/GUI 入口点，以及编译好的桌面文件夹。
-
-## 文档站
-
-从仓库根目录安装 MkDocs 依赖：
-
-```bash
-python -m pip install -r requirements-docs.txt
-mkdocs serve
-```
-
-MkDocs 启动后会打印本地预览 URL。
+HemiSpec 有三个安装层：Python 包、CLI/GUI 入口点，以及编译好的桌面文件夹。
 
 ## 启用模型的安装
 

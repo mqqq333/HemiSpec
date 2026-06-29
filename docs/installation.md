@@ -1,17 +1,6 @@
 # Installation
 
-HemiSpec has four installation/release layers: documentation site, Python package, CLI/GUI entry points, and compiled desktop folders.
-
-## Documentation site
-
-Install the MkDocs dependencies from the repository root:
-
-```bash
-python -m pip install -r requirements-docs.txt
-mkdocs serve
-```
-
-MkDocs prints a local preview URL after startup.
+HemiSpec has three installation layers: Python package, CLI/GUI entry points, and compiled desktop folders.
 
 ## Model-enabled install
 
