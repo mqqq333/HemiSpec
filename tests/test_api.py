@@ -376,9 +376,9 @@ def test_bilateral_workflow_merges_directions_and_runs_optional_steps(monkeypatc
         )
     )
 
-    assert (result.combined_maps_dir / "sub-MSC01_run-01_GM_masked_ANS.nii.gz").exists()
-    assert (result.hemi_maps_dir / "sub-MSC01_run-01_GM_masked_ANS.L.nii.gz").exists()
-    assert (result.hemi_maps_dir / "sub-MSC01_run-01_GM_masked_RNS.R.nii.gz").exists()
+    assert not result.combined_maps_dir.exists()
+    assert (result.hemi_maps_dir / "sub-MSC01_run-01_ANS.L.nii.gz").exists()
+    assert (result.hemi_maps_dir / "sub-MSC01_run-01_RNS.R.nii.gz").exists()
     summary = pd.read_csv(result.subject_summary_csv)
     row = summary.iloc[0]
     assert row["ANS.L_mean"] == 1.0
@@ -455,7 +455,9 @@ def test_bilateral_workflow_can_skip_roi_when_atlas_is_unavailable(monkeypatch, 
     )
 
     assert seen_roi_atlases == [None, None]
-    assert (result.combined_maps_dir / "sub-MSC01_run-01_GM_masked_ANS.nii.gz").exists()
+    assert not result.combined_maps_dir.exists()
+    assert (result.hemi_maps_dir / "sub-MSC01_run-01_ANS.L.nii.gz").exists()
+    assert (result.hemi_maps_dir / "sub-MSC01_run-01_RNS.R.nii.gz").exists()
     assert result.subject_summary_csv.exists()
     assert result.roi_csv is None
     assert result.roi_wide_csv is None

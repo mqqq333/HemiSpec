@@ -167,6 +167,7 @@ def add_workflow_parser(sub: argparse._SubParsersAction) -> None:
     p.add_argument("--classifier-model-dir", default=None, help="Optional classifier model directory override.")
     p.add_argument("--classifier-out-dir", default=None, help="Optional classifier output directory override.")
     p.add_argument("--run-trt", action="store_true", help="Run TRT reliability on bilateral subject maps.")
+    p.add_argument("--keep-intermediate", action="store_true", help="Keep DGN reconstructions and one-direction intermediate metrics under intermediate/.")
     p.add_argument("--trt-file-regex", default=DEFAULT_FILE_REGEX)
     p.add_argument("--trt-session-a", default="run-01")
     p.add_argument("--trt-session-b", default="run-02")
@@ -410,6 +411,7 @@ def cmd_workflow(args: argparse.Namespace) -> None:
                 classifier_mode=args.classifier_mode,
                 classifier_out_dir=Path(args.classifier_out_dir) if args.classifier_out_dir else None,
                 run_trt=args.run_trt,
+                keep_intermediate=args.keep_intermediate,
                 trt_file_regex=args.trt_file_regex,
                 trt_session_a=args.trt_session_a,
                 trt_session_b=args.trt_session_b,
@@ -427,8 +429,8 @@ def cmd_workflow(args: argparse.Namespace) -> None:
         print(f"  out_dir: {result.out_dir}")
         print(f"  L_to_R reconstructed: {len(result.l_to_r.reconstructed_paths)}")
         print(f"  R_to_L reconstructed: {len(result.r_to_l.reconstructed_paths)}")
-        print(f"  bilateral_subject_maps: {result.combined_maps_dir}")
-        print(f"  hemisphere_maps: {result.hemi_maps_dir}")
+        print(f"  voxel_maps: {result.hemi_maps_dir}")
+        print(f"  intermediate_combined_maps: {result.combined_maps_dir if result.combined_maps_dir.exists() else 'removed'}")
         if result.roi_csv:
             print(f"  roi_csv: {result.roi_csv}")
         else:

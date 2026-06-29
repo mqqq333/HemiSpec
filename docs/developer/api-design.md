@@ -197,11 +197,11 @@ run = run_bilateral_workflow(
     )
 )
 
-print(run.combined_maps_dir)
-print(run.hemi_maps_dir)
-print(run.subject_summary_csv)
-print(run.roi_csv)       # optional: present when ROI atlas export is enabled and available
-print(run.roi_wide_csv)  # optional: present when ROI atlas export is enabled and available
+print(run.hemi_maps_dir)          # <out-dir>/voxel_maps
+print(run.subject_summary_csv)    # <out-dir>/tables/subject_metric_summary.csv
+print(run.roi_csv)                # optional: present when ROI atlas export is enabled and available
+print(run.roi_wide_csv)           # optional: present when ROI atlas export is enabled and available
+print(run.combined_maps_dir)      # intermediate path; removed unless keep_intermediate=True
 ```
 
 The workflow runs both deployed DGN directions:
@@ -211,15 +211,18 @@ L_to_R = left hemisphere -> generated right hemisphere
 R_to_L = right hemisphere -> generated left hemisphere
 ```
 
-It combines the generated left and right target hemispheres into bilateral
-subject maps, and also writes hemisphere-only maps:
+It writes the final user-facing voxel maps directly as hemisphere-specific
+ANS/RNS maps:
 
 ```text
-subject_hemi_maps/<subject>_ANS.L.nii.gz
-subject_hemi_maps/<subject>_ANS.R.nii.gz
-subject_hemi_maps/<subject>_RNS.L.nii.gz
-subject_hemi_maps/<subject>_RNS.R.nii.gz
+voxel_maps/<subject>_ANS.L.nii.gz
+voxel_maps/<subject>_ANS.R.nii.gz
+voxel_maps/<subject>_RNS.L.nii.gz
+voxel_maps/<subject>_RNS.R.nii.gz
 ```
+
+Intermediate DGN reconstructions, one-direction metrics, and merged bilateral
+maps are stored under `intermediate/` only when `keep_intermediate=True` / `--keep-intermediate` is used.
 
 When ROI atlas export is enabled and an atlas is available, ROI outputs include
 both a long table for the saved classifier adapter and a wide table for direct
@@ -241,8 +244,8 @@ RNS.L_roi_1
 RNS.R_roi_1
 ```
 
-The subject summary table reports hemisphere means and bilateral finite-voxel
-means:
+The subject summary table reports hemisphere means and ANS/RNS finite-voxel
+whole-brain means:
 
 ```text
 ANS.L_mean

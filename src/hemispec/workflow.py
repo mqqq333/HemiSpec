@@ -3,6 +3,7 @@ from __future__ import annotations
 from concurrent.futures import CancelledError
 from dataclasses import dataclass
 from pathlib import Path
+import shutil
 from typing import Callable
 
 import nibabel as nib
@@ -74,6 +75,7 @@ class BilateralWorkflowConfig:
     trt_symmetrize: bool = True
     trt_write_plots: bool = True
     verbose_every: int = 50
+    keep_intermediate: bool = False
     should_cancel: Callable[[], bool] | None = None
 
 
@@ -93,12 +95,14 @@ class BilateralWorkflowResult:
 
 def run_bilateral_workflow(config: BilateralWorkflowConfig) -> BilateralWorkflowResult:
     out = Path(config.out_dir)
-    recon_dir = out / "recon"
-    metrics_dir = out / "metrics"
-    combined_dir = out / "subject_maps"
-    hemi_dir = out / "subject_hemi_maps"
+    intermediate_dir = out / "intermediate"
+    recon_dir = intermediate_dir / "recon"
+    metrics_dir = intermediate_dir / "direction_metrics"
+    combined_dir = intermediate_dir / "combined_maps"
+    voxel_dir = out / "voxel_maps"
     tables_dir = out / "tables"
-    for directory in (recon_dir, metrics_dir, combined_dir, hemi_dir, tables_dir):
+    validation_dir = out / "validation"
+    for directory in (recon_dir, metrics_dir, combined_dir, voxel_dir, tables_dir, validation_dir):
         directory.mkdir(parents=True, exist_ok=True)
 
     _raise_if_cancelled(config.should_cancel)
@@ -121,7 +125,7 @@ def run_bilateral_workflow(config: BilateralWorkflowConfig) -> BilateralWorkflow
         l_to_r.metrics.subject_maps_dir,
         r_to_l.metrics.subject_maps_dir,
         combined_dir,
-        hemi_dir,
+        voxel_dir,
         write_nan_outside=config.write_nan_outside,
         should_cancel=config.should_cancel,
     )
@@ -134,10 +138,11 @@ def run_bilateral_workflow(config: BilateralWorkflowConfig) -> BilateralWorkflow
         print("[workflow] Exporting bilateral ROI table")
         summarize_maps_by_atlas(
             RoiSummaryConfig(
-                maps_glob=str(combined_dir / "*.nii.gz"),
+                maps_glob=str(voxel_dir / "*.nii.gz"),
                 atlas_path=roi_atlas,
                 out_csv=roi_csv,
                 label_table=roi_label_table,
+                file_regex=r"(?P<subject>.+?)_(?P<kind>ANS|RNS)[._](?P<map_hemi>L|R)\.nii(?:\.gz)?$",
                 stat=config.roi_stat,
                 ignore_zero=config.roi_ignore_zero,
             )
@@ -146,7 +151,7 @@ def run_bilateral_workflow(config: BilateralWorkflowConfig) -> BilateralWorkflow
     _raise_if_cancelled(config.should_cancel)
     print("[workflow] Writing subject metric summary")
     subject_summary_csv = tables_dir / "subject_metric_summary.csv"
-    summarize_subject_metrics(combined_dir, subject_summary_csv, should_cancel=config.should_cancel)
+    summarize_subject_metrics(voxel_dir, subject_summary_csv, should_cancel=config.should_cancel)
 
     _raise_if_cancelled(config.should_cancel)
     classifier_result = None
@@ -156,24 +161,26 @@ def run_bilateral_workflow(config: BilateralWorkflowConfig) -> BilateralWorkflow
                 "Hemisphere classifier validation requires ROI table export. "
                 "Provide an ROI atlas, keep export_roi_table enabled, or disable run_classifier."
             )
+        print("[workflow] Running hemisphere-classifier validation")
         classifier_result = validate_hemisphere_classification(
             HemisphereClassificationConfig(
-                maps_dir=combined_dir,
+                maps_dir=voxel_dir,
                 roi_csv=roi_csv,
                 atlas_path=roi_atlas,
                 label_table=roi_label_table,
                 classifier_model_dir=resolve_classifier_model_dir(config.classifier_model_dir, mode=config.classifier_mode),
                 classifier_mode=config.classifier_mode,  # type: ignore[arg-type]
-                out_dir=config.classifier_out_dir or (out / "hemisphere_classifier"),
+                out_dir=config.classifier_out_dir or (validation_dir / "hemi_classify"),
             )
         )
 
     trt_result = None
     if config.run_trt:
+        print("[workflow] Running TRT reliability validation")
         trt_result = validate_reliability(
             ValidationConfig(
                 maps_dir=combined_dir,
-                out_dir=out / "trt",
+                out_dir=validation_dir / "trt",
                 kinds=("ANS", "RNS"),
                 file_regex=config.trt_file_regex,
                 session_a=config.trt_session_a,
@@ -190,12 +197,15 @@ def run_bilateral_workflow(config: BilateralWorkflowConfig) -> BilateralWorkflow
             )
         )
 
+    if not config.keep_intermediate:
+        shutil.rmtree(intermediate_dir, ignore_errors=True)
+
     return BilateralWorkflowResult(
         out_dir=out,
         l_to_r=l_to_r,
         r_to_l=r_to_l,
         combined_maps_dir=combined_dir,
-        hemi_maps_dir=hemi_dir,
+        hemi_maps_dir=voxel_dir,
         roi_csv=roi_csv,
         roi_wide_csv=roi_wide_csv,
         subject_summary_csv=subject_summary_csv,
@@ -244,21 +254,46 @@ def _resolve_optional_roi_label_table(config: BilateralWorkflowConfig) -> Path |
 def summarize_subject_metrics(
     maps_dir: Path, out_csv: Path, should_cancel: Callable[[], bool] | None = None
 ) -> pd.DataFrame:
+    """Summarize final ANS.L/ANS.R/RNS.L/RNS.R voxel maps per subject."""
+
     rows: list[dict[str, object]] = []
-    for ans_path in list_from_glob(str(maps_dir / "*_ANS.nii.gz")):
+    for ans_l_path in list_from_glob(str(maps_dir / "*_ANS.L.nii.gz")):
         _raise_if_cancelled(should_cancel)
-        subject = strip_nii_ext(ans_path.name)[: -len("_ANS")]
-        rns_path = maps_dir / f"{subject}_RNS.nii.gz"
-        if not rns_path.exists():
+        subject = ans_l_path.name[: -len("_ANS.L.nii.gz")]
+        paths = {
+            "ANS.L": ans_l_path,
+            "ANS.R": maps_dir / f"{subject}_ANS.R.nii.gz",
+            "RNS.L": maps_dir / f"{subject}_RNS.L.nii.gz",
+            "RNS.R": maps_dir / f"{subject}_RNS.R.nii.gz",
+        }
+        if not all(path.exists() for path in paths.values()):
             continue
-        ans = load_nifti(ans_path).data
-        rns = load_nifti(rns_path).data
-        rows.append(_summary_row(subject, ans, rns))
+        row: dict[str, object] = {"subject": subject}
+        arrays = {label: load_nifti(path).data for label, path in paths.items()}
+        hemi_slices = {"ANS.L": LEFT_SLICE, "ANS.R": RIGHT_SLICE, "RNS.L": LEFT_SLICE, "RNS.R": RIGHT_SLICE}
+        for label, data in arrays.items():
+            row[f"{label}_mean"] = _finite_mean(data, hemi_slices[label])
+        row["ANS.whole_brain_mean"] = _finite_mean_parts(
+            (arrays["ANS.L"][LEFT_SLICE], arrays["ANS.R"][RIGHT_SLICE])
+        )
+        row["RNS.whole_brain_mean"] = _finite_mean_parts(
+            (arrays["RNS.L"][LEFT_SLICE], arrays["RNS.R"][RIGHT_SLICE])
+        )
+        rows.append(row)
+    if not rows:
+        for ans_path in list_from_glob(str(maps_dir / "*_ANS.nii.gz")):
+            _raise_if_cancelled(should_cancel)
+            subject = strip_nii_ext(ans_path.name)[: -len("_ANS")]
+            rns_path = maps_dir / f"{subject}_RNS.nii.gz"
+            if not rns_path.exists():
+                continue
+            ans = load_nifti(ans_path).data
+            rns = load_nifti(rns_path).data
+            rows.append(_summary_row(subject, ans, rns))
     df = pd.DataFrame(rows)
     out_csv.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(out_csv, index=False)
     return df
-
 
 def summarize_bilateral_roi_features(roi_csv: Path, wide_csv: Path | None = None) -> pd.DataFrame:
     """Annotate ROI rows with explicit hemisphere metric names and optionally write a wide table."""
@@ -269,9 +304,11 @@ def summarize_bilateral_roi_features(roi_csv: Path, wide_csv: Path | None = None
 
     df["hemi"] = df["roi_label"].map(_roi_label_to_hemi)
     df["roi_index"] = df["roi_label"].map(_roi_label_to_compact_index)
-    valid = df["hemi"].isin(["L", "R"]) & df["roi_index"].notna()
+    map_hemi = df["map_hemi"].astype(str).str.upper() if "map_hemi" in df.columns else df["hemi"]
+    df["output_hemi"] = map_hemi.where(map_hemi.isin(["L", "R"]), df["hemi"])
+    valid = df["output_hemi"].isin(["L", "R"]) & df["roi_index"].notna()
     df["metric_hemi"] = df["kind"].astype(str)
-    df.loc[valid, "metric_hemi"] = df.loc[valid, "kind"].astype(str) + "." + df.loc[valid, "hemi"].astype(str)
+    df.loc[valid, "metric_hemi"] = df.loc[valid, "kind"].astype(str) + "." + df.loc[valid, "output_hemi"].astype(str)
     df["feature_name"] = ""
     df.loc[valid, "feature_name"] = (
         df.loc[valid, "metric_hemi"].astype(str)
@@ -322,10 +359,10 @@ def _run_one_direction(
             save_subject_maps=True,
             write_nan_outside=config.write_nan_outside,
             verbose_every=config.verbose_every,
-            export_voxelwise=config.export_voxelwise,
-            roi_atlas=roi_atlas,
-            roi_out_csv=(metrics_root / direction / "roi_summary.csv") if roi_atlas is not None else None,
-            roi_label_table=roi_label_table,
+            export_voxelwise=config.export_voxelwise and config.keep_intermediate,
+            roi_atlas=None,
+            roi_out_csv=None,
+            roi_label_table=None,
             roi_stat=config.roi_stat,  # type: ignore[arg-type]
             roi_ignore_zero=config.roi_ignore_zero,
             should_cancel=config.should_cancel,
@@ -369,13 +406,28 @@ def _write_bilateral_subject_maps(
         ans = _combine_lr(ans_l, ans_r, write_nan_outside)
         rns = _combine_lr(rns_l, rns_r, write_nan_outside)
 
-        save_like(l_ref.image, ans_l, hemi_dir / f"{subject}_ANS.L.nii.gz")
-        save_like(l_ref.image, ans_r, hemi_dir / f"{subject}_ANS.R.nii.gz")
-        save_like(l_ref.image, rns_l, hemi_dir / f"{subject}_RNS.L.nii.gz")
-        save_like(l_ref.image, rns_r, hemi_dir / f"{subject}_RNS.R.nii.gz")
-        save_like(l_ref.image, ans, combined_dir / f"{subject}_ANS.nii.gz")
-        save_like(l_ref.image, rns, combined_dir / f"{subject}_RNS.nii.gz")
-        print(f"[merge] {idx}/{len(subjects)} {subject}")
+        out_subject = _clean_output_subject(subject)
+        save_like(l_ref.image, ans_l, hemi_dir / f"{out_subject}_ANS.L.nii.gz")
+        save_like(l_ref.image, ans_r, hemi_dir / f"{out_subject}_ANS.R.nii.gz")
+        save_like(l_ref.image, rns_l, hemi_dir / f"{out_subject}_RNS.L.nii.gz")
+        save_like(l_ref.image, rns_r, hemi_dir / f"{out_subject}_RNS.R.nii.gz")
+        save_like(l_ref.image, ans, combined_dir / f"{out_subject}_ANS.nii.gz")
+        save_like(l_ref.image, rns, combined_dir / f"{out_subject}_RNS.nii.gz")
+        print(f"[merge] {idx}/{len(subjects)} {out_subject}")
+
+
+def _clean_output_subject(subject: str) -> str:
+    """Make final output names user-facing instead of pipeline-internal."""
+
+    value = strip_nii_ext(subject)
+    for suffix in ("_PRED_LR_full", "_GM_masked"):
+        if value.endswith(suffix):
+            value = value[: -len(suffix)]
+    value = value.replace(".nii.gz", "").replace(".nii", "")
+    for suffix in ("_T1w_T1", "_T1w"):
+        if value.endswith(suffix):
+            value = value[: -len(suffix)]
+    return value
 
 
 def _hemi_only(data: np.ndarray, hemi: str, write_nan_outside: bool) -> np.ndarray:
@@ -410,6 +462,14 @@ def _finite_mean(data: np.ndarray, slices: tuple[slice, slice, slice] | None) ->
     values = data[slices] if slices is not None else data
     values = values[np.isfinite(values)]
     return float(values.mean()) if values.size else float("nan")
+
+
+def _finite_mean_parts(parts: tuple[np.ndarray, ...]) -> float:
+    values = [part[np.isfinite(part)] for part in parts]
+    values = [part for part in values if part.size]
+    if not values:
+        return float("nan")
+    return float(np.concatenate(values).mean())
 
 
 def _roi_label_to_hemi(label: object) -> str:

@@ -10,7 +10,7 @@ command writes similarity matrices, within-subject summaries, summary plots, and
 `validation_summary.csv`.
 
 ```bash
-hemispec trt   --maps-dir "/path/to/subject_maps"   --out-dir "/path/to/trt_outputs"   --kinds ANS,RNS   --hemis L,R
+hemispec trt   --maps-dir "/path/to/workflow/intermediate/combined_maps"   --out-dir "/path/to/workflow/validation/trt"   --kinds ANS,RNS   --hemis L,R
 ```
 
 Before public release, use only approved/synthetic examples in this document.
@@ -23,7 +23,7 @@ statistics here.
 applies them to ROI-level ANS/RNS features. Training is not a product feature.
 
 ```bash
-hemispec hemi-classify   --maps-dir "/path/to/ANS_RNS/subject_maps"   --roi-csv "/path/to/ANS_RNS/roi_summary_glasser.csv"   --classifier-model-dir "/path/to/classifier_bundle"   --out-dir "/path/to/hemi_classifier_outputs"
+hemispec hemi-classify   --maps-dir "/path/to/workflow/voxel_maps"   --roi-csv "/path/to/workflow/tables/roi_features_bilateral.csv"   --classifier-model-dir "/path/to/classifier_bundle"   --out-dir "/path/to/workflow/validation/hemi_classify"
 ```
 
 Supported runtime modes:

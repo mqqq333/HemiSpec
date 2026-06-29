@@ -75,12 +75,12 @@ python scripts/hemispec_gui_entry.py
 The GUI is intentionally a thin standard-workflow interface. Its setup status card reports whether DGN models, Glasser atlas files, classifier bundles, and PyTorch are found before a long run. Normal users choose:
 
 1. **Input GM maps**: a glob such as `derivatives/*_GM_masked.nii.gz`.
-2. **Output workspace**: where reconstructions, ANS/RNS maps, tables, and logs are written.
+2. **Output workspace**: where final voxel_maps/, tables/, and optional validation/ outputs are written. Reconstructions are removed by default unless intermediate outputs are kept.
 3. **Optional ROI table**: atlas NIfTI and label table, defaulting to configured local Glasser assets when available.
 4. **Optional validation**: hemisphere-classifier validation and TRT reliability.
 5. **Run HemiSpec**: the GUI shows the equivalent `hemispec workflow` command for reproducibility.
 
-Voxel-wise and subject-level ANS/RNS maps are the primary output. ROI tables are optional downstream features. Classifier validation requires ROI table export.
+The primary output is four voxel-wise maps per subject: ANS.L, ANS.R, RNS.L, and RNS.R under voxel_maps/. ROI tables are optional downstream features. Classifier validation requires ROI table export.
 
 ## 3. Inspect bundled model bundles
 
@@ -154,14 +154,20 @@ hemispec run \
 
 ## 6. Validate maps
 
-```bash
-hemispec trt \
-  --maps-dir outputs/hemispec_workflow/subject_maps \
-  --out-dir outputs/trt_validation
+For the standard workflow, prefer enabling validation during the workflow run so results are written to predictable folders:
 
-hemispec specificity \
-  --maps-dir outputs/hemispec_workflow/subject_maps \
-  --out-dir outputs/structural_specificity
+```bash
+hemispec workflow   --input-glob "derivatives/*_GM_masked.nii.gz"   --out-dir outputs/hemispec_workflow   --run-classifier   --run-trt
+```
+
+This writes classifier outputs under `outputs/hemispec_workflow/validation/hemi_classify/` and TRT outputs under `outputs/hemispec_workflow/validation/trt/`.
+
+If you want to run standalone validation commands later on workflow-generated merged maps, keep intermediates:
+
+```bash
+hemispec workflow   --input-glob "derivatives/*_GM_masked.nii.gz"   --out-dir outputs/hemispec_workflow   --keep-intermediate
+
+hemispec trt   --maps-dir outputs/hemispec_workflow/intermediate/combined_maps   --out-dir outputs/trt_validation
 ```
 
 ## What is not ready yet

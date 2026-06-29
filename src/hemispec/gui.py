@@ -68,6 +68,7 @@ WORKFLOW_VISIBLE_FIELDS = (
     "roi_label_table",
     "run_classifier",
     "run_trt",
+    "keep_intermediate",
 )
 WORKFLOW_ENCAPSULATED_FIELDS = (
     "model_root",
@@ -389,6 +390,7 @@ def make_workflow_config(state: dict[str, object]) -> BilateralWorkflowConfig:
         ),
         classifier_mode=str(state.get("classifier_mode", ENCAPSULATED_DEFAULTS["classifier_mode"])),
         run_trt=run_trt,
+        keep_intermediate=bool(state.get("keep_intermediate", False)),
         trt_file_regex=str(state.get("trt_file_regex", ENCAPSULATED_DEFAULTS["trt_file_regex"])),
         trt_session_a=str(state.get("trt_session_a", ENCAPSULATED_DEFAULTS["trt_session_a"])),
         trt_session_b=str(state.get("trt_session_b", ENCAPSULATED_DEFAULTS["trt_session_b"])),
@@ -439,6 +441,8 @@ def _workflow_cli_parts(config: BilateralWorkflowConfig) -> list[str]:
         parts.append("--run-classifier")
     if config.run_trt:
         parts.append("--run-trt")
+    if config.keep_intermediate:
+        parts.append("--keep-intermediate")
     return parts
 
 
@@ -505,6 +509,7 @@ class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
             "roi_label_table": ctk.StringVar(value=DEFAULT_GLASSER_LABEL_TABLE),
             "run_classifier": ctk.BooleanVar(value=False),
             "run_trt": ctk.BooleanVar(value=False),
+            "keep_intermediate": ctk.BooleanVar(value=False),
         }
         for key, value in ENCAPSULATED_DEFAULTS.items():
             if key not in self.vars:
@@ -631,7 +636,7 @@ class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
         self._entry_row(card, 2, "Output directory", "out_dir", self._browse_output_dir)
         ctk.CTkLabel(
             card,
-            text="Creates: recon/ | metrics/ | subject_maps/ | subject_hemi_maps/ | tables/",
+            text="Creates: voxel_maps/ (ANS.L, ANS.R, RNS.L, RNS.R) | tables/ | validation/; recon is removed unless kept.",
             text_color="#64748b",
             font=ctk.CTkFont(size=12),
         ).grid(row=3, column=1, padx=(0, 16), pady=(0, 10), sticky="w")
@@ -688,9 +693,15 @@ class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
             variable=self.vars["run_classifier"],
             command=self._sync_classifier_state,
         ).grid(row=2, column=0, columnspan=3, padx=16, pady=(0, 8), sticky="w")
-        ctk.CTkCheckBox(card, text="Run TRT reliability", variable=self.vars["run_trt"]).grid(
-            row=3, column=0, columnspan=3, padx=16, pady=(0, 12), sticky="w"
+        ctk.CTkCheckBox(card, text="Run TRT reliability", variable=self.vars["run_trt"], command=self._on_config_changed).grid(
+            row=3, column=0, columnspan=3, padx=16, pady=(0, 8), sticky="w"
         )
+        ctk.CTkCheckBox(
+            card,
+            text="Keep intermediate reconstructions and one-direction metrics (debug/storage heavy)",
+            variable=self.vars["keep_intermediate"],
+            command=self._on_config_changed,
+        ).grid(row=4, column=0, columnspan=3, padx=16, pady=(0, 12), sticky="w")
 
     def _build_run_card(self, parent: object, row: int) -> None:
         card = self._card(
@@ -978,10 +989,11 @@ class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
             return
         assert result is not None
         self.status_var.set("Done")
-        self.summary_var.set(f"Done: {result.combined_maps_dir}")
+        self.summary_var.set(f"Done: {result.hemi_maps_dir}")
         self._log("[done] HemiSpec workflow complete\n")
-        self._log(f"subject_maps: {result.combined_maps_dir}\n")
-        self._log(f"subject_hemi_maps: {result.hemi_maps_dir}\n")
+        self._log(f"voxel_maps: {result.hemi_maps_dir}\n")
+        intermediate_status = result.combined_maps_dir if result.combined_maps_dir.exists() else "removed"
+        self._log(f"intermediate_combined_maps: {intermediate_status}\n")
         self._log(f"subject_summary_csv: {result.subject_summary_csv}\n")
         self._log(f"roi_csv: {result.roi_csv if result.roi_csv else 'skipped'}\n")
         self._log(f"roi_wide_csv: {result.roi_wide_csv if result.roi_wide_csv else 'skipped'}\n")

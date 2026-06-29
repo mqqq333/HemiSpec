@@ -23,6 +23,7 @@ def _state(**overrides: object) -> dict[str, object]:
         "roi_label_table": "E:/atlas/labels.xlsx",
         "run_classifier": False,
         "run_trt": False,
+        "keep_intermediate": False,
     }
     state.update(ENCAPSULATED_DEFAULTS)
     state.update(overrides)
@@ -38,6 +39,7 @@ def test_standard_workflow_exposes_only_user_decisions() -> None:
         "roi_label_table",
         "run_classifier",
         "run_trt",
+        "keep_intermediate",
     )
 
 
@@ -87,6 +89,12 @@ def test_gui_state_to_cli_command_quotes_paths_and_flags(tmp_path: Path) -> None
     assert f'--roi-label-table {labels}' in cli
     assert "--run-classifier" in cli
     assert "--run-trt" in cli
+    assert "--keep-intermediate" not in cli
+
+
+def test_gui_state_to_cli_command_can_keep_intermediate() -> None:
+    cli = workflow_cli_command(_state(export_roi_table=False, keep_intermediate=True))
+    assert "--keep-intermediate" in cli
 
 
 def test_gui_state_to_cli_command_no_roi_table() -> None:
@@ -126,6 +134,7 @@ def test_hidden_gui_defaults_match_cli_workflow_defaults() -> None:
     assert config.classifier_mode == args.classifier_mode
     assert config.run_classifier is args.run_classifier
     assert config.run_trt is args.run_trt
+    assert config.keep_intermediate is args.keep_intermediate
     assert config.trt_file_regex == args.trt_file_regex
     assert config.trt_session_a == args.trt_session_a
     assert config.trt_session_b == args.trt_session_b
