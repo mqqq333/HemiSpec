@@ -36,11 +36,14 @@ Downloaded files are stored in the HemiSpec user cache (`HEMISPEC_MODEL_CACHE`, 
 
 ## Atlas file
 
-ROI table export requires a parcellation atlas in MNI space. HemiSpec ships a Glasser HCP-MMP atlas in the GitHub release as a ready-to-use default. You can also use any compatible atlas in the same format.
+ROI table export requires a parcellation atlas in MNI space. HemiSpec includes a Glasser HCP-MMP atlas in the repository as a ready-to-use default. You can also use any compatible atlas in the same format.
 
 **Download the bundled Glasser atlas**
 
-Download `MNI_Glasser_HCP_v1.0_1p5mm.nii.gz` and `Glasser_label_index_mapping.xlsx` from the [HemiSpec v0.1.0 release](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0).
+The atlas files are included in the repository under `assets/atlases/glasser/`. With a source checkout they are available directly. You can also download them individually from GitHub:
+
+- [`MNI_Glasser_HCP_v1.0_1p5mm.nii.gz`](https://github.com/mqqq333/HemiSpec/raw/main/assets/atlases/glasser/MNI_Glasser_HCP_v1.0_1p5mm.nii.gz)
+- [`Glasser_label_index_mapping.xlsx`](https://github.com/mqqq333/HemiSpec/raw/main/assets/atlases/glasser/Glasser_label_index_mapping.xlsx)
 
 Set the paths once via environment variables:
 

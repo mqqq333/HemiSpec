@@ -36,11 +36,14 @@ hemispec models --install --with-classifier
 
 ## Atlas 文件
 
-ROI 表格导出需要 MNI 空间的脑区分割 atlas。HemiSpec 在 GitHub release 中提供了 Glasser HCP-MMP atlas 作为开箱即用的默认选项，你也可以使用任意相同格式的 atlas。
+ROI 表格导出需要 MNI 空间的脑区分割 atlas。HemiSpec 在仓库中提供了 Glasser HCP-MMP atlas 作为开箱即用的默认选项，你也可以使用任意相同格式的 atlas。
 
 **下载内置 Glasser atlas**
 
-从 [HemiSpec v0.1.0 release](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0) 下载 `MNI_Glasser_HCP_v1.0_1p5mm.nii.gz` 和 `Glasser_label_index_mapping.xlsx`。
+atlas 文件已包含在仓库的 `assets/atlases/glasser/` 目录下，源码检出后可直接使用。也可以从 GitHub 单独下载：
+
+- [`MNI_Glasser_HCP_v1.0_1p5mm.nii.gz`](https://github.com/mqqq333/HemiSpec/raw/main/assets/atlases/glasser/MNI_Glasser_HCP_v1.0_1p5mm.nii.gz)
+- [`Glasser_label_index_mapping.xlsx`](https://github.com/mqqq333/HemiSpec/raw/main/assets/atlases/glasser/Glasser_label_index_mapping.xlsx)
 
 通过环境变量一次性设置路径：
 
