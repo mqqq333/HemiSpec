@@ -3,8 +3,8 @@
 HemiSpec is organized as a small software ecosystem rather than a source-only repository: a Python package, a CLI, a GUI entry point, and compiled desktop folders built from the same public API.
 
 <figure markdown="span">
-  ![HemiSpec workflow overview](assets/figures/hemispec-workflow-overview.svg){ width="100%" }
-  <figcaption>HemiSpec follows the manuscript Fig. 1B sequence from Input GM to Reconstruction, Difference analysis, and Hemisphere-specific metrics, then extends those outputs into ROI tables, validation, and release artifacts.</figcaption>
+  ![HemiSpec workflow overview](assets/figures/hemispec-workflow-overview-ai.png){ width="100%" }
+  <figcaption>HemiSpec follows the public workflow sequence from Input GM to Reconstruction, Difference analysis, and Hemisphere-specific metrics, then extends those outputs into ROI tables, validation, and release artifacts.</figcaption>
 </figure>
 
 ## User-facing layers

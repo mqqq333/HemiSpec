@@ -1,68 +1,67 @@
 # HemiSpec
 
-**HemiSpec: Reconstruction-derived Hemispheric Specificity** is a software and workflow project for studying hemisphere-specific structure from cross-hemispheric reconstruction residuals.
-
-HemiSpec is not intended to rename the ANS/RNS metrics. Instead, it provides a clearer public home for the software, documentation, tutorials, and reproducible workflows built around those metrics.
-
-## What is HemiSpec?
-
-HemiSpec takes preprocessed gray-matter maps, compares each actual hemisphere with its contralaterally reconstructed counterpart, and produces reconstruction-derived ANS/RNS specificity maps plus optional ROI, classifier, and TRT validation outputs.
-
-HemiSpec v0.1.0 is a first public beta for research use. The source repository includes reusable DGN checkpoints and hemisphere-classifier bundles through Git LFS. Wheel/PyPI and lightweight desktop installs keep the Python package small, but model-enabled CLI/GUI/API runs can auto-download the released weights into a user cache. Real neuroimaging data and generated outputs are not distributed.
+**HemiSpec** is a software and workflow toolkit for computing reconstruction-derived hemispheric specificity (ANS/RNS) from preprocessed gray-matter maps.
 
 <p markdown="span">
-  [Download release](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0){ .md-button .md-button--primary }
-  [Quick start](quickstart.md){ .md-button }
-  [Assets and models](data-and-models.md){ .md-button }
+  [Quick start](quickstart.md){ .md-button .md-button--primary }
+  [Download release](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0){ .md-button }
+  [Data and models](data-and-models.md){ .md-button }
 </p>
 
 ## Workflow overview
 
 <figure markdown="span">
-  ![HemiSpec workflow overview](assets/figures/hemispec-workflow-overview.svg){ width="100%" }
-  <figcaption>Public-safe workflow schematic aligned with the manuscript Fig. 1B sequence: Input GM, Reconstruction, Difference analysis, and Hemisphere-specific metrics.</figcaption>
+  ![HemiSpec workflow overview](assets/figures/hemispec-workflow-overview-ai.png){ width="100%" }
+  <figcaption>Input GM maps → cross-hemispheric DGN reconstruction → ANS/RNS specificity maps → ROI summaries and validation.</figcaption>
 </figure>
 
-## What HemiSpec does
+## Choose your path
 
-HemiSpec is being organized around a workflow that starts from preprocessed gray-matter maps and produces reconstruction-derived hemispheric specificity outputs:
+<div class="grid cards" markdown>
 
-1. Run or import cross-hemispheric DGN reconstructions.
-2. Pair each actual hemisphere with its contralaterally reconstructed counterpart.
-3. Compute absolute and relative neuroanatomical specificity maps.
-4. Summarize voxelwise maps into ROI-level features.
-5. Validate reliability and hemisphere-specific information.
-6. Use the features in downstream analyses such as handedness classification.
+-   **Run HemiSpec**
 
-## Method boundary
+    ---
 
-The ANS/RNS metrics and the original cross-hemispheric DGN framework come from Wang et al. 2024 in *Patterns*. HemiSpec builds on that foundation.
+    Install the toolkit, run the synthetic quickstart, or launch the GUI.
 
-The current HemiSpec manuscript extends the framework to handedness-related structural variation. It uses handedness as a behavioral lateralization test case and asks whether reconstruction-derived features capture information beyond conventional GMV asymmetry indices.
+    [Get started](installation.md)
 
-## Current status
+-   **Understand ANS/RNS**
 
-This site is the unified public home for HemiSpec. The public command and import path are `hemispec`. HemiSpec v0.1.0 is published as a GitHub prerelease at [https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0).
+    ---
 
-## Where to start
+    Learn the reconstruction framework, metric definitions, and handedness extension.
 
-- Read [Installation](installation.md) for the documentation and toolkit environment.
-- Read [Quick start](quickstart.md) for the source-checkout GUI and CLI workflow.
-- Read [Software overview](software-overview.md) for the package, CLI, GUI, and compiled-app layers.
-- Browse [Manuscript figures](manuscript-figures.md) for approved figure previews.
-- Read [Methods](methods/index.md) for the original framework and the handedness extension.
-- Read [Release artifacts](release-artifacts.md) for the CLI/PyPI/compiled-app release contract.
-- Read [Data and models](data-and-models.md) before trying to publish data, model weights, or manuscript results.
+    [Methods](methods/index.md)
 
-<figure markdown="span">
-  ![HemiSpec study design overview](assets/figures/hemispec-study-design.png){ width="100%" }
-  <figcaption>HemiSpec organizes cross-hemispheric reconstruction, reconstruction-derived ANS/RNS specificity maps, validation, ROI summaries, and downstream lateralization analyses into one workflow.</figcaption>
-</figure>
+-   **Model and data assets**
+
+    ---
+
+    DGN checkpoints, hemisphere-classifier bundles, and data policy.
+
+    [Data and models](data-and-models.md)
+
+-   **Developer docs**
+
+    ---
+
+    Architecture, API design, deployment, and roadmap.
+
+    [Developer](developer/index.md)
+
+</div>
+
+## Citation
+
+HemiSpec builds on the ANS/RNS framework from Wang et al. 2024 (*Patterns*).
+See [Citation](citation.md) for the full reference.
+
+HemiSpec v0.1.0 is a public beta. Source: [github.com/mqqq333/HemiSpec](https://github.com/mqqq333/HemiSpec).
 
 ---
 
 <p class="site-credits">
   Made with <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">Material for MkDocs</a>.
 </p>
-
-

@@ -54,20 +54,23 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - Installation: installation.md
-  - Quick start: quickstart.md
-  - Software overview: software-overview.md
-  - Methods:
-      - Overview: methods/index.md
-      - Reconstruction framework: methods/reconstruction-framework.md
-      - ANS and RNS metrics: methods/ans-rns-metrics.md
-      - Handedness extension: methods/handedness-extension.md
-  - Tutorials:
-      - Overview: tutorials/index.md
-      - DGN inference: tutorials/dgn-inference.md
-      - Compute specificity maps: tutorials/compute-specificity.md
-      - Handedness workflow: tutorials/handedness-workflow.md
-      - Model-enabled DGN workflow: tutorials/model-enabled-dgn-workflow.md
+  - Get started:
+      - Installation: installation.md
+      - Quick start: quickstart.md
+      - Data and models: data-and-models.md
+  - Learn:
+      - Software overview: software-overview.md
+      - Methods:
+          - Overview: methods/index.md
+          - Reconstruction framework: methods/reconstruction-framework.md
+          - ANS and RNS metrics: methods/ans-rns-metrics.md
+          - Handedness extension: methods/handedness-extension.md
+      - Tutorials:
+          - Overview: tutorials/index.md
+          - DGN inference: tutorials/dgn-inference.md
+          - Compute specificity maps: tutorials/compute-specificity.md
+          - Handedness workflow: tutorials/handedness-workflow.md
+          - Model-enabled DGN workflow: tutorials/model-enabled-dgn-workflow.md
   - Reference:
       - Overview: reference/index.md
       - CLI: reference/cli.md
@@ -75,6 +78,9 @@ nav:
       - Outputs: reference/outputs.md
       - Model bundles: reference/model-bundles.md
       - Asset bundles: reference/asset-bundle.md
+      - Release artifacts: release-artifacts.md
+      - Manuscript figures: manuscript-figures.md
+      - Citation: citation.md
   - Developer:
       - Overview: developer/index.md
       - Architecture: developer/architecture.md
@@ -83,18 +89,8 @@ nav:
       - API design: developer/api-design.md
       - Deployment: developer/deployment.md
       - DGN model bundles: developer/dgn-model-bundle.md
-      - GUI design: developer/gui-design.md
-      - GUI user guide zh: developer/gui-user-guide-zh.md
-      - Local model deployment zh: developer/local-model-deployment-zh.md
-      - Methods and metrics zh: developer/methods-and-metrics-zh.md
-      - Outputs zh: developer/outputs-zh.md
       - TRT and classifier: developer/trt-and-classifier-tasks.md
-      - Toolkit release artifacts: developer/toolkit-release-artifacts.md
       - Roadmap: developer/roadmap.md
-      - v0.1.0 release verification: developer/release-verification-v0.1.0.md
-  - Release artifacts: release-artifacts.md
-  - Data and models: data-and-models.md
-  - Manuscript figures: manuscript-figures.md
-  - Citation: citation.md
+      - Release verification v0.1.0: developer/release-verification-v0.1.0.md
 
 
