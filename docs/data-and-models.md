@@ -1,70 +1,72 @@
 # Data and models
 
-HemiSpec works with neuroimaging data and trained model weights, so the public repository uses conservative data boundaries.
+HemiSpec needs two types of external assets to run model-enabled workflows: **DGN model weights** and an **atlas file** for ROI export. Neither is bundled in the Python wheel or the lightweight desktop app.
 
-## Do not commit
+## Model weights
 
-- Raw T1-weighted MRI data.
-- Subject-level derivatives that are not cleared for public redistribution.
-- Large `.nii.gz`, `.pth`, `.pt`, `.ckpt`, `.joblib`, `.pkl`, or `.xlsx` payloads unless they are explicitly approved release artifacts and intentionally tracked.
-- Manuscript-only figures or tables before public release approval.
-- Private workstation paths, server paths, keys, tokens, or local-only coordination notes.
+HemiSpec uses two trained DGN generator checkpoints (one per hemisphere direction) and optional hemisphere-classifier bundles.
 
-## Repository policy
+**Source checkout (Git LFS)**
 
-The source repository contains code, documentation, tests, synthetic examples, and approved reusable model bundles. Large binary model files under `assets/models/` are tracked with Git LFS:
+Clone with LFS enabled to get the model files directly:
 
-```text
-assets/models/dgn/                       # reusable bilateral DGN generator checkpoints
-assets/models/hemisphere_classifier/     # reusable classifier bundles
-assets/atlases/                          # atlas payloads may be local/external unless explicitly released
+```bash
+git lfs install
+git clone https://github.com/mqqq333/HemiSpec.git
+cd HemiSpec
+git lfs pull
 ```
 
-The package wheel and default PyInstaller specs remain lightweight and do not embed repository-level `assets/`. Instead, model-enabled CLI/GUI/API runs can download the released model files from the GitHub repository into a per-user cache when the local checkout/cache is empty.
+**Wheel / PyPI install**
 
-## Bundled model layout
+Models are downloaded automatically on the first model-enabled run:
 
-A Git-LFS source checkout provides this model layout:
-
-```text
-assets/models/dgn/
-  outputs_bi_stable_L/ckpts/best_netG_L.pth
-  outputs_bi_stable_R/ckpts/best_netG_R.pth
-assets/models/hemisphere_classifier/
-  OUT_noICBM_train_ICBM_external_saved_models/
-  OUT_noICBM_train_ICBM_external_saved_models_paired_residual/
+```bash
+python -m pip install "hemispec-toolkit[model,classifier]"
+hemispec workflow --input-glob "derivatives/*_GM_masked.nii.gz" --out-dir outputs/
 ```
 
-Clone with `git lfs install` and `git lfs pull`; otherwise these files may appear as small LFS pointer text files instead of usable model binaries.
+To pre-download explicitly:
 
-Supported environment variables:
-
-```text
-HEMISPEC_ASSET_ROOT
-HEMISPEC_DGN_MODEL_ROOT
-HEMISPEC_CLASSIFIER_MODEL_DIR
-HEMISPEC_MODEL_CACHE
-HEMISPEC_MODEL_ASSET_BASE_URL
-HEMISPEC_AUTO_DOWNLOAD_MODELS
-HEMISPEC_DISABLE_MODEL_AUTO_DOWNLOAD
-HEMISPEC_GLASSER_ATLAS
-HEMISPEC_GLASSER_LABEL_TABLE
+```bash
+hemispec models --install --with-classifier
 ```
 
-The GUI and CLI resolve explicit paths first, then environment variables, then local repository conventions, then the per-user cache. That means a source checkout normally finds `assets/models/dgn` and the default classifier bundle without extra flags; a wheel/PyPI install downloads the released defaults into `HEMISPEC_MODEL_CACHE` (or the OS-specific HemiSpec cache) on first model use. See [External asset bundles](reference/asset-bundle.md) for the manifest/checksum/license contract when distributing additional assets.
+Downloaded files are stored in the HemiSpec user cache (`HEMISPEC_MODEL_CACHE`, or the OS default cache directory).
 
-## External release channels
+## Atlas file
 
-Prefer GitHub Releases, Zenodo, OSF, or institutional storage for model weights and compiled-app asset bundles. Every released asset bundle should include:
+ROI table export requires a parcellation atlas in MNI space. HemiSpec ships a Glasser HCP-MMP atlas in the GitHub release as a ready-to-use default. You can also use any compatible atlas in the same format.
 
-- version and date,
-- source/provenance,
-- license and citation requirements,
-- expected local path or environment variable,
-- checksums,
-- preprocessing assumptions,
-- compatible `hemispec-toolkit` version.
+**Download the bundled Glasser atlas**
 
-## Method and model attribution
+Download `MNI_Glasser_HCP_v1.0_1p5mm.nii.gz` and `Glasser_label_index_mapping.xlsx` from the [HemiSpec v0.1.0 release](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0).
 
-If a release distributes or documents ANS/RNS-capable models or workflows, keep the method boundary explicit: the original ANS/RNS metrics and cross-hemispheric DGN framework come from Wang et al. 2024, *Patterns*. HemiSpec packages and extends that workflow for the current software and handedness application.
+Set the paths once via environment variables:
+
+```bash
+export HEMISPEC_GLASSER_ATLAS=/path/to/MNI_Glasser_HCP_v1.0_1p5mm.nii.gz
+export HEMISPEC_GLASSER_LABEL_TABLE=/path/to/Glasser_label_index_mapping.xlsx
+```
+
+**Use a custom atlas**
+
+Pass any NIfTI atlas and label table directly:
+
+```bash
+hemispec workflow \
+  --input-glob "derivatives/*_GM_masked.nii.gz" \
+  --out-dir outputs/ \
+  --roi-atlas /path/to/atlas.nii.gz \
+  --roi-label-table /path/to/labels.xlsx
+```
+
+ROI export is optional. If no atlas is provided, voxel-wise ANS/RNS maps are still produced.
+
+## What is not distributed
+
+Real MRI data and generated outputs are never distributed with HemiSpec. The public repository contains only code, documentation, tests, synthetic examples, and the approved reusable model bundles under Git LFS.
+
+## Attribution
+
+The ANS/RNS metrics and cross-hemispheric DGN framework originate from Wang et al. 2024, *Patterns*. HemiSpec packages and extends that workflow.

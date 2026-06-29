@@ -47,6 +47,8 @@ assets/atlases/*
 assets/atlases/glasser/*
 !assets/atlases/glasser/README.md
 !assets/atlases/glasser/ASSET_MANIFEST.template.yml
+!assets/atlases/glasser/MNI_Glasser_HCP_v1.0_1p5mm.nii.gz
+!assets/atlases/glasser/Glasser_label_index_mapping.xlsx
 
 # Real neuroimaging/model/bundle payloads
 *.nii
