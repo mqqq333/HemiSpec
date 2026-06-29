@@ -36,6 +36,16 @@ extra_css:
   - assets/stylesheets/extra.css
 plugins:
   - search
+  - i18n:
+      docs_structure: suffix
+      languages:
+        - locale: en
+          default: true
+          name: English
+          build: true
+        - locale: zh
+          name: 中文
+          build: true
 
 markdown_extensions:
   - admonition
