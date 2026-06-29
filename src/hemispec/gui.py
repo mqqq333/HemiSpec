@@ -34,7 +34,7 @@ except ImportError:  # pragma: no cover - exercised only on machines without GUI
 
 APP_TITLE = "HemiSpec"
 APP_SUBTITLE = "ANS/RNS Generation Workbench"
-SCROLL_INCREMENT_PX = 20
+SCROLL_INCREMENT_PX = 12
 APP_DESCRIPTION = (
     "Generate voxel-wise reconstruction-derived hemispheric specificity maps from "
     "preprocessed GM inputs using the packaged HemiSpec workflow."
