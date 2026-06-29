@@ -12,7 +12,7 @@
 
 <figure markdown="span">
   ![HemiSpec 工作流概览](assets/figures/hemispec-workflow-overview-ai.png){ width="100%" }
-  <figcaption>输入 GM 图 → 跨半球 DGN 重建 → ANS/RNS 特异性图 → ROI 汇总与验证。</figcaption>
+  <figcaption>输入 GM 图 → 跨半球 DGN 重建 → ANS/RNS 特异性图 → ROI 汇总与验证 → 下游分析（年龄/性别效应、半球分类、利手性、疾病组与正常组比较）。</figcaption>
 </figure>
 
 ## 选择你的路径

@@ -12,7 +12,7 @@
 
 <figure markdown="span">
   ![HemiSpec workflow overview](assets/figures/hemispec-workflow-overview-ai.png){ width="100%" }
-  <figcaption>Input GM maps → cross-hemispheric DGN reconstruction → ANS/RNS specificity maps → ROI summaries and validation.</figcaption>
+  <figcaption>Input GM maps → cross-hemispheric DGN reconstruction → ANS/RNS specificity maps → ROI summaries and validation → downstream analyses (age/sex effects, hemisphere classification, handedness, disease vs. control).</figcaption>
 </figure>
 
 ## Choose your path
