@@ -26,6 +26,7 @@ CLASSIFIER_OUTPUTS_RELATIVE = Path("outputs") / "classifier_outputs"
 PREPROCESS_ASSET_RELATIVE = Path("assets") / "preprocess" / "process_single_subject_GM_v2_reorient.sh"
 
 ASSET_ROOT_ENV = ("HEMISPEC_ASSET_ROOT",)
+MODEL_CACHE_ENV = ("HEMISPEC_MODEL_CACHE",)
 DGN_MODEL_ROOT_ENV = ("HEMISPEC_DGN_MODEL_ROOT", "HEMISPEC_MODEL_ROOT")
 CLASSIFIER_MODEL_DIR_ENV = ("HEMISPEC_CLASSIFIER_MODEL_DIR",)
 ATLAS_PATH_ENV = ("HEMISPEC_GLASSER_ATLAS",)
@@ -74,6 +75,7 @@ def candidate_dgn_model_roots(root: str | Path | None = None) -> list[Path]:
     for project_root in _iter_root_candidates():
         candidates.append(project_root / DGN_MODEL_RELATIVE)
         candidates.append(project_root)
+    candidates.append(default_user_asset_root() / "models" / "dgn")
     return _dedupe_paths(candidates)
 
 
@@ -81,6 +83,8 @@ def resolve_dgn_model_root(root: str | Path | None = None) -> Path:
     for candidate in candidate_dgn_model_roots(root):
         if has_dgn_model_layout(candidate):
             return candidate
+    if root is None:
+        return default_user_asset_root() / "models" / "dgn"
     candidates = candidate_dgn_model_roots(root)
     return candidates[0] if candidates else project_path(DGN_MODEL_RELATIVE)
 
@@ -102,11 +106,52 @@ def resolve_classifier_model_dir(model_dir: str | Path | None = None, mode: str 
     for project_root in _iter_root_candidates():
         candidates.append(project_root / "assets" / "models" / "hemisphere_classifier" / bundle_name)
         candidates.append(project_root / "classifier_models" / bundle_name)
+    candidates.append(default_user_asset_root() / "models" / "hemisphere_classifier" / bundle_name)
 
     for candidate in _dedupe_paths(candidates):
         if candidate.exists():
             return candidate
-    return project_path(Path("assets") / "models" / "hemisphere_classifier" / bundle_name)
+    return default_user_asset_root() / "models" / "hemisphere_classifier" / bundle_name
+
+
+def default_user_asset_root() -> Path:
+    """Writable per-user asset cache used by PyPI/GUI installs.
+
+    Source checkouts usually resolve ``assets/models`` directly. Installed
+    wheels and compiled apps use this cache when the released model files need
+    to be downloaded outside the Python package.
+    """
+
+    cache_override = _first_env_path(MODEL_CACHE_ENV)
+    if cache_override is not None:
+        return cache_override
+    if sys.platform.startswith("win"):
+        base = Path(os.environ.get("LOCALAPPDATA") or (Path.home() / "AppData" / "Local"))
+        return base / "HemiSpec" / "assets"
+    base = Path(os.environ.get("XDG_CACHE_HOME") or (Path.home() / ".cache"))
+    return base / "hemispec" / "assets"
+
+
+def is_default_dgn_model_root(path: str | Path | None) -> bool:
+    if path is None:
+        return True
+    target = Path(path).expanduser().resolve()
+    return any(target == candidate.expanduser().resolve() for candidate in candidate_dgn_model_roots(None))
+
+
+def is_default_classifier_model_dir(path: str | Path | None, mode: str = "single") -> bool:
+    if path is None:
+        return True
+    bundle_name = _classifier_bundle_name_for_mode(mode)
+    target = Path(path).expanduser().resolve()
+    candidates: list[Path] = []
+    for asset_root in _env_paths(ASSET_ROOT_ENV):
+        candidates.append(asset_root / "models" / "hemisphere_classifier" / bundle_name)
+    for project_root in _iter_root_candidates():
+        candidates.append(project_root / "assets" / "models" / "hemisphere_classifier" / bundle_name)
+        candidates.append(project_root / "classifier_models" / bundle_name)
+    candidates.append(default_user_asset_root() / "models" / "hemisphere_classifier" / bundle_name)
+    return any(target == candidate.expanduser().resolve() for candidate in _dedupe_paths(candidates))
 
 
 def _classifier_bundle_name_for_mode(mode: str | None) -> str:
@@ -228,6 +273,13 @@ def _iter_root_candidates(start: str | Path | None = None) -> list[Path]:
         for item in (seed, *seed.parents):
             roots.append(item)
     return _dedupe_paths(roots)
+
+
+
+
+def _first_env_path(names: Iterable[str]) -> Path | None:
+    paths = _env_paths(names)
+    return paths[0] if paths else None
 
 
 def _env_paths(names: Iterable[str]) -> list[Path]:

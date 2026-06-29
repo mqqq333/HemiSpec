@@ -68,6 +68,12 @@ def test_no_roi_flag_is_preserved_when_classifier_is_off() -> None:
     assert config.roi_label_table is None
 
 
+def test_gui_accepts_input_directory_as_gm_glob(tmp_path: Path) -> None:
+    config = make_workflow_config(_state(input_glob=str(tmp_path), export_roi_table=False))
+
+    assert config.input_glob == str(tmp_path / "*_GM_masked.nii.gz")
+
+
 def test_gui_state_to_cli_command_quotes_paths_and_flags(tmp_path: Path) -> None:
     atlas = tmp_path / "glasser.nii.gz"
     labels = tmp_path / "labels.xlsx"

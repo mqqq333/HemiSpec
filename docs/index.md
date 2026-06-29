@@ -8,7 +8,7 @@ HemiSpec is not intended to rename the ANS/RNS metrics. Instead, it provides a c
 
 HemiSpec takes preprocessed gray-matter maps, compares each actual hemisphere with its contralaterally reconstructed counterpart, and produces reconstruction-derived ANS/RNS specificity maps plus optional ROI, classifier, and TRT validation outputs.
 
-HemiSpec v0.1.0 is a first public beta for research use. The source repository and default desktop downloads are lightweight; model weights, atlas payloads, classifier bundles, and real neuroimaging data are external assets.
+HemiSpec v0.1.0 is a first public beta for research use. The source repository includes reusable DGN checkpoints and hemisphere-classifier bundles through Git LFS. Wheel/PyPI and lightweight desktop installs keep the Python package small, but model-enabled CLI/GUI/API runs can auto-download the released weights into a user cache. Real neuroimaging data and generated outputs are not distributed.
 
 <p markdown="span">
   [Download release](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0){ .md-button .md-button--primary }
@@ -47,7 +47,7 @@ This site is the unified public home for HemiSpec. The public command and import
 ## Where to start
 
 - Read [Installation](installation.md) for the documentation and toolkit environment.
-- Read [Quick start](quickstart.md) for the planned command sequence.
+- Read [Quick start](quickstart.md) for the source-checkout GUI and CLI workflow.
 - Read [Software overview](software-overview.md) for the package, CLI, GUI, and compiled-app layers.
 - Browse [Manuscript figures](manuscript-figures.md) for approved figure previews.
 - Read [Methods](methods/index.md) for the original framework and the handedness extension.

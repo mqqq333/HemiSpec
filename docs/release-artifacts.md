@@ -11,7 +11,7 @@ HemiSpec-CLI-v0.1.0-win64.exe                    Windows CLI executable
 HemiSpec-GUI-v0.1.0-win64.zip                    compiled GUI folder distribution
 HemiSpec-v0.1.0-SHA256SUMS.txt                   checksums
 HemiSpec-v0.1.0-RELEASE_ARTIFACTS.txt            verification and artifact manifest
-HemiSpec-Assets-<version>.zip                    optional external asset bundle, not part of v0.1.0 lightweight release
+HemiSpec-Assets-<version>.zip                    optional offline/custom asset bundle for non-default assets
 ```
 
 The same public Python API powers the CLI, GUI, and compiled app so that examples and validation behavior remain reproducible.
@@ -44,17 +44,17 @@ A release is not considered public-ready until all relevant artifacts are built 
 - `hemispec --help` and documented subcommands run in a clean environment.
 - `hemispec-gui` starts the compact standard-workflow GUI.
 - The Windows app is built as a folder distribution and includes only approved runtime files.
-- Any DGN model, atlas, classifier, or example data bundle has a manifest, checksums, license/provenance notes, and a compatibility version.
+- Any additional/offline DGN model, atlas, classifier, or example data bundle has a manifest, checksums, license/provenance notes, and a compatibility version.
 - Public artifacts and docs pass leak checks for private paths, keys, subject data, model payloads, and unpublished result claims.
 
 ## Source versus assets
 
-The source repository should contain code, documentation, tests, examples, and asset manifests. Large DGN weights, classifier bundles, atlas NIfTI files, and non-public neuroimaging derivatives should be released separately with checksums, licenses, and model cards.
+The source repository contains code, documentation, tests, examples, and the approved reusable model bundles under Git LFS. Atlas NIfTI files, non-public neuroimaging derivatives, and any additional/custom model bundles should be released separately with checksums, licenses, and model cards unless explicitly approved for the repository.
 
 ## Desktop release variants
 
-- **Lightweight app:** compact GUI plus CLI/API utilities without bundling private model/data assets.
-- **Model-enabled app:** compact GUI plus approved DGN/model/atlas/classifier assets and PyTorch runtime, packaged as a larger folder distribution or paired with an external asset bundle.
+- **Lightweight app:** compact GUI plus CLI/API utilities; released models are resolved from Git LFS, cache download, or user-configured paths.
+- **Model-enabled app:** compact GUI plus approved model/atlas assets and PyTorch runtime, packaged as a larger folder distribution or paired with an offline asset bundle.
 
 Both variants should use the public `hemispec` package internally.
 

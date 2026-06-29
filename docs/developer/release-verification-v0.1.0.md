@@ -34,7 +34,7 @@ The two remaining downloaded files, `HemiSpec-v0.1.0-SHA256SUMS.txt` and `HemiSp
 
 ## Known boundary
 
-This verification does not turn the lightweight release into a model-enabled bundle. The v0.1.0 compiled artifacts still do not include torch, DGN weights, atlas payloads, classifier bundles, real MRI inputs, or generated outputs.
+This historical verification describes the original v0.1.0 artifacts. Those compiled artifacts do not embed torch, atlas payloads, real MRI inputs, or generated outputs. Current main-branch code adds released DGN/classifier model discovery through Git LFS and first-run user-cache download; use a newer wheel/build for that behavior.
 
 ## Related pages
 

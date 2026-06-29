@@ -21,6 +21,8 @@ from .api import (
     validate_reliability,
     validate_specificity,
 )
+from .model_assets import ensure_default_classifier_models, ensure_default_dgn_models, model_auto_download_enabled
+from .paths import is_default_dgn_model_root
 from .workflow import BilateralWorkflowConfig, run_bilateral_workflow
 
 
@@ -70,6 +72,14 @@ def add_models_parser(sub: argparse._SubParsersAction) -> None:
         "--root",
         default=None,
         help="Optional DGN model root override. By default HemiSpec searches local/configured assets/models/dgn.",
+    )
+    p.add_argument("--install", action="store_true", help="Download released DGN checkpoints into the user model cache before listing.")
+    p.add_argument("--with-classifier", action="store_true", help="Also download the released hemisphere-classifier bundle.")
+    p.add_argument(
+        "--classifier-mode",
+        choices=["single", "paired_residual"],
+        default="single",
+        help="Classifier bundle to install when --with-classifier is used.",
     )
     p.set_defaults(func=cmd_models)
 
@@ -297,7 +307,13 @@ def cmd_compute(args: argparse.Namespace) -> None:
 
 
 def cmd_models(args: argparse.Namespace) -> None:
-    bundles = discover_local_dgn_bundles(args.root)
+    root = args.root
+    if args.install:
+        installed_root = ensure_default_dgn_models()
+        root = root or str(installed_root)
+        if args.with_classifier:
+            ensure_default_classifier_models(args.classifier_mode)
+    bundles = discover_local_dgn_bundles(root)
     if not bundles:
         print("[models] no local DGN bundles found")
         return
@@ -442,6 +458,9 @@ def _resolve_model_bundle(args: argparse.Namespace) -> DGNModelBundle:
             target_hemisphere="right" if args.direction == "L_to_R" else "left",
         )
     bundles = discover_local_dgn_bundles(args.model_root)
+    if args.direction not in bundles and model_auto_download_enabled() and is_default_dgn_model_root(args.model_root):
+        installed_root = ensure_default_dgn_models()
+        bundles = discover_local_dgn_bundles(installed_root)
     if args.direction not in bundles:
         raise RuntimeError(
             f"No local DGN bundle found for {args.direction}. "

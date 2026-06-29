@@ -20,7 +20,7 @@ HemiSpec v0.1.0 is available as a first public beta / research-software release:
 - Windows GUI: `HemiSpec-GUI-v0.1.0-win64.zip`
 - Python artifacts: `hemispec_toolkit-0.1.0-py3-none-any.whl` and `hemispec_toolkit-0.1.0.tar.gz`
 
-The default compiled artifacts are lightweight: they do not bundle torch, DGN model weights, atlas payloads, classifier bundles, real MRI inputs, or generated outputs. See [Data and models](docs/data-and-models.md) and [External asset bundles](docs/reference/asset-bundle.md) before running model-enabled workflows.
+The source repository carries reusable DGN generator checkpoints and hemisphere-classifier bundles under `assets/models/` via Git LFS, so users can run model-enabled workflows without retraining. Wheels and lightweight desktop builds do not embed the 300 MB+ weights, but the CLI/GUI/API can auto-download the released model assets into a per-user cache on first model run. The normal path is: input preprocessed GM maps -> run HemiSpec -> get ANS/RNS maps. See [Data and models](docs/data-and-models.md) before publishing or redistributing additional assets.
 
 ## Method boundary
 
@@ -36,11 +36,11 @@ docs/                      MkDocs Material documentation website
 tests/                     pytest regression tests with synthetic fixtures
 examples/                  public-safe examples and IO contracts
 scripts/                   release/local launcher helpers; research utilities are isolated in scripts/research
-assets/                    local atlas/model placement docs and manifests only
+assets/                    reusable model bundles plus local atlas/data placement docs
 .github/workflows/         CI and GitHub Pages workflows
 ```
 
-Large model weights, real subject-level NIfTI files, classifier bundles, and generated outputs are intentionally not committed.
+Reusable DGN checkpoints and classifier bundles are tracked with Git LFS. Real subject-level NIfTI files and generated outputs remain excluded.
 
 ## Install for development
 
@@ -49,11 +49,11 @@ python -m pip install -e .[dev]
 python -m pytest
 ```
 
-Optional extras:
+Model-enabled runtime extras:
 
 ```bash
-python -m pip install -e .[model]
-python -m pip install -e .[classifier]
+python -m pip install -e .[gui,model,classifier]
+hemispec models --install --with-classifier  # optional pre-download; otherwise first model run downloads
 ```
 
 ## CLI
@@ -62,6 +62,21 @@ python -m pip install -e .[classifier]
 hemispec --help
 python -m hemispec --help
 ```
+
+## Model-enabled GUI from source
+
+Clone with Git LFS so model bundles are downloaded:
+
+```bash
+git lfs install
+git clone https://github.com/mqqq333/HemiSpec.git
+cd HemiSpec
+git lfs pull
+python -m pip install -e .[gui,model,classifier]
+python scripts/hemispec_gui_entry.py
+```
+
+The GUI setup card should report the DGN model and classifier bundle as found in a Git-LFS checkout. In a wheel/PyPI install, the first model run downloads the released model assets to the user cache if they are not already present. Provide preprocessed `*_GM_masked.nii.gz` inputs and choose an output workspace.
 
 ## Public-safe quickstart
 

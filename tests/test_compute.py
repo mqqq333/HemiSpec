@@ -1,7 +1,9 @@
+from concurrent.futures import CancelledError
 from pathlib import Path
 
 import nibabel as nib
 import numpy as np
+import pytest
 
 from hemispec.compute import compute_ans_rns_arrays, run_compute
 
@@ -17,6 +19,22 @@ def test_compute_ans_rns_arrays_formula():
 
 def _save(path: Path, arr: np.ndarray) -> None:
     nib.save(nib.Nifti1Image(arr.astype(np.float32), np.eye(4)), str(path))
+
+
+def test_run_compute_can_be_cancelled(tmp_path):
+    actual = tmp_path / "sub-01_GM_masked.nii.gz"
+    pred = tmp_path / "sub-01_GM_masked_PRED_LR_full.nii.gz"
+    data = np.full((4, 4, 4), 0.2, dtype=np.float32)
+    _save(actual, data)
+    _save(pred, data)
+
+    with pytest.raises(CancelledError):
+        run_compute(
+            str(tmp_path / "*_GM_masked.nii.gz"),
+            str(tmp_path / "*_PRED_LR_full.nii.gz"),
+            tmp_path / "out",
+            should_cancel=lambda: True,
+        )
 
 
 def test_run_compute_smoke(tmp_path):

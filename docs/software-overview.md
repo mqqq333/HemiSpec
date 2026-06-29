@@ -37,6 +37,6 @@ It does not expose model checkpoints, device selection, thresholds, suffix rules
 ## Current release split
 
 - **Lightweight package/app:** CLI, compact GUI, compute, ROI export, validation, and inspection without bundling private model/data assets.
-- **Model-enabled package/app:** end-to-end DGN inference plus ANS/RNS workflows when approved DGN weights, atlas files, classifier bundles, and model manifests are available.
+- **Model-enabled package/app:** end-to-end DGN inference plus ANS/RNS workflows using released DGN/classifier defaults from Git LFS, first-run cache download, or explicit offline assets; atlas files remain optional for ROI export.
 
 The default public build should avoid silently bundling private `assets/`; model and atlas bundles should be explicit release artifacts with checksums, license notes, and compatibility metadata.

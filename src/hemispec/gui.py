@@ -1,6 +1,7 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 import contextlib
+from concurrent.futures import CancelledError
 import importlib.util
 import io
 import re
@@ -9,7 +10,7 @@ import sys
 import threading
 import traceback
 import tkinter as tk
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from tkinter import filedialog, messagebox
 from typing import Callable
@@ -33,6 +34,7 @@ except ImportError:  # pragma: no cover - exercised only on machines without GUI
 
 APP_TITLE = "HemiSpec"
 APP_SUBTITLE = "ANS/RNS Generation Workbench"
+SCROLL_INCREMENT_PX = 20
 APP_DESCRIPTION = (
     "Generate voxel-wise reconstruction-derived hemispheric specificity maps from "
     "preprocessed GM inputs using the packaged HemiSpec workflow."
@@ -175,7 +177,7 @@ def _dgn_status(model_root: Path | None) -> RuntimeAssetStatus:
             ok=False,
             path=None,
             message="missing model root",
-            guidance="Set HEMISPEC_DGN_MODEL_ROOT or place bundles under HemiSpec-Assets/models/dgn.",
+            guidance="Use the default released DGN bundle, or set HEMISPEC_DGN_MODEL_ROOT for a custom bundle.",
         )
     resolved_root = resolve_dgn_model_root(model_root)
     bundles = discover_local_dgn_bundles(model_root)
@@ -193,14 +195,14 @@ def _dgn_status(model_root: Path | None) -> RuntimeAssetStatus:
     if model_root.exists():
         message = f"partial/missing checkpoints ({', '.join(missing)} missing)"
     else:
-        message = "missing model root path"
+        message = "missing/not downloaded model root path"
     return RuntimeAssetStatus(
         key="dgn",
         label="DGN model",
         ok=False,
         path=resolved_root,
         message=message,
-        guidance="Provide both L_to_R and R_to_L checkpoint bundles or use --model-root in CLI.",
+        guidance="Default installs auto-download released checkpoints on first model run; use --model-root only for custom bundles.",
     )
 
 
@@ -239,7 +241,7 @@ def _classifier_status(classifier_dir: Path | None, classifier_mode: str) -> Run
             ok=False,
             path=None,
             message="missing classifier path",
-            guidance="Set HEMISPEC_CLASSIFIER_MODEL_DIR when classifier validation is needed.",
+            guidance="Default installs auto-download the released classifier when validation is enabled.",
         )
     try:
         models = discover_classifier_models(classifier_dir, ("ANS", "RNS"))
@@ -262,14 +264,14 @@ def _classifier_status(classifier_dir: Path | None, classifier_mode: str) -> Run
             message=f"found {metrics} model(s) for mode {classifier_mode}",
             guidance="Ready when classifier validation is enabled.",
         )
-    message = "missing classifier model files" if classifier_dir.exists() else "missing classifier directory"
+    message = "missing classifier model files" if classifier_dir.exists() else "missing/not downloaded classifier directory"
     return RuntimeAssetStatus(
         key="classifier",
         label="Classifier bundle",
         ok=False,
         path=classifier_dir,
         message=message,
-        guidance="Classifier validation is optional; install a bundle or leave validation disabled.",
+        guidance="Classifier validation is optional; the released bundle can auto-download when validation is enabled.",
     )
 
 
@@ -289,7 +291,7 @@ def _torch_status() -> RuntimeAssetStatus:
         ok=False,
         path=None,
         message="missing",
-        guidance="Install hemispec-toolkit[model] or torch for DGN inference.",
+        guidance="Start the GUI from an environment with torch, e.g. conda activate d2l, or install hemispec-toolkit[model].",
     )
 
 
@@ -312,6 +314,12 @@ def _optional_path(value: str) -> Path | None:
     return Path(text) if text else None
 
 
+def _normalize_input_glob(value: str) -> str:
+    text = value.strip().strip('"').strip("'")
+    path = Path(text)
+    return str(path / "*_GM_masked.nii.gz") if path.is_dir() else text
+
+
 def _path_exists_or_empty(value: str) -> bool:
     text = value.strip()
     return not text or Path(text).exists()
@@ -321,6 +329,12 @@ def default_output_dir() -> str:
     return str(Path.cwd() / "hemispec_outputs" / "gui_run")
 
 
+def _speed_up_scroll(scrollable: object) -> None:
+    canvas = getattr(scrollable, "_parent_canvas", None)
+    if canvas is not None:
+        canvas.configure(yscrollincrement=SCROLL_INCREMENT_PX)
+
+
 def make_workflow_config(state: dict[str, object]) -> BilateralWorkflowConfig:
     """Convert GUI state into the single workflow config used by CLI/API.
 
@@ -328,7 +342,7 @@ def make_workflow_config(state: dict[str, object]) -> BilateralWorkflowConfig:
     validation rules even when GUI controls are refactored.
     """
 
-    input_glob = str(state["input_glob"]).strip()
+    input_glob = _normalize_input_glob(str(state["input_glob"]))
     out_dir = str(state["out_dir"]).strip()
     export_roi_table = bool(state.get("export_roi_table", True))
     run_classifier = bool(state.get("run_classifier", False))
@@ -385,7 +399,27 @@ def make_workflow_config(state: dict[str, object]) -> BilateralWorkflowConfig:
 def workflow_cli_command(state: dict[str, object]) -> str:
     """Return a reproducible CLI command equivalent to the visible GUI choices."""
 
-    config = make_workflow_config(state)
+    return " ".join(_workflow_cli_parts(make_workflow_config(state)))
+
+
+def workflow_cli_display_command(state: dict[str, object]) -> str:
+    """Return the same command split over lines for the GUI preview."""
+
+    parts = _workflow_cli_parts(make_workflow_config(state))
+    lines = [" ".join(parts[:2])]
+    idx = 2
+    while idx < len(parts):
+        flag = parts[idx]
+        if idx + 1 < len(parts) and not parts[idx + 1].startswith("--"):
+            lines.append(f"  {flag} {parts[idx + 1]}")
+            idx += 2
+        else:
+            lines.append(f"  {flag}")
+            idx += 1
+    return " `\n".join(lines)
+
+
+def _workflow_cli_parts(config: BilateralWorkflowConfig) -> list[str]:
     parts = [
         "hemispec",
         "workflow",
@@ -405,7 +439,7 @@ def workflow_cli_command(state: dict[str, object]) -> str:
         parts.append("--run-classifier")
     if config.run_trt:
         parts.append("--run-trt")
-    return " ".join(parts)
+    return parts
 
 
 def _quote(value: str) -> str:
@@ -450,6 +484,7 @@ class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
         self.minsize(960, 680)
 
         self.is_running = False
+        self.cancel_event = threading.Event()
         self.last_out_dir: Path | None = None
         self.vars: dict[str, object] = {}
         self.status_var = ctk.StringVar(value="Ready")
@@ -520,6 +555,7 @@ class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
         ).grid(row=1, column=1, padx=(18, 0), sticky="e")
 
         content = ctk.CTkScrollableFrame(main, fg_color="#f6f8fb")
+        _speed_up_scroll(content)
         content.grid(row=1, column=0, padx=22, pady=(0, 8), sticky="nsew")
         content.grid_columnconfigure(0, weight=1)
 
@@ -605,7 +641,7 @@ class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
             parent,
             row,
             "Setup status",
-            "Check optional runtime assets before a long workflow run. Missing model/classifier assets do not block synthetic compute-only use, but DGN inference requires PyTorch and bilateral checkpoints.",
+            "Check runtime readiness before a long workflow run. DGN checkpoints are the released HemiSpec defaults and can auto-download into the user cache; PyTorch is still required in the active environment.",
             accent="#0891b2",
             bg="#ecfeff",
             border="#a5f3fc",
@@ -668,25 +704,41 @@ class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
         )
         actions = ctk.CTkFrame(card, fg_color="transparent")
         actions.grid(row=2, column=0, columnspan=3, padx=16, pady=(0, 8), sticky="ew")
-        actions.grid_columnconfigure(4, weight=1)
+        actions.grid_columnconfigure(5, weight=1)
         self.run_button = ctk.CTkButton(actions, text="Run HemiSpec", command=self._run_clicked, height=36)
         self.run_button.grid(row=0, column=0, padx=(0, 10), sticky="w")
-        ctk.CTkButton(actions, text="Copy CLI Command", command=self._copy_cli, height=36, fg_color="#334155").grid(
-            row=0, column=1, padx=(0, 10), sticky="w"
+        self.stop_button = ctk.CTkButton(
+            actions, text="Stop", command=self._stop_clicked, height=36, state="disabled", fg_color="#b91c1c"
         )
-        ctk.CTkButton(actions, text="Open Output Folder", command=self._open_output, height=36, fg_color="#475569").grid(
+        self.stop_button.grid(row=0, column=1, padx=(0, 10), sticky="w")
+        ctk.CTkButton(actions, text="Copy CLI Command", command=self._copy_cli, height=36, fg_color="#334155").grid(
             row=0, column=2, padx=(0, 10), sticky="w"
         )
+        ctk.CTkButton(actions, text="Open Output Folder", command=self._open_output, height=36, fg_color="#475569").grid(
+            row=0, column=3, padx=(0, 10), sticky="w"
+        )
         ctk.CTkButton(actions, text="Clear Log", command=self._clear_log, height=36, fg_color="#64748b").grid(
-            row=0, column=3, sticky="w"
+            row=0, column=4, sticky="w"
         )
 
-        self.cli_box = ctk.CTkTextbox(card, height=48, wrap="word", fg_color="#f8fafc", text_color="#0f172a")
-        self.cli_box.grid(row=3, column=0, columnspan=3, padx=16, pady=(0, 8), sticky="ew")
+        ctk.CTkLabel(
+            card,
+            text=(
+                "Equivalent CLI command for reproducibility. "
+                "ROI atlas / label table are optional reference files for ROI table export; "
+                "uncheck Export ROI table to omit them."
+            ),
+            text_color="#475569",
+            font=ctk.CTkFont(size=12),
+            wraplength=760,
+            justify="left",
+        ).grid(row=3, column=0, columnspan=3, padx=16, pady=(0, 4), sticky="w")
+        self.cli_box = ctk.CTkTextbox(card, height=92, wrap="word", fg_color="#f8fafc", text_color="#0f172a")
+        self.cli_box.grid(row=4, column=0, columnspan=3, padx=16, pady=(0, 8), sticky="ew")
         self._refresh_cli_box()
 
         self.log_box = ctk.CTkTextbox(card, height=150, wrap="word", fg_color="#0f172a", text_color="#e5e7eb")
-        self.log_box.grid(row=4, column=0, columnspan=3, padx=16, pady=(0, 14), sticky="ew")
+        self.log_box.grid(row=5, column=0, columnspan=3, padx=16, pady=(0, 14), sticky="ew")
         self._log("Ready. Configure inputs and click Run HemiSpec.\n")
 
     def _entry_row(self, parent: object, row: int, label: str, var_key: str, browse: Callable[[], None]) -> list[object]:
@@ -700,12 +752,10 @@ class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
         return [label_widget, entry, button]
 
     def _browse_input_file(self) -> None:
-        path = filedialog.askopenfilename(title="Select one GM map to build a folder glob")
+        path = filedialog.askdirectory(title="Select folder containing *_GM_masked.nii.gz files")
         if not path:
             return
-        p = Path(path)
-        suffix = "*_GM_masked.nii.gz" if p.name.endswith("_GM_masked.nii.gz") else f"*{''.join(p.suffixes)}"
-        self.vars["input_glob"].set(str(p.parent / suffix))  # type: ignore[union-attr]
+        self.vars["input_glob"].set(str(Path(path) / "*_GM_masked.nii.gz"))  # type: ignore[union-attr]
         self._on_config_changed()
 
     def _browse_output_dir(self) -> None:
@@ -835,7 +885,7 @@ class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
         if not hasattr(self, "cli_box"):
             return
         try:
-            cli = workflow_cli_command(self._state_snapshot())
+            cli = workflow_cli_display_command(self._state_snapshot())
         except Exception as exc:  # keep GUI responsive while fields are being edited
             cli = f"# incomplete configuration: {exc}"
         self.cli_box.configure(state="normal")
@@ -878,9 +928,12 @@ class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
             messagebox.showerror("Invalid HemiSpec configuration", str(exc))
             return
 
+        self.cancel_event.clear()
+        config = replace(config, should_cancel=self.cancel_event.is_set)
         self.is_running = True
         self.last_out_dir = config.out_dir
         self.run_button.configure(state="disabled", text="Running...")
+        self.stop_button.configure(state="normal", text="Stop")
         self.status_var.set("Running HemiSpec workflow")
         self._log("\n[run] Starting HemiSpec standard workflow\n")
         self._log(f"[run] output: {config.out_dir}\n")
@@ -889,22 +942,36 @@ class HemiSpecGui(ctk.CTk if ctk is not None else tk.Tk):  # type: ignore[misc]
         thread = threading.Thread(target=self._run_worker, args=(config,), daemon=True)
         thread.start()
 
+    def _stop_clicked(self) -> None:
+        if not self.is_running:
+            return
+        self.cancel_event.set()
+        self.stop_button.configure(state="disabled", text="Stopping...")
+        self.status_var.set("Stopping after current file")
+        self._log("[cancel] Stop requested; waiting for the current file to finish.\n")
+
     def _run_worker(self, config: BilateralWorkflowConfig) -> None:
         try:
             with contextlib.redirect_stdout(_StdoutProxy(self._threadsafe_log)), contextlib.redirect_stderr(
                 _StdoutProxy(self._threadsafe_log)
             ):
                 result = run_bilateral_workflow(config)
-            self.after(0, lambda: self._run_finished(result, None))
+            self.after(0, lambda result=result: self._run_finished(result, None))
         except Exception as exc:  # pragma: no cover - GUI worker path
             detail = traceback.format_exc()
-            self.after(0, lambda: self._run_finished(None, (exc, detail)))
+            self.after(0, lambda exc=exc, detail=detail: self._run_finished(None, (exc, detail)))
 
     def _run_finished(self, result: BilateralWorkflowResult | None, error: tuple[BaseException, str] | None) -> None:
         self.is_running = False
+        self.cancel_event.clear()
         self.run_button.configure(state="normal", text="Run HemiSpec")
+        self.stop_button.configure(state="disabled", text="Stop")
         if error is not None:
             exc, detail = error
+            if isinstance(exc, CancelledError):
+                self.status_var.set("Stopped")
+                self._log("[stopped] HemiSpec workflow stopped by user.\n")
+                return
             self.status_var.set("Failed")
             self._log(f"[error] {exc}\n{detail}\n")
             messagebox.showerror("HemiSpec workflow failed", str(exc))

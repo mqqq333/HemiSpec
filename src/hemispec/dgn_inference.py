@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+from concurrent.futures import CancelledError
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Callable
 
 import numpy as np
 
@@ -100,6 +102,7 @@ def run_dgn_inference_files(
     device: str,
     output_suffix: str = "_PRED_LR_full.nii.gz",
     clip_recon: tuple[float, float] | None = None,
+    should_cancel: Callable[[], bool] | None = None,
 ) -> list[DGNInferenceOutput]:
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
@@ -108,7 +111,9 @@ def run_dgn_inference_files(
         raise RuntimeError(f"No input GM maps matched: {input_glob}")
 
     outputs: list[DGNInferenceOutput] = []
-    for path in inputs:
+    for idx, path in enumerate(inputs, start=1):
+        _raise_if_cancelled(should_cancel)
+        print(f"[infer] {direction} {idx}/{len(inputs)} start {path.name}")
         nifti = load_nifti(path)
         recon = run_dgn_on_volume(
             nifti.data,
@@ -119,8 +124,14 @@ def run_dgn_inference_files(
         )
         output_path = out / f"{strip_nii_ext(path.name)}{output_suffix}"
         save_like(nifti.image, recon, output_path)
+        print(f"[infer] {direction} {idx}/{len(inputs)} done {output_path.name}")
         outputs.append(DGNInferenceOutput(input_path=path, output_path=output_path, direction=direction))
     return outputs
+
+
+def _raise_if_cancelled(should_cancel: Callable[[], bool] | None) -> None:
+    if should_cancel is not None and should_cancel():
+        raise CancelledError("Workflow cancelled by user.")
 
 
 def _check_volume_shape(volume: np.ndarray) -> None:

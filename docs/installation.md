@@ -13,6 +13,31 @@ mkdocs serve
 
 MkDocs prints a local preview URL after startup.
 
+## Model-enabled install
+
+For a PyPI/wheel install, install the runtime extras and optionally pre-download the released model assets into the user cache:
+
+```bash
+python -m pip install "hemispec-toolkit[gui,model,classifier]"
+hemispec models --install --with-classifier
+hemispec-gui
+```
+
+If you skip the pre-download command, the first model-enabled CLI/GUI/API run downloads the released DGN checkpoints automatically. Classifier bundles auto-download when classifier validation is enabled.
+
+Use a Git-LFS source checkout when you want the repository copy of the bundled DGN and classifier models:
+
+```bash
+git lfs install
+git clone https://github.com/mqqq333/HemiSpec.git
+cd HemiSpec
+git lfs pull
+python -m pip install -e .[gui,model,classifier]
+python scripts/hemispec_gui_entry.py
+```
+
+On Windows, launch the same commands from the conda environment that has PyTorch installed if you need GPU/CUDA support.
+
 ## Toolkit / release package
 
 HemiSpec v0.1.0 is available from the GitHub Release page:
@@ -28,11 +53,11 @@ python -m pip install hemispec_toolkit-0.1.0-py3-none-any.whl
 hemispec --help
 ```
 
-The PyPI target remains the distribution name `hemispec-toolkit`; public PyPI upload is still pending. During development, use your local toolkit checkout with import path `hemispec`:
+The PyPI distribution name is `hemispec-toolkit`; the import path and CLI command are `hemispec`. During development, use your local toolkit checkout:
 
 ```bash
 cd <local-toolkit-checkout>
-python -m pip install -e .
+python -m pip install -e .[gui,model,classifier]
 hemispec --help
 ```
 
@@ -69,6 +94,6 @@ dist/hemispec_gui/hemispec_gui.exe
 
 Keep the whole `dist/hemispec_gui/` folder together; do not move only the `.exe`.
 
-## Optional model runtime
+## Model runtime
 
-DGN inference requires a PyTorch environment and trained DGN model bundles. Model weights, atlas payloads, classifier bundles, and real subject-level MRI derivatives are not stored in the source repository. See [Data and models](data-and-models.md) for the release policy and local directory conventions.
+DGN inference requires PyTorch in the environment that starts the CLI or GUI. HemiSpec discovers models from explicit paths, environment variables, a Git-LFS checkout under `assets/models/`, or the per-user model cache. Wheel/PyPI and lightweight EXE builds do not embed PyTorch or the 300 MB+ checkpoints; they use the released GitHub assets through first-run cache download. See [Data and models](data-and-models.md).

@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+from concurrent.futures import CancelledError
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Callable
 
 import nibabel as nib
 import numpy as np
@@ -25,7 +27,13 @@ from .api import (
 )
 from .dgn_inference import LEFT_SLICE, RIGHT_SLICE
 from .io import list_from_glob, load_nifti, save_like, strip_nii_ext
-from .paths import resolve_classifier_model_dir, resolve_glasser_atlas_path, resolve_glasser_label_table
+from .model_assets import ensure_default_dgn_models, model_auto_download_enabled
+from .paths import (
+    is_default_dgn_model_root,
+    resolve_classifier_model_dir,
+    resolve_glasser_atlas_path,
+    resolve_glasser_label_table,
+)
 from .roi import RoiSummaryConfig, summarize_maps_by_atlas
 
 
@@ -66,6 +74,7 @@ class BilateralWorkflowConfig:
     trt_symmetrize: bool = True
     trt_write_plots: bool = True
     verbose_every: int = 50
+    should_cancel: Callable[[], bool] | None = None
 
 
 @dataclass(frozen=True)
@@ -92,28 +101,37 @@ def run_bilateral_workflow(config: BilateralWorkflowConfig) -> BilateralWorkflow
     for directory in (recon_dir, metrics_dir, combined_dir, hemi_dir, tables_dir):
         directory.mkdir(parents=True, exist_ok=True)
 
+    _raise_if_cancelled(config.should_cancel)
     roi_atlas = _resolve_optional_roi_atlas(config)
     roi_label_table = _resolve_optional_roi_label_table(config) if roi_atlas is not None else None
-    bundles = discover_local_dgn_bundles(config.model_root)
+    bundles = _discover_or_install_dgn_bundles(config.model_root)
     missing = [direction for direction in ("L_to_R", "R_to_L") if direction not in bundles]
     if missing:
         raise RuntimeError(f"Missing configured local DGN direction(s): {', '.join(missing)}")
 
+    print("[workflow] Running L_to_R inference and metrics")
     l_to_r = _run_one_direction(config, bundles["L_to_R"], "L_to_R", recon_dir, metrics_dir, roi_atlas, roi_label_table)
+    _raise_if_cancelled(config.should_cancel)
+    print("[workflow] Running R_to_L inference and metrics")
     r_to_l = _run_one_direction(config, bundles["R_to_L"], "R_to_L", recon_dir, metrics_dir, roi_atlas, roi_label_table)
+    _raise_if_cancelled(config.should_cancel)
 
+    print("[workflow] Merging bilateral subject maps")
     _write_bilateral_subject_maps(
         l_to_r.metrics.subject_maps_dir,
         r_to_l.metrics.subject_maps_dir,
         combined_dir,
         hemi_dir,
         write_nan_outside=config.write_nan_outside,
+        should_cancel=config.should_cancel,
     )
     roi_csv: Path | None = None
     roi_wide_csv: Path | None = None
+    _raise_if_cancelled(config.should_cancel)
     if roi_atlas is not None:
         roi_csv = tables_dir / "roi_features_bilateral.csv"
         roi_wide_csv = tables_dir / "roi_features_bilateral_wide.csv"
+        print("[workflow] Exporting bilateral ROI table")
         summarize_maps_by_atlas(
             RoiSummaryConfig(
                 maps_glob=str(combined_dir / "*.nii.gz"),
@@ -125,9 +143,12 @@ def run_bilateral_workflow(config: BilateralWorkflowConfig) -> BilateralWorkflow
             )
         )
         summarize_bilateral_roi_features(roi_csv, roi_wide_csv)
+    _raise_if_cancelled(config.should_cancel)
+    print("[workflow] Writing subject metric summary")
     subject_summary_csv = tables_dir / "subject_metric_summary.csv"
-    summarize_subject_metrics(combined_dir, subject_summary_csv)
+    summarize_subject_metrics(combined_dir, subject_summary_csv, should_cancel=config.should_cancel)
 
+    _raise_if_cancelled(config.should_cancel)
     classifier_result = None
     if config.run_classifier:
         if roi_csv is None or roi_atlas is None:
@@ -183,6 +204,20 @@ def run_bilateral_workflow(config: BilateralWorkflowConfig) -> BilateralWorkflow
     )
 
 
+def _discover_or_install_dgn_bundles(model_root: Path | None):
+    bundles = discover_local_dgn_bundles(model_root)
+    missing = [direction for direction in ("L_to_R", "R_to_L") if direction not in bundles]
+    if missing and model_auto_download_enabled() and is_default_dgn_model_root(model_root):
+        installed_root = ensure_default_dgn_models()
+        bundles = discover_local_dgn_bundles(installed_root)
+    return bundles
+
+
+def _raise_if_cancelled(should_cancel: Callable[[], bool] | None) -> None:
+    if should_cancel is not None and should_cancel():
+        raise CancelledError("Workflow cancelled by user.")
+
+
 def _resolve_optional_roi_atlas(config: BilateralWorkflowConfig) -> Path | None:
     """Return an ROI atlas when ROI tables/classifier are requested and available.
 
@@ -206,9 +241,12 @@ def _resolve_optional_roi_label_table(config: BilateralWorkflowConfig) -> Path |
     return label_table if label_table.exists() else None
 
 
-def summarize_subject_metrics(maps_dir: Path, out_csv: Path) -> pd.DataFrame:
+def summarize_subject_metrics(
+    maps_dir: Path, out_csv: Path, should_cancel: Callable[[], bool] | None = None
+) -> pd.DataFrame:
     rows: list[dict[str, object]] = []
     for ans_path in list_from_glob(str(maps_dir / "*_ANS.nii.gz")):
+        _raise_if_cancelled(should_cancel)
         subject = strip_nii_ext(ans_path.name)[: -len("_ANS")]
         rns_path = maps_dir / f"{subject}_RNS.nii.gz"
         if not rns_path.exists():
@@ -274,6 +312,7 @@ def _run_one_direction(
                 direction=direction,  # type: ignore[arg-type]
                 clip_recon=config.clip_recon,
                 output_suffix=config.output_suffix,
+                should_cancel=config.should_cancel,
             ),
             metrics_out_dir=metrics_root / direction,
             gm_thresh=config.gm_thresh,
@@ -289,6 +328,7 @@ def _run_one_direction(
             roi_label_table=roi_label_table,
             roi_stat=config.roi_stat,  # type: ignore[arg-type]
             roi_ignore_zero=config.roi_ignore_zero,
+            should_cancel=config.should_cancel,
         )
     )
 
@@ -299,6 +339,7 @@ def _write_bilateral_subject_maps(
     combined_dir: Path,
     hemi_dir: Path,
     write_nan_outside: bool = False,
+    should_cancel: Callable[[], bool] | None = None,
 ) -> None:
     if l_to_r_maps_dir is None or r_to_l_maps_dir is None:
         raise RuntimeError("Bilateral workflow requires subject-level maps for both DGN directions.")
@@ -309,7 +350,8 @@ def _write_bilateral_subject_maps(
     if not subjects:
         raise RuntimeError("No paired L_to_R/R_to_L subject maps found for bilateral merge.")
 
-    for subject in subjects:
+    for idx, subject in enumerate(subjects, start=1):
+        _raise_if_cancelled(should_cancel)
         l_ans_path = l_to_r_maps_dir / f"{subject}_ANS.nii.gz"
         l_rns_path = l_to_r_maps_dir / f"{subject}_RNS.nii.gz"
         r_ans_path = r_to_l_maps_dir / f"{subject}_ANS.nii.gz"
@@ -333,6 +375,7 @@ def _write_bilateral_subject_maps(
         save_like(l_ref.image, rns_r, hemi_dir / f"{subject}_RNS.R.nii.gz")
         save_like(l_ref.image, ans, combined_dir / f"{subject}_ANS.nii.gz")
         save_like(l_ref.image, rns, combined_dir / f"{subject}_RNS.nii.gz")
+        print(f"[merge] {idx}/{len(subjects)} {subject}")
 
 
 def _hemi_only(data: np.ndarray, hemi: str, write_nan_outside: bool) -> np.ndarray:

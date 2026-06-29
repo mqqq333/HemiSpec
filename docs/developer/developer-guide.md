@@ -9,9 +9,9 @@ HemiSpec Toolkit has four separable layers:
 1. **Library package** (`src/hemispec/`) — importable Python modules and the public API.
 2. **Interfaces** (`hemispec` CLI and `hemispec-gui`) — thin entry points over the library package.
 3. **Examples and tests** (`examples/`, `tests/`) — synthetic or approved public fixtures plus automated regression checks.
-4. **Local assets and release bundles** (`assets/`, `dist/`) — local-only atlases, weights, classifier bundles, and compiled outputs.
+4. **Assets and release bundles** (`assets/`, `dist/`) - approved reusable model bundles, local-only atlases, and compiled outputs.
 
-Only the first three layers should be part of the public source distribution by default. Large runtime assets should be documented by manifests and released separately.
+The approved reusable DGN/classifier bundles live under `assets/models/` with Git LFS. Other large runtime assets should be documented by manifests and released separately unless explicitly approved.
 
 ## Local setup
 
@@ -58,7 +58,7 @@ If a module grows too large, split by responsibility rather than by call site. F
 
 ## Data and asset policy
 
-Do not commit real subject-level MRI/NIfTI files, trained model weights, classifier bundles, or generated outputs. Keep local copies under ignored paths and commit only:
+Do not commit real subject-level MRI/NIfTI files, generated outputs, or unapproved model/atlas payloads. The approved HemiSpec DGN/classifier bundles under `assets/models/` are the explicit exception and must stay tracked through Git LFS. For other assets, commit only:
 
 - README files describing expected placement.
 - manifest templates with checksums and provenance fields.
@@ -66,4 +66,4 @@ Do not commit real subject-level MRI/NIfTI files, trained model weights, classif
 
 ## Release policy
 
-The PyPI wheel should stay lightweight and should include only package code plus small package-owned resources. Compiled app folders may be produced under `dist/`, but release assets need explicit approval before public upload.
+The PyPI wheel should stay lightweight and should include package code plus small package-owned resources. Released model weights are resolved from Git LFS or the first-run user cache, not embedded in the wheel. Compiled app folders may be produced under `dist/`, but additional release assets need explicit approval before public upload.

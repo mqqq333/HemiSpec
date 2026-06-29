@@ -2,13 +2,13 @@
 
 This page shows the current HemiSpec workflow. Public branding, CLI examples, and the Python API use HemiSpec naming consistently.
 
-The CLI shape in this page was checked against the current migration toolkit interface on 2026-06-29. The public package name is `hemispec-toolkit`; public package upload and real-data asset releases are still pending.
+The CLI shape in this page was checked against the current toolkit interface on 2026-06-29. The public package name is `hemispec-toolkit`; the import path and command remain `hemispec`.
 
 !!! note "Command naming"
     Use `hemispec` for the command-line interface and `hemispec-gui` for the graphical interface.
 
-!!! warning "Real-data assets are not bundled yet"
-    The source repository and public website do not ship public DGN weights, real atlas payloads, classifier bundles, or real subject data. Real-data commands use placeholders such as `<model-root>` and `<atlas-path>` until approved release assets are added.
+!!! note "Released model assets"
+    The source repository includes reusable DGN checkpoints and hemisphere-classifier bundles through Git LFS. Wheel/PyPI installs keep those large binaries outside the wheel, then auto-download the released assets into the user cache on the first model run. No retraining is required.
 
 ## Public-safe synthetic compute demo
 
@@ -22,9 +22,30 @@ powershell -ExecutionPolicy Bypass -File examples\synthetic_quickstart\run_synth
 
 The generated maps are not anatomical data and should only be used to verify the public command/file contract.
 
-## Model-enabled DGN demo plan
+## Model-enabled install
 
-A full public DGN demo requires a separately approved external `HemiSpec-Assets` bundle with DGN checkpoints, atlas files, classifier bundles, checksums, licenses, and provenance. See [Model-enabled DGN workflow](tutorials/model-enabled-dgn-workflow.md) for the current public contract.
+For a PyPI/wheel install, use the model runtime extras and optionally pre-download the released model assets:
+
+```bash
+python -m pip install "hemispec-toolkit[gui,model,classifier]"
+hemispec models --install --with-classifier
+hemispec-gui
+```
+
+If you skip `hemispec models --install`, the first `hemispec workflow`, `hemispec infer`, `hemispec run`, or GUI model run downloads the released DGN checkpoints automatically.
+
+For a Git-LFS source checkout, install from the repository:
+
+```bash
+git lfs install
+git clone https://github.com/mqqq333/HemiSpec.git
+cd HemiSpec
+git lfs pull
+python -m pip install -e .[gui,model,classifier]
+python scripts/hemispec_gui_entry.py
+```
+
+The GUI setup card should show DGN model and classifier bundle as found after Git LFS checkout or after model cache download. PyTorch availability depends on the Python/conda environment used to launch the GUI.
 
 ## 1. Prepare gray-matter maps
 
@@ -44,11 +65,11 @@ derivatives/sub-001_GM_masked.nii.gz
 
 ## 2. Run the standard GUI workflow
 
-Install the GUI extra and start the launcher:
+Start the launcher from the same environment that has PyTorch installed:
 
 ```bash
-python -m pip install -e .[gui]
-hemispec-gui
+python -m pip install -e .[gui,model,classifier]
+python scripts/hemispec_gui_entry.py
 ```
 
 The GUI is intentionally a thin standard-workflow interface. Its setup status card reports whether DGN models, Glasser atlas files, classifier bundles, and PyTorch are found before a long run. Normal users choose:
@@ -61,13 +82,13 @@ The GUI is intentionally a thin standard-workflow interface. Its setup status ca
 
 Voxel-wise and subject-level ANS/RNS maps are the primary output. ROI tables are optional downstream features. Classifier validation requires ROI table export.
 
-## 3. Inspect available local model bundles
+## 3. Inspect bundled model bundles
 
 ```bash
-hemispec models --root <model-root>
+hemispec models
 ```
 
-Model weights are not part of the source repository. See [Data and models](data-and-models.md) before publishing or distributing trained weights.
+This lists both DGN directions when the Git-LFS checkout or user cache contains the released checkpoints. To pre-download from a wheel/PyPI install, run `hemispec models --install --with-classifier`. See [Data and models](data-and-models.md) before publishing or distributing additional trained weights.
 
 ## 4. Run the bilateral workflow from CLI
 
@@ -76,7 +97,6 @@ The GUI maps to the same public CLI/API path:
 ```bash
 hemispec workflow \
   --input-glob "derivatives/*_GM_masked.nii.gz" \
-  --model-root <model-root> \
   --out-dir outputs/hemispec_workflow
 ```
 
@@ -85,7 +105,6 @@ Optional ROI table with a custom atlas:
 ```bash
 hemispec workflow \
   --input-glob "derivatives/*_GM_masked.nii.gz" \
-  --model-root <model-root> \
   --out-dir outputs/hemispec_workflow \
   --roi-atlas atlas/custom_atlas.nii.gz \
   --roi-label-table atlas/custom_labels.xlsx
@@ -96,7 +115,6 @@ Skip ROI table export when only voxel-wise maps are needed:
 ```bash
 hemispec workflow \
   --input-glob "derivatives/*_GM_masked.nii.gz" \
-  --model-root <model-root> \
   --out-dir outputs/hemispec_workflow \
   --no-roi-table
 ```
@@ -111,7 +129,6 @@ One-direction DGN inference:
 hemispec infer \
   --input-glob "derivatives/*_GM_masked.nii.gz" \
   --direction L_to_R \
-  --model-root <model-root> \
   --out-dir outputs/recon_L_to_R
 ```
 
@@ -131,7 +148,6 @@ Run inference and compute together for one direction:
 hemispec run \
   --input-glob "derivatives/*_GM_masked.nii.gz" \
   --direction L_to_R \
-  --model-root <model-root> \
   --recon-dir outputs/recon_L_to_R \
   --metrics-dir outputs/specificity_L_to_R
 ```
@@ -152,5 +168,6 @@ hemispec specificity \
 
 - A standalone `report` command.
 - A standalone `roi` command.
-- Public real-data preprocessing assets, DGN model bundles, atlas payloads, classifier bundles, and approved real sample data.
+- Public real-data preprocessing assets and approved real sample data.
+- Public redistribution decision for any atlas payloads not already cleared.
 - A fully public handedness reproduction workflow.

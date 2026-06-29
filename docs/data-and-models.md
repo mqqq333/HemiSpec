@@ -12,36 +12,30 @@ HemiSpec works with neuroimaging data and trained model weights, so the public r
 
 ## Repository policy
 
-The source repository should contain code, documentation, tests, synthetic examples, and manifests. Large runtime payloads should remain external:
+The source repository contains code, documentation, tests, synthetic examples, and approved reusable model bundles. Large binary model files under `assets/models/` are tracked with Git LFS:
 
 ```text
-assets/
-  atlases/              # local-only payloads, ignored by git
-  models/               # local-only DGN/classifier bundles, ignored by git
+assets/models/dgn/                       # reusable bilateral DGN generator checkpoints
+assets/models/hemisphere_classifier/     # reusable classifier bundles
+assets/atlases/                          # atlas payloads may be local/external unless explicitly released
 ```
 
-The package and default PyInstaller specs do not bundle repository-level `assets/`.
+The package wheel and default PyInstaller specs remain lightweight and do not embed repository-level `assets/`. Instead, model-enabled CLI/GUI/API runs can download the released model files from the GitHub repository into a per-user cache when the local checkout/cache is empty.
 
-## Expected local asset layout
+## Bundled model layout
 
-A model-enabled local checkout or release bundle can use this layout:
+A Git-LFS source checkout provides this model layout:
 
 ```text
-HemiSpec-Assets/
-  ASSET_MANIFEST.yml
-  SHA256SUMS.txt
-  LICENSES/
-  models/
-    dgn/
-      <R_to_L-bundle>/ckpts/<checkpoint>.pth
-      <L_to_R-bundle>/ckpts/<checkpoint>.pth
-    hemisphere_classifier/
-      <classifier-bundle-dir>/
-  atlases/
-    glasser/
-      <atlas-nifti>.nii.gz
-      <atlas-label-table>.xlsx
+assets/models/dgn/
+  outputs_bi_stable_L/ckpts/best_netG_L.pth
+  outputs_bi_stable_R/ckpts/best_netG_R.pth
+assets/models/hemisphere_classifier/
+  OUT_noICBM_train_ICBM_external_saved_models/
+  OUT_noICBM_train_ICBM_external_saved_models_paired_residual/
 ```
+
+Clone with `git lfs install` and `git lfs pull`; otherwise these files may appear as small LFS pointer text files instead of usable model binaries.
 
 Supported environment variables:
 
@@ -49,11 +43,15 @@ Supported environment variables:
 HEMISPEC_ASSET_ROOT
 HEMISPEC_DGN_MODEL_ROOT
 HEMISPEC_CLASSIFIER_MODEL_DIR
+HEMISPEC_MODEL_CACHE
+HEMISPEC_MODEL_ASSET_BASE_URL
+HEMISPEC_AUTO_DOWNLOAD_MODELS
+HEMISPEC_DISABLE_MODEL_AUTO_DOWNLOAD
 HEMISPEC_GLASSER_ATLAS
 HEMISPEC_GLASSER_LABEL_TABLE
 ```
 
-The GUI and CLI resolve explicit paths first, then environment variables, then local repository/distribution conventions. See [External asset bundles](reference/asset-bundle.md) for the manifest/checksum/license contract.
+The GUI and CLI resolve explicit paths first, then environment variables, then local repository conventions, then the per-user cache. That means a source checkout normally finds `assets/models/dgn` and the default classifier bundle without extra flags; a wheel/PyPI install downloads the released defaults into `HEMISPEC_MODEL_CACHE` (or the OS-specific HemiSpec cache) on first model use. See [External asset bundles](reference/asset-bundle.md) for the manifest/checksum/license contract when distributing additional assets.
 
 ## External release channels
 

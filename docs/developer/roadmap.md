@@ -12,15 +12,15 @@ The release includes the unified HemiSpec repository, documentation website, `he
 
 1. Keep the release downloadable and reproducible: checksum release assets, smoke-test the CLI, and run the synthetic quickstart from the released wheel. Baseline established on 2026-06-29; see [v0.1.0 release verification](release-verification-v0.1.0.md).
 2. Make first-run documentation clearer: prominent download links, quickstart path, and asset/model boundaries.
-3. Harden external asset handling: manifest/checksum/license/provenance templates for DGN, atlas, and classifier bundles.
-4. Improve GUI diagnostics: setup status card now shows DGN model, Glasser atlas, classifier bundle, and PyTorch availability as found/missing; next steps are checksum display and richer first-run guidance.
+3. Harden asset handling: keep approved DGN/classifier bundles reusable through Git LFS and first-run cache download; keep manifest/checksum/license/provenance templates for atlas and custom/offline bundles.
+4. Improve GUI diagnostics: setup status card now shows DGN model, Glasser atlas, classifier bundle, and PyTorch availability as found/missing/download-pending; next steps are checksum display and richer first-run guidance.
 5. Improve error messages and logs for missing models, missing atlas files, missing classifier bundles, and missing optional dependencies.
 
 ## v0.2 candidates
 
 - PyPI publication of `hemispec-toolkit`.
 - Zenodo DOI or equivalent archived software citation.
-- Model/atlas/classifier bundle downloader or resolver.
+- Richer atlas/custom-bundle downloader or resolver beyond the default released model cache.
 - Small approved demo dataset, if redistribution is permitted.
 - One-click HTML/PDF report generation.
 - Release CI that builds and uploads Windows artifacts automatically.
@@ -29,7 +29,7 @@ The release includes the unified HemiSpec repository, documentation website, `he
 
 ## Non-goals for tracked source
 
-Do not add large DGN weights, atlas NIfTI files, classifier `.joblib`/`.pkl` files, real MRI inputs, generated outputs, private paths, or unpublished manuscript-only payloads to the source repository. Publish approved assets separately with manifests and checksums.
+Do not add unapproved model weights, atlas NIfTI files, real MRI inputs, generated outputs, private paths, or unpublished manuscript-only payloads to the source repository. The approved reusable DGN/classifier bundles under `assets/models/` are the explicit Git-LFS exception; publish any additional assets separately with manifests and checksums.
 
 ## Related pages
 

@@ -109,11 +109,11 @@ dist/hemispec_gui/hemispec_gui.exe
 The EXE is convenient for users without command-line Python experience, but the
 Python package is easier to update and debug on clusters.
 
-The current lightweight GUI EXE does not bundle PyTorch. It can open the compact standard-workflow GUI, but model-enabled DGN inference requires a PyTorch environment and approved DGN assets, or a separate model-enabled/Torch bundle.
+The current lightweight GUI EXE does not bundle PyTorch. It can open the compact standard-workflow GUI, but model-enabled DGN inference requires a PyTorch environment plus released DGN assets from Git LFS, the first-run cache download, an explicit model root, or a separate model-enabled/Torch bundle.
 
 ## 4. Model-enabled deployment
 
-The current Python package/CLI includes trained DGN inference entry points. The current GUI intentionally exposes only the standard ANS/RNS workflow with optional ROI, classifier, and TRT branches; lower-level inference, compute, specificity, and classifier commands remain available through CLI/API. Rebuild the GUI EXE after source changes before treating `dist/` as a release artifact.
+The current Python package/CLI includes trained DGN inference entry points and first-run download of the released model defaults. The current GUI intentionally exposes only the standard ANS/RNS workflow with optional ROI, classifier, and TRT branches; lower-level inference, compute, specificity, and classifier commands remain available through CLI/API. Rebuild the GUI EXE after source changes before treating `dist/` as a release artifact.
 
 The model-enabled release should include or load:
 
@@ -139,8 +139,8 @@ runtime code, exposed as commands, or required for GUI users.
 
 See `docs/dgn_model_bundle.md` before changing the inference adapter.
 
-Build the model-enabled app as a separate folder distribution, because
-PyTorch/CUDA/model dependencies can make the bundle much larger.
+Build a fully offline model-enabled app as a separate folder distribution, because
+PyTorch/CUDA/model dependencies can make the bundle much larger. The lightweight app can instead use the released model cache/download path.
 
 Recommended folder layout:
 

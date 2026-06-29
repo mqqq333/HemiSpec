@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
-from typing import Literal
+from typing import Callable, Literal
 
 import pandas as pd
 
@@ -10,10 +10,12 @@ from .compute import compute_ans_rns_arrays, run_compute as _run_compute
 from .dgn_inference import run_dgn_inference_files
 from .dgn_model import load_generator, resolve_device
 from .hemisphere_classifier import run_hemisphere_classifier
+from .model_assets import ensure_default_classifier_models, model_auto_download_enabled
 from .paths import (
     default_classifier_output_path,
     default_input_glob,
     default_trt_output_path,
+    is_default_classifier_model_dir,
     resolve_classifier_model_dir,
     resolve_dgn_model_root,
     resolve_glasser_atlas_path,
@@ -83,6 +85,7 @@ class DGNInferenceConfig:
     direction: Literal["both", "L_to_R", "R_to_L"] = "both"
     clip_recon: tuple[float, float] | None = None
     output_suffix: str = "_PRED_LR_full.nii.gz"
+    should_cancel: Callable[[], bool] | None = None
 
 
 @dataclass(frozen=True)
@@ -104,6 +107,7 @@ class MetricComputeConfig:
     roi_label_table: Path | None = None
     roi_stat: Literal["mean", "median"] = "mean"
     roi_ignore_zero: bool = True
+    should_cancel: Callable[[], bool] | None = None
 
 
 @dataclass(frozen=True)
@@ -154,6 +158,7 @@ class PipelineRunConfig:
     roi_label_table: Path | None = None
     roi_stat: Literal["mean", "median"] = "mean"
     roi_ignore_zero: bool = True
+    should_cancel: Callable[[], bool] | None = None
 
 
 @dataclass(frozen=True)
@@ -310,6 +315,7 @@ def run_dgn_inference(config: DGNInferenceConfig) -> list[Path]:
         device=device,
         output_suffix=config.output_suffix,
         clip_recon=config.clip_recon,
+        should_cancel=config.should_cancel,
     )
     return [item.output_path for item in outputs]
 
@@ -329,6 +335,7 @@ def compute_metrics(config: MetricComputeConfig) -> MetricComputeResult:
         save_group_maps=config.export_voxelwise,
         write_nan_outside=config.write_nan_outside,
         verbose_every=config.verbose_every,
+        should_cancel=config.should_cancel,
     )
     subject_maps_dir = result.get("subject_maps_dir")
     if config.roi_atlas is not None:
@@ -350,7 +357,10 @@ def compute_metrics(config: MetricComputeConfig) -> MetricComputeResult:
 
 
 def run_pipeline(config: PipelineRunConfig) -> PipelineRunResult:
-    reconstructed_paths = run_dgn_inference(config.inference)
+    inference = config.inference
+    if config.should_cancel is not None and inference.should_cancel is None:
+        inference = replace(inference, should_cancel=config.should_cancel)
+    reconstructed_paths = run_dgn_inference(inference)
     metrics = compute_metrics(
         MetricComputeConfig(
             actual_glob=config.inference.input_glob,
@@ -370,6 +380,7 @@ def run_pipeline(config: PipelineRunConfig) -> PipelineRunResult:
             roi_label_table=config.roi_label_table,
             roi_stat=config.roi_stat,
             roi_ignore_zero=config.roi_ignore_zero,
+            should_cancel=config.should_cancel or inference.should_cancel,
         )
     )
     return PipelineRunResult(reconstructed_paths=reconstructed_paths, metrics=metrics)
@@ -456,12 +467,6 @@ def validate_hemisphere_classification(
     Training remains out of HemiSpec runtime scope.
     """
 
-    model_path = config.classifier_checkpoint or resolve_classifier_model_dir(
-        config.classifier_model_dir,
-        mode=config.classifier_mode,
-    )
-    if model_path is None:
-        raise ValueError("Provide classifier_checkpoint or classifier_model_dir.")
     if config.roi_csv is None:
         if config.atlas_path is None:
             raise ValueError("Provide roi_csv, or provide atlas_path so ROI features can be generated from maps_dir.")
@@ -478,6 +483,20 @@ def validate_hemisphere_classification(
         )
     else:
         roi_csv = config.roi_csv
+
+    model_path = config.classifier_checkpoint or resolve_classifier_model_dir(
+        config.classifier_model_dir,
+        mode=config.classifier_mode,
+    )
+    if (
+        config.classifier_checkpoint is None
+        and not model_path.exists()
+        and model_auto_download_enabled()
+        and is_default_classifier_model_dir(config.classifier_model_dir, mode=config.classifier_mode)
+    ):
+        model_path = ensure_default_classifier_models(config.classifier_mode)
+    if model_path is None:
+        raise ValueError("Provide classifier_checkpoint or classifier_model_dir.")
 
     run = run_hemisphere_classifier(
         roi_csv=roi_csv,

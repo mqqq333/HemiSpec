@@ -1,6 +1,6 @@
 # External asset bundles
 
-HemiSpec source releases are lightweight. DGN weights, atlas payloads, hemisphere-classifier bundles, real MRI inputs, and generated outputs are distributed separately as external assets.
+HemiSpec source now includes the approved reusable DGN checkpoints and hemisphere-classifier bundles under `assets/models/` via Git LFS. Wheel/PyPI installs keep those large binaries outside the wheel and can download them into the user cache. External asset bundles remain useful for offline installs, custom model bundles, atlas payloads, real sample data, or compiled app distributions.
 
 ## Recommended layout
 
@@ -67,7 +67,7 @@ HEMISPEC_GLASSER_ATLAS
 HEMISPEC_GLASSER_LABEL_TABLE
 ```
 
-Resolution order is explicit CLI/GUI paths first, then environment variables, then local repository or distribution conventions.
+Resolution order is explicit CLI/GUI paths first, then environment variables, then local repository conventions, then the per-user cache. `HEMISPEC_MODEL_CACHE`, `HEMISPEC_MODEL_ASSET_BASE_URL`, `HEMISPEC_AUTO_DOWNLOAD_MODELS`, and `HEMISPEC_DISABLE_MODEL_AUTO_DOWNLOAD` control the built-in model cache/download path.
 
 ## Release checklist
 
@@ -80,9 +80,9 @@ Before distributing an asset bundle, verify:
 - the bundle works with the lightweight HemiSpec release downloaded from [https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0);
 - the bundle is published through an explicit release channel such as GitHub Releases, Zenodo, OSF, or institutional storage.
 
-## v0.1.0 boundary
+## Runtime boundary
 
-The v0.1.0 Windows CLI/GUI artifacts do not bundle torch, DGN weights, atlas payloads, classifier bundles, real MRI inputs, or generated outputs. Model-enabled workflows require a local Python environment with the optional runtime dependencies and a separately approved asset bundle.
+The lightweight Windows CLI/GUI artifacts do not bundle PyTorch, atlas payloads, real MRI inputs, or generated outputs. Model-enabled workflows require a Python environment with PyTorch. Released DGN/classifier model defaults can come from a Git-LFS source checkout, the per-user auto-download cache, or an explicitly configured offline asset bundle.
 
 ## Related pages
 

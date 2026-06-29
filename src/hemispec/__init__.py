@@ -34,6 +34,7 @@ from .api import (
     validate_hemisphere_classification,
     validate_specificity,
 )
+from .model_assets import ensure_default_classifier_models, ensure_default_dgn_models, ensure_default_model_assets
 from .roi import RoiSummaryConfig, summarize_maps_by_atlas
 from .workflow import (
     BilateralWorkflowConfig,
@@ -68,6 +69,9 @@ __all__ = [
     "default_input_glob",
     "default_trt_output_path",
     "discover_local_dgn_bundles",
+    "ensure_default_classifier_models",
+    "ensure_default_dgn_models",
+    "ensure_default_model_assets",
     "get_preprocessing_spec",
     "infer_dgn_direction_from_path",
     "normalize_dgn_direction",

@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+from concurrent.futures import CancelledError
 from pathlib import Path
+from typing import Callable
 
 import numpy as np
 
@@ -44,6 +46,7 @@ def run_compute(
     save_group_maps: bool = True,
     write_nan_outside: bool = False,
     verbose_every: int = 50,
+    should_cancel: Callable[[], bool] | None = None,
 ) -> dict[str, object]:
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
@@ -74,6 +77,7 @@ def run_compute(
     valid_n = np.zeros(shape, dtype=np.int32)
 
     for idx, pair in enumerate(pairs, start=1):
+        _raise_if_cancelled(should_cancel)
         actual = load_nifti(pair.actual)
         predicted = load_nifti(pair.predicted)
         assert_compatible(ref, actual, "actual GM")
@@ -105,8 +109,9 @@ def run_compute(
 
         if verbose_every > 0 and (idx % verbose_every == 0 or idx == len(pairs)):
             valid_frac = float(valid.mean())
-            print(f"[compute] {idx}/{len(pairs)} {pair.key} valid_voxel_fraction={valid_frac:.4f}")
+            print(f"[compute] {idx}/{len(pairs)} done {pair.key} valid_voxel_fraction={valid_frac:.4f}")
 
+    _raise_if_cancelled(should_cancel)
     mask_any = valid_n > 0
     ans_mean = np.zeros(shape, dtype=np.float32)
     rns_mean = np.zeros(shape, dtype=np.float32)
@@ -130,3 +135,8 @@ def run_compute(
         "subject_maps_dir": str(subject_dir) if save_subject_maps else None,
         "group_maps_saved": save_group_maps,
     }
+
+
+def _raise_if_cancelled(should_cancel: Callable[[], bool] | None) -> None:
+    if should_cancel is not None and should_cancel():
+        raise CancelledError("Workflow cancelled by user.")
