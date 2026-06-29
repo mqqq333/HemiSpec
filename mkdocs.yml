@@ -46,6 +46,43 @@ plugins:
         - locale: zh
           name: 中文
           build: true
+          nav_translations:
+            Home: 首页
+            Get started: 快速入门
+            Installation: 安装
+            Quick start: 快速开始
+            Data and models: 数据与模型
+            Learn: 学习
+            Software overview: 软件概述
+            Methods: 方法
+            Overview: 概述
+            Reconstruction framework: 重建框架
+            ANS and RNS metrics: ANS/RNS 指标
+            Handedness extension: 利手性扩展
+            Tutorials: 教程
+            DGN inference: DGN 推理
+            Compute specificity maps: 计算特异性图
+            Handedness workflow: 利手性工作流
+            Model-enabled DGN workflow: 模型驱动工作流
+            Reference: 参考手册
+            CLI: 命令行
+            Python API: Python API
+            Outputs: 输出
+            Model bundles: 模型包
+            Asset bundles: 资产包
+            Release artifacts: 发布产物
+            Manuscript figures: 论文图表
+            Citation: 引用
+            Developer: 开发者
+            Architecture: 架构
+            Project structure: 项目结构
+            Developer guide: 开发指南
+            API design: API 设计
+            Deployment: 部署
+            DGN model bundles: DGN 模型包
+            TRT and classifier: TRT 与分类器
+            Roadmap: 路线图
+            Release verification v0.1.0: v0.1.0 发布验证
 
 markdown_extensions:
   - admonition
