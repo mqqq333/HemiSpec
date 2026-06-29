@@ -67,4 +67,5 @@ GUI 中的 Copy CLI Command 会复制对应的 hemispec workflow 命令。建议
 - 如果 DGN 模型缺失，检查 HEMISPEC_DGN_MODEL_ROOT 或本地 assets/models/dgn/。
 - 如果 ROI table 未生成，检查 atlas NIfTI 是否存在，或关闭 ROI table 只保留 voxel-wise ANS/RNS 输出。
 - 如果 classifier validation 失败，先确认 ROI table 已启用，并且 classifier bundle 已配置。
+- If classifier validation reports `No module named 'numpy._core'`, update to the latest HemiSpec; the runtime can load NumPy-2 classifier bundles in older NumPy-1 conda environments.
 - 如果需要集群批量运行，优先使用 CLI，不建议用 GUI 批量处理大队列。

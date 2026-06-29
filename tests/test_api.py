@@ -1,4 +1,6 @@
 import os
+import sys
+import types
 from pathlib import Path
 
 import nibabel as nib
@@ -8,6 +10,7 @@ import pytest
 import hemispec.api as api
 import hemispec.cli as cli
 import hemispec.gui as gui_module
+import hemispec.hemisphere_classifier as classifier_module
 
 from hemispec import (
     BilateralWorkflowConfig,
@@ -533,6 +536,25 @@ def test_gui_trt_toggle_reaches_standard_workflow_config():
     assert config.run_trt is True
     assert config.trt_session_a == "run-01"
     assert config.trt_session_b == "run-02"
+
+
+def test_hemisphere_classifier_aliases_numpy2_pickle_modules(monkeypatch):
+    aliases = classifier_module._NUMPY2_PICKLE_ALIASES
+    fake_modules = {old_name: types.ModuleType(old_name) for old_name in aliases.values()}
+
+    for new_name in aliases:
+        monkeypatch.delitem(sys.modules, new_name, raising=False)
+    monkeypatch.setattr(
+        classifier_module.importlib.util,
+        "find_spec",
+        lambda name: None if name == "numpy._core" else object(),
+    )
+    monkeypatch.setattr(classifier_module.importlib, "import_module", lambda name: fake_modules[name])
+
+    classifier_module._install_numpy2_pickle_compat()
+
+    for new_name, old_name in aliases.items():
+        assert sys.modules[new_name] is fake_modules[old_name]
 
 
 def test_hemisphere_classification_uses_default_model_and_requires_features(tmp_path):

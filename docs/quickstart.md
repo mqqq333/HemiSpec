@@ -47,6 +47,8 @@ python scripts/hemispec_gui_entry.py
 
 The GUI setup card should show DGN model and classifier bundle as found after Git LFS checkout or after model cache download. PyTorch availability depends on the Python/conda environment used to launch the GUI.
 
+Troubleshooting: if classifier validation reports `No module named 'numpy._core'`, update to the latest HemiSpec checkout. The runtime includes a compatibility shim for classifier bundles saved with NumPy 2.x so older conda environments can still load them.
+
 ## 1. Prepare gray-matter maps
 
 Run the preprocessing workflow on T1-weighted MRI data to produce masked gray-matter maps. The toolkit packages the reference preprocessing script under `src/hemispec/resources/preprocess/`; real preprocessing still depends on local FSL installation and validated site-specific assumptions:

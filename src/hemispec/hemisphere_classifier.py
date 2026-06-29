@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import importlib
+import importlib.util
 import json
+import sys
 import warnings
 from dataclasses import dataclass
 from pathlib import Path
@@ -315,9 +318,33 @@ def _load_joblib_bundle(path: Path):
             "Install the classifier extra with `python -m pip install hemispec-toolkit[classifier]`."
         ) from exc
 
+    _install_numpy2_pickle_compat()
     with warnings.catch_warnings(record=True):
         warnings.simplefilter("always")
         return joblib.load(path)
+
+
+_NUMPY2_PICKLE_ALIASES = {
+    "numpy._core": "numpy.core",
+    "numpy._core.multiarray": "numpy.core.multiarray",
+    "numpy._core.numeric": "numpy.core.numeric",
+    "numpy._core.umath": "numpy.core.umath",
+    "numpy._core._multiarray_umath": "numpy.core._multiarray_umath",
+}
+
+
+def _install_numpy2_pickle_compat() -> None:
+    """Allow NumPy-2-created joblib pickles to load on NumPy 1.x runtimes."""
+
+    if importlib.util.find_spec("numpy._core") is not None:
+        return
+    for new_name, old_name in _NUMPY2_PICKLE_ALIASES.items():
+        if new_name in sys.modules:
+            continue
+        try:
+            sys.modules[new_name] = importlib.import_module(old_name)
+        except ImportError:
+            continue
 
 
 def _predict_right_probability(pipeline, X: np.ndarray) -> np.ndarray:
