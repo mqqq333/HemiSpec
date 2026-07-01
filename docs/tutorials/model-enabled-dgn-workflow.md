@@ -10,7 +10,7 @@ This page documents the current model-enabled workflow for running HemiSpec with
 
 ## Setup
 
-PyPI/wheel install:
+PyPI install:
 
 ```bash
 python -m pip install "hemispec-toolkit[gui,model,classifier]"
@@ -47,7 +47,7 @@ HemiSpec discovers this layout automatically. Wheel/PyPI installs use the same l
 Start the GUI with:
 
 ```bash
-hemispec-gui                 # PyPI/wheel install
+hemispec-gui                 # PyPI install
 python scripts/hemispec_gui_entry.py  # source checkout
 ```
 

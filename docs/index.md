@@ -1,10 +1,10 @@
 # HemiSpec
 
-**HemiSpec** is a software and workflow toolkit for computing reconstruction-derived hemispheric specificity (ANS/RNS) from preprocessed gray-matter maps.
+**HemiSpec** is a PyPI-first software and workflow toolkit for computing reconstruction-derived hemispheric specificity (ANS/RNS) from preprocessed gray-matter maps. The CLI and GUI are entry points installed into the same Python/PyTorch environment as the package and model cache.
 
 <p markdown="span">
   [Quick start](quickstart.md){ .md-button .md-button--primary }
-  [Download release](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0){ .md-button }
+  [Install from PyPI](installation.md){ .md-button }
   [Data and models](data-and-models.md){ .md-button }
 </p>
 
@@ -23,7 +23,7 @@
 
     ---
 
-    Install the toolkit, run the synthetic quickstart, or launch the GUI.
+    Create a PyPI-managed Python/PyTorch environment, then run the synthetic quickstart or launch the package-installed GUI.
 
     [Get started](installation.md)
 
@@ -58,7 +58,7 @@
 HemiSpec builds on the ANS/RNS framework from Wang et al. 2024 (*Patterns*).
 See [Citation](citation.md) for the full reference.
 
-HemiSpec v0.1.0 is a public beta. Source: [github.com/mqqq333/HemiSpec](https://github.com/mqqq333/HemiSpec).
+HemiSpec v0.1.0 is a public beta; PyPI is the recommended install path, while GitHub Releases archive fallback artifacts. Source: [github.com/mqqq333/HemiSpec](https://github.com/mqqq333/HemiSpec).
 
 ---
 

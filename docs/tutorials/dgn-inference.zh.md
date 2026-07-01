@@ -1,6 +1,17 @@
 # DGN 推理
 
-本教程将展示如何将训练好的 HemiSpec DGN 模型包应用于预处理灰质图。
+本教程展示如何将已发布的 HemiSpec DGN 模型包应用于预处理灰质图。
+
+## 安装
+
+从 PyPI 运行启用模型的安装时，包含 model 额外依赖，并可选择预下载已发布检查点：
+
+```bash
+python -m pip install "hemispec-toolkit[model]"
+hemispec models --install
+```
+
+源码开发时，请使用 Git LFS 克隆，并运行 `python -m pip install -e .[model]`。
 
 ## 输入
 
@@ -15,4 +26,4 @@
 
 ## 当前状态
 
-模型包打包仍在最终确定中。在发布政策确定之前，请勿发布训练好的权重。
+默认已发布模型包可通过 Git LFS 源码检出或 PyPI 首次运行缓存下载获得。发布任何额外训练权重前，需先批准发布政策、出处、校验和和许可证说明。

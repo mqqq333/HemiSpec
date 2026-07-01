@@ -17,7 +17,7 @@ cd HemiSpec
 git lfs pull
 ```
 
-**Wheel / PyPI 安装**
+**PyPI / wheel 安装**
 
 首次启用模型的运行时自动下载模型：
 

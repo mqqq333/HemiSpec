@@ -1,8 +1,12 @@
 # Release artifacts
 
-HemiSpec is published as software artifacts, not only as a GitHub source repository. The v0.1.0 first public beta is available at [https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0).
+HemiSpec is published as software artifacts, not only as a GitHub source repository. The primary v0.1.0 public artifact is the `hemispec-toolkit` Python package on PyPI, because model-enabled use is best handled inside a Python/PyTorch environment. GitHub Release artifacts are retained as archived, offline, or Windows-folder fallback artifacts at [https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0).
 
 ## v0.1.0 public artifacts
+
+```bash
+python -m pip install hemispec-toolkit
+```
 
 ```text
 hemispec_toolkit-0.1.0-py3-none-any.whl          Python wheel
@@ -14,7 +18,7 @@ HemiSpec-v0.1.0-RELEASE_ARTIFACTS.txt            verification and artifact manif
 HemiSpec-Assets-<version>.zip                    optional offline/custom asset bundle for non-default assets
 ```
 
-The same public Python API powers the CLI, GUI, and compiled app so that examples and validation behavior remain reproducible.
+The same public Python API powers the PyPI-installed CLI, PyPI-installed GUI launcher, and any compiled fallback app so that examples and validation behavior remain reproducible.
 
 ANS/RNS metric usage should keep citation boundaries clear: the original ANS/RNS and cross-hemispheric DGN framework comes from Wang et al. 2024, *Patterns*; HemiSpec packages and extends that workflow for the current software release.
 
@@ -40,7 +44,10 @@ powershell -ExecutionPolicy Bypass -File scripts\build_release.ps1 -Python "py -
 A release is not considered public-ready until all relevant artifacts are built and checked together:
 
 - `python -m build --wheel --sdist` creates lightweight `hemispec-toolkit` artifacts.
-- `pip install dist/*.whl` exposes `hemispec` and `hemispec-gui` entry points.
+- `python -m twine check dist/hemispec_toolkit-*.whl dist/hemispec_toolkit-*.tar.gz` validates package metadata before upload.
+- `python -m twine upload dist/hemispec_toolkit-*.whl dist/hemispec_toolkit-*.tar.gz` publishes the package to PyPI.
+- `pip install dist/*.whl` or `pip install hemispec-toolkit` exposes `hemispec` and `hemispec-gui` entry points in the active Python/PyTorch environment.
+- `hemispec quickstart --out-dir <tmpdir>` runs the built-in public-safe synthetic smoke test without a source checkout.
 - `hemispec --help` and documented subcommands run in a clean environment.
 - `hemispec-gui` starts the compact standard-workflow GUI.
 - The Windows app is built as a folder distribution and includes only approved runtime files.
@@ -51,12 +58,12 @@ A release is not considered public-ready until all relevant artifacts are built 
 
 The source repository contains code, documentation, tests, examples, and the approved reusable model bundles under Git LFS. Atlas NIfTI files, non-public neuroimaging derivatives, and any additional/custom model bundles should be released separately with checksums, licenses, and model cards unless explicitly approved for the repository.
 
-## Desktop release variants
+## Desktop fallback variants
 
-- **Lightweight app:** compact GUI plus CLI/API utilities; released models are resolved from Git LFS, cache download, or user-configured paths.
-- **Model-enabled app:** compact GUI plus approved model/atlas assets and PyTorch runtime, packaged as a larger folder distribution or paired with an offline asset bundle.
+- **Lightweight app:** compact GUI plus CLI/API utilities for fallback/demo use; released models are resolved from Git LFS, cache download, or user-configured paths.
+- **Model-enabled app:** compact GUI plus approved model/atlas assets and PyTorch runtime, packaged as a larger folder distribution or paired with an offline asset bundle when PyPI/conda installation is not practical.
 
-Both variants should use the public `hemispec` package internally.
+Both variants should use the public `hemispec` package internally; they are not the preferred path for users who can manage a Python environment.
 
 
 ## Post-release verification

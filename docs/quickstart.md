@@ -1,6 +1,6 @@
 # Quick start
 
-This page shows the current HemiSpec workflow. Public branding, CLI examples, and the Python API use HemiSpec naming consistently.
+This page shows the current HemiSpec workflow using the recommended PyPI-first path. Public branding, CLI examples, and the Python API use HemiSpec naming consistently.
 
 The CLI shape in this page was checked against the current toolkit interface on 2026-06-29. The public package name is `hemispec-toolkit`; the import path and command remain `hemispec`.
 
@@ -12,19 +12,21 @@ The CLI shape in this page was checked against the current toolkit interface on 
 
 ## Public-safe synthetic compute demo
 
-For a first CLI smoke test that does not require private MRI data, model weights, or atlas assets, use the HemiSpec Toolkit synthetic quickstart. It creates toy NIfTI files, mock reconstruction outputs, and a toy atlas, then runs `hemispec compute` with subject maps and ROI export:
+For a first CLI smoke test that does not require private MRI data, model weights, atlas assets, or a source checkout, install HemiSpec from PyPI and run the built-in synthetic quickstart:
 
-```powershell
-cd <hemispec-toolkit-checkout>
-python -m pip install -e .
-powershell -ExecutionPolicy Bypass -File examples\synthetic_quickstart\run_synthetic_quickstart.ps1 -Python python
+```bash
+python -m pip install hemispec-toolkit
+hemispec --help
+hemispec quickstart --out-dir hemispec_quickstart
 ```
+
+For editable source development, replace the PyPI install with `python -m pip install -e .`; source-tree wrapper scripts remain under `examples/synthetic_quickstart/`.
 
 The generated maps are not anatomical data and should only be used to verify the public command/file contract.
 
-## Model-enabled install
+## Model-enabled install from PyPI
 
-For a PyPI/wheel install, use the model runtime extras and optionally pre-download the released model assets:
+Install the released package from PyPI with model runtime extras in the environment that has the desired PyTorch build, then optionally pre-download the released model assets:
 
 ```bash
 python -m pip install "hemispec-toolkit[gui,model,classifier]"
@@ -67,12 +69,14 @@ derivatives/sub-001_GM_masked.nii.gz
 
 ## 2. Run the standard GUI workflow
 
-Start the launcher from the same environment that has PyTorch installed:
+Start the package-installed launcher from the same environment that has PyTorch installed:
 
 ```bash
-python -m pip install -e .[gui,model,classifier]
-python scripts/hemispec_gui_entry.py
+python -m pip install "hemispec-toolkit[gui,model,classifier]"
+hemispec-gui
 ```
+
+For a Git-LFS source checkout, use `python scripts/hemispec_gui_entry.py` instead.
 
 The GUI is intentionally a thin standard-workflow interface. Its setup status card reports whether DGN models, Glasser atlas files, classifier bundles, and PyTorch are found before a long run. Normal users choose:
 
@@ -94,7 +98,7 @@ This lists both DGN directions when the Git-LFS checkout or user cache contains 
 
 ## 4. Run the bilateral workflow from CLI
 
-The GUI maps to the same public CLI/API path:
+The GUI maps to the same public CLI/API path inside the PyPI-installed environment:
 
 ```bash
 hemispec workflow \
@@ -178,4 +182,4 @@ hemispec trt   --maps-dir outputs/hemispec_workflow/intermediate/combined_maps  
 - A standalone `roi` command.
 - Public real-data preprocessing assets and approved real sample data.
 - Public redistribution decision for any atlas payloads not already cleared.
-- A fully public handedness reproduction workflow.
+- A fully public behavioral-phenotype reproduction workflow.

@@ -52,6 +52,11 @@ plugins:
             Installation: 安装
             Quick start: 快速开始
             Data and models: 数据与模型
+            Tutorials: 教程
+            Model-enabled DGN workflow: 模型驱动 DGN 工作流
+            Compute specificity maps: 计算特异性图
+            DGN inference: DGN 推理
+            Behavioral phenotype workflow: 行为表型工作流
             Methods: 方法
             Overview: 概述
             Reconstruction framework: 重建框架
@@ -95,6 +100,12 @@ nav:
       - Installation: installation.md
       - Quick start: quickstart.md
       - Data and models: data-and-models.md
+  - Tutorials:
+      - Overview: tutorials/index.md
+      - Model-enabled DGN workflow: tutorials/model-enabled-dgn-workflow.md
+      - Compute specificity maps: tutorials/compute-specificity.md
+      - DGN inference: tutorials/dgn-inference.md
+      - Behavioral phenotype workflow: tutorials/behavioral-phenotype-workflow.md
   - Methods:
       - Overview: methods/index.md
       - Reconstruction framework: methods/reconstruction-framework.md

@@ -21,10 +21,14 @@ from .api import (
     validate_reliability,
     validate_specificity,
 )
-from .model_assets import ensure_default_classifier_models, ensure_default_dgn_models, model_auto_download_enabled
+from .model_assets import (
+    ensure_default_classifier_models,
+    ensure_default_dgn_models,
+    model_auto_download_enabled,
+)
 from .paths import is_default_dgn_model_root
+from .quickstart import run_synthetic_quickstart
 from .workflow import BilateralWorkflowConfig, run_bilateral_workflow
-
 
 DEFAULT_FILE_REGEX = r"(sub-MSC\d+).*?(run-\d+)"
 
@@ -64,6 +68,21 @@ def add_compute_parser(sub: argparse._SubParsersAction) -> None:
     p.add_argument("--roi-stat", choices=["mean", "median"], default="mean")
     p.add_argument("--verbose-every", type=int, default=50)
     p.set_defaults(func=cmd_compute)
+
+
+def add_quickstart_parser(sub: argparse._SubParsersAction) -> None:
+    p = sub.add_parser(
+        "quickstart",
+        help="Run the built-in public-safe synthetic ANS/RNS compute demo.",
+    )
+    p.add_argument(
+        "--out-dir",
+        default="hemispec_quickstart",
+        help="Directory for generated toy inputs and outputs. Default: hemispec_quickstart.",
+    )
+    p.add_argument("--n-subjects", type=int, default=3, help="Number of toy subjects to generate.")
+    p.add_argument("--force", action="store_true", help="Overwrite generated files when --out-dir is not empty.")
+    p.set_defaults(func=cmd_quickstart)
 
 
 def add_models_parser(sub: argparse._SubParsersAction) -> None:
@@ -307,6 +326,25 @@ def cmd_compute(args: argparse.Namespace) -> None:
             print(f"  {key}: {value}")
 
 
+def cmd_quickstart(args: argparse.Namespace) -> None:
+    try:
+        result = run_synthetic_quickstart(
+            out_dir=Path(args.out_dir),
+            n_subjects=args.n_subjects,
+            force=args.force,
+        )
+    except FileExistsError as exc:
+        print(f"[error] {exc}", file=sys.stderr)
+        raise SystemExit(2) from None
+
+    print("[done] synthetic HemiSpec quickstart complete")
+    print("  generated toy data are not anatomical data")
+    print(f"  subjects: {result['n_pairs']}")
+    print(f"  out_dir: {result['out_dir']}")
+    print(f"  compute_out: {result['compute_out']}")
+    print(f"  roi_csv: {result['roi_csv']}")
+
+
 def cmd_models(args: argparse.Namespace) -> None:
     root = args.root
     if args.install:
@@ -544,6 +582,7 @@ def build_parser(prog: str | None = None) -> argparse.ArgumentParser:
         description="HemiSpec: reconstruction-derived hemispheric specificity toolkit.",
     )
     sub = parser.add_subparsers(dest="command", required=True)
+    add_quickstart_parser(sub)
     add_models_parser(sub)
     add_infer_parser(sub)
     add_run_parser(sub)

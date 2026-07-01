@@ -18,7 +18,7 @@ HemiSpec v0.1.0 于 2026-06-29 作为 GitHub 预发布版发布：[https://githu
 
 ## v0.2 候选功能
 
-- 发布 `hemispec-toolkit` 到 PyPI。
+- 持续发布 `hemispec-toolkit` 到 PyPI，并与 GitHub 发布产物保持一致。
 - Zenodo DOI 或等效的存档软件引用。
 - 超出默认已发布模型缓存的更丰富 atlas/自定义包下载器或解析器。
 - 小型已批准演示数据集（如果允许再发行）。

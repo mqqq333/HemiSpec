@@ -30,11 +30,16 @@ from .api import (
     run_dgn_inference,
     run_pipeline,
     target_hemisphere_for_direction,
-    validate_reliability,
     validate_hemisphere_classification,
+    validate_reliability,
     validate_specificity,
 )
-from .model_assets import ensure_default_classifier_models, ensure_default_dgn_models, ensure_default_model_assets
+from .model_assets import (
+    ensure_default_classifier_models,
+    ensure_default_dgn_models,
+    ensure_default_model_assets,
+)
+from .quickstart import make_synthetic_quickstart_inputs, run_synthetic_quickstart
 from .roi import RoiSummaryConfig, summarize_maps_by_atlas
 from .workflow import (
     BilateralWorkflowConfig,
@@ -80,9 +85,11 @@ __all__ = [
     "resolve_glasser_atlas_path",
     "resolve_glasser_label_table",
     "resolve_validation_hemis",
+    "make_synthetic_quickstart_inputs",
     "run_dgn_inference",
     "run_bilateral_workflow",
     "run_pipeline",
+    "run_synthetic_quickstart",
     "target_hemisphere_for_direction",
     "validate_reliability",
     "validate_hemisphere_classification",

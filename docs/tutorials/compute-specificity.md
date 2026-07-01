@@ -2,6 +2,18 @@
 
 This tutorial covers ANS/RNS computation after reconstruction.
 
+## Install
+
+For normal use, install the released package from PyPI:
+
+```bash
+python -m pip install hemispec-toolkit
+```
+
+For source development, use `python -m pip install -e .` from a local checkout.
+
+For a complete packaged smoke test, run `hemispec quickstart --out-dir hemispec_quickstart`; it generates toy paired inputs and runs this compute path.
+
 ## Required paired inputs
 
 Each subject needs an actual target gray-matter map and a reconstructed counterpart in the same shape, affine, and orientation.

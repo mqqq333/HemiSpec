@@ -1,13 +1,13 @@
-# Handedness workflow
+# Behavioral phenotype workflow
 
-This tutorial will document the public, reproducible part of the handedness analysis.
+This tutorial will document the public, reproducible part of downstream behavioral phenotype analysis; handedness is one optional phenotype example.
 
 ## Planned stages
 
-1. Prepare a license-compatible handedness cohort metadata table.
+1. Prepare a license-compatible behavioral phenotype cohort metadata table.
 2. Generate or load ANS/RNS maps.
 3. Extract ROI-level features with an approved atlas.
-4. Train and evaluate handedness classifiers.
+4. Train and evaluate behavioral phenotype prediction or classification models.
 5. Compare against GMV asymmetry-index baseline.
 6. Summarize feature localization and overlap analyses.
 

@@ -10,7 +10,7 @@
 
 ## 设置
 
-PyPI/wheel 安装：
+PyPI 安装：
 
 ```bash
 python -m pip install "hemispec-toolkit[gui,model,classifier]"
@@ -47,7 +47,7 @@ HemiSpec 自动发现此布局。Wheel/PyPI 安装在自动下载后在用户模
 启动 GUI：
 
 ```bash
-hemispec-gui                 # PyPI/wheel 安装
+hemispec-gui                 # PyPI 安装
 python scripts/hemispec_gui_entry.py  # 源码检出
 ```
 

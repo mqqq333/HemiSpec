@@ -2,6 +2,18 @@
 
 本教程介绍重建后的 ANS/RNS 计算。
 
+## 安装
+
+普通使用时，从 PyPI 安装已发布包：
+
+```bash
+python -m pip install hemispec-toolkit
+```
+
+源码开发时，可在本地检出目录中使用 `python -m pip install -e .`。
+
+如需完整的包内冒烟测试，可运行 `hemispec quickstart --out-dir hemispec_quickstart`；它会生成玩具配对输入并执行本页的计算路径。
+
 ## 所需配对输入
 
 每个受试者需要一张实际目标灰质图和一张相同形状、仿射变换和方向的重建对应物。

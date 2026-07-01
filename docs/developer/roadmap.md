@@ -18,7 +18,7 @@ The release includes the unified HemiSpec repository, documentation website, `he
 
 ## v0.2 candidates
 
-- PyPI publication of `hemispec-toolkit`.
+- Continue PyPI publication of `hemispec-toolkit` alongside GitHub release artifacts.
 - Zenodo DOI or equivalent archived software citation.
 - Richer atlas/custom-bundle downloader or resolver beyond the default released model cache.
 - Small approved demo dataset, if redistribution is permitted.

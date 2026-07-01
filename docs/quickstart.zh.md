@@ -1,30 +1,30 @@
 # 快速开始
 
-本页展示当前 HemiSpec 工作流。公开品牌名称、CLI 示例和 Python API 均统一使用 HemiSpec 命名。
+本页使用推荐的 PyPI 优先路径展示当前 HemiSpec 工作流。公开品牌名称、CLI 示例和 Python API 均统一使用 HemiSpec 命名。
 
 CLI 示例已于 2026-06-29 与当前工具包接口核对。公开包名为 `hemispec-toolkit`；导入路径和命令保持为 `hemispec`。
 
 !!! note "命令命名"
-    命令行界面使用 `hemispec`，图形界面使用 `hemispec-gui`。
+    PyPI 会把 `hemispec` 命令行入口和 `hemispec-gui` 图形启动器安装到当前 Python/PyTorch 环境中。
 
 !!! note "已发布模型资产"
     源码仓库通过 Git LFS 包含可复用的 DGN 检查点和半球分类器包。Wheel/PyPI 安装将这些大型二进制文件保存在 wheel 之外，首次模型运行时自动下载已发布的资产到用户缓存。无需重新训练。
 
 ## 公开安全的合成计算演示
 
-如需不使用私有 MRI 数据、模型权重或 atlas 资产的首次 CLI 冒烟测试，可使用 HemiSpec Toolkit 合成快速入门。它会创建玩具 NIfTI 文件、模拟重建输出和玩具 atlas，然后运行带受试者图和 ROI 导出的 `hemispec compute`：
+如需不使用私有 MRI 数据、模型权重、atlas 资产或源码检出的首次 CLI 冒烟测试，可先从 PyPI 安装 HemiSpec，再运行内置合成快速入门：
 
-```powershell
-cd <hemispec-toolkit-checkout>
-python -m pip install -e .
-powershell -ExecutionPolicy Bypass -File examples\synthetic_quickstart\run_synthetic_quickstart.ps1 -Python python
+```bash
+python -m pip install hemispec-toolkit
+hemispec --help
+hemispec quickstart --out-dir hemispec_quickstart
 ```
 
-生成的图不是解剖数据，仅用于验证公开命令/文件契约。
+如果进行可编辑源码开发，可将 PyPI 安装命令替换为 `python -m pip install -e .`；源码树中的包装脚本仍保留在 `examples/synthetic_quickstart/` 下。生成的图不是解剖数据，仅用于验证公开命令/文件契约。
 
-## 启用模型的安装
+## 从 PyPI 安装启用模型的版本
 
-对于 PyPI/wheel 安装，使用模型运行时额外依赖，并可选择预下载已发布的模型资产：
+在包含目标 PyTorch 构建的环境中，从 PyPI 安装已发布包及模型运行时额外依赖，并可选择预下载已发布的模型资产：
 
 ```bash
 python -m pip install "hemispec-toolkit[gui,model,classifier]"
@@ -67,12 +67,14 @@ derivatives/sub-001_GM_masked.nii.gz
 
 ## 2. 运行标准 GUI 工作流
 
-从已安装 PyTorch 的同一环境启动启动器：
+从已安装 PyTorch 的同一环境启动包内 GUI：
 
 ```bash
-python -m pip install -e .[gui,model,classifier]
-python scripts/hemispec_gui_entry.py
+python -m pip install "hemispec-toolkit[gui,model,classifier]"
+hemispec-gui
 ```
+
+对于 Git-LFS 源码检出，可改用 `python scripts/hemispec_gui_entry.py`。
 
 GUI 是一个精简的标准工作流界面。其设置状态卡在长时间运行前报告 DGN 模型、Glasser atlas 文件、分类器包和 PyTorch 是否已找到。普通用户选择：
 
@@ -94,7 +96,7 @@ hemispec models
 
 ## 4. 通过 CLI 运行双向工作流
 
-GUI 映射到相同的公开 CLI/API 路径：
+GUI 映射到 PyPI 安装环境中的相同公开 CLI/API 路径：
 
 ```bash
 hemispec workflow \
@@ -172,4 +174,4 @@ hemispec workflow \
 - 独立的 `roi` 命令。
 - 公开的真实数据预处理资产和批准的真实样本数据。
 - 任何尚未获批的 atlas 有效载荷的公开再发行决定。
-- 完全公开的利手性复现工作流。
+- 完全公开的行为表型复现工作流。

@@ -17,7 +17,7 @@ cd HemiSpec
 git lfs pull
 ```
 
-**Wheel / PyPI install**
+**PyPI / wheel install**
 
 Models are downloaded automatically on the first model-enabled run:
 

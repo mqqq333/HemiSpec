@@ -1,6 +1,17 @@
 # DGN inference
 
-This tutorial will show how to apply trained HemiSpec DGN model bundles to preprocessed gray-matter maps.
+This tutorial shows how to apply released HemiSpec DGN model bundles to preprocessed gray-matter maps.
+
+## Install
+
+For model-enabled PyPI installs, include the model extra and optionally pre-download released checkpoints:
+
+```bash
+python -m pip install "hemispec-toolkit[model]"
+hemispec models --install
+```
+
+For source development, clone with Git LFS and use `python -m pip install -e .[model]`.
 
 ## Inputs
 
@@ -15,4 +26,4 @@ This tutorial will show how to apply trained HemiSpec DGN model bundles to prepr
 
 ## Current status
 
-Model bundle packaging is still being finalized. Do not publish trained weights until the release policy is decided.
+Released default model bundles are available through Git LFS source checkouts or first-run PyPI cache download. Do not publish additional trained weights until their release policy, provenance, checksums, and license notes are approved.
