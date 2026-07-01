@@ -979,7 +979,73 @@
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        首选公开导入
+        推荐：一行式双向工作流
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        在 Python 中管理模型资产
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#roi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        面向下游分析的 ROI 特征表
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        验证 API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        底层推理和指标计算 API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python 合成冒烟测试
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        暂不作为稳定公开 API 的内容
       
     </span>
   </a>
@@ -1455,7 +1521,73 @@
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        首选公开导入
+        推荐：一行式双向工作流
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        在 Python 中管理模型资产
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#roi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        面向下游分析的 ROI 特征表
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        验证 API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        底层推理和指标计算 API
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python 合成冒烟测试
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        暂不作为稳定公开 API 的内容
       
     </span>
   </a>
@@ -1483,30 +1615,184 @@
 
 
 <h1 id="python-api">Python API<a class="headerlink" href="#python-api" title="Permanent link">&para;</a></h1>
-<p>首选公开 Python 导入路径为 <code>hemispec</code>。公开 Python 示例请使用 <code>hemispec</code>。</p>
-<p>以下符号已于 2026-06-28 与当前迁移工具包接口核对。如果工具包源码或包名发生变化，请在公开发布前重新核对。</p>
-<h2 id="_1">首选公开导入<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">MetricComputeConfig</span><span class="p">,</span> <span class="n">ValidationConfig</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">compute_metrics</span><span class="p">,</span> <span class="n">validate_specificity</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">metrics</span> <span class="o">=</span> <span class="n">compute_metrics</span><span class="p">(</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">MetricComputeConfig</span><span class="p">(</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="n">actual_glob</span><span class="o">=</span><span class="s2">&quot;/data/gm/*_GM_masked.nii.gz&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        <span class="n">reconstructed_glob</span><span class="o">=</span><span class="s2">&quot;/data/recon/*_PRED_LR_full.nii.gz&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/data/hemispec/metrics&quot;</span><span class="p">),</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        <span class="n">save_subject_maps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="p">)</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">)</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">validation</span> <span class="o">=</span> <span class="n">validate_specificity</span><span class="p">(</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    <span class="n">ValidationConfig</span><span class="p">(</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>        <span class="n">maps_dir</span><span class="o">=</span><span class="n">metrics</span><span class="o">.</span><span class="n">subject_maps_dir</span><span class="p">,</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/data/hemispec/specificity&quot;</span><span class="p">),</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>        <span class="n">hemis</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">),</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>    <span class="p">)</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="p">)</span>
+<p>HemiSpec 更适合以 Python API 作为主入口来使用：PyTorch、模型缓存、批量运行和下游统计分析都可以放在同一个 Python/conda 环境中完成。PyPI 发行包名是 <code>hemispec-toolkit</code>，公开导入路径是 <code>hemispec</code>。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;hemispec-toolkit[model,classifier]&quot;</span>
 </code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span> <span class="nn">hemispec</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">print</span><span class="p">(</span><span class="n">hemispec</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</code></pre></div>
+<p>下面的 API 已按 HemiSpec v0.1.0 核对。新分析优先使用高层工作流 API；只有在需要手动拆分推理、指标计算或验证时，再使用底层 API。</p>
+<p>本页覆盖的公开入口包括 <code>run_bilateral_workflow</code>、<code>ensure_default_dgn_models</code>、<code>ensure_default_classifier_models</code>、ROI 汇总辅助函数、<code>validate_specificity</code>、<code>validate_reliability</code>、<code>validate_hemisphere_classification</code>、底层 DGN/指标函数，以及合成快速测试入口。</p>
+<h2 id="_1">推荐：一行式双向工作流<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p><code>run_bilateral_workflow()</code> 是主要 Python 入口。它会运行两个 DGN 方向、计算双侧 ANS/RNS 图，写出受试者级汇总，并可选导出 ROI 特征表、半球分类器验证和 test-retest reliability。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">BilateralWorkflowConfig</span><span class="p">,</span> <span class="n">run_bilateral_workflow</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">result</span> <span class="o">=</span> <span class="n">run_bilateral_workflow</span><span class="p">(</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">BilateralWorkflowConfig</span><span class="p">(</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>        <span class="n">input_glob</span><span class="o">=</span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/hemispec_workflow&quot;</span><span class="p">),</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>        <span class="n">device</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>          <span class="c1"># &quot;auto&quot;、&quot;cuda&quot; 或 &quot;cpu&quot;</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="p">)</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="p">)</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">out_dir</span><span class="p">)</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">hemi_maps_dir</span><span class="p">)</span>          <span class="c1"># 最终 ANS.L / ANS.R / RNS.L / RNS.R 图</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">subject_summary_csv</span><span class="p">)</span>    <span class="c1"># 每个受试者的体素均值汇总</span>
+</code></pre></div>
+<p>当 atlas 可用时，ROI 导出默认开启。只有在只需要体素级图和受试者汇总、不需要 ROI 特征时，才设置 <code>export_roi_table=False</code>。</p>
+<p>主要输出结构：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>outputs/hemispec_workflow/
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  voxel_maps/&lt;subject&gt;_ANS.L.nii.gz
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  voxel_maps/&lt;subject&gt;_ANS.R.nii.gz
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>  voxel_maps/&lt;subject&gt;_RNS.L.nii.gz
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>  voxel_maps/&lt;subject&gt;_RNS.R.nii.gz
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>  tables/subject_metric_summary.csv
+</code></pre></div>
+<h2 id="python">在 Python 中管理模型资产<a class="headerlink" href="#python" title="Permanent link">&para;</a></h2>
+<p>Wheel/PyPI 安装不会把大模型二进制文件打进 wheel。首次模型运行时，工作流会自动下载缺失的已发布 DGN 检查点，除非用户禁用了自动下载。也可以显式预下载：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">ensure_default_classifier_models</span><span class="p">,</span> <span class="n">ensure_default_dgn_models</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># 返回 DGN 模型根目录（.../models/dgn）。</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">dgn_root</span> <span class="o">=</span> <span class="n">ensure_default_dgn_models</span><span class="p">()</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># 可选：半球分类器验证所需的模型包</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="n">classifier_dir</span> <span class="o">=</span> <span class="n">ensure_default_classifier_models</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;single&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>如果想显式指定模型路径，可以传入工作流配置：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">BilateralWorkflowConfig</span><span class="p">,</span> <span class="n">run_bilateral_workflow</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">result</span> <span class="o">=</span> <span class="n">run_bilateral_workflow</span><span class="p">(</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">BilateralWorkflowConfig</span><span class="p">(</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>        <span class="n">input_glob</span><span class="o">=</span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/hemispec_with_models&quot;</span><span class="p">),</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>        <span class="n">model_root</span><span class="o">=</span><span class="n">dgn_root</span><span class="p">,</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>        <span class="n">run_classifier</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>        <span class="n">classifier_model_dir</span><span class="o">=</span><span class="n">classifier_dir</span><span class="p">,</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>        <span class="n">roi_atlas</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;atlas/custom_atlas.nii.gz&quot;</span><span class="p">),</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>        <span class="n">roi_label_table</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;atlas/custom_labels.xlsx&quot;</span><span class="p">),</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>    <span class="p">)</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="p">)</span>
+</code></pre></div>
+<p>常用环境变量：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>HEMISPEC_MODEL_CACHE              # 下载模型资产的用户缓存根目录
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>HEMISPEC_DGN_MODEL_ROOT           # 覆盖 DGN 检查点根目录
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>HEMISPEC_CLASSIFIER_MODEL_DIR     # 覆盖分类器模型包目录
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>HEMISPEC_GLASSER_ATLAS            # ROI 导出的默认 atlas 路径
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>HEMISPEC_GLASSER_LABEL_TABLE      # 默认标签表路径
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>HEMISPEC_DISABLE_MODEL_AUTO_DOWNLOAD=1
+</code></pre></div>
+<h2 id="roi">面向下游分析的 ROI 特征表<a class="headerlink" href="#roi" title="Permanent link">&para;</a></h2>
+<p>提供 atlas 后，可以生成用于统计模型或机器学习分类器的 ROI 水平特征。长表是每个受试者 / 图 / ROI 一行；宽表是每个受试者一行，特征列名类似 <code>ANS.L_roi_1</code> 或 <code>RNS.R_roi_180</code>。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">BilateralWorkflowConfig</span><span class="p">,</span> <span class="n">run_bilateral_workflow</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">result</span> <span class="o">=</span> <span class="n">run_bilateral_workflow</span><span class="p">(</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="n">BilateralWorkflowConfig</span><span class="p">(</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>        <span class="n">input_glob</span><span class="o">=</span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="p">,</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/hemispec_roi&quot;</span><span class="p">),</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>        <span class="n">roi_atlas</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;atlas/custom_atlas.nii.gz&quot;</span><span class="p">),</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>        <span class="n">roi_label_table</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;atlas/custom_labels.xlsx&quot;</span><span class="p">),</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>        <span class="n">export_roi_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>    <span class="p">)</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="p">)</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">roi_csv</span><span class="p">)</span>       <span class="c1"># tables/roi_features_bilateral.csv</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">roi_wide_csv</span><span class="p">)</span>  <span class="c1"># tables/roi_features_bilateral_wide.csv</span>
+</code></pre></div>
+<p>如果已经有体素级图，也可以直接汇总到 ROI：</p>
+<p>对于工作流生成的双侧图（如 <code>sub-001_ANS.L.nii.gz</code> 或 <code>sub-001_RNS.R.nii.gz</code>），请保留下面扩展的 <code>file_regex</code>，这样才能正确捕获 <code>map_hemi</code> 列。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">RoiSummaryConfig</span><span class="p">,</span> <span class="n">summarize_bilateral_roi_features</span><span class="p">,</span> <span class="n">summarize_maps_by_atlas</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="n">roi_long</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/tables/roi_features_bilateral.csv&quot;</span><span class="p">)</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="n">summary</span> <span class="o">=</span> <span class="n">summarize_maps_by_atlas</span><span class="p">(</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="n">RoiSummaryConfig</span><span class="p">(</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>        <span class="n">maps_glob</span><span class="o">=</span><span class="s2">&quot;outputs/hemispec_workflow/voxel_maps/*.nii.gz&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>        <span class="n">atlas_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;atlas/custom_atlas.nii.gz&quot;</span><span class="p">),</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>        <span class="n">label_table</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;atlas/custom_labels.xlsx&quot;</span><span class="p">),</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>        <span class="n">out_csv</span><span class="o">=</span><span class="n">roi_long</span><span class="p">,</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>        <span class="n">file_regex</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;(?P&lt;subject&gt;.+?)_(?P&lt;kind&gt;ANS|RNS)[._](?P&lt;map_hemi&gt;L|R)\.nii(?:\.gz)?$&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>    <span class="p">)</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="p">)</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="n">wide</span> <span class="o">=</span> <span class="n">summarize_bilateral_roi_features</span><span class="p">(</span><span class="n">roi_long</span><span class="p">,</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/tables/roi_features_bilateral_wide.csv&quot;</span><span class="p">))</span>
+</code></pre></div>
+<h2 id="api">验证 API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
+<p>如果需要在 Python 中控制输出目录或参数，可以直接调用验证 API。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">HemisphereClassificationConfig</span><span class="p">,</span> <span class="n">ValidationConfig</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">validate_hemisphere_classification</span><span class="p">,</span> <span class="n">validate_reliability</span><span class="p">,</span> <span class="n">validate_specificity</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">specificity</span> <span class="o">=</span> <span class="n">validate_specificity</span><span class="p">(</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="n">ValidationConfig</span><span class="p">(</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>        <span class="n">maps_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/hemispec_workflow/intermediate/combined_maps&quot;</span><span class="p">),</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/validation/specificity&quot;</span><span class="p">),</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>        <span class="n">hemis</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">),</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>        <span class="n">dgn_direction</span><span class="o">=</span><span class="s2">&quot;bilateral&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>    <span class="p">)</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="p">)</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="nb">print</span><span class="p">(</span><span class="n">specificity</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">())</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="n">trt</span> <span class="o">=</span> <span class="n">validate_reliability</span><span class="p">(</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>    <span class="n">ValidationConfig</span><span class="p">(</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>        <span class="n">maps_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/hemispec_workflow/intermediate/combined_maps&quot;</span><span class="p">),</span>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/validation/trt&quot;</span><span class="p">),</span>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>        <span class="n">file_regex</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;(sub-MSC\d+).*?(run-\d+)&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>        <span class="n">session_a</span><span class="o">=</span><span class="s2">&quot;run-01&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>        <span class="n">session_b</span><span class="o">=</span><span class="s2">&quot;run-02&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>        <span class="n">dgn_direction</span><span class="o">=</span><span class="s2">&quot;bilateral&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>    <span class="p">)</span>
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="p">)</span>
+<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>
+<a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a><span class="n">classifier</span> <span class="o">=</span> <span class="n">validate_hemisphere_classification</span><span class="p">(</span>
+<a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>    <span class="n">HemisphereClassificationConfig</span><span class="p">(</span>
+<a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a>        <span class="n">maps_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/hemispec_workflow/voxel_maps&quot;</span><span class="p">),</span>
+<a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a>        <span class="n">roi_csv</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/hemispec_workflow/tables/roi_features_bilateral.csv&quot;</span><span class="p">),</span>
+<a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a>        <span class="n">atlas_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;atlas/custom_atlas.nii.gz&quot;</span><span class="p">),</span>
+<a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a>        <span class="n">label_table</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;atlas/custom_labels.xlsx&quot;</span><span class="p">),</span>
+<a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/validation/hemi_classify&quot;</span><span class="p">),</span>
+<a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a>    <span class="p">)</span>
+<a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a><span class="p">)</span>
+<a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a><span class="nb">print</span><span class="p">(</span><span class="n">classifier</span><span class="o">.</span><span class="n">accuracy</span><span class="p">,</span> <span class="n">classifier</span><span class="o">.</span><span class="n">predictions_csv</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="api_1">底层推理和指标计算 API<a class="headerlink" href="#api_1" title="Permanent link">&para;</a></h2>
+<p>只有在需要自定义管线布局、只跑单个 DGN 方向，或从已有重建图计算 ANS/RNS 时，才建议使用这些底层接口。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">DGNInferenceConfig</span><span class="p">,</span> <span class="n">MetricComputeConfig</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">compute_metrics</span><span class="p">,</span> <span class="n">discover_local_dgn_bundles</span><span class="p">,</span> <span class="n">run_dgn_inference</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">bundles</span> <span class="o">=</span> <span class="n">discover_local_dgn_bundles</span><span class="p">()</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="n">reconstructed</span> <span class="o">=</span> <span class="n">run_dgn_inference</span><span class="p">(</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>    <span class="n">DGNInferenceConfig</span><span class="p">(</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>        <span class="n">model</span><span class="o">=</span><span class="n">bundles</span><span class="p">[</span><span class="s2">&quot;L_to_R&quot;</span><span class="p">],</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>        <span class="n">input_glob</span><span class="o">=</span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="p">,</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/recon_L_to_R&quot;</span><span class="p">),</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>        <span class="n">device</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>        <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;L_to_R&quot;</span><span class="p">,</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>    <span class="p">)</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="p">)</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="n">metrics</span> <span class="o">=</span> <span class="n">compute_metrics</span><span class="p">(</span>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>    <span class="n">MetricComputeConfig</span><span class="p">(</span>
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>        <span class="n">actual_glob</span><span class="o">=</span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="p">,</span>
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>        <span class="n">reconstructed_glob</span><span class="o">=</span><span class="s2">&quot;outputs/recon_L_to_R/*_PRED_LR_full.nii.gz&quot;</span><span class="p">,</span>
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/specificity_L_to_R&quot;</span><span class="p">),</span>
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>        <span class="n">save_subject_maps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a>    <span class="p">)</span>
+<a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a><span class="p">)</span>
+<a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a><span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">subject_maps_dir</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="python_1">Python 合成冒烟测试<a class="headerlink" href="#python_1" title="Permanent link">&para;</a></h2>
+<p>如果只是检查文档、CI 或环境连通性，不希望下载模型或接触私有 MRI 数据，可以运行合成快速测试：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">run_synthetic_quickstart</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">run_synthetic_quickstart</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/hemispec_quickstart&quot;</span><span class="p">))</span>
+</code></pre></div>
+<h2 id="api_2">暂不作为稳定公开 API 的内容<a class="headerlink" href="#api_2" title="Permanent link">&para;</a></h2>
+<p>训练代码、私有稿件分析和原始数据预处理决策不作为稳定公开 Python API 暴露。新增用户文档时，示例应使用 <code>from hemispec import ...</code>，并保证 CLI/GUI 示例与同一个包安装环境保持一致。</p>
 
 
 

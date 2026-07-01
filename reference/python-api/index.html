@@ -976,10 +976,76 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#preferred-public-import" class="md-nav__link">
+  <a href="#recommended-one-call-bilateral-workflow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Preferred public import
+        Recommended: one-call bilateral workflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model-assets-from-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model assets from Python
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#roi-feature-tables-for-downstream-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ROI feature tables for downstream analysis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation APIs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lower-level-inference-and-metric-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lower-level inference and metric APIs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#synthetic-smoke-test-from-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synthetic smoke test from Python
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-intentionally-not-public-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is intentionally not public API
       
     </span>
   </a>
@@ -1452,10 +1518,76 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#preferred-public-import" class="md-nav__link">
+  <a href="#recommended-one-call-bilateral-workflow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Preferred public import
+        Recommended: one-call bilateral workflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#model-assets-from-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Model assets from Python
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#roi-feature-tables-for-downstream-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ROI feature tables for downstream analysis
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validation-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validation APIs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lower-level-inference-and-metric-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lower-level inference and metric APIs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#synthetic-smoke-test-from-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synthetic smoke test from Python
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-intentionally-not-public-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is intentionally not public API
       
     </span>
   </a>
@@ -1483,30 +1615,184 @@
 
 
 <h1 id="python-api">Python API<a class="headerlink" href="#python-api" title="Permanent link">&para;</a></h1>
-<p>The preferred public Python import path is <code>hemispec</code>. Use <code>hemispec</code> for public Python examples.</p>
-<p>The symbols shown here were checked against the current migration toolkit interface on 2026-06-28. Re-check them before public release if the toolkit source or package name changes.</p>
-<h2 id="preferred-public-import">Preferred public import<a class="headerlink" href="#preferred-public-import" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">MetricComputeConfig</span><span class="p">,</span> <span class="n">ValidationConfig</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">compute_metrics</span><span class="p">,</span> <span class="n">validate_specificity</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">metrics</span> <span class="o">=</span> <span class="n">compute_metrics</span><span class="p">(</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">MetricComputeConfig</span><span class="p">(</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="n">actual_glob</span><span class="o">=</span><span class="s2">&quot;/data/gm/*_GM_masked.nii.gz&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        <span class="n">reconstructed_glob</span><span class="o">=</span><span class="s2">&quot;/data/recon/*_PRED_LR_full.nii.gz&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/data/hemispec/metrics&quot;</span><span class="p">),</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        <span class="n">save_subject_maps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="p">)</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">)</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="n">validation</span> <span class="o">=</span> <span class="n">validate_specificity</span><span class="p">(</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    <span class="n">ValidationConfig</span><span class="p">(</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>        <span class="n">maps_dir</span><span class="o">=</span><span class="n">metrics</span><span class="o">.</span><span class="n">subject_maps_dir</span><span class="p">,</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;/data/hemispec/specificity&quot;</span><span class="p">),</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>        <span class="n">hemis</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">),</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>    <span class="p">)</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="p">)</span>
+<p>HemiSpec is designed to be used from Python first when you need reproducible PyTorch/model setup, batch execution, and downstream statistics in the same environment. The PyPI distribution name is <code>hemispec-toolkit</code>; the public import path is <code>hemispec</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;hemispec-toolkit[model,classifier]&quot;</span>
 </code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">import</span> <span class="nn">hemispec</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">print</span><span class="p">(</span><span class="n">hemispec</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</code></pre></div>
+<p>The API below was checked against HemiSpec v0.1.0. Prefer the high-level workflow API for new analyses; use lower-level APIs only when you need to split inference, metric computation, or validation manually.</p>
+<p>Covered public entry points include <code>run_bilateral_workflow</code>, <code>ensure_default_dgn_models</code>, <code>ensure_default_classifier_models</code>, ROI summarization helpers, <code>validate_specificity</code>, <code>validate_reliability</code>, <code>validate_hemisphere_classification</code>, lower-level DGN/metric functions, and the synthetic quickstart helper.</p>
+<h2 id="recommended-one-call-bilateral-workflow">Recommended: one-call bilateral workflow<a class="headerlink" href="#recommended-one-call-bilateral-workflow" title="Permanent link">&para;</a></h2>
+<p><code>run_bilateral_workflow()</code> is the main Python entry point. It runs both DGN directions, computes bilateral ANS/RNS maps, writes subject summaries, and optionally exports ROI feature tables, hemisphere-classifier validation, and test-retest reliability.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">BilateralWorkflowConfig</span><span class="p">,</span> <span class="n">run_bilateral_workflow</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">result</span> <span class="o">=</span> <span class="n">run_bilateral_workflow</span><span class="p">(</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">BilateralWorkflowConfig</span><span class="p">(</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>        <span class="n">input_glob</span><span class="o">=</span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/hemispec_workflow&quot;</span><span class="p">),</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>        <span class="n">device</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>          <span class="c1"># &quot;auto&quot;, &quot;cuda&quot;, or &quot;cpu&quot;</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="p">)</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="p">)</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">out_dir</span><span class="p">)</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">hemi_maps_dir</span><span class="p">)</span>          <span class="c1"># final ANS.L / ANS.R / RNS.L / RNS.R maps</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">subject_summary_csv</span><span class="p">)</span>    <span class="c1"># per-subject voxel-wise means</span>
+</code></pre></div>
+<p>ROI export is enabled by default when an atlas is available. Set <code>export_roi_table=False</code> only when you want voxel-wise maps and subject summaries without ROI features.</p>
+<p>Primary outputs are:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>outputs/hemispec_workflow/
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  voxel_maps/&lt;subject&gt;_ANS.L.nii.gz
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  voxel_maps/&lt;subject&gt;_ANS.R.nii.gz
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>  voxel_maps/&lt;subject&gt;_RNS.L.nii.gz
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>  voxel_maps/&lt;subject&gt;_RNS.R.nii.gz
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>  tables/subject_metric_summary.csv
+</code></pre></div>
+<h2 id="model-assets-from-python">Model assets from Python<a class="headerlink" href="#model-assets-from-python" title="Permanent link">&para;</a></h2>
+<p>Wheel/PyPI installs keep large model binaries outside the wheel. The workflow downloads missing released DGN checkpoints automatically on first use unless automatic downloads are disabled. You can also pre-download assets explicitly:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">ensure_default_classifier_models</span><span class="p">,</span> <span class="n">ensure_default_dgn_models</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># Returns the DGN model root (.../models/dgn).</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">dgn_root</span> <span class="o">=</span> <span class="n">ensure_default_dgn_models</span><span class="p">()</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># Optional: classifier bundle for hemisphere-classifier validation.</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="n">classifier_dir</span> <span class="o">=</span> <span class="n">ensure_default_classifier_models</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;single&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>Then pass those paths into the workflow when you want explicit control:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">BilateralWorkflowConfig</span><span class="p">,</span> <span class="n">run_bilateral_workflow</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">result</span> <span class="o">=</span> <span class="n">run_bilateral_workflow</span><span class="p">(</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">BilateralWorkflowConfig</span><span class="p">(</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>        <span class="n">input_glob</span><span class="o">=</span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/hemispec_with_models&quot;</span><span class="p">),</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>        <span class="n">model_root</span><span class="o">=</span><span class="n">dgn_root</span><span class="p">,</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>        <span class="n">run_classifier</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>        <span class="n">classifier_model_dir</span><span class="o">=</span><span class="n">classifier_dir</span><span class="p">,</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>        <span class="n">roi_atlas</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;atlas/custom_atlas.nii.gz&quot;</span><span class="p">),</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>        <span class="n">roi_label_table</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;atlas/custom_labels.xlsx&quot;</span><span class="p">),</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>    <span class="p">)</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="p">)</span>
+</code></pre></div>
+<p>Useful environment variables:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>HEMISPEC_MODEL_CACHE              # user cache root for downloaded model assets
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>HEMISPEC_DGN_MODEL_ROOT           # override DGN checkpoint root
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>HEMISPEC_CLASSIFIER_MODEL_DIR     # override classifier bundle directory
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>HEMISPEC_GLASSER_ATLAS            # default atlas path for ROI export
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>HEMISPEC_GLASSER_LABEL_TABLE      # default label table path
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>HEMISPEC_DISABLE_MODEL_AUTO_DOWNLOAD=1
+</code></pre></div>
+<h2 id="roi-feature-tables-for-downstream-analysis">ROI feature tables for downstream analysis<a class="headerlink" href="#roi-feature-tables-for-downstream-analysis" title="Permanent link">&para;</a></h2>
+<p>Provide an atlas to create ROI-level features for statistical models or machine-learning classifiers. The long table stores one row per subject / map / ROI; the wide table stores one row per subject with feature columns such as <code>ANS.L_roi_1</code> or <code>RNS.R_roi_180</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">BilateralWorkflowConfig</span><span class="p">,</span> <span class="n">run_bilateral_workflow</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">result</span> <span class="o">=</span> <span class="n">run_bilateral_workflow</span><span class="p">(</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="n">BilateralWorkflowConfig</span><span class="p">(</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>        <span class="n">input_glob</span><span class="o">=</span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="p">,</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/hemispec_roi&quot;</span><span class="p">),</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>        <span class="n">roi_atlas</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;atlas/custom_atlas.nii.gz&quot;</span><span class="p">),</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>        <span class="n">roi_label_table</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;atlas/custom_labels.xlsx&quot;</span><span class="p">),</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>        <span class="n">export_roi_table</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>    <span class="p">)</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="p">)</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">roi_csv</span><span class="p">)</span>       <span class="c1"># tables/roi_features_bilateral.csv</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">roi_wide_csv</span><span class="p">)</span>  <span class="c1"># tables/roi_features_bilateral_wide.csv</span>
+</code></pre></div>
+<p>If you already have voxel-wise maps, summarize them directly:</p>
+<p>For workflow-generated bilateral maps named like <code>sub-001_ANS.L.nii.gz</code> or <code>sub-001_RNS.R.nii.gz</code>, keep the extended <code>file_regex</code> below so the <code>map_hemi</code> column is captured correctly.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">RoiSummaryConfig</span><span class="p">,</span> <span class="n">summarize_bilateral_roi_features</span><span class="p">,</span> <span class="n">summarize_maps_by_atlas</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="n">roi_long</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/tables/roi_features_bilateral.csv&quot;</span><span class="p">)</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="n">summary</span> <span class="o">=</span> <span class="n">summarize_maps_by_atlas</span><span class="p">(</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="n">RoiSummaryConfig</span><span class="p">(</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>        <span class="n">maps_glob</span><span class="o">=</span><span class="s2">&quot;outputs/hemispec_workflow/voxel_maps/*.nii.gz&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>        <span class="n">atlas_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;atlas/custom_atlas.nii.gz&quot;</span><span class="p">),</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>        <span class="n">label_table</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;atlas/custom_labels.xlsx&quot;</span><span class="p">),</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>        <span class="n">out_csv</span><span class="o">=</span><span class="n">roi_long</span><span class="p">,</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>        <span class="n">file_regex</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;(?P&lt;subject&gt;.+?)_(?P&lt;kind&gt;ANS|RNS)[._](?P&lt;map_hemi&gt;L|R)\.nii(?:\.gz)?$&quot;</span><span class="p">,</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>    <span class="p">)</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="p">)</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="n">wide</span> <span class="o">=</span> <span class="n">summarize_bilateral_roi_features</span><span class="p">(</span><span class="n">roi_long</span><span class="p">,</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/tables/roi_features_bilateral_wide.csv&quot;</span><span class="p">))</span>
+</code></pre></div>
+<h2 id="validation-apis">Validation APIs<a class="headerlink" href="#validation-apis" title="Permanent link">&para;</a></h2>
+<p>Use validation APIs when you want explicit Python control over output folders or parameters.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">HemisphereClassificationConfig</span><span class="p">,</span> <span class="n">ValidationConfig</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">validate_hemisphere_classification</span><span class="p">,</span> <span class="n">validate_reliability</span><span class="p">,</span> <span class="n">validate_specificity</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">specificity</span> <span class="o">=</span> <span class="n">validate_specificity</span><span class="p">(</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="n">ValidationConfig</span><span class="p">(</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>        <span class="n">maps_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/hemispec_workflow/intermediate/combined_maps&quot;</span><span class="p">),</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/validation/specificity&quot;</span><span class="p">),</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>        <span class="n">hemis</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">),</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>        <span class="n">dgn_direction</span><span class="o">=</span><span class="s2">&quot;bilateral&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>    <span class="p">)</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="p">)</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="nb">print</span><span class="p">(</span><span class="n">specificity</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">())</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="n">trt</span> <span class="o">=</span> <span class="n">validate_reliability</span><span class="p">(</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>    <span class="n">ValidationConfig</span><span class="p">(</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>        <span class="n">maps_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/hemispec_workflow/intermediate/combined_maps&quot;</span><span class="p">),</span>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/validation/trt&quot;</span><span class="p">),</span>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>        <span class="n">file_regex</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;(sub-MSC\d+).*?(run-\d+)&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>        <span class="n">session_a</span><span class="o">=</span><span class="s2">&quot;run-01&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>        <span class="n">session_b</span><span class="o">=</span><span class="s2">&quot;run-02&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>        <span class="n">dgn_direction</span><span class="o">=</span><span class="s2">&quot;bilateral&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>    <span class="p">)</span>
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="p">)</span>
+<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a>
+<a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a><span class="n">classifier</span> <span class="o">=</span> <span class="n">validate_hemisphere_classification</span><span class="p">(</span>
+<a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a>    <span class="n">HemisphereClassificationConfig</span><span class="p">(</span>
+<a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a>        <span class="n">maps_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/hemispec_workflow/voxel_maps&quot;</span><span class="p">),</span>
+<a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a>        <span class="n">roi_csv</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/hemispec_workflow/tables/roi_features_bilateral.csv&quot;</span><span class="p">),</span>
+<a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a>        <span class="n">atlas_path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;atlas/custom_atlas.nii.gz&quot;</span><span class="p">),</span>
+<a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a>        <span class="n">label_table</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;atlas/custom_labels.xlsx&quot;</span><span class="p">),</span>
+<a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/validation/hemi_classify&quot;</span><span class="p">),</span>
+<a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a>    <span class="p">)</span>
+<a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a><span class="p">)</span>
+<a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a><span class="nb">print</span><span class="p">(</span><span class="n">classifier</span><span class="o">.</span><span class="n">accuracy</span><span class="p">,</span> <span class="n">classifier</span><span class="o">.</span><span class="n">predictions_csv</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="lower-level-inference-and-metric-apis">Lower-level inference and metric APIs<a class="headerlink" href="#lower-level-inference-and-metric-apis" title="Permanent link">&para;</a></h2>
+<p>Use these only when you need a custom pipeline layout, a single DGN direction, or ANS/RNS computation from already reconstructed maps.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">DGNInferenceConfig</span><span class="p">,</span> <span class="n">MetricComputeConfig</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">compute_metrics</span><span class="p">,</span> <span class="n">discover_local_dgn_bundles</span><span class="p">,</span> <span class="n">run_dgn_inference</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">bundles</span> <span class="o">=</span> <span class="n">discover_local_dgn_bundles</span><span class="p">()</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="n">reconstructed</span> <span class="o">=</span> <span class="n">run_dgn_inference</span><span class="p">(</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>    <span class="n">DGNInferenceConfig</span><span class="p">(</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>        <span class="n">model</span><span class="o">=</span><span class="n">bundles</span><span class="p">[</span><span class="s2">&quot;L_to_R&quot;</span><span class="p">],</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>        <span class="n">input_glob</span><span class="o">=</span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="p">,</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/recon_L_to_R&quot;</span><span class="p">),</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>        <span class="n">device</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>        <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;L_to_R&quot;</span><span class="p">,</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>    <span class="p">)</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="p">)</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="n">metrics</span> <span class="o">=</span> <span class="n">compute_metrics</span><span class="p">(</span>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>    <span class="n">MetricComputeConfig</span><span class="p">(</span>
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>        <span class="n">actual_glob</span><span class="o">=</span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="p">,</span>
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>        <span class="n">reconstructed_glob</span><span class="o">=</span><span class="s2">&quot;outputs/recon_L_to_R/*_PRED_LR_full.nii.gz&quot;</span><span class="p">,</span>
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/specificity_L_to_R&quot;</span><span class="p">),</span>
+<a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>        <span class="n">save_subject_maps</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a>    <span class="p">)</span>
+<a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a><span class="p">)</span>
+<a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a><span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="o">.</span><span class="n">subject_maps_dir</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="synthetic-smoke-test-from-python">Synthetic smoke test from Python<a class="headerlink" href="#synthetic-smoke-test-from-python" title="Permanent link">&para;</a></h2>
+<p>For documentation, CI, or environment checks that should not download model weights or touch private MRI data:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">run_synthetic_quickstart</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">run_synthetic_quickstart</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;outputs/hemispec_quickstart&quot;</span><span class="p">))</span>
+</code></pre></div>
+<h2 id="what-is-intentionally-not-public-api">What is intentionally not public API<a class="headerlink" href="#what-is-intentionally-not-public-api" title="Permanent link">&para;</a></h2>
+<p>Training code, private manuscript analyses, and raw-data preprocessing decisions are not exposed as stable public Python API. For new user-facing work, document examples with <code>from hemispec import ...</code> and keep CLI/GUI examples aligned with the same package-installed environment.</p>
 
 
 
