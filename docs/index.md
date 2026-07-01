@@ -11,8 +11,8 @@
 ## Workflow overview
 
 <figure markdown="span">
-  ![HemiSpec workflow overview](assets/figures/hemispec-workflow-overview-ai.png){ width="100%" }
-  <figcaption>Input GM maps → cross-hemispheric DGN reconstruction → ANS/RNS specificity maps → ROI summaries and validation → downstream analyses (age/sex effects, hemisphere classification, handedness, disease vs. control).</figcaption>
+  ![HemiSpec workflow overview](assets/figures/candidate-1.png){ width="100%" }
+  <figcaption>Input GM maps → cross-hemispheric DGN reconstruction → ANS/RNS specificity maps → ROI summaries and validation → downstream analyses (age/sex effects, hemisphere classification, behavioral phenotypes, disease vs. control).</figcaption>
 </figure>
 
 ## Choose your path
@@ -31,7 +31,7 @@
 
     ---
 
-    Learn the reconstruction framework, metric definitions, and handedness extension.
+    Learn the reconstruction framework, metric definitions, and downstream task analysis.
 
     [Methods](methods/index.md)
 

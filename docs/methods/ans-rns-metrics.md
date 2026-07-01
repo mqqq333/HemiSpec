@@ -19,4 +19,4 @@ Both metrics are usually computed voxelwise within a valid gray-matter mask and 
 
 ## Citation boundary
 
-When using ANS/RNS as metrics, cite Wang et al. 2024. When using HemiSpec-specific handedness workflows, cite the HemiSpec manuscript or preprint once public.
+When using ANS/RNS as metrics, cite Wang et al. 2024. When using HemiSpec-specific downstream task workflows, cite the relevant HemiSpec manuscript or preprint once public.

@@ -6,9 +6,9 @@ HemiSpec documentation separates method origin from project-specific extensions.
 
 Wang et al. 2024 introduced a cross-hemispheric deep generation network framework for estimating one hemisphere from its contralateral counterpart and deriving neuroanatomical specificity maps from actual-reconstructed residuals.
 
-## HemiSpec extension
+## Downstream task layer
 
-The current HemiSpec handedness manuscript (Ma & Ma, in preparation) applies this reconstruction-derived framework to a behavioral lateralization question. It evaluates whether ANS/RNS features capture subtle structural information related to handedness beyond conventional GMV asymmetry indices, using T1-weighted MRI data from seven public datasets.
+HemiSpec extends the reconstruction-derived framework by treating ANS/RNS maps as reusable voxel-wise and ROI-level representations for downstream task analysis. The method layer is framed broadly so the same outputs can support demographic, hemisphere-identity, behavioral-phenotype, and disease-comparison analyses.
 
 ## Metrics
 
@@ -23,5 +23,5 @@ ANS/RNS maps and ROI-level features support a range of downstream analyses:
 
 - **Age and sex effects** — how reconstruction-derived specificity varies across demographic groups.
 - **Hemisphere identity classification** — distinguishing left from right hemispheres from ROI-level ANS/RNS features.
-- **Behavioral phenotypes** — associating specificity features with lateralized behaviors such as handedness.
+- **Behavioral phenotypes** — associating specificity features with behavioral or lateralization phenotypes.
 - **Disease vs. control comparisons** — comparing ANS/RNS profiles between patient groups and healthy controls.
