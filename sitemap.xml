@@ -274,6 +274,13 @@
         <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/tutorials/model-enabled-dgn-workflow/"/>
     </url>
     <url>
+        <loc>https://mqqq333.github.io/HemiSpec/tutorials/sch-api-validation/</loc>
+        <lastmod>2026-07-01</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mqqq333.github.io/HemiSpec/tutorials/sch-api-validation/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/tutorials/sch-api-validation/"/>
+    </url>
+    <url>
         <loc>https://mqqq333.github.io/HemiSpec/zh/</loc>
         <lastmod>2026-07-01</lastmod>
         <changefreq>daily</changefreq>
@@ -545,5 +552,12 @@
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/tutorials/model-enabled-dgn-workflow/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://mqqq333.github.io/HemiSpec/tutorials/model-enabled-dgn-workflow/"/>
+    </url>
+    <url>
+        <loc>https://mqqq333.github.io/HemiSpec/zh/tutorials/sch-api-validation/</loc>
+        <lastmod>2026-07-01</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/tutorials/sch-api-validation/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mqqq333.github.io/HemiSpec/tutorials/sch-api-validation/"/>
     </url>
 </urlset>
