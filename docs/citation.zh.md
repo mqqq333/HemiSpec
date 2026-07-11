@@ -8,10 +8,10 @@ HemiSpec 将**原始科学方法**、**预处理软件**与 **HemiSpec 软件/�
 
 > Wang, G., Jiang, N., Ma, Y., Suo, D., Liu, T., Funahashi, S., & Yan, T. (2024). Using a deep generation network reveals neuroanatomical specificity in hemispheres. *Patterns, 5*(4), 100930. https://doi.org/10.1016/j.patter.2024.100930
 
-原论文中的术语为：
+HemiSpec 在公开文档中统一使用以下术语：
 
 - **ANS：**absolute neuroanatomical specificity（绝对神经解剖特异性）。
-- **RNS：**relative neuroanatomical specialization（相对神经解剖特化）。
+- **RNS：**relative neuroanatomical specificity（相对神经解剖特异性）。
 
 HemiSpec 文档沿用原论文的名称与缩写。
 

@@ -129,10 +129,10 @@ Use the original paper when citing the cross-hemispheric DGN method or ANS/RNS m
 
 > Wang, G., Jiang, N., Ma, Y., Suo, D., Liu, T., Funahashi, S., & Yan, T. (2024). Using a deep generation network reveals neuroanatomical specificity in hemispheres. *Patterns, 5*(4), 100930. https://doi.org/10.1016/j.patter.2024.100930
 
-In the original paper:
+In HemiSpec public terminology:
 
 - **ANS** means **absolute neuroanatomical specificity**.
-- **RNS** means **relative neuroanatomical specialization**.
+- **RNS** means **relative neuroanatomical specificity**.
 
 HemiSpec-specific software, release, and downstream-study citations should be added separately when their public archival records are available. See the full [citation guidance](https://mqqq333.github.io/HemiSpec/citation/).
 

@@ -1,6 +1,6 @@
-﻿# ANS 与 RNS 指标
+# ANS 与 RNS 指标
 
-ANS 和 RNS 由 Wang 等人（2024）提出，用于描述重建衍生的半球特化。
+ANS 和 RNS 由 Wang 等人（2024）提出，用于描述重建衍生的半球特异性。
 
 ## 原始定义
 
@@ -12,7 +12,7 @@ RNS_i = abs((Act_i - Recon_i) / (Act_i + Recon_i))
 ```
 
 - **ANS：**absolute neuroanatomical specificity（绝对神经解剖特异性）。
-- **RNS：**relative neuroanatomical specialization（相对神经解剖特化）。
+- **RNS：**relative neuroanatomical specificity（相对神经解剖特异性）。
 
 ANS 表示实际值与重建值之间差异的绝对量；RNS 表示该差异占局部信号的相对比例。
 

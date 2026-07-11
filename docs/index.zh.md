@@ -1,6 +1,6 @@
 # HemiSpec
 
-**HemiSpec** 是一个科研软件工具包，用于将预处理灰质图转换为双侧重建衍生半球指标：**ANS**（absolute neuroanatomical specificity，绝对神经解剖特异性）与 **RNS**（relative neuroanatomical specialization，相对神经解剖特化）。
+**HemiSpec** 是一个科研软件工具包，用于将预处理灰质图转换为双侧重建衍生半球指标：**ANS**（absolute neuroanatomical specificity，绝对神经解剖特异性）与 **RNS**（relative neuroanatomical specificity，相对神经解剖特异性）。
 
 !!! important "输入边界"
     HemiSpec 的 DGN **不能直接接收原始 T1 加权 MRI**。每个 T1 图像必须先通过文档中的 FSL 预处理流程，转换为 MNI152 1.5 mm 空间的掩膜灰质图（`*_GM_masked.nii.gz`）。

@@ -1,4 +1,4 @@
-﻿# 方法概述
+# 方法概述
 
 HemiSpec 文档将已发表方法、软件实现和下游扩展分开说明。
 
@@ -6,10 +6,10 @@ HemiSpec 文档将已发表方法、软件实现和下游扩展分开说明。
 
 Wang 等人（2024）提出了跨半球深度生成网络：利用对侧半球预测目标半球，并根据实际图与重建图之间的差异计算体素级指标。
 
-原论文中的指标名称为：
+HemiSpec 统一使用以下指标名称：
 
 - **ANS — absolute neuroanatomical specificity（绝对神经解剖特异性）：**重建残差所反映的半球特异信号绝对量。
-- **RNS — relative neuroanatomical specialization（相对神经解剖特化）：**相对于局部实际/重建幅度归一化后的重建差异。
+- **RNS — relative neuroanatomical specificity（相对神经解剖特异性）：**相对于局部实际/重建幅度归一化后的重建差异。
 
 完整文献见[引用](../citation.md)。
 

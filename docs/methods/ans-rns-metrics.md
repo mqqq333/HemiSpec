@@ -1,6 +1,6 @@
-﻿# ANS and RNS metrics
+# ANS and RNS metrics
 
-ANS and RNS were introduced by Wang et al. (2024) as reconstruction-derived measures of hemispheric specialization.
+ANS and RNS were introduced by Wang et al. (2024) as reconstruction-derived measures of hemispheric specificity.
 
 ## Original definitions
 
@@ -12,7 +12,7 @@ RNS_i = abs((Act_i - Recon_i) / (Act_i + Recon_i))
 ```
 
 - **ANS:** absolute neuroanatomical specificity.
-- **RNS:** relative neuroanatomical specialization.
+- **RNS:** relative neuroanatomical specificity.
 
 ANS represents the amount of actual–reconstructed difference. RNS represents the proportion of local signal expressed by that difference.
 

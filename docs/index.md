@@ -1,6 +1,6 @@
 # HemiSpec
 
-**HemiSpec** is a research-software toolkit for converting preprocessed gray-matter maps into bilateral reconstruction-derived hemispheric measures: **ANS** (absolute neuroanatomical specificity) and **RNS** (relative neuroanatomical specialization).
+**HemiSpec** is a research-software toolkit for converting preprocessed gray-matter maps into bilateral reconstruction-derived hemispheric measures: **ANS** (absolute neuroanatomical specificity) and **RNS** (relative neuroanatomical specificity).
 
 !!! important "Input boundary"
     HemiSpec does **not** accept raw T1-weighted MRI directly as DGN input. First convert each T1 image into an MNI152 1.5 mm masked gray-matter map (`*_GM_masked.nii.gz`) using the documented FSL preprocessing workflow.

@@ -8,10 +8,10 @@ Cite this paper whenever you use or describe the cross-hemispheric DGN reconstru
 
 > Wang, G., Jiang, N., Ma, Y., Suo, D., Liu, T., Funahashi, S., & Yan, T. (2024). Using a deep generation network reveals neuroanatomical specificity in hemispheres. *Patterns, 5*(4), 100930. https://doi.org/10.1016/j.patter.2024.100930
 
-The terminology in the original paper is:
+HemiSpec uses the following public terminology consistently:
 
 - **ANS:** absolute neuroanatomical specificity.
-- **RNS:** relative neuroanatomical specialization.
+- **RNS:** relative neuroanatomical specificity.
 
 HemiSpec documentation preserves those names and abbreviations.
 

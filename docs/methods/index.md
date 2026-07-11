@@ -1,4 +1,4 @@
-﻿# Methods overview
+# Methods overview
 
 HemiSpec documentation separates the published method from the software implementation and downstream extensions.
 
@@ -6,10 +6,10 @@ HemiSpec documentation separates the published method from the software implemen
 
 Wang et al. (2024) introduced a cross-hemispheric deep generation network that predicts one hemisphere from the contralateral hemisphere and derives voxel-wise measures from the actual–reconstructed difference.
 
-The original metric names are:
+HemiSpec uses the metric names consistently as:
 
 - **ANS — absolute neuroanatomical specificity:** the absolute amount of reconstruction-derived hemisphere-specific signal.
-- **RNS — relative neuroanatomical specialization:** the reconstruction-derived difference expressed relative to local actual/reconstructed magnitude.
+- **RNS — relative neuroanatomical specificity:** the reconstruction-derived difference expressed relative to local actual/reconstructed magnitude.
 
 See [Citation](../citation.md) for the complete reference.
 
