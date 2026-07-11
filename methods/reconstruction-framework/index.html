@@ -401,6 +401,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../input-preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Input and preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../quickstart/" class="md-nav__link">
         
   
@@ -805,10 +833,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#conceptual-steps" class="md-nav__link">
+  <a href="#published-conceptual-sequence" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Conceptual steps
+        Published conceptual sequence
       
     </span>
   </a>
@@ -816,10 +844,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#model-family" class="md-nav__link">
+  <a href="#hemispec-runtime-sequence" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Model family
+        HemiSpec runtime sequence
       
     </span>
   </a>
@@ -827,10 +855,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-hemispec-adds" class="md-nav__link">
+  <a href="#method-boundary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What HemiSpec adds
+        Method boundary
       
     </span>
   </a>
@@ -1474,10 +1502,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#conceptual-steps" class="md-nav__link">
+  <a href="#published-conceptual-sequence" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Conceptual steps
+        Published conceptual sequence
       
     </span>
   </a>
@@ -1485,10 +1513,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#model-family" class="md-nav__link">
+  <a href="#hemispec-runtime-sequence" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Model family
+        HemiSpec runtime sequence
       
     </span>
   </a>
@@ -1496,10 +1524,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-hemispec-adds" class="md-nav__link">
+  <a href="#method-boundary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What HemiSpec adds
+        Method boundary
       
     </span>
   </a>
@@ -1527,21 +1555,27 @@
 
 
 <h1 id="reconstruction-framework">Reconstruction framework<a class="headerlink" href="#reconstruction-framework" title="Permanent link">&para;</a></h1>
-<p>The reconstruction framework estimates each anatomical hemisphere from its contralateral counterpart. Instead of treating lateralization as a direct left-right subtraction, it learns a nonlinear mapping between hemispheres and then studies what remains unexplained by that mapping.</p>
-<h2 id="conceptual-steps">Conceptual steps<a class="headerlink" href="#conceptual-steps" title="Permanent link">&para;</a></h2>
+<p>The published framework estimates a target hemisphere from its contralateral counterpart. Instead of treating lateralization only as a direct left–right subtraction, the model learns a nonlinear cross-hemispheric mapping and quantifies what the reconstruction does not explain.</p>
+<h2 id="published-conceptual-sequence">Published conceptual sequence<a class="headerlink" href="#published-conceptual-sequence" title="Permanent link">&para;</a></h2>
 <ol>
-<li>Split preprocessed gray-matter maps into left and right hemispheres.</li>
-<li>Train direction-specific reconstruction models:</li>
-<li>left-to-right reconstruction</li>
-<li>right-to-left reconstruction</li>
-<li>Apply trained models to held-out participants.</li>
-<li>Pair each actual target hemisphere with its reconstructed counterpart.</li>
-<li>Compute residual maps and downstream summaries.</li>
+<li>Convert T1-weighted MRI into MNI-space gray-matter maps.</li>
+<li>Split/crop the maps into left and right hemisphere inputs.</li>
+<li>Train direction-specific context-encoder-style DGN models:</li>
+<li>left-to-right reconstruction;</li>
+<li>right-to-left reconstruction.</li>
+<li>Apply the trained model to held-out participants.</li>
+<li>Compare each reconstructed target hemisphere with the actual target hemisphere.</li>
+<li>Compute ANS and RNS from the actual–reconstructed difference.</li>
 </ol>
-<h2 id="model-family">Model family<a class="headerlink" href="#model-family" title="Permanent link">&para;</a></h2>
-<p>The HemiSpec manuscript follows the DGN/context-encoder-style reconstruction strategy used in the original Patterns framework. The public documentation should describe the model as a cross-hemispheric DGN unless a specific implementation page is discussing architecture details.</p>
-<h2 id="what-hemispec-adds">What HemiSpec adds<a class="headerlink" href="#what-hemispec-adds" title="Permanent link">&para;</a></h2>
-<p>HemiSpec packages the reconstruction outputs into reproducible workflows: map computation, ROI summaries, validation, reporting, and downstream phenotype analyses.</p>
+<p>This framework originates from Wang et al. (2024); see <a href="../../citation/">Citation</a>.</p>
+<h2 id="hemispec-runtime-sequence">HemiSpec runtime sequence<a class="headerlink" href="#hemispec-runtime-sequence" title="Permanent link">&para;</a></h2>
+<p>HemiSpec distributes trained generator checkpoints and runs both reconstruction directions. For each preprocessed whole-brain GM input, the software crops the configured source hemisphere, predicts the target hemisphere, pastes the prediction into the whole-volume grid, and computes directional ANS/RNS maps. It then merges the target-side outputs into bilateral left/right maps.</p>
+<h2 id="method-boundary">Method boundary<a class="headerlink" href="#method-boundary" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Published contribution:</strong> cross-hemispheric DGN formulation and ANS/RNS framework.</li>
+<li><strong>HemiSpec contribution:</strong> operational preprocessing documentation, model discovery/download, reusable inference code, bilateral export, ROI summaries, optional validation, and user interfaces.</li>
+<li><strong>Study-specific responsibility:</strong> acquisition harmonization, preprocessing quality control, exclusion criteria, confound handling, statistical analysis, and external validation.</li>
+</ul>
 
 
 

@@ -352,10 +352,21 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#workflow-overview" class="md-nav__link">
+  <a href="#end-to-end-workflow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Workflow overview
+        End-to-end workflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-belongs-to-the-original-method-and-what-hemispec-adds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What belongs to the original method, and what HemiSpec adds
       
     </span>
   </a>
@@ -374,10 +385,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#citation" class="md-nav__link">
+  <a href="#current-software-scope" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Citation
+        Current software scope
       
     </span>
   </a>
@@ -459,6 +470,34 @@
     
   
     Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="input-preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Input and preprocessing
   
 
     
@@ -1470,10 +1509,21 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#workflow-overview" class="md-nav__link">
+  <a href="#end-to-end-workflow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Workflow overview
+        End-to-end workflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-belongs-to-the-original-method-and-what-hemispec-adds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What belongs to the original method, and what HemiSpec adds
       
     </span>
   </a>
@@ -1492,10 +1542,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#citation" class="md-nav__link">
+  <a href="#current-software-scope" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Citation
+        Current software scope
       
     </span>
   </a>
@@ -1523,54 +1573,105 @@
 
 
 <h1 id="hemispec">HemiSpec<a class="headerlink" href="#hemispec" title="Permanent link">&para;</a></h1>
-<p><strong>HemiSpec</strong> is a PyPI-first software and workflow toolkit for computing reconstruction-derived hemispheric specificity (ANS/RNS) from preprocessed gray-matter maps. The CLI and GUI are entry points installed into the same Python/PyTorch environment as the package and model cache.</p>
+<p><strong>HemiSpec</strong> is a research-software toolkit for converting preprocessed gray-matter maps into bilateral reconstruction-derived hemispheric measures: <strong>ANS</strong> (absolute neuroanatomical specificity) and <strong>RNS</strong> (relative neuroanatomical specialization).</p>
+<div class="admonition important">
+<p class="admonition-title">Input boundary</p>
+<p>HemiSpec does <strong>not</strong> accept raw T1-weighted MRI directly as DGN input. First convert each T1 image into an MNI152 1.5 mm masked gray-matter map (<code>*_GM_masked.nii.gz</code>) using the documented FSL preprocessing workflow.</p>
+</div>
 <p>
-  <a class="md-button md-button--primary" href="quickstart/">Quick start</a>
+  <a class="md-button md-button--primary" href="input-preprocessing/">Input and preprocessing</a>
+  <a class="md-button" href="quickstart/">Quick start</a>
   <a class="md-button" href="installation/">Install from PyPI</a>
-  <a class="md-button" href="data-and-models/">Data and models</a>
 </p>
-<h2 id="workflow-overview">Workflow overview<a class="headerlink" href="#workflow-overview" title="Permanent link">&para;</a></h2>
+<h2 id="end-to-end-workflow">End-to-end workflow<a class="headerlink" href="#end-to-end-workflow" title="Permanent link">&para;</a></h2>
 <figure>
   <img alt="HemiSpec workflow overview" src="assets/figures/candidate-1.png" width="100%" />
 <br />
-<figcaption>Input GM maps → cross-hemispheric DGN reconstruction → ANS/RNS specificity maps → ROI summaries and validation → downstream analyses (age/sex effects, hemisphere classification, behavioral phenotypes, disease vs. control).</figcaption>
+<figcaption>T1-weighted MRI → FSL gray-matter preprocessing → MNI152 1.5 mm GM input → bilateral DGN reconstruction → ANS/RNS maps → optional ROI summaries and validation → downstream analyses.</figcaption>
 </figure>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Input</th>
+<th>Main operation</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Preprocessing</td>
+<td>T1-weighted NIfTI</td>
+<td>FSL brain extraction, tissue segmentation, affine MNI registration, GM threshold/mask</td>
+<td><code>*_GM_masked.nii.gz</code></td>
+</tr>
+<tr>
+<td>Reconstruction</td>
+<td>Preprocessed GM map</td>
+<td>Left-to-right and right-to-left DGN inference</td>
+<td>Reconstructed target hemispheres</td>
+</tr>
+<tr>
+<td>Metric computation</td>
+<td>Actual and reconstructed GM</td>
+<td>ANS/RNS residual metrics</td>
+<td><code>ANS.L</code>, <code>ANS.R</code>, <code>RNS.L</code>, <code>RNS.R</code> maps</td>
+</tr>
+<tr>
+<td>Optional summaries</td>
+<td>Voxel maps + compatible atlas</td>
+<td>ROI aggregation</td>
+<td>Long and wide ROI tables</td>
+</tr>
+<tr>
+<td>Optional validation</td>
+<td>Maps/ROI features</td>
+<td>Hemisphere classification and/or TRT analysis</td>
+<td>Validation tables and plots</td>
+</tr>
+</tbody>
+</table>
+<h2 id="what-belongs-to-the-original-method-and-what-hemispec-adds">What belongs to the original method, and what HemiSpec adds<a class="headerlink" href="#what-belongs-to-the-original-method-and-what-hemispec-adds" title="Permanent link">&para;</a></h2>
+<p>The cross-hemispheric DGN framework and ANS/RNS definitions originate from <strong>Wang et al. (2024)</strong>. HemiSpec packages that method into an installable API/CLI/GUI workflow, model-asset discovery, bilateral map export, ROI summaries, validation utilities, documentation, and release tooling.</p>
+<ul>
+<li>Original method and metrics: cite Wang et al. (2024).</li>
+<li>HemiSpec software or downstream studies: cite the relevant public software/manuscript record when available.</li>
+</ul>
+<p>See <a href="citation/">Citation</a> for the complete reference and citation boundaries.</p>
 <h2 id="choose-your-path">Choose your path<a class="headerlink" href="#choose-your-path" title="Permanent link">&para;</a></h2>
 <div class="grid cards">
 <ul>
 <li>
-<p><strong>Run HemiSpec</strong></p>
+<p><strong>Prepare real MRI input</strong></p>
 <hr />
-<p>Create a PyPI-managed Python/PyTorch environment, then run the synthetic quickstart or launch the package-installed GUI.</p>
-<p><a href="installation/">Get started</a></p>
+<p>Start from T1-weighted NIfTI, run the packaged FSL script, and verify the DGN input grid and quality-control checks.</p>
+<p><a href="input-preprocessing/">Input and preprocessing</a></p>
 </li>
 <li>
-<p><strong>Understand ANS/RNS</strong></p>
+<p><strong>Run HemiSpec</strong></p>
 <hr />
-<p>Learn the reconstruction framework, metric definitions, and downstream task analysis.</p>
+<p>Install the PyPI package, inspect model readiness, and run the GUI or bilateral CLI workflow.</p>
+<p><a href="quickstart/">Quick start</a></p>
+</li>
+<li>
+<p><strong>Understand the method</strong></p>
+<hr />
+<p>Review the reconstruction framework, original ANS/RNS definitions, and HemiSpec implementation details.</p>
 <p><a href="methods/">Methods</a></p>
 </li>
 <li>
-<p><strong>Model and data assets</strong></p>
+<p><strong>Models and atlas assets</strong></p>
 <hr />
-<p>DGN checkpoints, hemisphere-classifier bundles, and data policy.</p>
+<p>Learn how DGN checkpoints, classifier bundles, and optional ROI atlases are located and distributed.</p>
 <p><a href="data-and-models/">Data and models</a></p>
-</li>
-<li>
-<p><strong>Developer docs</strong></p>
-<hr />
-<p>Architecture, API design, deployment, and roadmap.</p>
-<p><a href="developer/">Developer</a></p>
 </li>
 </ul>
 </div>
-<h2 id="citation">Citation<a class="headerlink" href="#citation" title="Permanent link">&para;</a></h2>
-<p>HemiSpec builds on the ANS/RNS framework from Wang et al. 2024 (<em>Patterns</em>).
-See <a href="citation/">Citation</a> for the full reference.</p>
-<p>HemiSpec v0.1.0 is a public beta; PyPI is the recommended install path, while GitHub Releases archive fallback artifacts. Source: <a href="https://github.com/mqqq333/HemiSpec">github.com/mqqq333/HemiSpec</a>.</p>
+<h2 id="current-software-scope">Current software scope<a class="headerlink" href="#current-software-scope" title="Permanent link">&para;</a></h2>
+<p>HemiSpec v0.1.0 is a public beta. PyPI is the primary install path. The GUI and CLI generate voxel-wise ANS/RNS maps; ROI tables, hemisphere-classifier validation, and TRT validation are currently optional downstream steps.</p>
 <hr />
 <p class="site-credits">
-  Made with <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">Material for MkDocs</a>.
+  Source: <a href="https://github.com/mqqq333/HemiSpec" target="_blank" rel="noopener">github.com/mqqq333/HemiSpec</a>. Documentation built with <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">Material for MkDocs</a>.
 </p>
 
 

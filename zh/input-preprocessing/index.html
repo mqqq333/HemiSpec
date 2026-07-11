@@ -10,17 +10,17 @@
       
       
       
-        <link rel="canonical" href="https://mqqq333.github.io/HemiSpec/zh/citation/">
+        <link rel="canonical" href="https://mqqq333.github.io/HemiSpec/zh/input-preprocessing/">
       
       
-        <link rel="prev" href="../release-artifacts/">
+        <link rel="prev" href="../installation/">
       
       
-        <link rel="next" href="../developer/">
+        <link rel="next" href="../quickstart/">
       
       
         
-          <link rel="alternate" href="../../citation/" hreflang="en">
+          <link rel="alternate" href="../../input-preprocessing/" hreflang="en">
         
           <link rel="alternate" href="./" hreflang="zh">
         
@@ -31,7 +31,7 @@
     
     
       
-        <title>引用 - HemiSpec</title>
+        <title>输入与预处理 - HemiSpec</title>
       
     
     
@@ -120,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              引用
+              输入与预处理
             
           </span>
         </div>
@@ -167,7 +167,7 @@
       <ul class="md-select__list">
         
           <li class="md-select__item">
-            <a href="../../citation/" hreflang="en" class="md-select__link">
+            <a href="../../input-preprocessing/" hreflang="en" class="md-select__link">
               English
             </a>
           </li>
@@ -318,8 +318,10 @@
       
   
   
+    
   
   
+  
     
     
     
@@ -330,11 +332,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
@@ -355,7 +357,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -398,10 +400,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../input-preprocessing/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    输入与预处理
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -417,6 +446,147 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        不要混淆两种输入
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        科学预处理契约
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        研究主脚本
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        运行前提
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        处理一名受试者
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#process_single_subjectsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        process_single_subject.sh 的处理步骤
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dgn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DGN 输入格式
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dgn_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DGN 推理前的质量控制
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        批处理示例
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        不同阶段的阈值
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        预处理引用
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -859,8 +1029,6 @@
       
   
   
-    
-  
   
   
     
@@ -873,11 +1041,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
@@ -898,7 +1066,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1025,37 +1193,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    引用
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../citation/" class="md-nav__link">
         
   
   
@@ -1071,81 +1212,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#dgn-ansrns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        原始跨半球 DGN 与 ANS/RNS 框架
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#fsl" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        FSL 预处理
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hemispec" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        HemiSpec 软件引用
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hemispec_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        HemiSpec 下游论文
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        建议的方法描述
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1524,54 +1590,120 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#dgn-ansrns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        原始跨半球 DGN 与 ANS/RNS 框架
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#fsl" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        FSL 预处理
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hemispec" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        HemiSpec 软件引用
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hemispec_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        HemiSpec 下游论文
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        建议的方法描述
+        不要混淆两种输入
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        科学预处理契约
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        研究主脚本
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        运行前提
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        处理一名受试者
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#process_single_subjectsh" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        process_single_subject.sh 的处理步骤
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dgn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DGN 输入格式
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dgn_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DGN 推理前的质量控制
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        批处理示例
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        不同阶段的阈值
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        预处理引用
       
     </span>
   </a>
@@ -1598,36 +1730,221 @@
   
 
 
-<h1 id="_1">引用<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>HemiSpec 将<strong>原始科学方法</strong>、<strong>预处理软件</strong>与 <strong>HemiSpec 软件/下游研究</strong>的引用分开说明。</p>
-<h2 id="dgn-ansrns">原始跨半球 DGN 与 ANS/RNS 框架<a class="headerlink" href="#dgn-ansrns" title="Permanent link">&para;</a></h2>
-<p>使用或描述跨半球 DGN 重建方法、ANS 或 RNS 时，应引用：</p>
-<blockquote>
-<p>Wang, G., Jiang, N., Ma, Y., Suo, D., Liu, T., Funahashi, S., &amp; Yan, T. (2024). Using a deep generation network reveals neuroanatomical specificity in hemispheres. <em>Patterns, 5</em>(4), 100930. https://doi.org/10.1016/j.patter.2024.100930</p>
-</blockquote>
-<p>原论文中的术语为：</p>
+<h1 id="_1">输入与预处理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>本页明确说明：如何把 T1 加权结构像转换为已发布 HemiSpec DGN 模型所需的输入。</p>
+<h2 id="_2">不要混淆两种输入<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>工作流边界</th>
+<th>接受的输入</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>process_single_subject.sh</code></td>
+<td>每名受试者一张原始或最小预处理的 T1 加权 NIfTI，通常命名为 <code>*_T1w.nii.gz</code></td>
+</tr>
+<tr>
+<td>HemiSpec DGN 工作流</td>
+<td>每名受试者一张已预处理、MNI 空间、掩膜后的灰质图，通常命名为 <code>*_GM_masked.nii.gz</code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition danger">
+<p class="admonition-title">不要把原始 T1 直接传给 <code>hemispec workflow</code></p>
+<p>原始 T1 强度图、未去颅骨 T1、native 空间组织图或位于其他模板网格的图，都不是已发布 DGN 检查点的有效输入。</p>
+</div>
+<h2 id="_3">科学预处理契约<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>Wang 等人（2024）对原始方法的预处理要求包括：将 T1 加权图像分割为不同组织；把 GM 密度图标准化到 MNI 空间的 <code>1.5 × 1.5 × 1.5 mm³</code> 分辨率；把值归一化到 <code>0–1</code>；使用 GM 概率阈值 <code>0.15</code> 提取灰质体素，然后再进行半球分割与裁剪。</p>
+<p>项目根目录的 <code>process_single_subject.sh</code> 使用 FSL BET、FAST、FLIRT 和 <code>fslmaths</code> 实现上述输入准备。该脚本是本项目的具体操作实现；原始科学框架和预处理要求仍应归因并引用 Wang 等人（2024）。</p>
+<h2 id="_4">研究主脚本<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>导师所指、研究流程使用的脚本位于仓库根目录：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>process_single_subject.sh
+</code></pre></div>
+<p>该脚本基于 Bash，并要求可用的 FSL 环境。在 Windows 上，建议在 Linux、WSL、HPC 或其他支持 FSL 的环境中完成预处理；生成的 NIfTI 文件随后可在 Windows 或 Linux 中交给 HemiSpec。</p>
+<p>Python 包内还包含一个增强变体：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>src/hemispec/resources/preprocess/process_single_subject_GM_v2_reorient.sh
+</code></pre></div>
+<p>该变体增加了显式重定向，并先用去颅骨 T1 估计 T1→MNI 仿射，再将变换应用到 GM 部分体积图。<strong>同一队列内不要混用两个预处理版本。</strong>研究方案中应记录准确的脚本文件名和版本。</p>
+<h2 id="_5">运行前提<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>运行 <code>process_single_subject.sh</code> 前：</p>
+<ol>
+<li>安装并验证 FSL。</li>
+<li>设置 <code>FSLDIR</code> 并加载 FSL 配置。</li>
+<li>确认以下参考图存在：</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>${FSLDIR}/data/standard/MNI152_T1_1.5mm_brain.nii.gz
+</code></pre></div>
+<p>典型 shell 配置：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FSLDIR</span><span class="o">=</span>/path/to/fsl
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FSLDIR</span><span class="si">}</span><span class="s2">/etc/fslconf/fsl.sh&quot;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FSLDIR</span><span class="si">}</span><span class="s2">/bin:</span><span class="si">${</span><span class="nv">PATH</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div>
+<h2 id="_6">处理一名受试者<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>脚本严格接收两个位置参数：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>process_single_subject.sh 输入_T1 输出前缀
+</code></pre></div>
+<p>示例：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>bash<span class="w"> </span>process_single_subject.sh<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>raw/sub-001_T1w.nii.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>derivatives/sub-001
+</code></pre></div>
+<p>最终 DGN 输入：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>derivatives/sub-001_GM_masked.nii.gz
+</code></pre></div>
+<p>处理日志：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>derivatives/sub-001_debug.log
+</code></pre></div>
+<p>当前研究脚本在成功处理后会删除 BET、FAST、FLIRT 和掩膜中间产物。如果正式质控记录需要保留中间图，应使用保留中间文件的脚本副本，或在版本控制的研究副本中暂时关闭清理，并记录该变更。</p>
+<h2 id="process_single_subjectsh"><code>process_single_subject.sh</code> 的处理步骤<a class="headerlink" href="#process_single_subjectsh" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>FSL 命令</th>
+<th>目的</th>
+<th>主要输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>bet -f 0.4 -B</code></td>
+<td>去颅骨并进行偏置场/颈部清理</td>
+<td><code>&lt;prefix&gt;_T1_bet.nii.gz</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>fast -R 0.3 -H 0.1</code></td>
+<td>分割组织概率图</td>
+<td><code>&lt;prefix&gt;_seg_pve_1.nii.gz</code>（GM PVE）</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>flirt</code></td>
+<td>将 GM 部分体积图仿射配准到 FSL MNI152 1.5 mm 脑模板</td>
+<td><code>&lt;prefix&gt;_GM_linear_MNI.nii.gz</code></td>
+</tr>
+<tr>
+<td>4a</td>
+<td><code>fslmaths -thr 0.15 -bin</code></td>
+<td>创建 GM 概率掩膜</td>
+<td><code>&lt;prefix&gt;_GM_mask.nii.gz</code></td>
+</tr>
+<tr>
+<td>4b</td>
+<td><code>fslmaths -mul</code></td>
+<td>将掩膜应用于 MNI 空间 GM 概率图</td>
+<td><code>&lt;prefix&gt;_GM_masked.nii.gz</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>rm</code></td>
+<td>最终输出写入后删除中间文件</td>
+<td>保留最终 GM 图和调试日志</td>
+</tr>
+</tbody>
+</table>
+<h2 id="dgn">DGN 输入格式<a class="headerlink" href="#dgn" title="Permanent link">&para;</a></h2>
+<p>已发布 HemiSpec 检查点和仓库示例采用以下契约：</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>期望值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>维度</td>
+<td>每名受试者一张 3D 体数据</td>
+</tr>
+<tr>
+<td>数据类型</td>
+<td>数值型 NIfTI；仓库示例为 <code>float32</code></td>
+</tr>
+<tr>
+<td>数值范围</td>
+<td>有限的 GM 概率/密度值，通常为 <code>0–1</code></td>
+</tr>
+<tr>
+<td>模板</td>
+<td>FSL MNI152 T1 1.5 mm brain</td>
+</tr>
+<tr>
+<td>网格</td>
+<td><code>121 × 145 × 121</code> 体素</td>
+</tr>
+<tr>
+<td>体素大小</td>
+<td><code>1.5 × 1.5 × 1.5 mm³</code></td>
+</tr>
+<tr>
+<td>仿射矩阵</td>
+<td>必须与 FSL 参考图一致；不能只比较维度</td>
+</tr>
+<tr>
+<td>文件名</td>
+<td>稳定、唯一的受试者标识，加 <code>_GM_masked.nii.gz</code> 后缀</td>
+</tr>
+</tbody>
+</table>
+<p>HemiSpec 通过移除配置的文件后缀获得受试者标识。因此，同一输入 glob 匹配到的每个文件都必须拥有唯一、稳定的前缀。</p>
+<h2 id="dgn_1">DGN 推理前的质量控制<a class="headerlink" href="#dgn_1" title="Permanent link">&para;</a></h2>
+<p>不能只检查文件名。每个队列至少应检查：</p>
+<ol>
+<li><strong>去颅骨：</strong>无明显残留颅骨/颈部信号，也没有大范围皮层被错误删除。</li>
+<li><strong>组织分割：</strong>GM 部分体积图应覆盖皮层和皮层下灰质，而不是 WM/CSF。</li>
+<li><strong>MNI 对齐：</strong>转换后的 GM 图应与 MNI152 1.5 mm 参考图良好重叠，无明显平移、旋转、缩放或左右翻转错误。</li>
+<li><strong>网格一致性：</strong>所有受试者的 shape、体素大小、方向与 affine 与参考图及彼此一致。</li>
+<li><strong>数值范围：</strong>数值有限，通常位于 <code>0–1</code>，背景为零。</li>
+<li><strong>掩膜质量：</strong><code>0.15</code> 阈值应去除低概率边缘噪声，但不能造成大片 GM 缺失。</li>
+<li><strong>全队列目视检查：</strong>BET、FAST 或 FLIRT 失败的个体应在 DGN 推理前排除或重新处理。</li>
+</ol>
+<p>常用 FSL 检查：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>fslhd<span class="w"> </span>derivatives/sub-001_GM_masked.nii.gz
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>fslstats<span class="w"> </span>derivatives/sub-001_GM_masked.nii.gz<span class="w"> </span>-R<span class="w"> </span>-V
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>fsleyes<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FSLDIR</span><span class="si">}</span><span class="s2">/data/standard/MNI152_T1_1.5mm_brain.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span>derivatives/sub-001_GM_masked.nii.gz
+</code></pre></div>
+<p>Python 检查示例：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;derivatives/sub-001_GM_masked.nii.gz&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="n">img</span> <span class="o">=</span> <span class="n">nib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="n">data</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">get_fdata</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="k">assert</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">121</span><span class="p">,</span> <span class="mi">145</span><span class="p">,</span> <span class="mi">121</span><span class="p">)</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">get_zooms</span><span class="p">()[:</span><span class="mi">3</span><span class="p">],</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="k">assert</span> <span class="n">data</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="k">assert</span> <span class="n">data</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="mf">1e-5</span>
+</code></pre></div>
+<h2 id="_7">批处理示例<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>derivatives
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">for</span><span class="w"> </span>t1<span class="w"> </span><span class="k">in</span><span class="w"> </span>raw/sub-*/anat/*_T1w.nii.gz<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="nv">subject</span><span class="o">=</span><span class="k">$(</span>basename<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$t1</span><span class="s2">&quot;</span><span class="w"> </span>_T1w.nii.gz<span class="k">)</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span>bash<span class="w"> </span>process_single_subject.sh<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$t1</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;derivatives/</span><span class="nv">$subject</span><span class="s2">&quot;</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="k">done</span>
+</code></pre></div>
+<p>完成质量控制后运行 HemiSpec：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_workflow
+</code></pre></div>
+<h2 id="_8">不同阶段的阈值<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>ANS：</strong>absolute neuroanatomical specificity（绝对神经解剖特异性）。</li>
-<li><strong>RNS：</strong>relative neuroanatomical specialization（相对神经解剖特化）。</li>
+<li><code>process_single_subject.sh</code> 使用 GM 概率 <code>0.15</code> 创建最终掩膜。</li>
+<li>DGN 推理内部还会把低于或等于 <code>0.05</code> 的输入值清零；正确生成的 <code>0.15</code> 掩膜输入已经比该内部清理更严格。</li>
+<li>ANS/RNS 计算默认使用 <code>0.15</code> 作为有效 GM 阈值。</li>
 </ul>
-<p>HemiSpec 文档沿用原论文的名称与缩写。</p>
-<h2 id="fsl">FSL 预处理<a class="headerlink" href="#fsl" title="Permanent link">&para;</a></h2>
-<p>研究使用的 <code>process_single_subject.sh</code> 以及包内的重定向增强变体均使用 FSL、BET、FAST 和 FLIRT。方法部分应引用实际支持预处理的工具：</p>
-<blockquote>
-<p>Jenkinson, M., Beckmann, C. F., Behrens, T. E. J., Woolrich, M. W., &amp; Smith, S. M. (2012). FSL. <em>NeuroImage, 62</em>(2), 782–790. https://doi.org/10.1016/j.neuroimage.2011.09.015</p>
-<p>Smith, S. M. (2002). Fast robust automated brain extraction. <em>Human Brain Mapping, 17</em>(3), 143–155. https://doi.org/10.1002/hbm.10062</p>
-<p>Zhang, Y., Brady, M., &amp; Smith, S. (2001). Segmentation of brain MR images through a hidden Markov random field model and the expectation-maximization algorithm. <em>IEEE Transactions on Medical Imaging, 20</em>(1), 45–57. https://doi.org/10.1109/42.906424</p>
-<p>Jenkinson, M., &amp; Smith, S. (2001). A global optimisation method for robust affine registration of brain images. <em>Medical Image Analysis, 5</em>(2), 143–156. https://doi.org/10.1016/S1361-8415(01)00036-6</p>
-</blockquote>
-<h2 id="hemispec">HemiSpec 软件引用<a class="headerlink" href="#hemispec" title="Permanent link">&para;</a></h2>
-<p>使用软件时，应在公共 HemiSpec 发布/归档记录可用后引用对应记录，并在方法部分保留软件版本。在归档 DOI 尚未注册前，可使用仓库 <code>CITATION.cff</code>、发布标签与访问日期。</p>
-<p>不能用软件引用替代 Wang 等人的方法论文：原始科学方法与软件实现是两类独立贡献，应分别致谢和引用。</p>
-<h2 id="hemispec_1">HemiSpec 下游论文<a class="headerlink" href="#hemispec_1" title="Permanent link">&para;</a></h2>
-<p>“稿件准备中”不是稳定的公共文献。只有在预印本、期刊论文或归档记录公开后，才应将 HemiSpec 下游论文作为正式引用。在此之前，应描述“使用 HemiSpec 完成分析”，并报告准确的软件版本或 commit。</p>
-<h2 id="_2">建议的方法描述<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<blockquote>
-<p>T1 加权图像通过基于 FSL 的流程（BET、FAST 和 FLIRT）转换为 MNI152 1.5 mm 灰质概率图，并使用 GM 概率阈值 0.15 进行掩膜后输入 HemiSpec。跨半球重建以及 ANS/RNS 计算遵循 Wang 等人（2024）提出的框架。为保证可复现性，记录软件版本、模型包、阈值和可选验证设置。</p>
-</blockquote>
+<p>研究方案中应记录这些阈值。修改阈值会改变输入或指标的有效支持范围，应视为方法学变化。</p>
+<h2 id="_9">预处理引用<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<p>报告该工作流时，应同时引用原始 ANS/RNS 框架以及本实现使用的 FSL 方法。完整文献见<a href="../citation/">引用</a>。</p>
 
 
 

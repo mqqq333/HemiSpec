@@ -401,6 +401,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../input-preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    输入与预处理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../quickstart/" class="md-nav__link">
         
   
@@ -836,7 +864,18 @@
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        定义
+        原始定义
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hemispec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HemiSpec 数值实现
       
     </span>
   </a>
@@ -847,7 +886,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        解释
+        解释边界
       
     </span>
   </a>
@@ -1477,7 +1516,18 @@
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        定义
+        原始定义
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hemispec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HemiSpec 数值实现
       
     </span>
   </a>
@@ -1488,7 +1538,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        解释
+        解释边界
       
     </span>
   </a>
@@ -1526,18 +1576,29 @@
   
 
 
-<h1 id="ans-rns">ANS 和 RNS 指标<a class="headerlink" href="#ans-rns" title="Permanent link">&para;</a></h1>
-<p>ANS 和 RNS 是 Wang 等人 2024 年引入的重建衍生特异性指标。HemiSpec 将这些指标作为下游分析的核心表示。</p>
-<h2 id="_1">定义<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>对于实际灰质图 <code>GM</code> 及其对侧重建对应物 <code>recon</code>：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ANS = abs(GM - recon)
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>RNS = abs(GM - recon) / (abs(GM) + abs(recon) + eps)
+<h1 id="ans-rns">ANS 与 RNS 指标<a class="headerlink" href="#ans-rns" title="Permanent link">&para;</a></h1>
+<p>ANS 和 RNS 由 Wang 等人（2024）提出，用于描述重建衍生的半球特化。</p>
+<h2 id="_1">原始定义<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>对于目标半球实际 GM 值 <code>Act_i</code> 与其重建值 <code>Recon_i</code>，原论文定义：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ANS_i = abs(Act_i - Recon_i)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>RNS_i = abs((Act_i - Recon_i) / (Act_i + Recon_i))
 </code></pre></div>
-<h2 id="_2">解释<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>ANS 测量绝对残差幅度。RNS 在考虑局部灰质强度后测量相对残差幅度。</p>
-<p>两个指标通常在有效灰质掩膜内逐体素计算，然后可在 atlas ROI 内汇总。</p>
+<ul>
+<li><strong>ANS：</strong>absolute neuroanatomical specificity（绝对神经解剖特异性）。</li>
+<li><strong>RNS：</strong>relative neuroanatomical specialization（相对神经解剖特化）。</li>
+</ul>
+<p>ANS 表示实际值与重建值之间差异的绝对量；RNS 表示该差异占局部信号的相对比例。</p>
+<h2 id="hemispec">HemiSpec 数值实现<a class="headerlink" href="#hemispec" title="Permanent link">&para;</a></h2>
+<p>HemiSpec 计算：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ANS = abs(GM - recon)
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>RNS = abs(GM - recon) / (abs(GM) + abs(recon) + eps)
+</code></pre></div>
+<p>实现还要求输入值有限，并应用可配置的有效 GM 阈值（默认 <code>0.15</code>）。分母中的绝对值和较小的 <code>eps</code> 用于在重建值接近零或出现小幅负数值误差时稳定除法。对于非负 GM 与重建值，当 <code>eps</code> 趋近于零时，该实现趋近于原论文表达式。</p>
+<p>当研究要求精确数值复现时，应报告这一实现细节。</p>
+<h2 id="_2">解释边界<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>ANS/RNS 是重建误差衍生量，不是神经功能、因果侧化或组织病理的直接测量。其解释依赖预处理质量、模型适用域、重建行为、掩膜、站点/扫描仪效应以及下游验证。</p>
 <h2 id="_3">引用边界<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>使用 ANS/RNS 作为指标时，请引用 Wang 等人 2024 年的论文。使用 HemiSpec 特定的下游任务分析工作流时，请在相关稿件或预印本公开后引用 HemiSpec 稿件。</p>
+<p>指标框架应引用 Wang 等人（2024）；在公共软件记录可用后，HemiSpec 软件实现应另行引用。完整说明见<a href="../../citation/">引用</a>。</p>
 
 
 

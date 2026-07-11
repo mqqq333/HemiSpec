@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://mqqq333.github.io/HemiSpec/zh/quickstart/">
       
       
-        <link rel="prev" href="../installation/">
+        <link rel="prev" href="../input-preprocessing/">
       
       
         <link rel="next" href="../data-and-models/">
@@ -400,6 +400,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../input-preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    输入与预处理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -485,10 +513,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1" class="md-nav__link">
+  <a href="#1-dgn" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. 准备灰质图
+        1. 准备 DGN 可用的灰质图
       
     </span>
   </a>
@@ -1562,10 +1590,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1" class="md-nav__link">
+  <a href="#1-dgn" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. 准备灰质图
+        1. 准备 DGN 可用的灰质图
       
     </span>
   </a>
@@ -1693,15 +1721,16 @@
 </code></pre></div>
 <p>Git LFS 检出或模型缓存下载后，GUI 设置卡应显示 DGN 模型和分类器包已找到。PyTorch 可用性取决于启动 GUI 所用的 Python/conda 环境。</p>
 <p>故障排除：如果分类器验证报告 <code>No module named 'numpy._core'</code>，请更新到最新的 HemiSpec 检出。运行时包含兼容 shim，可让旧版 conda 环境加载用 NumPy 2.x 保存的分类器包。</p>
-<h2 id="1">1. 准备灰质图<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
-<p>在 T1 加权 MRI 数据上运行预处理工作流以生成掩膜灰质图。工具包将参考预处理脚本打包在 <code>src/hemispec/resources/preprocess/</code> 下；实际预处理仍依赖本地 FSL 安装和经过验证的站点特定假设：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>bash<span class="w"> </span>src/hemispec/resources/preprocess/process_single_subject_GM_v2_reorient.sh<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>input_T1.nii.gz<span class="w"> </span><span class="se">\</span>
+<h2 id="1-dgn">1. 准备 DGN 可用的灰质图<a class="headerlink" href="#1-dgn" title="Permanent link">&para;</a></h2>
+<p>原始 T1 加权 MRI <strong>不能</strong>直接输入 <code>hemispec workflow</code>。在源码检出目录中，必须先运行研究使用的 FSL 预处理脚本，为每名受试者生成一张 MNI152 1.5 mm 空间的掩膜 GM 图。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>bash<span class="w"> </span>process_single_subject.sh<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>raw/sub-001_T1w.nii.gz<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>derivatives/sub-001
 </code></pre></div>
-<p>预期输出：</p>
+<p>预期 DGN 输入：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>derivatives/sub-001_GM_masked.nii.gz
 </code></pre></div>
+<p>推理前应检查 <code>121 × 145 × 121</code> 网格、<code>1.5 mm</code> 体素大小、affine、有限的 <code>0–1</code> GM 数值、配准、分割和掩膜质量。完整处理步骤、批处理示例和质量控制清单见<a href="../input-preprocessing/">输入与预处理</a>。</p>
 <h2 id="2-gui">2. 运行标准 GUI 工作流<a class="headerlink" href="#2-gui" title="Permanent link">&para;</a></h2>
 <p>从已安装 PyTorch 的同一环境启动包内 GUI：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;hemispec-toolkit[gui,model,classifier]&quot;</span>
@@ -1774,7 +1803,7 @@
 <ul>
 <li>独立的 <code>report</code> 命令。</li>
 <li>独立的 <code>roi</code> 命令。</li>
-<li>公开的真实数据预处理资产和批准的真实样本数据。</li>
+<li>已获批的公开真实 MRI 示例数据；FSL 预处理脚本本身已经打包并写入文档。</li>
 <li>任何尚未获批的 atlas 有效载荷的公开再发行决定。</li>
 <li>完全公开的行为表型复现工作流。</li>
 </ul>

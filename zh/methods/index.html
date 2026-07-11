@@ -401,6 +401,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../input-preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    输入与预处理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../quickstart/" class="md-nav__link">
         
   
@@ -780,7 +808,18 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        原始框架
+        已发表框架
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hemispec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HemiSpec 实现层
       
     </span>
   </a>
@@ -789,28 +828,6 @@
       
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        下游任务层
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        指标
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         下游分析
@@ -1488,7 +1505,18 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        原始框架
+        已发表框架
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hemispec" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HemiSpec 实现层
       
     </span>
   </a>
@@ -1497,28 +1525,6 @@
       
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        下游任务层
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        指标
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         下游分析
@@ -1549,25 +1555,28 @@
 
 
 <h1 id="_1">方法概述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>HemiSpec 文档将方法来源与项目特定扩展分开说明。</p>
-<h2 id="_2">原始框架<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>Wang 等人 2024 年提出了一种跨半球深度生成网络框架，用于从对侧半球估计单侧半球，并从实际-重建残差中推导神经解剖特异性图。</p>
-<h2 id="_3">下游任务层<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>HemiSpec 将重建衍生框架扩展为可复用的下游任务分析表示：ANS/RNS 图既可以作为体素级特征，也可以汇总为 ROI 级特征。方法层的叙述保持宽泛，使同一套输出能支持人口学效应、半球身份、行为表型和疾病组对照等分析。</p>
-<h2 id="_4">指标<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>HemiSpec 文档将已发表方法、软件实现和下游扩展分开说明。</p>
+<h2 id="_2">已发表框架<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>Wang 等人（2024）提出了跨半球深度生成网络：利用对侧半球预测目标半球，并根据实际图与重建图之间的差异计算体素级指标。</p>
+<p>原论文中的指标名称为：</p>
 <ul>
-<li><strong>ANS</strong>：绝对神经解剖特异性——实际与重建灰质图之间的绝对残差。</li>
-<li><strong>RNS</strong>：相对神经解剖特异性——经局部灰质幅度归一化后的残差。</li>
+<li><strong>ANS — absolute neuroanatomical specificity（绝对神经解剖特异性）：</strong>重建残差所反映的半球特异信号绝对量。</li>
+<li><strong>RNS — relative neuroanatomical specialization（相对神经解剖特化）：</strong>相对于局部实际/重建幅度归一化后的重建差异。</li>
 </ul>
-<p>ANS 和 RNS 是指标名称。HemiSpec 是围绕这些指标打包工作流的软件和文档项目。</p>
-<h2 id="_5">下游分析<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>ANS/RNS 图和 ROI 级特征支持多种下游分析：</p>
+<p>完整文献见<a href="../citation/">引用</a>。</p>
+<h2 id="hemispec">HemiSpec 实现层<a class="headerlink" href="#hemispec" title="Permanent link">&para;</a></h2>
+<p>HemiSpec 提供：</p>
 <ul>
-<li><strong>年龄与性别效应</strong>——重建衍生特异性在不同人口学群体间的变化规律。</li>
-<li><strong>半球身份分类</strong>——利用 ROI 级 ANS/RNS 特征区分左右半球。</li>
-<li><strong>行为表型</strong>——将特异性特征与行为或侧化表型相关联。</li>
-<li><strong>疾病组与正常组比较</strong>——比较患者群体与健康对照之间的 ANS/RNS 特征差异。</li>
+<li>有文档说明的 T1→GM FSL 预处理路径；</li>
+<li>可复用的已发布 DGN 推理模型包；</li>
+<li>双向重建与 ANS/RNS 导出；</li>
+<li>可选 ROI 聚合；</li>
+<li>可选半球分类器与 TRT 验证；</li>
+<li>CLI、GUI、Python API、测试、文档与发布工具。</li>
 </ul>
+<p>这些软件组件不能被表述为 DGN 或 ANS/RNS 方法的原创来源。</p>
+<h2 id="_3">下游分析<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>ANS/RNS 图和 ROI 特征可用于人口学分析、半球身份分类、行为表型关联和疾病组–对照组比较。每一种下游分析都需要独立的研究设计、混杂控制、验证和引用；存在 HemiSpec 命令本身并不自动证明其在新队列中的科学有效性。</p>
 
 
 

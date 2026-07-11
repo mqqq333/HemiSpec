@@ -401,6 +401,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../input-preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    输入与预处理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../quickstart/" class="md-nav__link">
         
   
@@ -808,18 +836,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        概念步骤
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        模型系列
+        已发表方法的概念流程
       
     </span>
   </a>
@@ -830,7 +847,18 @@
   <a href="#hemispec" class="md-nav__link">
     <span class="md-ellipsis">
       
-        HemiSpec 新增内容
+        HemiSpec 运行流程
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法边界
       
     </span>
   </a>
@@ -1477,18 +1505,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        概念步骤
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        模型系列
+        已发表方法的概念流程
       
     </span>
   </a>
@@ -1499,7 +1516,18 @@
   <a href="#hemispec" class="md-nav__link">
     <span class="md-ellipsis">
       
-        HemiSpec 新增内容
+        HemiSpec 运行流程
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方法边界
       
     </span>
   </a>
@@ -1527,21 +1555,27 @@
 
 
 <h1 id="_1">重建框架<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>重建框架从对侧半球估计每个解剖半球。它不是将侧化视为简单的左右相减，而是学习半球之间的非线性映射，然后研究该映射无法解释的残余部分。</p>
-<h2 id="_2">概念步骤<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>已发表框架利用对侧半球估计目标半球。它不是仅把侧化理解为简单的左右相减，而是学习跨半球的非线性映射，并量化重建无法解释的部分。</p>
+<h2 id="_2">已发表方法的概念流程<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <ol>
-<li>将预处理灰质图分割为左右半球。</li>
-<li>训练方向特定的重建模型：</li>
-<li>左到右重建</li>
-<li>右到左重建</li>
+<li>将 T1 加权 MRI 转换为 MNI 空间灰质图。</li>
+<li>将灰质图分割/裁剪为左右半球输入。</li>
+<li>训练方向特定的 context-encoder 风格 DGN：</li>
+<li>左到右重建；</li>
+<li>右到左重建。</li>
 <li>将训练好的模型应用于保留受试者。</li>
-<li>将每个实际目标半球与其重建对应物配对。</li>
-<li>计算残差图和下游汇总。</li>
+<li>比较重建目标半球与实际目标半球。</li>
+<li>根据实际–重建差异计算 ANS 和 RNS。</li>
 </ol>
-<h2 id="_3">模型系列<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>HemiSpec 稿件遵循原始 Patterns 框架中使用的 DGN/上下文编码器风格重建策略。公开文档应将模型描述为跨半球 DGN，除非特定实现页面正在讨论架构细节。</p>
-<h2 id="hemispec">HemiSpec 新增内容<a class="headerlink" href="#hemispec" title="Permanent link">&para;</a></h2>
-<p>HemiSpec 将重建输出打包为可复现的工作流：图计算、ROI 汇总、验证、报告和下游表型分析。</p>
+<p>该框架源自 Wang 等人（2024），完整文献见<a href="../../citation/">引用</a>。</p>
+<h2 id="hemispec">HemiSpec 运行流程<a class="headerlink" href="#hemispec" title="Permanent link">&para;</a></h2>
+<p>HemiSpec 分发训练好的生成器检查点并运行两个重建方向。对于每张预处理全脑 GM 输入，软件裁剪源半球、预测目标半球、把预测结果放回全脑网格，然后计算方向特定的 ANS/RNS 图，最后把目标侧结果合并为双侧左右半球图。</p>
+<h2 id="_3">方法边界<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>已发表贡献：</strong>跨半球 DGN 构建与 ANS/RNS 框架。</li>
+<li><strong>HemiSpec 贡献：</strong>可操作的预处理文档、模型发现/下载、可复用推理代码、双侧导出、ROI 汇总、可选验证和用户界面。</li>
+<li><strong>具体研究责任：</strong>采集与站点协调、预处理质控、排除标准、混杂控制、统计分析和外部验证。</li>
+</ul>
 
 
 

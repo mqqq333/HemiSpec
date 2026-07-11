@@ -401,6 +401,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../input-preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Input and preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../quickstart/" class="md-nav__link">
         
   
@@ -833,10 +861,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#definitions" class="md-nav__link">
+  <a href="#original-definitions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Definitions
+        Original definitions
       
     </span>
   </a>
@@ -844,10 +872,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#interpretation" class="md-nav__link">
+  <a href="#hemispec-numerical-implementation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Interpretation
+        HemiSpec numerical implementation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interpretation-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpretation limits
       
     </span>
   </a>
@@ -1474,10 +1513,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#definitions" class="md-nav__link">
+  <a href="#original-definitions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Definitions
+        Original definitions
       
     </span>
   </a>
@@ -1485,10 +1524,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#interpretation" class="md-nav__link">
+  <a href="#hemispec-numerical-implementation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Interpretation
+        HemiSpec numerical implementation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interpretation-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interpretation limits
       
     </span>
   </a>
@@ -1527,17 +1577,28 @@
 
 
 <h1 id="ans-and-rns-metrics">ANS and RNS metrics<a class="headerlink" href="#ans-and-rns-metrics" title="Permanent link">&para;</a></h1>
-<p>ANS and RNS are reconstruction-derived specificity metrics introduced in Wang et al. 2024. HemiSpec uses these metrics as the core representation for downstream analyses.</p>
-<h2 id="definitions">Definitions<a class="headerlink" href="#definitions" title="Permanent link">&para;</a></h2>
-<p>For an actual gray-matter map <code>GM</code> and its contralaterally reconstructed counterpart <code>recon</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ANS = abs(GM - recon)
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>RNS = abs(GM - recon) / (abs(GM) + abs(recon) + eps)
+<p>ANS and RNS were introduced by Wang et al. (2024) as reconstruction-derived measures of hemispheric specialization.</p>
+<h2 id="original-definitions">Original definitions<a class="headerlink" href="#original-definitions" title="Permanent link">&para;</a></h2>
+<p>For the actual target-hemisphere GM value <code>Act_i</code> and its reconstructed value <code>Recon_i</code>, the original paper defines:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ANS_i = abs(Act_i - Recon_i)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>RNS_i = abs((Act_i - Recon_i) / (Act_i + Recon_i))
 </code></pre></div>
-<h2 id="interpretation">Interpretation<a class="headerlink" href="#interpretation" title="Permanent link">&para;</a></h2>
-<p>ANS measures the absolute residual magnitude. RNS measures the relative residual magnitude after accounting for local gray-matter intensity.</p>
-<p>Both metrics are usually computed voxelwise within a valid gray-matter mask and can then be summarized within atlas ROIs.</p>
+<ul>
+<li><strong>ANS:</strong> absolute neuroanatomical specificity.</li>
+<li><strong>RNS:</strong> relative neuroanatomical specialization.</li>
+</ul>
+<p>ANS represents the amount of actual–reconstructed difference. RNS represents the proportion of local signal expressed by that difference.</p>
+<h2 id="hemispec-numerical-implementation">HemiSpec numerical implementation<a class="headerlink" href="#hemispec-numerical-implementation" title="Permanent link">&para;</a></h2>
+<p>HemiSpec computes:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ANS = abs(GM - recon)
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>RNS = abs(GM - recon) / (abs(GM) + abs(recon) + eps)
+</code></pre></div>
+<p>The implementation also requires finite values and applies a configurable valid-GM threshold (<code>0.15</code> by default). The absolute-value denominator and small <code>eps</code> stabilize division when reconstructed values are near zero or contain small negative numerical values. For non-negative GM and reconstruction values, the implementation approaches the published expression as <code>eps</code> approaches zero.</p>
+<p>This implementation detail should be reported when exact numerical reproducibility matters.</p>
+<h2 id="interpretation-limits">Interpretation limits<a class="headerlink" href="#interpretation-limits" title="Permanent link">&para;</a></h2>
+<p>ANS/RNS are reconstruction-error-derived quantities. They are not direct measurements of neuronal function, causal lateralization, or tissue pathology. Interpretation depends on preprocessing quality, model domain, reconstruction behavior, masking, site/scanner effects, and downstream validation.</p>
 <h2 id="citation-boundary">Citation boundary<a class="headerlink" href="#citation-boundary" title="Permanent link">&para;</a></h2>
-<p>When using ANS/RNS as metrics, cite Wang et al. 2024. When using HemiSpec-specific downstream task workflows, cite the relevant HemiSpec manuscript or preprint once public.</p>
+<p>Cite Wang et al. (2024) for the metric framework. Cite HemiSpec separately for the software implementation when a public software record is available. See <a href="../../citation/">Citation</a>.</p>
 
 
 

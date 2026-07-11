@@ -403,6 +403,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../input-preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    输入与预处理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../quickstart/" class="md-nav__link">
         
   
@@ -1549,6 +1577,10 @@
 
 
 <h1 id="_1">数据与模型<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<div class="admonition important">
+<p class="admonition-title">MRI 输入是独立前置条件</p>
+<p>模型权重和 atlas 不会把原始 T1 MRI 自动转换为 DGN 输入。应先为每名受试者准备一张 MNI152 1.5 mm 的 <code>*_GM_masked.nii.gz</code>；详见<a href="../input-preprocessing/">输入与预处理</a>。</p>
+</div>
 <p>HemiSpec 运行启用模型的工作流需要两类外部资产：<strong>DGN 模型权重</strong>和用于 ROI 导出的 <strong>atlas 文件</strong>。这两类资产均不包含在 Python wheel 或轻量桌面应用中。</p>
 <h2 id="_2">模型权重<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>HemiSpec 使用两个训练好的 DGN 生成器检查点（每个半球方向各一个）和可选的半球分类器包。</p>

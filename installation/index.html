@@ -16,7 +16,7 @@
         <link rel="prev" href="..">
       
       
-        <link rel="next" href="../quickstart/">
+        <link rel="next" href="../input-preprocessing/">
       
       
         
@@ -493,6 +493,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input-preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Input and preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1616,7 +1644,8 @@
 </code></pre></div>
 <p>Public documentation should call the software <strong>HemiSpec Toolkit</strong>. Use <code>hemispec</code> and <code>hemispec-gui</code> consistently for the public CLI and GUI.</p>
 <h2 id="neuroimaging-prerequisites">Neuroimaging prerequisites<a class="headerlink" href="#neuroimaging-prerequisites" title="Permanent link">&para;</a></h2>
-<p>The preprocessing workflow depends on FSL tools such as BET, FAST, FLIRT, and <code>fslmaths</code>. Inputs to the toolkit are expected to be gray-matter maps in a consistent MNI-space grid, thresholded and masked according to the workflow assumptions.</p>
+<p>The model-enabled workflow starts from preprocessed GM maps, not raw T1 images. The repository study script <code>process_single_subject.sh</code> and the package variant depend on FSL tools including BET, FAST, FLIRT, and <code>fslmaths</code>; they convert one T1-weighted NIfTI into an MNI152 1.5 mm masked GM map named <code>*_GM_masked.nii.gz</code>.</p>
+<p>Read <a href="../input-preprocessing/">Input and preprocessing</a> before processing real data. That page specifies the script arguments, <code>121 × 145 × 121</code> released-model grid, <code>0.15</code> GM threshold, quality-control checks, and citations.</p>
 <h2 id="gui-compiled-app-fallback">GUI / compiled-app fallback<a class="headerlink" href="#gui-compiled-app-fallback" title="Permanent link">&para;</a></h2>
 <p>The recommended GUI path is <code>hemispec-gui</code> from the PyPI-installed environment. The current GUI is a compact standard-workflow launcher. It exposes only user decisions needed for normal ANS/RNS generation: GM input glob, output workspace, optional ROI atlas/label table, optional classifier validation, optional TRT reliability, run controls, logs, and an equivalent CLI command.</p>
 <p>The compiled Windows GUI is an onedir folder distribution for fallback/demo use when a managed Python environment is not practical:</p>

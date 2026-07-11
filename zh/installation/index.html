@@ -16,7 +16,7 @@
         <link rel="prev" href="../">
       
       
-        <link rel="next" href="../quickstart/">
+        <link rel="next" href="../input-preprocessing/">
       
       
         
@@ -493,6 +493,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input-preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    输入与预处理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1616,7 +1644,8 @@
 </code></pre></div>
 <p>公开文档应将软件称为 <strong>HemiSpec Toolkit</strong>，CLI 和 GUI 分别统一使用 <code>hemispec</code> 和 <code>hemispec-gui</code>。</p>
 <h2 id="_3">神经影像前置条件<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>预处理工作流依赖 FSL 工具，如 BET、FAST、FLIRT 和 <code>fslmaths</code>。工具包的输入应为统一 MNI 空间网格中的灰质图，并根据工作流假设进行阈值处理和掩膜操作。</p>
+<p>启用模型的工作流从预处理 GM 图开始，不能直接输入原始 T1。仓库研究脚本 <code>process_single_subject.sh</code> 与包内变体均依赖 BET、FAST、FLIRT 和 <code>fslmaths</code> 等 FSL 工具，将每张 T1 加权 NIfTI 转换为 MNI152 1.5 mm 空间的 <code>*_GM_masked.nii.gz</code>。</p>
+<p>处理真实数据前，请阅读<a href="../input-preprocessing/">输入与预处理</a>。该页明确脚本参数、<code>121 × 145 × 121</code> 已发布模型网格、<code>0.15</code> GM 阈值、质控项目与引用。</p>
 <h2 id="gui">GUI / 编译应用备用方案<a class="headerlink" href="#gui" title="Permanent link">&para;</a></h2>
 <p>推荐的 GUI 路径是在 PyPI 安装环境中运行 <code>hemispec-gui</code>。当前 GUI 是一个紧凑的标准工作流启动器，仅暴露正常 ANS/RNS 生成所需的用户决策：GM 输入 glob、输出工作区、可选 ROI atlas/标签表、可选分类器验证、可选 TRT 可靠性、运行控件和日志。</p>
 <p>编译好的 Windows GUI 是一个 onedir 文件夹发行版，适用于无法方便管理 Python 环境时的备用/演示场景：</p>

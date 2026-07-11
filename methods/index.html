@@ -401,6 +401,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../input-preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Input and preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../quickstart/" class="md-nav__link">
         
   
@@ -777,10 +805,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#original-framework" class="md-nav__link">
+  <a href="#published-framework" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Original framework
+        Published framework
       
     </span>
   </a>
@@ -788,21 +816,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#downstream-task-layer" class="md-nav__link">
+  <a href="#hemispec-implementation-layer" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Downstream task layer
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#metrics" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Metrics
+        HemiSpec implementation layer
       
     </span>
   </a>
@@ -1485,10 +1502,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#original-framework" class="md-nav__link">
+  <a href="#published-framework" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Original framework
+        Published framework
       
     </span>
   </a>
@@ -1496,21 +1513,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#downstream-task-layer" class="md-nav__link">
+  <a href="#hemispec-implementation-layer" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Downstream task layer
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#metrics" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Metrics
+        HemiSpec implementation layer
       
     </span>
   </a>
@@ -1549,25 +1555,28 @@
 
 
 <h1 id="methods-overview">Methods overview<a class="headerlink" href="#methods-overview" title="Permanent link">&para;</a></h1>
-<p>HemiSpec documentation separates method origin from project-specific extensions.</p>
-<h2 id="original-framework">Original framework<a class="headerlink" href="#original-framework" title="Permanent link">&para;</a></h2>
-<p>Wang et al. 2024 introduced a cross-hemispheric deep generation network framework for estimating one hemisphere from its contralateral counterpart and deriving neuroanatomical specificity maps from actual-reconstructed residuals.</p>
-<h2 id="downstream-task-layer">Downstream task layer<a class="headerlink" href="#downstream-task-layer" title="Permanent link">&para;</a></h2>
-<p>HemiSpec extends the reconstruction-derived framework by treating ANS/RNS maps as reusable voxel-wise and ROI-level representations for downstream task analysis. The method layer is framed broadly so the same outputs can support demographic, hemisphere-identity, behavioral-phenotype, and disease-comparison analyses.</p>
-<h2 id="metrics">Metrics<a class="headerlink" href="#metrics" title="Permanent link">&para;</a></h2>
+<p>HemiSpec documentation separates the published method from the software implementation and downstream extensions.</p>
+<h2 id="published-framework">Published framework<a class="headerlink" href="#published-framework" title="Permanent link">&para;</a></h2>
+<p>Wang et al. (2024) introduced a cross-hemispheric deep generation network that predicts one hemisphere from the contralateral hemisphere and derives voxel-wise measures from the actual–reconstructed difference.</p>
+<p>The original metric names are:</p>
 <ul>
-<li><strong>ANS</strong>: absolute neuroanatomical specificity — the absolute residual between actual and reconstructed gray-matter maps.</li>
-<li><strong>RNS</strong>: relative neuroanatomical specificity — the residual normalized by local gray-matter magnitude.</li>
+<li><strong>ANS — absolute neuroanatomical specificity:</strong> the absolute amount of reconstruction-derived hemisphere-specific signal.</li>
+<li><strong>RNS — relative neuroanatomical specialization:</strong> the reconstruction-derived difference expressed relative to local actual/reconstructed magnitude.</li>
 </ul>
-<p>ANS and RNS are metrics. HemiSpec is the software and documentation project that packages workflows around them.</p>
+<p>See <a href="../citation/">Citation</a> for the complete reference.</p>
+<h2 id="hemispec-implementation-layer">HemiSpec implementation layer<a class="headerlink" href="#hemispec-implementation-layer" title="Permanent link">&para;</a></h2>
+<p>HemiSpec provides:</p>
+<ul>
+<li>a documented T1-to-GM FSL preprocessing path;</li>
+<li>reusable released DGN inference bundles;</li>
+<li>bilateral reconstruction and ANS/RNS export;</li>
+<li>optional ROI aggregation;</li>
+<li>optional hemisphere-classifier and TRT validation;</li>
+<li>CLI, GUI, Python API, tests, documentation, and release tooling.</li>
+</ul>
+<p>These software components should not be described as the origin of the DGN or ANS/RNS method.</p>
 <h2 id="downstream-analyses">Downstream analyses<a class="headerlink" href="#downstream-analyses" title="Permanent link">&para;</a></h2>
-<p>ANS/RNS maps and ROI-level features support a range of downstream analyses:</p>
-<ul>
-<li><strong>Age and sex effects</strong> — how reconstruction-derived specificity varies across demographic groups.</li>
-<li><strong>Hemisphere identity classification</strong> — distinguishing left from right hemispheres from ROI-level ANS/RNS features.</li>
-<li><strong>Behavioral phenotypes</strong> — associating specificity features with behavioral or lateralization phenotypes.</li>
-<li><strong>Disease vs. control comparisons</strong> — comparing ANS/RNS profiles between patient groups and healthy controls.</li>
-</ul>
+<p>ANS/RNS maps and ROI features can support demographic analyses, hemisphere-identity classification, behavioral-phenotype associations, and disease–control comparisons. Each downstream analysis requires its own design, confound control, validation, and citation; the existence of a HemiSpec command does not by itself establish scientific validity for a new cohort.</p>
 
 
 

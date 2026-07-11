@@ -401,6 +401,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../input-preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Input and preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../quickstart/" class="md-nav__link">
         
   
@@ -1621,7 +1649,7 @@ Reconstruction Structural Specificity Toolkit.</p>
 deployment should call this layer instead of duplicating workflow logic.</p>
 <h2 id="public-package-name">Public package name<a class="headerlink" href="#public-package-name" title="Permanent link">&para;</a></h2>
 <p>Keep the current import name for compatibility:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">hemispec</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">hemispec</span>
 </code></pre></div>
 <p>The product name can be presented as <code>HemiSpec</code> while the package remains
 <code>hemispec-toolkit</code> / <code>hemispec</code> until release naming is finalized.</p>
@@ -1630,7 +1658,7 @@ deployment should call this layer instead of duplicating workflow logic.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>preprocessed GM -&gt; DGN inference -&gt; reconstructed GM -&gt; ANS/RNS -&gt; reliability/specificity validation
 </code></pre></div>
 <p>The preprocessing contract is documented by:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">get_preprocessing_spec</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hemispec</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_preprocessing_spec</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">spec</span> <span class="o">=</span> <span class="n">get_preprocessing_spec</span><span class="p">()</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nb">print</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">script_path</span><span class="p">)</span>
@@ -1644,8 +1672,8 @@ deployment should call this layer instead of duplicating workflow logic.</p>
 </code></pre></div>
 <h2 id="metric-api">Metric API<a class="headerlink" href="#metric-api" title="Permanent link">&para;</a></h2>
 <p>Use <code>MetricComputeConfig</code> and <code>compute_metrics</code> to compute ANS/RNS maps:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">MetricComputeConfig</span><span class="p">,</span> <span class="n">compute_metrics</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hemispec</span><span class="w"> </span><span class="kn">import</span> <span class="n">MetricComputeConfig</span><span class="p">,</span> <span class="n">compute_metrics</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">result</span> <span class="o">=</span> <span class="n">compute_metrics</span><span class="p">(</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">MetricComputeConfig</span><span class="p">(</span>
@@ -1671,8 +1699,8 @@ deployment should call this layer instead of duplicating workflow logic.</p>
 <h2 id="validation-api">Validation API<a class="headerlink" href="#validation-api" title="Permanent link">&para;</a></h2>
 <p>Use <code>ValidationConfig</code> and either <code>validate_specificity</code> or
 <code>validate_reliability</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">ValidationConfig</span><span class="p">,</span> <span class="n">validate_specificity</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hemispec</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationConfig</span><span class="p">,</span> <span class="n">validate_specificity</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">run</span> <span class="o">=</span> <span class="n">validate_specificity</span><span class="p">(</span>
 <a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="n">ValidationConfig</span><span class="p">(</span>
@@ -1697,8 +1725,8 @@ deployment should call this layer instead of duplicating workflow logic.</p>
 the inputs are repeat scans.</p>
 <h2 id="dgn-inference-api">DGN inference API<a class="headerlink" href="#dgn-inference-api" title="Permanent link">&para;</a></h2>
 <p>The public contract is already defined:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="p">(</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hemispec</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="n">DGNInferenceConfig</span><span class="p">,</span>
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    <span class="n">discover_local_dgn_bundles</span><span class="p">,</span>
 <a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>    <span class="n">run_dgn_inference</span><span class="p">,</span>
@@ -1715,8 +1743,8 @@ the inputs are repeat scans.</p>
 <a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="n">run_dgn_inference</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
 </code></pre></div>
 <p>For the common end-to-end workflow, use <code>PipelineRunConfig</code> and <code>run_pipeline</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">PipelineRunConfig</span><span class="p">,</span> <span class="n">run_pipeline</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hemispec</span><span class="w"> </span><span class="kn">import</span> <span class="n">PipelineRunConfig</span><span class="p">,</span> <span class="n">run_pipeline</span>
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
 <a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">run</span> <span class="o">=</span> <span class="n">run_pipeline</span><span class="p">(</span>
 <a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    <span class="n">PipelineRunConfig</span><span class="p">(</span>
@@ -1746,8 +1774,8 @@ code paths.</p>
 <h2 id="bilateral-workflow-api">Bilateral workflow API<a class="headerlink" href="#bilateral-workflow-api" title="Permanent link">&para;</a></h2>
 <p>For the release workflow, use <code>BilateralWorkflowConfig</code> and
 <code>run_bilateral_workflow</code>. This is the API entry point behind the compact GUI standard workflow and the CLI <code>hemispec workflow</code> command.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kn">from</span> <span class="nn">hemispec</span> <span class="kn">import</span> <span class="n">BilateralWorkflowConfig</span><span class="p">,</span> <span class="n">run_bilateral_workflow</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hemispec</span><span class="w"> </span><span class="kn">import</span> <span class="n">BilateralWorkflowConfig</span><span class="p">,</span> <span class="n">run_bilateral_workflow</span>
 <a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
 <a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="n">run</span> <span class="o">=</span> <span class="n">run_bilateral_workflow</span><span class="p">(</span>
 <a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>    <span class="n">BilateralWorkflowConfig</span><span class="p">(</span>

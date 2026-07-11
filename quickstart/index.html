@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://mqqq333.github.io/HemiSpec/quickstart/">
       
       
-        <link rel="prev" href="../installation/">
+        <link rel="prev" href="../input-preprocessing/">
       
       
         <link rel="next" href="../data-and-models/">
@@ -400,6 +400,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../input-preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Input and preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -485,10 +513,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1-prepare-gray-matter-maps" class="md-nav__link">
+  <a href="#1-prepare-dgn-ready-gray-matter-maps" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Prepare gray-matter maps
+        1. Prepare DGN-ready gray-matter maps
       
     </span>
   </a>
@@ -1562,10 +1590,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1-prepare-gray-matter-maps" class="md-nav__link">
+  <a href="#1-prepare-dgn-ready-gray-matter-maps" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Prepare gray-matter maps
+        1. Prepare DGN-ready gray-matter maps
       
     </span>
   </a>
@@ -1694,15 +1722,16 @@
 </code></pre></div>
 <p>The GUI setup card should show DGN model and classifier bundle as found after Git LFS checkout or after model cache download. PyTorch availability depends on the Python/conda environment used to launch the GUI.</p>
 <p>Troubleshooting: if classifier validation reports <code>No module named 'numpy._core'</code>, update to the latest HemiSpec checkout. The runtime includes a compatibility shim for classifier bundles saved with NumPy 2.x so older conda environments can still load them.</p>
-<h2 id="1-prepare-gray-matter-maps">1. Prepare gray-matter maps<a class="headerlink" href="#1-prepare-gray-matter-maps" title="Permanent link">&para;</a></h2>
-<p>Run the preprocessing workflow on T1-weighted MRI data to produce masked gray-matter maps. The toolkit packages the reference preprocessing script under <code>src/hemispec/resources/preprocess/</code>; real preprocessing still depends on local FSL installation and validated site-specific assumptions:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>bash<span class="w"> </span>src/hemispec/resources/preprocess/process_single_subject_GM_v2_reorient.sh<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>input_T1.nii.gz<span class="w"> </span><span class="se">\</span>
+<h2 id="1-prepare-dgn-ready-gray-matter-maps">1. Prepare DGN-ready gray-matter maps<a class="headerlink" href="#1-prepare-dgn-ready-gray-matter-maps" title="Permanent link">&para;</a></h2>
+<p>Raw T1-weighted MRI is <strong>not</strong> a valid input to <code>hemispec workflow</code>. From a source checkout, first run the study FSL preprocessing script to create one MNI152 1.5 mm masked GM map per subject.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>bash<span class="w"> </span>process_single_subject.sh<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>raw/sub-001_T1w.nii.gz<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>derivatives/sub-001
 </code></pre></div>
-<p>Expected output:</p>
+<p>Expected DGN input:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>derivatives/sub-001_GM_masked.nii.gz
 </code></pre></div>
+<p>Before inference, verify the <code>121 × 145 × 121</code> grid, <code>1.5 mm</code> voxel size, affine, finite <code>0–1</code> GM values, registration, segmentation, and mask quality. See <a href="../input-preprocessing/">Input and preprocessing</a> for the complete processing steps, batch example, and quality-control checklist.</p>
 <h2 id="2-run-the-standard-gui-workflow">2. Run the standard GUI workflow<a class="headerlink" href="#2-run-the-standard-gui-workflow" title="Permanent link">&para;</a></h2>
 <p>Start the package-installed launcher from the same environment that has PyTorch installed:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;hemispec-toolkit[gui,model,classifier]&quot;</span>
@@ -1765,19 +1794,28 @@
 </code></pre></div>
 <h2 id="6-validate-maps">6. Validate maps<a class="headerlink" href="#6-validate-maps" title="Permanent link">&para;</a></h2>
 <p>For the standard workflow, prefer enabling validation during the workflow run so results are written to predictable folders:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>hemispec<span class="w"> </span>workflow<span class="w">   </span>--input-glob<span class="w"> </span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="w">   </span>--out-dir<span class="w"> </span>outputs/hemispec_workflow<span class="w">   </span>--run-classifier<span class="w">   </span>--run-trt
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_workflow<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span>--run-classifier<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">  </span>--run-trt
 </code></pre></div>
 <p>This writes classifier outputs under <code>outputs/hemispec_workflow/validation/hemi_classify/</code> and TRT outputs under <code>outputs/hemispec_workflow/validation/trt/</code>.</p>
 <p>If you want to run standalone validation commands later on workflow-generated merged maps, keep intermediates:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>hemispec<span class="w"> </span>workflow<span class="w">   </span>--input-glob<span class="w"> </span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="w">   </span>--out-dir<span class="w"> </span>outputs/hemispec_workflow<span class="w">   </span>--keep-intermediate
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>hemispec<span class="w"> </span>trt<span class="w">   </span>--maps-dir<span class="w"> </span>outputs/hemispec_workflow/intermediate/combined_maps<span class="w">   </span>--out-dir<span class="w"> </span>outputs/trt_validation
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_workflow<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">  </span>--keep-intermediate
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>hemispec<span class="w"> </span>trt<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">  </span>--maps-dir<span class="w"> </span>outputs/hemispec_workflow/intermediate/combined_maps<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/trt_validation
 </code></pre></div>
 <h2 id="what-is-not-ready-yet">What is not ready yet<a class="headerlink" href="#what-is-not-ready-yet" title="Permanent link">&para;</a></h2>
 <ul>
 <li>A standalone <code>report</code> command.</li>
 <li>A standalone <code>roi</code> command.</li>
-<li>Public real-data preprocessing assets and approved real sample data.</li>
+<li>Approved public real-MRI example data; the FSL preprocessing script itself is packaged and documented.</li>
 <li>Public redistribution decision for any atlas payloads not already cleared.</li>
 <li>A fully public behavioral-phenotype reproduction workflow.</li>
 </ul>

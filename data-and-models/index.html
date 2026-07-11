@@ -403,6 +403,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../input-preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Input and preprocessing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../quickstart/" class="md-nav__link">
         
   
@@ -1549,6 +1577,10 @@
 
 
 <h1 id="data-and-models">Data and models<a class="headerlink" href="#data-and-models" title="Permanent link">&para;</a></h1>
+<div class="admonition important">
+<p class="admonition-title">MRI input is a separate prerequisite</p>
+<p>Model weights and atlases do not convert raw T1 MRI into DGN input. Prepare one MNI152 1.5 mm <code>*_GM_masked.nii.gz</code> file per subject first; see <a href="../input-preprocessing/">Input and preprocessing</a>.</p>
+</div>
 <p>HemiSpec needs two types of external assets to run model-enabled workflows: <strong>DGN model weights</strong> and an <strong>atlas file</strong> for ROI export. Neither is bundled in the Python wheel or the lightweight desktop app.</p>
 <h2 id="model-weights">Model weights<a class="headerlink" href="#model-weights" title="Permanent link">&para;</a></h2>
 <p>HemiSpec uses two trained DGN generator checkpoints (one per hemisphere direction) and optional hemisphere-classifier bundles.</p>
