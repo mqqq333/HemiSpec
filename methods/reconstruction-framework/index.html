@@ -373,6 +373,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../software-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../installation/" class="md-nav__link">
         
   
@@ -437,6 +465,34 @@
     
   
     Quick start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/gui-user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI user guide
   
 
     
@@ -663,7 +719,7 @@
   <span class="md-ellipsis">
     
   
-    Behavioral phenotype workflow
+    Behavioral phenotype workflow (planned)
   
 
     
@@ -996,6 +1052,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../reference/cli/" class="md-nav__link">
         
   
@@ -1060,6 +1144,62 @@
     
   
     Outputs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/model-bundles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model bundles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/asset-bundle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Asset bundle
   
 
     
@@ -1231,6 +1371,34 @@
     
   
     Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/gui-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI design
   
 
     
@@ -1558,7 +1726,7 @@
 <p>The published framework estimates a target hemisphere from its contralateral counterpart. Instead of treating lateralization only as a direct left–right subtraction, the model learns a nonlinear cross-hemispheric mapping and quantifies what the reconstruction does not explain.</p>
 <h2 id="published-conceptual-sequence">Published conceptual sequence<a class="headerlink" href="#published-conceptual-sequence" title="Permanent link">&para;</a></h2>
 <ol>
-<li>Convert T1-weighted MRI into MNI-space gray-matter maps.</li>
+<li>Convert T1-weighted MRI into MNI152 1.5 mm <code>*_GM_masked.nii.gz</code> gray-matter maps; see <a href="../../input-preprocessing/">Input and preprocessing</a>.</li>
 <li>Split/crop the maps into left and right hemisphere inputs.</li>
 <li>Train direction-specific context-encoder-style DGN models:</li>
 <li>left-to-right reconstruction;</li>

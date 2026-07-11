@@ -373,6 +373,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../software-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    软件概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../installation/" class="md-nav__link">
         
   
@@ -437,6 +465,34 @@
     
   
     快速开始
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/gui-user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI 用户指南
   
 
     
@@ -778,7 +834,7 @@
   <span class="md-ellipsis">
     
   
-    行为表型工作流
+    行为表型工作流（规划中）
   
 
     
@@ -1029,6 +1085,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    参考手册概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../reference/cli/" class="md-nav__link">
         
   
@@ -1093,6 +1177,62 @@
     
   
     输出
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/model-bundles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模型包
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/asset-bundle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    资产包
   
 
     
@@ -1264,6 +1404,34 @@
     
   
     架构
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/gui-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI 设计
   
 
     
@@ -1621,10 +1789,11 @@
 
 
 <h1 id="_1">计算特异性图<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>ANS/RNS 的定义见<a href="../../methods/ans-rns-metrics/">ANS 与 RNS 指标</a>，其方法源自 Wang 等人（2024）。</p>
 <p>本教程介绍重建后的 ANS/RNS 计算。</p>
 <h2 id="_2">安装<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>普通使用时，从 PyPI 安装已发布包：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>hemispec-toolkit
+<p>从 GitHub Release 下载 v0.1.0 wheel 并在本地安装：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>./hemispec_toolkit-0.1.0-py3-none-any.whl
 </code></pre></div>
 <p>源码开发时，可在本地检出目录中使用 <code>python -m pip install -e .</code>。</p>
 <p>如需完整的包内冒烟测试，可运行 <code>hemispec quickstart --out-dir hemispec_quickstart</code>；它会生成玩具配对输入并执行本页的计算路径。</p>

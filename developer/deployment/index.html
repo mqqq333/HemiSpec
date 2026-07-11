@@ -373,6 +373,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../software-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../installation/" class="md-nav__link">
         
   
@@ -437,6 +465,34 @@
     
   
     Quick start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gui-user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI user guide
   
 
     
@@ -663,7 +719,7 @@
   <span class="md-ellipsis">
     
   
-    Behavioral phenotype workflow
+    Behavioral phenotype workflow (planned)
   
 
     
@@ -914,6 +970,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../reference/cli/" class="md-nav__link">
         
   
@@ -978,6 +1062,62 @@
     
   
     Outputs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/model-bundles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model bundles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/asset-bundle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Asset bundle
   
 
     
@@ -1171,6 +1311,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../gui-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../project-structure/" class="md-nav__link">
         
   
@@ -1326,10 +1494,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-cmd-wrapper" class="md-nav__link">
+  <a href="#2-windows-command-wrapper" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. CMD wrapper
+        2. Windows command wrapper
       
     </span>
   </a>
@@ -1337,10 +1505,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-exe-compiled-gui-build" class="md-nav__link">
+  <a href="#3-windows-cli-and-gui-builds" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. EXE / compiled GUI build
+        3. Windows CLI and GUI builds
       
     </span>
   </a>
@@ -1535,10 +1703,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-cmd-wrapper" class="md-nav__link">
+  <a href="#2-windows-command-wrapper" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. CMD wrapper
+        2. Windows command wrapper
       
     </span>
   </a>
@@ -1546,10 +1714,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-exe-compiled-gui-build" class="md-nav__link">
+  <a href="#3-windows-cli-and-gui-builds" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. EXE / compiled GUI build
+        3. Windows CLI and GUI builds
       
     </span>
   </a>
@@ -1599,127 +1767,82 @@
 
 
 <h1 id="deployment">Deployment<a class="headerlink" href="#deployment" title="Permanent link">&para;</a></h1>
-<p>This project can be deployed in four practical forms: PyPI package, CLI wrapper, GUI/EXE build, and model-enabled compiled app.</p>
+<p>HemiSpec can be deployed as an installable Python package, a command wrapper, a Windows CLI/GUI build, or a model-enabled Python application. The current public v0.1.0 package artifacts are distributed through GitHub Releases; the PyPI project is not public yet.</p>
 <h2 id="1-python-package">1. Python package<a class="headerlink" href="#1-python-package" title="Permanent link">&para;</a></h2>
-<p>Recommended for analysis servers and clusters.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>&lt;hemispec-toolkit-checkout&gt;
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+<p>Recommended for analysis servers, clusters, and model-enabled use:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>&lt;hemispec-checkout&gt;
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>model<span class="o">]</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>hemispec<span class="w"> </span>--help
 </code></pre></div>
-<p>For a fixed install:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>.
+<p>Add GUI or optional classifier dependencies only when needed:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>gui,model<span class="o">]</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>gui,model,classifier<span class="o">]</span>
 </code></pre></div>
-<p>For trained DGN inference:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>.<span class="o">[</span>model<span class="o">]</span>
+<p>The classifier remains an optional downstream validation branch.</p>
+<p>A downloaded v0.1.0 wheel can be installed directly:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>./hemispec_toolkit-0.1.0-py3-none-any.whl
 </code></pre></div>
-<p>For local DGN inference and ROI export, use a PyTorch/CUDA-capable environment:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>&lt;torch-env-python&gt;
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>&lt;torch-version&gt;, CUDA available if using GPU
+<h2 id="2-windows-command-wrapper">2. Windows command wrapper<a class="headerlink" href="#2-windows-command-wrapper" title="Permanent link">&para;</a></h2>
+<p>After package installation, Windows users can run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>scripts\hemispec.cmd compute --help
 </code></pre></div>
-<p>Use it without installing the package during development:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nv">$env:PYTHONPATH</span><span class="p">=</span><span class="s1">&#39;src&#39;</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p">&lt;</span><span class="n">torch-env-python</span><span class="p">&gt;</span> <span class="n">-m</span> <span class="n">hemispec</span> <span class="n">models</span> <span class="p">-</span><span class="n">-root</span> <span class="p">.</span>
+<p>The wrapper delegates to <code>python -m hemispec %*</code> and must not contain separate workflow logic.</p>
+<h2 id="3-windows-cli-and-gui-builds">3. Windows CLI and GUI builds<a class="headerlink" href="#3-windows-cli-and-gui-builds" title="Permanent link">&para;</a></h2>
+<p>Install development and GUI dependencies, then build:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">cd </span><span class="p">&lt;</span><span class="n">hemispec-checkout</span><span class="p">&gt;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">-e</span> <span class="p">.</span><span class="no">[dev,gui]</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">\</span><span class="n">build_exe</span><span class="p">.</span><span class="n">ps1</span>
 </code></pre></div>
-<p>For GUI-based PyTorch/CUDA DGN inference, set <code>HEMISPEC_D2L_PYTHON</code> and use:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">set</span> <span class="nv">HEMISPEC_D2L_PYTHON</span><span class="p">=&lt;</span>torch-env-python&gt;
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>scripts\hemispec_gui_d2l.cmd
+<p>Expected local outputs:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>dist/hemispec.exe
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>dist/hemispec_gui/hemispec_gui.exe
 </code></pre></div>
-<p><code>openpyxl</code> is a runtime dependency because the default/local Glasser label mapping
-can be an <code>.xlsx</code> file.</p>
-<h2 id="2-cmd-wrapper">2. CMD wrapper<a class="headerlink" href="#2-cmd-wrapper" title="Permanent link">&para;</a></h2>
-<p>After the package is installed, Windows users can run:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>scripts\hemispec.cmd compute --help
+<p><code>hemispec_gui.exe</code> is an onedir build. Keep the complete <code>dist/hemispec_gui/</code> folder together rather than moving only the executable.</p>
+<p>For a clean build environment:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">python</span> <span class="n">-m</span> <span class="n">venv</span> <span class="p">.</span><span class="n">venv-build</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">.\.</span><span class="n">venv-build</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="p">-</span><span class="n">-upgrade</span> <span class="n">pip</span> <span class="n">setuptools</span> <span class="n">wheel</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="p">.\.</span><span class="n">venv-build</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">-e</span> <span class="p">.</span><span class="no">[dev,gui]</span> <span class="p">-</span><span class="n">-no-build-isolation</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">.\.</span><span class="n">venv-build</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">-m</span> <span class="n">PyInstaller</span> <span class="p">-</span><span class="n">-clean</span> <span class="p">-</span><span class="n">-onedir</span> <span class="p">-</span><span class="n">-windowed</span> <span class="p">-</span><span class="n">-name</span> <span class="n">hemispec_gui</span> <span class="n">scripts</span><span class="p">\</span><span class="n">hemispec_gui_entry</span><span class="p">.</span><span class="n">py</span>
 </code></pre></div>
-<p>The wrapper simply calls:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>python -m hemispec <span class="nv">%*</span>
-</code></pre></div>
-<h2 id="3-exe-compiled-gui-build">3. EXE / compiled GUI build<a class="headerlink" href="#3-exe-compiled-gui-build" title="Permanent link">&para;</a></h2>
-<p>Install PyInstaller and build:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">cd </span><span class="p">&lt;</span><span class="n">hemispec-toolkit-checkout</span><span class="p">&gt;</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">-e</span> <span class="p">.</span><span class="no">[dev]</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">\</span><span class="n">build_exe</span><span class="p">.</span><span class="n">ps1</span>
-</code></pre></div>
-<p>The command-line executable should appear under:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>dist/hemispec.exe
-</code></pre></div>
-<p>The graphical executable should appear under:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>dist/hemispec_gui/hemispec_gui.exe
-</code></pre></div>
-<p>Important: <code>hemispec_gui.exe</code> is an onedir build. Keep the whole
-<code>dist/hemispec_gui/</code> folder together; do not move only the <code>.exe</code>.</p>
-<p>For a cleaner and smaller EXE, build in a minimal virtual environment rather
-than a large analysis environment that contains unrelated packages such as
-Torch, VTK, or full neuroimaging toolchains.</p>
-<p>Example clean Windows build:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">python</span> <span class="n">-m</span> <span class="n">venv</span> <span class="p">.</span><span class="n">venv-build</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="p">.\.</span><span class="n">venv-build</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="p">-</span><span class="n">-upgrade</span> <span class="n">pip</span> <span class="n">setuptools</span> <span class="n">wheel</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="p">.\.</span><span class="n">venv-build</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">-e</span> <span class="p">.</span><span class="no">[dev]</span> <span class="p">-</span><span class="n">-no-build-isolation</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="p">.\.</span><span class="n">venv-build</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">-m</span> <span class="n">PyInstaller</span> <span class="p">-</span><span class="n">-clean</span> <span class="p">-</span><span class="n">-onedir</span> <span class="p">-</span><span class="n">-windowed</span> <span class="p">-</span><span class="n">-name</span> <span class="n">hemispec_gui</span> <span class="n">scripts</span><span class="p">\</span><span class="n">hemispec_gui_entry</span><span class="p">.</span><span class="n">py</span>
-</code></pre></div>
-<p>The GUI executable appears under:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>dist/hemispec_gui/hemispec_gui.exe
-</code></pre></div>
-<p>The EXE is convenient for users without command-line Python experience, but the
-Python package is easier to update and debug on clusters.</p>
-<p>The current lightweight GUI EXE does not bundle PyTorch. It can open the compact standard-workflow GUI, but model-enabled DGN inference requires a PyTorch environment plus released DGN assets from Git LFS, the first-run cache download, an explicit model root, or a separate model-enabled/Torch bundle.</p>
+<p>The lightweight GUI build does not embed PyTorch, atlas payloads, real MRI data, or generated outputs.</p>
 <h2 id="4-model-enabled-deployment">4. Model-enabled deployment<a class="headerlink" href="#4-model-enabled-deployment" title="Permanent link">&para;</a></h2>
-<p>The current Python package/CLI includes trained DGN inference entry points and first-run download of the released model defaults. The current GUI intentionally exposes only the standard ANS/RNS workflow with optional ROI, classifier, and TRT branches; lower-level inference, compute, specificity, and classifier commands remain available through CLI/API. Rebuild the GUI EXE after source changes before treating <code>dist/</code> as a release artifact.</p>
-<p>The model-enabled release should include or load:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>1. package-owned DGN runtime code
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>2. trained model checkpoint/weights
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>3. preprocessing/cropping rules
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>4. inference command and compact GUI standard workflow
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>5. reconstructed GM output naming convention
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>6. ANS/RNS compute and validation pipeline
+<p>A model-enabled installation requires:</p>
+<ol>
+<li>package-owned DGN runtime code;</li>
+<li>approved generator checkpoints for <code>L_to_R</code> and <code>R_to_L</code>;</li>
+<li>the preprocessing/crop contract;</li>
+<li>a suitable PyTorch environment;</li>
+<li>the reconstruction output naming contract;</li>
+<li>ANS/RNS computation and optional validation settings.</li>
+</ol>
+<p>Expected model assets follow the layout documented in <a href="../dgn-model-bundle/">DGN model bundles</a>. They may be resolved from a Git-LFS source checkout, the per-user cache, an explicit model root, or an approved offline asset bundle.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>hemispec<span class="w"> </span>models
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>hemispec<span class="w"> </span>infer<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>--direction<span class="w"> </span>L_to_R<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;&lt;preprocessed-gm-dir&gt;/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span>--out-dir<span class="w"> </span><span class="s2">&quot;&lt;hemispec-results&gt;/recon_L_to_R&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">  </span>--device<span class="w"> </span>cuda
 </code></pre></div>
-<p>Expected local model assets are organized as:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>reference/training_code/   reference only: architecture/crops/checkpoint format
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>outputs_bi_stable_L/       R_to_L model, right -&gt; generated left
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>outputs_bi_stable_R/       L_to_R model, left -&gt; generated right
-</code></pre></div>
-<p>The training scripts are not part of deployment. They should not be imported by
-runtime code, exposed as commands, or required for GUI users.</p>
-<p>See <code>docs/dgn_model_bundle.md</code> before changing the inference adapter.</p>
-<p>Build a fully offline model-enabled app as a separate folder distribution, because
-PyTorch/CUDA/model dependencies can make the bundle much larger. The lightweight app can instead use the released model cache/download path.</p>
-<p>Recommended folder layout:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>HemiSpec_Model_App/
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>  hemispec_gui.exe
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>  _internal/
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>  models/
-<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>  configs/
-<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>  examples/
-<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>  docs/
-</code></pre></div>
-<p>See <code>docs/local_model_deployment_zh.md</code>.</p>
+<p>The standard bilateral workflow exposes ROI export, classifier validation, and TRT validation as optional flags; none of them is required to generate voxel-wise ANS/RNS maps.</p>
 <h2 id="cluster-usage">Cluster usage<a class="headerlink" href="#cluster-usage" title="Permanent link">&para;</a></h2>
-<p>Use the Python package form on Linux clusters. Example SLURM body:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>module<span class="w"> </span>load<span class="w"> </span>python
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="nb">cd</span><span class="w"> </span>&lt;remote-hemispec-toolkit&gt;
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>hemispec<span class="w"> </span>compute<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">  </span>--actual-glob<span class="w"> </span><span class="s2">&quot;&lt;preprocessed-gm-dir&gt;/*.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">  </span>--predicted-glob<span class="w"> </span><span class="s2">&quot;&lt;reconstruction-dir&gt;/*_PRED_LR_full.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">  </span>--out-dir<span class="w"> </span><span class="s2">&quot;&lt;hemispec-results&gt;/ANS_RNS_thr0p15&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">  </span>--gm-thresh<span class="w"> </span><span class="m">0</span>.15<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">  </span>--save-subject-maps
+<p>Use the Python package on Linux clusters:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>module<span class="w"> </span>load<span class="w"> </span>python
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nb">cd</span><span class="w"> </span>&lt;remote-hemispec-checkout&gt;
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>model<span class="o">]</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;&lt;preprocessed-gm-dir&gt;/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span>--out-dir<span class="w"> </span><span class="s2">&quot;&lt;hemispec-results&gt;/bilateral&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">  </span>--device<span class="w"> </span>cuda
 </code></pre></div>
-<p>Model-enabled CLI example:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>hemispec<span class="w"> </span>models
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>hemispec<span class="w"> </span>infer<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">  </span>--direction<span class="w"> </span>L_to_R<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;&lt;preprocessed-gm-dir&gt;/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">  </span>--out-dir<span class="w"> </span><span class="s2">&quot;&lt;hemispec-results&gt;/recon_L_to_R&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">  </span>--device<span class="w"> </span>cuda
+<p>For a single direction followed by metric computation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>hemispec<span class="w"> </span>run<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span>--direction<span class="w"> </span>L_to_R<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;&lt;preprocessed-gm-dir&gt;/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span>--recon-dir<span class="w"> </span><span class="s2">&quot;&lt;hemispec-results&gt;/recon_L_to_R&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span>--metrics-dir<span class="w"> </span><span class="s2">&quot;&lt;hemispec-results&gt;/ANS_RNS_thr0p15&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span>--device<span class="w"> </span>cuda
 </code></pre></div>
-<p>End-to-end DGN inference plus ANS/RNS compute:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>hemispec<span class="w"> </span>run<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">  </span>--direction<span class="w"> </span>L_to_R<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;&lt;preprocessed-gm-dir&gt;/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">  </span>--recon-dir<span class="w"> </span><span class="s2">&quot;&lt;hemispec-results&gt;/recon_L_to_R&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">  </span>--metrics-dir<span class="w"> </span><span class="s2">&quot;&lt;hemispec-results&gt;/ANS_RNS_thr0p15&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">  </span>--device<span class="w"> </span>cuda
-</code></pre></div>
+<p>See <a href="../../data-and-models/">Data and models</a> and <a href="../../release-artifacts/">Release artifacts</a> for public/private asset boundaries.</p>
 
 
 

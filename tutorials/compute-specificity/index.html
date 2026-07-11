@@ -373,6 +373,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../software-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../installation/" class="md-nav__link">
         
   
@@ -437,6 +465,34 @@
     
   
     Quick start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/gui-user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI user guide
   
 
     
@@ -778,7 +834,7 @@
   <span class="md-ellipsis">
     
   
-    Behavioral phenotype workflow
+    Behavioral phenotype workflow (planned)
   
 
     
@@ -1029,6 +1085,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../reference/cli/" class="md-nav__link">
         
   
@@ -1093,6 +1177,62 @@
     
   
     Outputs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/model-bundles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model bundles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/asset-bundle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Asset bundle
   
 
     
@@ -1264,6 +1404,34 @@
     
   
     Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/gui-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI design
   
 
     
@@ -1621,10 +1789,11 @@
 
 
 <h1 id="compute-specificity-maps">Compute specificity maps<a class="headerlink" href="#compute-specificity-maps" title="Permanent link">&para;</a></h1>
+<p>ANS/RNS are defined in <a href="../../methods/ans-rns-metrics/">ANS and RNS metrics</a> and originate from Wang et al. (2024).</p>
 <p>This tutorial covers ANS/RNS computation after reconstruction.</p>
 <h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h2>
-<p>For normal use, install the released package from PyPI:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>hemispec-toolkit
+<p>Download the v0.1.0 wheel from GitHub Releases and install it locally:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>./hemispec_toolkit-0.1.0-py3-none-any.whl
 </code></pre></div>
 <p>For source development, use <code>python -m pip install -e .</code> from a local checkout.</p>
 <p>For a complete packaged smoke test, run <code>hemispec quickstart --out-dir hemispec_quickstart</code>; it generates toy paired inputs and runs this compute path.</p>

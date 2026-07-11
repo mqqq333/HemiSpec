@@ -36,13 +36,6 @@
         <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/installation/"/>
     </url>
     <url>
-        <loc>https://mqqq333.github.io/HemiSpec/manuscript-figures/</loc>
-        <lastmod>2026-07-11</lastmod>
-        <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="https://mqqq333.github.io/HemiSpec/manuscript-figures/"/>
-        <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/manuscript-figures/"/>
-    </url>
-    <url>
         <loc>https://mqqq333.github.io/HemiSpec/quickstart/</loc>
         <lastmod>2026-07-11</lastmod>
         <changefreq>daily</changefreq>
@@ -113,32 +106,11 @@
         <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/developer/gui-design/"/>
     </url>
     <url>
-        <loc>https://mqqq333.github.io/HemiSpec/developer/gui-user-guide-zh/</loc>
+        <loc>https://mqqq333.github.io/HemiSpec/developer/gui-user-guide/</loc>
         <lastmod>2026-07-11</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="https://mqqq333.github.io/HemiSpec/developer/gui-user-guide-zh/"/>
-        <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/developer/gui-user-guide-zh/"/>
-    </url>
-    <url>
-        <loc>https://mqqq333.github.io/HemiSpec/developer/local-model-deployment-zh/</loc>
-        <lastmod>2026-07-11</lastmod>
-        <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="https://mqqq333.github.io/HemiSpec/developer/local-model-deployment-zh/"/>
-        <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/developer/local-model-deployment-zh/"/>
-    </url>
-    <url>
-        <loc>https://mqqq333.github.io/HemiSpec/developer/methods-and-metrics-zh/</loc>
-        <lastmod>2026-07-11</lastmod>
-        <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="https://mqqq333.github.io/HemiSpec/developer/methods-and-metrics-zh/"/>
-        <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/developer/methods-and-metrics-zh/"/>
-    </url>
-    <url>
-        <loc>https://mqqq333.github.io/HemiSpec/developer/outputs-zh/</loc>
-        <lastmod>2026-07-11</lastmod>
-        <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="https://mqqq333.github.io/HemiSpec/developer/outputs-zh/"/>
-        <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/developer/outputs-zh/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mqqq333.github.io/HemiSpec/developer/gui-user-guide/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/developer/gui-user-guide/"/>
     </url>
     <url>
         <loc>https://mqqq333.github.io/HemiSpec/developer/project-structure/</loc>
@@ -160,13 +132,6 @@
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="en" href="https://mqqq333.github.io/HemiSpec/developer/roadmap/"/>
         <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/developer/roadmap/"/>
-    </url>
-    <url>
-        <loc>https://mqqq333.github.io/HemiSpec/developer/toolkit-release-artifacts/</loc>
-        <lastmod>2026-07-11</lastmod>
-        <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="en" href="https://mqqq333.github.io/HemiSpec/developer/toolkit-release-artifacts/"/>
-        <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/developer/toolkit-release-artifacts/"/>
     </url>
     <url>
         <loc>https://mqqq333.github.io/HemiSpec/developer/trt-and-classifier-tasks/</loc>
@@ -316,13 +281,6 @@
         <xhtml:link rel="alternate" hreflang="en" href="https://mqqq333.github.io/HemiSpec/installation/"/>
     </url>
     <url>
-        <loc>https://mqqq333.github.io/HemiSpec/zh/manuscript-figures/</loc>
-        <lastmod>2026-07-11</lastmod>
-        <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/manuscript-figures/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="https://mqqq333.github.io/HemiSpec/manuscript-figures/"/>
-    </url>
-    <url>
         <loc>https://mqqq333.github.io/HemiSpec/zh/quickstart/</loc>
         <lastmod>2026-07-11</lastmod>
         <changefreq>daily</changefreq>
@@ -393,32 +351,11 @@
         <xhtml:link rel="alternate" hreflang="en" href="https://mqqq333.github.io/HemiSpec/developer/gui-design/"/>
     </url>
     <url>
-        <loc>https://mqqq333.github.io/HemiSpec/zh/developer/gui-user-guide-zh/</loc>
+        <loc>https://mqqq333.github.io/HemiSpec/zh/developer/gui-user-guide/</loc>
         <lastmod>2026-07-11</lastmod>
         <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/developer/gui-user-guide-zh/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="https://mqqq333.github.io/HemiSpec/developer/gui-user-guide-zh/"/>
-    </url>
-    <url>
-        <loc>https://mqqq333.github.io/HemiSpec/zh/developer/local-model-deployment-zh/</loc>
-        <lastmod>2026-07-11</lastmod>
-        <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/developer/local-model-deployment-zh/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="https://mqqq333.github.io/HemiSpec/developer/local-model-deployment-zh/"/>
-    </url>
-    <url>
-        <loc>https://mqqq333.github.io/HemiSpec/zh/developer/methods-and-metrics-zh/</loc>
-        <lastmod>2026-07-11</lastmod>
-        <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/developer/methods-and-metrics-zh/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="https://mqqq333.github.io/HemiSpec/developer/methods-and-metrics-zh/"/>
-    </url>
-    <url>
-        <loc>https://mqqq333.github.io/HemiSpec/zh/developer/outputs-zh/</loc>
-        <lastmod>2026-07-11</lastmod>
-        <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/developer/outputs-zh/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="https://mqqq333.github.io/HemiSpec/developer/outputs-zh/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/developer/gui-user-guide/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://mqqq333.github.io/HemiSpec/developer/gui-user-guide/"/>
     </url>
     <url>
         <loc>https://mqqq333.github.io/HemiSpec/zh/developer/project-structure/</loc>
@@ -440,13 +377,6 @@
         <changefreq>daily</changefreq>
         <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/developer/roadmap/"/>
         <xhtml:link rel="alternate" hreflang="en" href="https://mqqq333.github.io/HemiSpec/developer/roadmap/"/>
-    </url>
-    <url>
-        <loc>https://mqqq333.github.io/HemiSpec/zh/developer/toolkit-release-artifacts/</loc>
-        <lastmod>2026-07-11</lastmod>
-        <changefreq>daily</changefreq>
-        <xhtml:link rel="alternate" hreflang="zh" href="https://mqqq333.github.io/HemiSpec/zh/developer/toolkit-release-artifacts/"/>
-        <xhtml:link rel="alternate" hreflang="en" href="https://mqqq333.github.io/HemiSpec/developer/toolkit-release-artifacts/"/>
     </url>
     <url>
         <loc>https://mqqq333.github.io/HemiSpec/zh/developer/trt-and-classifier-tasks/</loc>

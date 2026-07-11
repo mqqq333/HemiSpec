@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://mqqq333.github.io/HemiSpec/zh/developer/project-structure/">
       
       
-        <link rel="prev" href="../architecture/">
+        <link rel="prev" href="../gui-design/">
       
       
         <link rel="next" href="../developer-guide/">
@@ -373,6 +373,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../software-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    软件概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../installation/" class="md-nav__link">
         
   
@@ -437,6 +465,34 @@
     
   
     快速开始
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gui-user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI 用户指南
   
 
     
@@ -663,7 +719,7 @@
   <span class="md-ellipsis">
     
   
-    行为表型工作流
+    行为表型工作流（规划中）
   
 
     
@@ -914,6 +970,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    参考手册概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../reference/cli/" class="md-nav__link">
         
   
@@ -978,6 +1062,62 @@
     
   
     输出
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/model-bundles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模型包
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/asset-bundle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    资产包
   
 
     
@@ -1168,6 +1308,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../gui-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI 设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1234,7 +1402,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        公开源码与本地资产
+        公开源码与仅限本地的材料
       
     </span>
   </a>
@@ -1494,7 +1662,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        公开源码与本地资产
+        公开源码与仅限本地的材料
       
     </span>
   </a>
@@ -1533,54 +1701,56 @@
 
 
 <h1 id="_1">项目结构<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>HemiSpec Toolkit 被组织为一个可部署的 Python 包以及已批准的可复用模型资产。公开仓库应使运行时契约清晰，同时不提交私有 MRI 数据或生成输出。</p>
+<p>HemiSpec 由可安装的 Python 软件包和经过明确批准的运行时资产组成。公开仓库应完整说明软件与文件契约，但不能公开私有 MRI 数据、研究生成结果，或尚未获准再分发的资产。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>.
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>|-- src/hemispec/                         # 可导入包：API、CLI、GUI、工作流
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>|   `-- resources/preprocess/             # 小型打包预处理辅助脚本
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>|-- src/hemispec/                         # Python API、CLI、GUI 与工作流
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>|   `-- resources/preprocess/             # 包内预处理辅助脚本
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>|-- tests/                                # 合成/单元回归测试
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>|-- examples/                             # 公开安全示例和 IO 契约
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>|   |-- synthetic_quickstart/             # 生成的玩具 NIfTI 示例
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>|   `-- input_sample/                     # 本地/已批准输入占位符
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>|-- docs/                                 # 开发者、架构、部署和方法说明
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>|-- scripts/                              # 发布和本地启动器辅助工具；无核心运行时逻辑
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>|   `-- research/                         # 本地研究工具，非公开运行时 API
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>|-- assets/                               # 已批准模型包和本地资产清单
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>|   |-- atlases/glasser/                  # 本地 Glasser atlas + 标签表，未批准则不追踪
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>|   `-- models/                           # 已批准 DGN/分类器包，通过 Git LFS 追踪
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>|-- data/                                 # 本地验证数据，不追踪
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>|-- outputs/                              # 生成输出，不追踪
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>|-- reference/                            # 论文/参考材料/训练参考，不追踪
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>|-- pyproject.toml                        # 包元数据和工具配置
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>|-- MANIFEST.in                           # 源码发行版包含/排除政策
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>|-- CONTRIBUTING.md                       # 工程和验证规则
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>|-- examples/
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>|   |-- synthetic_quickstart/             # 可公开再分发的合成 NIfTI 示例
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>|   `-- input_sample/                     # 本地且被 Git 忽略的 MRI 输入目录；仅 README 公开
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>|-- docs/                                 # 用户、方法、参考与开发者文档
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>|-- scripts/                              # 发布和本地启动辅助脚本
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>|   `-- research/                         # 本地研究工具，不属于公开运行时 API
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>|-- assets/
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>|   |-- atlases/glasser/                  # 公开 README/清单；atlas 载荷获批前仅保留本地
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>|   `-- models/                           # 通过 Git LFS 跟踪的已批准 DGN/分类器包
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>|-- data/                                 # 本地验证数据，不跟踪
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>|-- outputs/                              # 生成结果，不跟踪
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>|-- reference/                            # 本地论文/训练参考资料，不跟踪
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>|-- pyproject.toml                        # 软件包元数据与工具配置
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>|-- MANIFEST.in                           # 源码发行包包含/排除策略
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>|-- CONTRIBUTING.md                       # 工程与验证规则
 <a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>`-- CHANGELOG.md                          # 发布历史
 </code></pre></div>
-<h2 id="_2">公开源码与本地资产<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>已追踪的公开源码应包含：</p>
+<h2 id="_2">公开源码与仅限本地的材料<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>公开跟踪的内容可以包括：</p>
 <ul>
-<li><code>src/hemispec/</code> 包代码和小型包自有资源。</li>
-<li>基于合成/小型生成固件的测试。</li>
-<li>README、文档、示例、发布脚本和清单模板。</li>
-<li>描述预期本地放置位置的资产 README 文件。</li>
-<li>通过 Git LFS 追踪的已批准可复用 DGN 检查点和分类器包。</li>
+<li><code>src/hemispec/</code> 下的软件包代码和小型包内资源；</li>
+<li>基于合成或小型生成固件的测试与示例；</li>
+<li>README、文档、发布脚本和清单模板；</li>
+<li>说明本地放置方式与出处字段的资产 README；</li>
+<li>通过 Git LFS 放在 <code>assets/models/</code> 下的已批准 DGN 与分类器包。</li>
 </ul>
-<p>被忽略的本地/私有材料包括：</p>
+<p>以下材料必须保持本地且被忽略，除非已经记录明确的发布批准和再分发权利：</p>
 <ul>
-<li>真实受试者级 MRI/NIfTI 文件；</li>
+<li>真实受试者级 MRI/NIfTI，包括放入 <code>examples/input_sample/</code> 的文件；</li>
+<li>生成的重建图、ANS/RNS 图、ROI 表和验证结果；</li>
 <li>未批准的模型检查点或分类器包；</li>
-<li>除非明确批准再发行，否则包括 atlas 有效载荷文件；</li>
-<li>生成输出、缓存文件夹和编译发布文件夹。</li>
+<li>atlas NIfTI 和标签表；</li>
+<li>私有路径、受试者标识、凭据和未发表结果摘要。</li>
 </ul>
+<p>公开可运行示例是 <code>examples/synthetic_quickstart/</code>；<code>examples/input_sample/</code> 仅是本地输入位置，不能当作可公开再分发的示例数据。</p>
 <h2 id="_3">运行时资产发现<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>模型和 atlas 发现集中在 <code>hemispec.paths</code> 中，按以下顺序进行：</p>
+<p>模型与 atlas 的发现由 <code>hemispec.paths</code> 集中管理，顺序如下：</p>
 <ol>
-<li>提供时的显式 CLI/API/GUI 覆盖。</li>
-<li>如 <code>HEMISPEC_DGN_MODEL_ROOT</code> 等环境变量。</li>
-<li>存在时 <code>assets/</code> 下的本地项目资产。</li>
-<li>首次运行模型下载填充的每用户缓存。</li>
-<li>仅用于兼容性的旧版根文件夹，如 <code>outputs_bi_stable_L/R</code>。</li>
+<li>显式 CLI/API/GUI 路径；</li>
+<li><code>HEMISPEC_DGN_MODEL_ROOT</code> 等环境变量；</li>
+<li>存在时使用项目本地 <code>assets/</code>；</li>
+<li>模型下载写入的用户缓存；</li>
+<li>仅为兼容保留的 <code>outputs_bi_stable_L/R</code> 等旧目录。</li>
 </ol>
-<p>PyPI 包保持轻量，不嵌入大型 DGN 检查点、分类器包、atlas 有效载荷或受试者级示例。已发布的 DGN/分类器默认值在需要时下载到用户缓存。编译应用发行版可在应用文件夹旁边附带已批准的离线资产（带清单和校验和）。</p>
+<p>发布 wheel 保持轻量：只包含软件包代码和小型资源，不嵌入大型模型检查点、atlas 载荷或受试者级示例。启用模型的运行从 Git-LFS 源码检出、用户缓存或显式配置的离线资产包获取已批准的 DGN/分类器资产。</p>
 
 
 

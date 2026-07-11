@@ -373,6 +373,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../software-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../installation/" class="md-nav__link">
         
   
@@ -437,6 +465,34 @@
     
   
     Quick start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gui-user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI user guide
   
 
     
@@ -663,7 +719,7 @@
   <span class="md-ellipsis">
     
   
-    Behavioral phenotype workflow
+    Behavioral phenotype workflow (planned)
   
 
     
@@ -914,6 +970,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../reference/cli/" class="md-nav__link">
         
   
@@ -978,6 +1062,62 @@
     
   
     Outputs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/model-bundles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model bundles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/asset-bundle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Asset bundle
   
 
     
@@ -1151,6 +1291,34 @@
     
   
     Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gui-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI design
   
 
     
@@ -1645,7 +1813,7 @@
 <h1 id="hemispec-api-design">HemiSpec API Design<a class="headerlink" href="#hemispec-api-design" title="Permanent link">&para;</a></h1>
 <p>This document defines the first stable Python API layer for the Hemisphere
 Reconstruction Structural Specificity Toolkit.</p>
-<p>The API is intentionally the foundation layer. CLI, PyPI packaging, and GUI
+<p>The API is intentionally the foundation layer. CLI, package distribution, and GUI
 deployment should call this layer instead of duplicating workflow logic.</p>
 <h2 id="public-package-name">Public package name<a class="headerlink" href="#public-package-name" title="Permanent link">&para;</a></h2>
 <p>Keep the current import name for compatibility:</p>
@@ -1668,7 +1836,7 @@ deployment should call this layer instead of duplicating workflow logic.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>src/hemispec/resources/preprocess/process_single_subject_GM_v2_reorient.sh
 </code></pre></div>
 <p>It produces <code>*_GM_masked.nii.gz</code> files. Example inputs are in:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>examples/input_sample/
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>examples/synthetic_quickstart/
 </code></pre></div>
 <h2 id="metric-api">Metric API<a class="headerlink" href="#metric-api" title="Permanent link">&para;</a></h2>
 <p>Use <code>MetricComputeConfig</code> and <code>compute_metrics</code> to compute ANS/RNS maps:</p>
@@ -1761,7 +1929,7 @@ the inputs are repeat scans.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>outputs_bi_stable_L = R_to_L = right hemisphere -&gt; generated left hemisphere
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>outputs_bi_stable_R = L_to_R = left hemisphere  -&gt; generated right hemisphere
 </code></pre></div>
-<p>See <code>docs/dgn_model_bundle.md</code> for checkpoint locations, crop conventions, and
+<p>See <a href="../dgn-model-bundle/">DGN model bundles</a> for checkpoint locations, crop conventions, and
 current adapter status.</p>
 <p>The API now has a package-owned runtime adapter for trained PyTorch Generator
 checkpoints. Install the model extra before running real DGN inference:</p>

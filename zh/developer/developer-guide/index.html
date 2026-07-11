@@ -373,6 +373,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../software-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    软件概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../installation/" class="md-nav__link">
         
   
@@ -437,6 +465,34 @@
     
   
     快速开始
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gui-user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI 用户指南
   
 
     
@@ -663,7 +719,7 @@
   <span class="md-ellipsis">
     
   
-    行为表型工作流
+    行为表型工作流（规划中）
   
 
     
@@ -914,6 +970,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    参考手册概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../reference/cli/" class="md-nav__link">
         
   
@@ -978,6 +1062,62 @@
     
   
     输出
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/model-bundles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模型包
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/asset-bundle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    资产包
   
 
     
@@ -1151,6 +1291,34 @@
     
   
     架构
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gui-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI 设计
   
 
     
@@ -1632,7 +1800,7 @@
 </ol>
 <p>已批准的可复用 DGN/分类器包通过 Git LFS 位于 <code>assets/models/</code> 下。其他大型运行时资产应由清单记录并单独发布，除非已明确批准。</p>
 <h2 id="_3">本地设置<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>dev<span class="o">]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>dev,gui<span class="o">]</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>python<span class="w"> </span>-m<span class="w"> </span>pytest
 </code></pre></div>
 <p>仅为需要的工作流安装可选额外依赖：</p>
@@ -1641,9 +1809,10 @@
 </code></pre></div>
 <h2 id="_4">常用检查<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pytest
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>python<span class="w"> </span>-m<span class="w"> </span>build<span class="w"> </span>--wheel
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>python<span class="w"> </span>-m<span class="w"> </span>hemispec<span class="w"> </span>--help
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>hemispec<span class="w"> </span>--help
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>python<span class="w"> </span>-m<span class="w"> </span>ruff<span class="w"> </span>check<span class="w"> </span>src<span class="w"> </span>tests
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>python<span class="w"> </span>-m<span class="w"> </span>build<span class="w"> </span>--wheel
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>python<span class="w"> </span>-m<span class="w"> </span>hemispec<span class="w"> </span>--help
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>hemispec<span class="w"> </span>--help
 </code></pre></div>
 <p>合成快速入门无需任何私有数据即可运行：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">examples</span><span class="p">\</span><span class="n">synthetic_quickstart</span><span class="p">\</span><span class="n">run_synthetic_quickstart</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Python</span> <span class="n">python</span>
@@ -1669,7 +1838,7 @@
 <li>安全可再发行的合成固件。</li>
 </ul>
 <h2 id="_7">发布政策<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
-<p>PyPI wheel 应保持轻量，应包含包代码加上小型包自有资源。已发布的模型权重从 Git LFS 或首次运行用户缓存解析，不嵌入 wheel。编译应用文件夹可在 <code>dist/</code> 下生成，但额外发布资产在公开上传前需要明确批准。</p>
+<p>发布 wheel 应保持轻量，应包含包代码加上小型包自有资源。已发布的模型权重从 Git LFS 或首次运行用户缓存解析，不嵌入 wheel。编译应用文件夹可在 <code>dist/</code> 下生成，但额外发布资产在公开上传前需要明确批准。</p>
 
 
 

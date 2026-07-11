@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://mqqq333.github.io/HemiSpec/developer/project-structure/">
       
       
-        <link rel="prev" href="../architecture/">
+        <link rel="prev" href="../gui-design/">
       
       
         <link rel="next" href="../developer-guide/">
@@ -373,6 +373,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../software-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../installation/" class="md-nav__link">
         
   
@@ -437,6 +465,34 @@
     
   
     Quick start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gui-user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI user guide
   
 
     
@@ -663,7 +719,7 @@
   <span class="md-ellipsis">
     
   
-    Behavioral phenotype workflow
+    Behavioral phenotype workflow (planned)
   
 
     
@@ -914,6 +970,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../reference/cli/" class="md-nav__link">
         
   
@@ -978,6 +1062,62 @@
     
   
     Outputs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/model-bundles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model bundles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/asset-bundle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Asset bundle
   
 
     
@@ -1168,6 +1308,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../gui-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1231,10 +1399,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#public-source-vs-local-assets" class="md-nav__link">
+  <a href="#public-source-and-local-only-material" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Public source vs local assets
+        Public source and local-only material
       
     </span>
   </a>
@@ -1491,10 +1659,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#public-source-vs-local-assets" class="md-nav__link">
+  <a href="#public-source-and-local-only-material" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Public source vs local assets
+        Public source and local-only material
       
     </span>
   </a>
@@ -1532,55 +1700,57 @@
   
 
 
-<h1 id="project-structure">Project Structure<a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h1>
-<p>HemiSpec Toolkit is organized as a deployable Python package plus approved reusable model assets. The public repository should make the runtime contract clear without committing private MRI data or generated outputs.</p>
+<h1 id="project-structure">Project structure<a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h1>
+<p>HemiSpec is organized as an installable Python package plus explicitly approved runtime assets. The public repository documents the complete software and file contracts without publishing private MRI data, generated study outputs, or assets whose redistribution has not been approved.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>.
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>|-- src/hemispec/                         # importable package: API, CLI, GUI, workflows
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>|   `-- resources/preprocess/             # small packaged preprocessing helper script
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>|-- src/hemispec/                         # Python API, CLI, GUI, and workflows
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>|   `-- resources/preprocess/             # packaged preprocessing helper
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>|-- tests/                                # synthetic/unit regression tests
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>|-- examples/                             # public-safe examples and IO contracts
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>|   |-- synthetic_quickstart/             # generated toy NIfTI example
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>|   `-- input_sample/                     # local/approved input placeholder only
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>|-- docs/                                 # developer, architecture, deployment, and method notes
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>|-- scripts/                              # release and local launcher helpers; no core runtime logic
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>|-- examples/
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>|   |-- synthetic_quickstart/             # public-safe generated NIfTI example
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>|   `-- input_sample/                     # local, git-ignored MRI input area; README only is public
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>|-- docs/                                 # user, method, reference, and developer documentation
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>|-- scripts/                              # release and local launcher helpers
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>|   `-- research/                         # local research utilities, not public runtime API
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>|-- assets/                               # approved model bundles plus local asset manifests
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>|   |-- atlases/glasser/                  # local Glasser atlas + label table, not tracked unless approved
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>|-- assets/
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>|   |-- atlases/glasser/                  # public README/manifest; atlas payload stays local until approved
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>|   `-- models/                           # approved DGN/classifier bundles tracked with Git LFS
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>|-- data/                                 # local validation data, not tracked
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>|-- outputs/                              # generated outputs, not tracked
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>|-- reference/                            # papers/reference materials/training references, not tracked
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>|-- reference/                            # local papers/training references, not tracked
 <a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>|-- pyproject.toml                        # package metadata and tool configuration
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>|-- MANIFEST.in                           # source distribution inclusion/exclusion policy
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>|-- MANIFEST.in                           # source-distribution inclusion/exclusion policy
 <a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>|-- CONTRIBUTING.md                       # engineering and validation rules
 <a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>`-- CHANGELOG.md                          # release history
 </code></pre></div>
-<h2 id="public-source-vs-local-assets">Public source vs local assets<a class="headerlink" href="#public-source-vs-local-assets" title="Permanent link">&para;</a></h2>
-<p>Tracked public source should include:</p>
+<h2 id="public-source-and-local-only-material">Public source and local-only material<a class="headerlink" href="#public-source-and-local-only-material" title="Permanent link">&para;</a></h2>
+<p>Tracked public source may include:</p>
 <ul>
-<li><code>src/hemispec/</code> package code and small package-owned resources.</li>
-<li>Tests based on synthetic/tiny generated fixtures.</li>
-<li>README, docs, examples, release scripts, and manifest templates.</li>
-<li>Asset README files that describe expected local placement.</li>
-<li>Approved reusable DGN checkpoints and classifier bundles under <code>assets/models/</code> via Git LFS.</li>
+<li>package code and small package-owned resources under <code>src/hemispec/</code>;</li>
+<li>tests and examples based on synthetic or tiny generated fixtures;</li>
+<li>README, documentation, release scripts, and manifest templates;</li>
+<li>asset README files that define expected local placement and provenance fields;</li>
+<li>approved reusable DGN and classifier bundles under <code>assets/models/</code> through Git LFS.</li>
 </ul>
-<p>Ignored local/private material includes:</p>
+<p>Keep the following local and ignored unless explicit release approval and redistribution rights are documented:</p>
 <ul>
-<li>real subject-level MRI/NIfTI files;</li>
+<li>real subject-level MRI/NIfTI files, including files placed in <code>examples/input_sample/</code>;</li>
+<li>generated reconstructions, ANS/RNS maps, ROI tables, and validation results;</li>
 <li>unapproved model checkpoints or classifier bundles;</li>
-<li>atlas payload files unless redistribution is explicitly approved;</li>
-<li>generated outputs, cache folders, and compiled release folders.</li>
+<li>atlas NIfTI files and label tables;</li>
+<li>private paths, subject identifiers, credentials, and unpublished result summaries.</li>
 </ul>
+<p>The public runnable example is <code>examples/synthetic_quickstart/</code>; <code>examples/input_sample/</code> is only a local input location and must not be treated as redistributable example data.</p>
 <h2 id="runtime-asset-discovery">Runtime asset discovery<a class="headerlink" href="#runtime-asset-discovery" title="Permanent link">&para;</a></h2>
 <p>Model and atlas discovery is centralized in <code>hemispec.paths</code> and follows this order:</p>
 <ol>
-<li>Explicit CLI/API/GUI override, if supplied.</li>
-<li>Environment variables such as <code>HEMISPEC_DGN_MODEL_ROOT</code>.</li>
-<li>Local project assets under <code>assets/</code> when present.</li>
-<li>The per-user cache populated by first-run model download.</li>
-<li>Legacy root folders such as <code>outputs_bi_stable_L/R</code>, for compatibility only.</li>
+<li>explicit CLI/API/GUI override;</li>
+<li>environment variables such as <code>HEMISPEC_DGN_MODEL_ROOT</code>;</li>
+<li>local project assets under <code>assets/</code>, when present;</li>
+<li>the per-user cache populated by model download;</li>
+<li>legacy root folders such as <code>outputs_bi_stable_L/R</code>, for compatibility only.</li>
 </ol>
-<p>The PyPI package remains lightweight and does not embed large DGN checkpoints, classifier bundles, atlas payloads, or subject-level examples. Released DGN/classifier defaults are downloaded into the user cache when needed. Compiled app distributions can ship approved offline assets beside the application folder with a manifest and checksums.</p>
+<p>The release wheel remains lightweight: it contains package code and small resources, not large model checkpoints, atlas payloads, or subject-level examples. Model-enabled runs obtain approved DGN/classifier assets from a Git-LFS source checkout, the per-user cache, or an explicitly configured offline asset bundle.</p>
 
 
 

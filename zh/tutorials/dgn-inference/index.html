@@ -373,6 +373,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../software-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    软件概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../installation/" class="md-nav__link">
         
   
@@ -437,6 +465,34 @@
     
   
     快速开始
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/gui-user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI 用户指南
   
 
     
@@ -756,7 +812,7 @@
   <span class="md-ellipsis">
     
   
-    行为表型工作流
+    行为表型工作流（规划中）
   
 
     
@@ -1007,6 +1063,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    参考手册概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../reference/cli/" class="md-nav__link">
         
   
@@ -1071,6 +1155,62 @@
     
   
     输出
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/model-bundles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模型包
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/asset-bundle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    资产包
   
 
     
@@ -1242,6 +1382,34 @@
     
   
     架构
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/gui-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI 设计
   
 
     
@@ -1579,8 +1747,8 @@
 <h1 id="dgn">DGN 推理<a class="headerlink" href="#dgn" title="Permanent link">&para;</a></h1>
 <p>本教程展示如何将已发布的 HemiSpec DGN 模型包应用于预处理灰质图。</p>
 <h2 id="_1">安装<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>从 PyPI 运行启用模型的安装时，包含 model 额外依赖，并可选择预下载已发布检查点：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;hemispec-toolkit[model]&quot;</span>
+<p>从源码检出安装 model 额外依赖，并可选择预下载已发布检查点：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>model<span class="o">]</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>hemispec<span class="w"> </span>models<span class="w"> </span>--install
 </code></pre></div>
 <p>源码开发时，请使用 Git LFS 克隆，并运行 <code>python -m pip install -e .[model]</code>。</p>
@@ -1596,7 +1764,7 @@
 <li>包含模型版本、命令、参数和输出路径的运行清单。</li>
 </ul>
 <h2 id="_4">当前状态<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>默认已发布模型包可通过 Git LFS 源码检出或 PyPI 首次运行缓存下载获得。发布任何额外训练权重前，需先批准发布政策、出处、校验和和许可证说明。</p>
+<p>默认已发布模型包可通过 Git LFS 源码检出或 GitHub Release 缓存下载获得。发布任何额外训练权重前，需先批准发布政策、出处、校验和和许可证说明。</p>
 
 
 

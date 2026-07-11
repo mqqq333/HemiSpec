@@ -373,6 +373,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../software-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    软件概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../installation/" class="md-nav__link">
         
   
@@ -437,6 +465,34 @@
     
   
     快速开始
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gui-user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI 用户指南
   
 
     
@@ -663,7 +719,7 @@
   <span class="md-ellipsis">
     
   
-    行为表型工作流
+    行为表型工作流（规划中）
   
 
     
@@ -914,6 +970,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    参考手册概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../reference/cli/" class="md-nav__link">
         
   
@@ -978,6 +1062,62 @@
     
   
     输出
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/model-bundles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模型包
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/asset-bundle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    资产包
   
 
     
@@ -1151,6 +1291,34 @@
     
   
     架构
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gui-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI 设计
   
 
     
@@ -1346,7 +1514,7 @@
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        范围
+        当前资产布局
       
     </span>
   </a>
@@ -1402,6 +1570,17 @@
     <span class="md-ellipsis">
       
         阈值
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        输出命名
       
     </span>
   </a>
@@ -1538,7 +1717,7 @@
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        范围
+        当前资产布局
       
     </span>
   </a>
@@ -1600,6 +1779,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        输出命名
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1620,51 +1810,57 @@
   
 
 
-<h1 id="dgn">DGN 模型包说明<a class="headerlink" href="#dgn" title="Permanent link">&para;</a></h1>
-<p>本文档记录 HemiSpec 应为推理部署的训练好的 DGN 资产。模型训练不是 HemiSpec v1 的一部分。</p>
-<h2 id="_1">范围<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p><code>train_code/</code> 仅作参考材料。使用它来了解：</p>
-<ul>
-<li><code>Generator</code> 架构，</li>
-<li>PyTorch 检查点格式，</li>
-<li>经过更正的半球裁剪约定，</li>
-<li>生成的半球补丁如何被粘贴回用于检查。</li>
-</ul>
-<p>不要在 v1 中将训练作为用户界面功能暴露，也不要要求用户运行 <code>train_code/train.py</code>。</p>
-<h2 id="_2">方向映射<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>在 API、CLI、GUI 和文档中使用此经所有者确认的映射：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>outputs_bi_stable_L = R_to_L = 右半球 -&gt; 生成左半球
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>outputs_bi_stable_R = L_to_R = 左半球 -&gt; 生成右半球
+<h1 id="dgn">DGN 模型包<a class="headerlink" href="#dgn" title="Permanent link">&para;</a></h1>
+<p>HemiSpec v0.1.0 为推理部署训练好的生成器检查点。模型训练仅作参考，不是公开工作流的运行要求。</p>
+<p>ANS/RNS 与跨半球 DGN 框架源自 Wang 等人（2024），详见<a href="../../citation/">引用</a>。</p>
+<h2 id="_1">当前资产布局<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>assets/models/dgn/
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── outputs_bi_stable_L/
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│   └── ckpts/
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│       └── best_netG_L.pth       # R_to_L，目标为左半球
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>└── outputs_bi_stable_R/
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    └── ckpts/
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        └── best_netG_R.pth       # L_to_R，目标为右半球
 </code></pre></div>
+<p>运行时也支持 <code>best_netG_R2L.pth</code> 和 <code>best_netG_L2R.pth</code> 等显式方向文件名；两种命名同时存在时优先使用显式方向名。</p>
+<p>公开模型包只能包含已批准的运行时资产，不能包含受试者级重建图或训练指标结果。</p>
+<h2 id="_2">方向映射<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>outputs_bi_stable_L = R_to_L = 右半球输入 -&gt; 生成左半球
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>outputs_bi_stable_R = L_to_R = 左半球输入 -&gt; 生成右半球
+</code></pre></div>
+<p><code>discover_local_dgn_bundles()</code> 为 API、CLI 和 GUI 实现这一映射。</p>
 <h2 id="_3">运行时契约<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>包自有推理适配器应：</p>
+<p>对于一个方向，推理适配器：</p>
 <ol>
-<li>加载完整预处理的 <code>*_GM_masked.nii.gz</code> NIfTI。</li>
-<li>裁剪源半球。</li>
-<li>运行匹配的训练好的 <code>Generator</code> 检查点。</li>
-<li>将生成的补丁粘贴到目标半球位置。</li>
-<li>使用原始仿射变换/头信息保存重建的全体积 GM 图。</li>
+<li>加载预处理 <code>*_GM_masked.nii.gz</code>；</li>
+<li>应用低值推理掩膜；</li>
+<li>裁剪源半球；</li>
+<li>加载匹配的生成器检查点；</li>
+<li>预测目标半球补丁；</li>
+<li>将预测结果放回原始全脑网格；</li>
+<li>使用输入 affine/header 保存重建 NIfTI。</li>
 </ol>
+<p>双向工作流运行两个方向并合并目标侧结果。</p>
 <h2 id="_4">检查点格式<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>生成器检查点是具有以下形状的 PyTorch 文件：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="s2">&quot;epoch&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="nb">int</span><span class="o">&gt;</span><span class="p">,</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="s2">&quot;state_dict&quot;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">Generator</span> <span class="n">state</span> <span class="nb">dict</span><span class="o">&gt;</span><span class="p">,</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">}</span>
+<p>支持的生成器检查点可以是直接 state dictionary，也可以是包含 <code>state_dict</code> 的封装。运行时加载器会先标准化支持的格式，再加载生成器架构。</p>
+<p>期望的单通道补丁形状：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>55 × 119 × 87
 </code></pre></div>
 <h2 id="_5">裁剪<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>使用经过更正的解剖学约定：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>解剖学右侧：z 5:60,   y 15:134, x 15:102
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>解剖学左侧：z 60:115, y 15:134, x 15:102
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>解剖学右侧：z 5:60,   y 15:134, x 15:102
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>解剖学左侧：z 60:115, y 15:134, x 15:102
 </code></pre></div>
+<p>这些常量由软件包运行时代码维护。</p>
 <h2 id="_6">阈值<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<p>参考数据集代码在推理前使用以下阈值掩膜低值体素：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>img &gt; 0.05
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>DGN 输入清理：值 &gt; 0.05
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>ANS/RNS 有效 GM：值 &gt;= 0.15
 </code></pre></div>
-<p>ANS/RNS 计算后续使用：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>GM &gt;= 0.15
+<p>两个阈值服务于不同阶段，必须分别命名和报告。</p>
+<h2 id="_7">输出命名<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p>方向特定的全脑重建图使用：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>&lt;subject&gt;_PRED_LR_full.nii.gz
 </code></pre></div>
-<p>请在参数名称和文档中保持这些阈值的分离。</p>
+<p>双向工作流随后在 <code>voxel_maps/</code> 下写出最终半球特定指标图。</p>
 
 
 

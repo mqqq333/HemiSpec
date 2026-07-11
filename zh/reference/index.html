@@ -13,6 +13,10 @@
         <link rel="canonical" href="https://mqqq333.github.io/HemiSpec/zh/reference/">
       
       
+        <link rel="prev" href="../methods/downstream-task-analysis/">
+      
+      
+        <link rel="next" href="cli/">
       
       
         
@@ -27,7 +31,7 @@
     
     
       
-        <title>参考手册 - HemiSpec</title>
+        <title>参考手册概览 - HemiSpec</title>
       
     
     
@@ -116,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              参考手册
+              参考手册概览
             
           </span>
         </div>
@@ -369,6 +373,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../software-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    软件概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../installation/" class="md-nav__link">
         
   
@@ -433,6 +465,34 @@
     
   
     快速开始
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../developer/gui-user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI 用户指南
   
 
     
@@ -659,7 +719,7 @@
   <span class="md-ellipsis">
     
   
-    行为表型工作流
+    行为表型工作流（规划中）
   
 
     
@@ -855,8 +915,10 @@
       
   
   
+    
   
   
+  
     
     
     
@@ -867,11 +929,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
@@ -892,7 +954,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -902,6 +964,44 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    参考手册概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+    </li>
+  
+
+              
             
               
                 
@@ -974,6 +1074,62 @@
     
   
     输出
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="model-bundles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模型包
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="asset-bundle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    资产包
   
 
     
@@ -1145,6 +1301,34 @@
     
   
     架构
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../developer/gui-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI 设计
   
 
     
@@ -1428,8 +1612,17 @@
 
 
 <h1 id="_1">参考手册<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>参考页面定义了 HemiSpec 的公开接口：命令、Python API、输出契约和模型包布局。</p>
-<p>当前实现在公开 CLI、GUI 和 Python API 中与 HemiSpec Toolkit 命名保持一致。</p>
+<p>参考页面定义 HemiSpec 的公开接口与发布契约：</p>
+<ul>
+<li><a href="cli/">CLI</a></li>
+<li><a href="python-api/">Python API</a></li>
+<li><a href="outputs/">输出</a></li>
+<li><a href="model-bundles/">模型包</a></li>
+<li><a href="asset-bundle/">资产包</a></li>
+<li><a href="../release-artifacts/">发布产物</a></li>
+<li><a href="../citation/">引用</a></li>
+</ul>
+<p>当前实现使用 HemiSpec 作为公开品牌，<code>hemispec-toolkit</code> 作为软件包发行名，<code>hemispec</code> 作为导入路径和 CLI 命令。PyPI 项目尚未公开。</p>
 
 
 

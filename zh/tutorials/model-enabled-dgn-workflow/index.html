@@ -373,6 +373,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../software-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    软件概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../installation/" class="md-nav__link">
         
   
@@ -437,6 +465,34 @@
     
   
     快速开始
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/gui-user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI 用户指南
   
 
     
@@ -778,7 +834,7 @@
   <span class="md-ellipsis">
     
   
-    行为表型工作流
+    行为表型工作流（规划中）
   
 
     
@@ -1029,6 +1085,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    参考手册概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../reference/cli/" class="md-nav__link">
         
   
@@ -1093,6 +1177,62 @@
     
   
     输出
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/model-bundles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模型包
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/asset-bundle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    资产包
   
 
     
@@ -1264,6 +1404,34 @@
     
   
     架构
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/gui-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI 设计
   
 
     
@@ -1621,16 +1789,17 @@
 
 
 <h1 id="dgn">模型驱动 DGN 工作流<a class="headerlink" href="#dgn" title="Permanent link">&para;</a></h1>
-<p>本页记录使用可复用已发布模型参数运行 HemiSpec 的当前模型驱动工作流。DGN 检查点和半球分类器包通过 Git LFS 追踪在 <code>assets/models/</code> 下；wheel/PyPI 安装可将相同文件下载到用户缓存。不分发真实 MRI 输入和生成输出。</p>
+<p>PyPI 项目尚未公开，请使用 GitHub Release 或源码检出。</p>
+<p>本页记录使用可复用已发布模型参数运行 HemiSpec 的当前模型驱动工作流。DGN 检查点和半球分类器包通过 Git LFS 追踪在 <code>assets/models/</code> 下；Release wheel 安装可将相同文件下载到用户缓存。不分发真实 MRI 输入和生成输出。</p>
 <h2 id="_1">状态<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>合成仅计算演示</strong>：无需模型资产即可使用；见 <a href="../../quickstart/">快速开始</a>。</li>
 <li><strong>模型驱动源码检出</strong>：使用 Git LFS 克隆并从 PyTorch 环境运行时可用。</li>
-<li><strong>Wheel/PyPI / 轻量桌面安装</strong>：通过首次运行将已发布检查点下载到用户缓存实现模型驱动；仍需在活动环境中安装 PyTorch。</li>
+<li><strong>Release wheel / 轻量桌面安装</strong>：通过首次运行将已发布检查点下载到用户缓存实现模型驱动；仍需在活动环境中安装 PyTorch。</li>
 </ul>
 <h2 id="_2">设置<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>PyPI 安装：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;hemispec-toolkit[gui,model,classifier]&quot;</span>
+<p>源码检出安装：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>gui,model,classifier<span class="o">]</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>hemispec<span class="w"> </span>models<span class="w"> </span>--install<span class="w"> </span>--with-classifier<span class="w">  </span><span class="c1"># 可选预下载</span>
 </code></pre></div>
 <p>源码检出：</p>
@@ -1649,10 +1818,10 @@
 <a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>  OUT_noICBM_train_ICBM_external_saved_models/
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>  OUT_noICBM_train_ICBM_external_saved_models_paired_residual/
 </code></pre></div>
-<p>HemiSpec 自动发现此布局。Wheel/PyPI 安装在自动下载后在用户模型缓存中使用相同布局。仅当需要覆盖已发布默认值时才需要 <code>HEMISPEC_DGN_MODEL_ROOT</code> 或 <code>HEMISPEC_CLASSIFIER_MODEL_DIR</code>。</p>
+<p>HemiSpec 自动发现此布局。Release wheel 安装在自动下载后在用户模型缓存中使用相同布局。仅当需要覆盖已发布默认值时才需要 <code>HEMISPEC_DGN_MODEL_ROOT</code> 或 <code>HEMISPEC_CLASSIFIER_MODEL_DIR</code>。</p>
 <h2 id="gui">GUI 路径<a class="headerlink" href="#gui" title="Permanent link">&para;</a></h2>
 <p>启动 GUI：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>hemispec-gui<span class="w">                 </span><span class="c1"># PyPI 安装</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>hemispec-gui<span class="w">                 </span><span class="c1"># 源码或 Release wheel 环境</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>python<span class="w"> </span>scripts/hemispec_gui_entry.py<span class="w">  </span><span class="c1"># 源码检出</span>
 </code></pre></div>
 <p>设置状态卡报告：</p>

@@ -375,6 +375,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../software-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    软件概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../installation/" class="md-nav__link">
         
   
@@ -627,6 +655,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../developer/gui-user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI 用户指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../data-and-models/" class="md-nav__link">
         
   
@@ -833,7 +889,7 @@
   <span class="md-ellipsis">
     
   
-    行为表型工作流
+    行为表型工作流（规划中）
   
 
     
@@ -1084,6 +1140,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    参考手册概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../reference/cli/" class="md-nav__link">
         
   
@@ -1148,6 +1232,62 @@
     
   
     输出
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/model-bundles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模型包
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/asset-bundle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    资产包
   
 
     
@@ -1319,6 +1459,34 @@
     
   
     架构
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../developer/gui-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI 设计
   
 
     
@@ -1759,7 +1927,7 @@
 <p>Wang 等人（2024）对原始方法的预处理要求包括：将 T1 加权图像分割为不同组织；把 GM 密度图标准化到 MNI 空间的 <code>1.5 × 1.5 × 1.5 mm³</code> 分辨率；把值归一化到 <code>0–1</code>；使用 GM 概率阈值 <code>0.15</code> 提取灰质体素，然后再进行半球分割与裁剪。</p>
 <p>项目根目录的 <code>process_single_subject.sh</code> 使用 FSL BET、FAST、FLIRT 和 <code>fslmaths</code> 实现上述输入准备。该脚本是本项目的具体操作实现；原始科学框架和预处理要求仍应归因并引用 Wang 等人（2024）。</p>
 <h2 id="_4">研究主脚本<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>导师所指、研究流程使用的脚本位于仓库根目录：</p>
+<p>研究流程使用的脚本位于仓库根目录：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>process_single_subject.sh
 </code></pre></div>
 <p>该脚本基于 Bash，并要求可用的 FSL 环境。在 Windows 上，建议在 Linux、WSL、HPC 或其他支持 FSL 的环境中完成预处理；生成的 NIfTI 文件随后可在 Windows 或 Linux 中交给 HemiSpec。</p>

@@ -373,6 +373,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../software-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    软件概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../installation/" class="md-nav__link">
         
   
@@ -437,6 +465,34 @@
     
   
     快速开始
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/gui-user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI 用户指南
   
 
     
@@ -663,7 +719,7 @@
   <span class="md-ellipsis">
     
   
-    行为表型工作流
+    行为表型工作流（规划中）
   
 
     
@@ -864,7 +920,7 @@
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        原始定义
+        指标定义与软件解释
       
     </span>
   </a>
@@ -1007,6 +1063,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    参考手册概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../reference/cli/" class="md-nav__link">
         
   
@@ -1071,6 +1155,62 @@
     
   
     输出
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/model-bundles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模型包
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/asset-bundle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    资产包
   
 
     
@@ -1242,6 +1382,34 @@
     
   
     架构
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/gui-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI 设计
   
 
     
@@ -1516,7 +1684,7 @@
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        原始定义
+        指标定义与软件解释
       
     </span>
   </a>
@@ -1578,8 +1746,8 @@
 
 <h1 id="ans-rns">ANS 与 RNS 指标<a class="headerlink" href="#ans-rns" title="Permanent link">&para;</a></h1>
 <p>ANS 和 RNS 由 Wang 等人（2024）提出，用于描述重建衍生的半球特异性。</p>
-<h2 id="_1">原始定义<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>对于目标半球实际 GM 值 <code>Act_i</code> 与其重建值 <code>Recon_i</code>，原论文定义：</p>
+<h2 id="_1">指标定义与软件解释<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>对于目标半球实际 GM 值 <code>Act_i</code> 与其重建值 <code>Recon_i</code>，HemiSpec 按照对 Wang 等人（2024）定义的如下软件化解释进行实现：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ANS_i = abs(Act_i - Recon_i)
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>RNS_i = abs((Act_i - Recon_i) / (Act_i + Recon_i))
 </code></pre></div>

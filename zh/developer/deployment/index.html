@@ -373,6 +373,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../software-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    软件概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../installation/" class="md-nav__link">
         
   
@@ -437,6 +465,34 @@
     
   
     快速开始
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gui-user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI 用户指南
   
 
     
@@ -663,7 +719,7 @@
   <span class="md-ellipsis">
     
   
-    行为表型工作流
+    行为表型工作流（规划中）
   
 
     
@@ -914,6 +970,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    参考手册概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../reference/cli/" class="md-nav__link">
         
   
@@ -978,6 +1062,62 @@
     
   
     输出
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/model-bundles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模型包
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/asset-bundle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    资产包
   
 
     
@@ -1171,6 +1311,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../gui-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI 设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../project-structure/" class="md-nav__link">
         
   
@@ -1318,7 +1486,7 @@
   <a href="#1-python" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Python 包
+        1. Python 软件包
       
     </span>
   </a>
@@ -1326,10 +1494,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-cmd" class="md-nav__link">
+  <a href="#2-windows" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. CMD 包装器
+        2. Windows 命令包装器
       
     </span>
   </a>
@@ -1337,10 +1505,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-exe-gui" class="md-nav__link">
+  <a href="#3-windows-cli-gui" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. EXE / 编译 GUI 构建
+        3. Windows CLI 与 GUI 构建
       
     </span>
   </a>
@@ -1527,7 +1695,7 @@
   <a href="#1-python" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Python 包
+        1. Python 软件包
       
     </span>
   </a>
@@ -1535,10 +1703,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-cmd" class="md-nav__link">
+  <a href="#2-windows" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. CMD 包装器
+        2. Windows 命令包装器
       
     </span>
   </a>
@@ -1546,10 +1714,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-exe-gui" class="md-nav__link">
+  <a href="#3-windows-cli-gui" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. EXE / 编译 GUI 构建
+        3. Windows CLI 与 GUI 构建
       
     </span>
   </a>
@@ -1599,76 +1767,82 @@
 
 
 <h1 id="_1">部署<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>本项目可以四种实际形式部署：PyPI 包、CLI 包装器、GUI/EXE 构建和启用模型的编译应用。</p>
-<h2 id="1-python">1. Python 包<a class="headerlink" href="#1-python" title="Permanent link">&para;</a></h2>
-<p>适用于分析服务器和集群。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>&lt;hemispec-toolkit-checkout&gt;
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+<p>HemiSpec 可以部署为可安装的 Python 软件包、命令包装器、Windows CLI/GUI 构建，或启用模型的 Python 应用。当前公开的 v0.1.0 软件包产物通过 GitHub Releases 分发；PyPI 项目尚未公开。</p>
+<h2 id="1-python">1. Python 软件包<a class="headerlink" href="#1-python" title="Permanent link">&para;</a></h2>
+<p>推荐用于分析服务器、集群和启用模型的运行：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>&lt;hemispec-checkout&gt;
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>model<span class="o">]</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>hemispec<span class="w"> </span>--help
 </code></pre></div>
-<p>固定安装：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>.
+<p>仅在需要时添加 GUI 或可选分类器依赖：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>gui,model<span class="o">]</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>gui,model,classifier<span class="o">]</span>
 </code></pre></div>
-<p>训练好的 DGN 推理：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>.<span class="o">[</span>model<span class="o">]</span>
+<p>分类器始终是可选的下游验证分支。</p>
+<p>已下载的 v0.1.0 wheel 可以直接安装：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>./hemispec_toolkit-0.1.0-py3-none-any.whl
 </code></pre></div>
-<h2 id="2-cmd">2. CMD 包装器<a class="headerlink" href="#2-cmd" title="Permanent link">&para;</a></h2>
-<p>安装包后，Windows 用户可以运行：</p>
+<h2 id="2-windows">2. Windows 命令包装器<a class="headerlink" href="#2-windows" title="Permanent link">&para;</a></h2>
+<p>安装软件包后，Windows 用户可以运行：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>scripts\hemispec.cmd compute --help
 </code></pre></div>
-<p>该包装器简单调用：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>python -m hemispec <span class="nv">%*</span>
+<p>该包装器委托给 <code>python -m hemispec %*</code>，不能包含另一套工作流逻辑。</p>
+<h2 id="3-windows-cli-gui">3. Windows CLI 与 GUI 构建<a class="headerlink" href="#3-windows-cli-gui" title="Permanent link">&para;</a></h2>
+<p>安装开发和 GUI 依赖后构建：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">cd </span><span class="p">&lt;</span><span class="n">hemispec-checkout</span><span class="p">&gt;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">-e</span> <span class="p">.</span><span class="no">[dev,gui]</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">\</span><span class="n">build_exe</span><span class="p">.</span><span class="n">ps1</span>
 </code></pre></div>
-<h2 id="3-exe-gui">3. EXE / 编译 GUI 构建<a class="headerlink" href="#3-exe-gui" title="Permanent link">&para;</a></h2>
-<p>安装 PyInstaller 并构建：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">cd </span><span class="p">&lt;</span><span class="n">hemispec-toolkit-checkout</span><span class="p">&gt;</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">-e</span> <span class="p">.</span><span class="no">[dev]</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">\</span><span class="n">build_exe</span><span class="p">.</span><span class="n">ps1</span>
+<p>预期本地产物：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>dist/hemispec.exe
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>dist/hemispec_gui/hemispec_gui.exe
 </code></pre></div>
-<p>命令行可执行文件应出现在：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>dist/hemispec.exe
+<p><code>hemispec_gui.exe</code> 是 onedir 构建。必须保留完整的 <code>dist/hemispec_gui/</code> 文件夹，不能只移动可执行文件。</p>
+<p>干净构建环境示例：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">python</span> <span class="n">-m</span> <span class="n">venv</span> <span class="p">.</span><span class="n">venv-build</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">.\.</span><span class="n">venv-build</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="p">-</span><span class="n">-upgrade</span> <span class="n">pip</span> <span class="n">setuptools</span> <span class="n">wheel</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="p">.\.</span><span class="n">venv-build</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">-e</span> <span class="p">.</span><span class="no">[dev,gui]</span> <span class="p">-</span><span class="n">-no-build-isolation</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">.\.</span><span class="n">venv-build</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">-m</span> <span class="n">PyInstaller</span> <span class="p">-</span><span class="n">-clean</span> <span class="p">-</span><span class="n">-onedir</span> <span class="p">-</span><span class="n">-windowed</span> <span class="p">-</span><span class="n">-name</span> <span class="n">hemispec_gui</span> <span class="n">scripts</span><span class="p">\</span><span class="n">hemispec_gui_entry</span><span class="p">.</span><span class="n">py</span>
 </code></pre></div>
-<p>图形可执行文件应出现在：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>dist/hemispec_gui/hemispec_gui.exe
-</code></pre></div>
-<p>重要：<code>hemispec_gui.exe</code> 是 onedir 构建。请保持整个 <code>dist/hemispec_gui/</code> 文件夹完整；不要单独移动 <code>.exe</code>。</p>
-<p>Windows 干净构建示例：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">python</span> <span class="n">-m</span> <span class="n">venv</span> <span class="p">.</span><span class="n">venv-build</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="p">.\.</span><span class="n">venv-build</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="p">-</span><span class="n">-upgrade</span> <span class="n">pip</span> <span class="n">setuptools</span> <span class="n">wheel</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="p">.\.</span><span class="n">venv-build</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">-e</span> <span class="p">.</span><span class="no">[dev]</span> <span class="p">-</span><span class="n">-no-build-isolation</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="p">.\.</span><span class="n">venv-build</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="n">-m</span> <span class="n">PyInstaller</span> <span class="p">-</span><span class="n">-clean</span> <span class="p">-</span><span class="n">-onedir</span> <span class="p">-</span><span class="n">-windowed</span> <span class="p">-</span><span class="n">-name</span> <span class="n">hemispec_gui</span> <span class="n">scripts</span><span class="p">\</span><span class="n">hemispec_gui_entry</span><span class="p">.</span><span class="n">py</span>
-</code></pre></div>
-<p>当前轻量 GUI EXE 不打包 PyTorch。它可以打开紧凑标准工作流 GUI，但启用模型的 DGN 推理需要 PyTorch 环境以及来自 Git LFS、首次运行缓存下载、显式模型根或单独模型启用/Torch 包的已发布 DGN 资产。</p>
+<p>轻量 GUI 构建不嵌入 PyTorch、atlas 载荷、真实 MRI 数据或生成结果。</p>
 <h2 id="4">4. 启用模型的部署<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
-<p>当前 Python 包/CLI 包含训练好的 DGN 推理入口点以及已发布模型默认值的首次运行下载。当前 GUI 有意只暴露带可选 ROI、分类器和 TRT 分支的标准 ANS/RNS 工作流；底层推理、计算、特异性和分类器命令仍可通过 CLI/API 使用。</p>
-<p>启用模型的发布应包含或加载：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>1. 包自有 DGN 运行时代码
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>2. 训练好的模型检查点/权重
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>3. 预处理/裁剪规则
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>4. 推理命令和紧凑 GUI 标准工作流
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>5. 重建 GM 输出命名约定
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>6. ANS/RNS 计算和验证流水线
+<p>启用模型的安装需要：</p>
+<ol>
+<li>包内 DGN 运行时代码；</li>
+<li><code>L_to_R</code> 与 <code>R_to_L</code> 两个方向的已批准生成器检查点；</li>
+<li>预处理与裁剪契约；</li>
+<li>合适的 PyTorch 环境；</li>
+<li>重建输出命名契约；</li>
+<li>ANS/RNS 计算和可选验证设置。</li>
+</ol>
+<p>模型资产布局见 <a href="../dgn-model-bundle/">DGN 模型包</a>。资产可以来自 Git-LFS 源码检出、用户缓存、显式模型根目录或已批准的离线资产包。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>hemispec<span class="w"> </span>models
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>hemispec<span class="w"> </span>infer<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>--direction<span class="w"> </span>L_to_R<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;&lt;preprocessed-gm-dir&gt;/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span>--out-dir<span class="w"> </span><span class="s2">&quot;&lt;hemispec-results&gt;/recon_L_to_R&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">  </span>--device<span class="w"> </span>cuda
 </code></pre></div>
+<p>标准双向工作流把 ROI 导出、分类器验证和 TRT 验证都作为可选参数；生成体素级 ANS/RNS 图不要求启用其中任何一项。</p>
 <h2 id="_2">集群使用<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>在 Linux 集群上使用 Python 包形式。SLURM 示例：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>module<span class="w"> </span>load<span class="w"> </span>python
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nb">cd</span><span class="w"> </span>&lt;remote-hemispec-toolkit&gt;
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>hemispec<span class="w"> </span>compute<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span>--actual-glob<span class="w"> </span><span class="s2">&quot;&lt;preprocessed-gm-dir&gt;/*.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">  </span>--predicted-glob<span class="w"> </span><span class="s2">&quot;&lt;reconstruction-dir&gt;/*_PRED_LR_full.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">  </span>--out-dir<span class="w"> </span><span class="s2">&quot;&lt;hemispec-results&gt;/ANS_RNS_thr0p15&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">  </span>--gm-thresh<span class="w"> </span><span class="m">0</span>.15<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">  </span>--save-subject-maps
+<p>Linux 集群使用 Python 软件包形式：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>module<span class="w"> </span>load<span class="w"> </span>python
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nb">cd</span><span class="w"> </span>&lt;remote-hemispec-checkout&gt;
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>model<span class="o">]</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;&lt;preprocessed-gm-dir&gt;/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span>--out-dir<span class="w"> </span><span class="s2">&quot;&lt;hemispec-results&gt;/bilateral&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">  </span>--device<span class="w"> </span>cuda
 </code></pre></div>
-<p>端到端 DGN 推理加 ANS/RNS 计算：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>hemispec<span class="w"> </span>run<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span>--direction<span class="w"> </span>L_to_R<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;&lt;preprocessed-gm-dir&gt;/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span>--recon-dir<span class="w"> </span><span class="s2">&quot;&lt;hemispec-results&gt;/recon_L_to_R&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">  </span>--metrics-dir<span class="w"> </span><span class="s2">&quot;&lt;hemispec-results&gt;/ANS_RNS_thr0p15&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">  </span>--device<span class="w"> </span>cuda
+<p>单方向推理并计算指标：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>hemispec<span class="w"> </span>run<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span>--direction<span class="w"> </span>L_to_R<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;&lt;preprocessed-gm-dir&gt;/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span>--recon-dir<span class="w"> </span><span class="s2">&quot;&lt;hemispec-results&gt;/recon_L_to_R&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span>--metrics-dir<span class="w"> </span><span class="s2">&quot;&lt;hemispec-results&gt;/ANS_RNS_thr0p15&quot;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span>--device<span class="w"> </span>cuda
 </code></pre></div>
+<p>公开/私有资产边界见<a href="../../data-and-models/">数据与模型</a>和<a href="../../release-artifacts/">发布产物</a>。</p>
 
 
 

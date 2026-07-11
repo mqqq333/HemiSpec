@@ -373,6 +373,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../software-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../installation/" class="md-nav__link">
         
   
@@ -437,6 +465,34 @@
     
   
     Quick start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/gui-user-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI user guide
   
 
     
@@ -663,7 +719,7 @@
   <span class="md-ellipsis">
     
   
-    Behavioral phenotype workflow
+    Behavioral phenotype workflow (planned)
   
 
     
@@ -861,10 +917,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#original-definitions" class="md-nav__link">
+  <a href="#metric-definitions-and-software-interpretation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Original definitions
+        Metric definitions and software interpretation
       
     </span>
   </a>
@@ -1007,6 +1063,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../reference/cli/" class="md-nav__link">
         
   
@@ -1071,6 +1155,62 @@
     
   
     Outputs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/model-bundles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model bundles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/asset-bundle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Asset bundle
   
 
     
@@ -1242,6 +1382,34 @@
     
   
     Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/gui-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI design
   
 
     
@@ -1513,10 +1681,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#original-definitions" class="md-nav__link">
+  <a href="#metric-definitions-and-software-interpretation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Original definitions
+        Metric definitions and software interpretation
       
     </span>
   </a>
@@ -1578,8 +1746,8 @@
 
 <h1 id="ans-and-rns-metrics">ANS and RNS metrics<a class="headerlink" href="#ans-and-rns-metrics" title="Permanent link">&para;</a></h1>
 <p>ANS and RNS were introduced by Wang et al. (2024) as reconstruction-derived measures of hemispheric specificity.</p>
-<h2 id="original-definitions">Original definitions<a class="headerlink" href="#original-definitions" title="Permanent link">&para;</a></h2>
-<p>For the actual target-hemisphere GM value <code>Act_i</code> and its reconstructed value <code>Recon_i</code>, the original paper defines:</p>
+<h2 id="metric-definitions-and-software-interpretation">Metric definitions and software interpretation<a class="headerlink" href="#metric-definitions-and-software-interpretation" title="Permanent link">&para;</a></h2>
+<p>For the actual target-hemisphere GM value <code>Act_i</code> and its reconstructed value <code>Recon_i</code>, HemiSpec uses the following interpretation of the definitions introduced by Wang et al. (2024):</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ANS_i = abs(Act_i - Recon_i)
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>RNS_i = abs((Act_i - Recon_i) / (Act_i + Recon_i))
 </code></pre></div>
