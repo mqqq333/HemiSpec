@@ -1,10 +1,10 @@
-﻿# Reconstruction framework
+# Reconstruction framework
 
 The published framework estimates a target hemisphere from its contralateral counterpart. Instead of treating lateralization only as a direct left–right subtraction, the model learns a nonlinear cross-hemispheric mapping and quantifies what the reconstruction does not explain.
 
 ## Published conceptual sequence
 
-1. Convert T1-weighted MRI into MNI-space gray-matter maps.
+1. Convert T1-weighted MRI into MNI152 1.5 mm `*_GM_masked.nii.gz` gray-matter maps; see [Input and preprocessing](../input-preprocessing.md).
 2. Split/crop the maps into left and right hemisphere inputs.
 3. Train direction-specific context-encoder-style DGN models:
    - left-to-right reconstruction;

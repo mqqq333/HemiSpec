@@ -1,5 +1,10 @@
 # Behavioral phenotype workflow
 
+!!! warning "Roadmap status"
+    This page is a design outline, not a complete public reproduction workflow.
+
+ANS/RNS originate from Wang et al. (2024); see [ANS and RNS metrics](../methods/ans-rns-metrics.md).
+
 This tutorial will document the public, reproducible part of downstream behavioral phenotype analysis; handedness is one optional phenotype example.
 
 ## Planned stages

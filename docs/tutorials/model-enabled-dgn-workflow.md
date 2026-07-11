@@ -1,19 +1,21 @@
 # Model-enabled DGN workflow
 
-This page documents the current model-enabled workflow for running HemiSpec with the reusable released model parameters. The DGN checkpoints and hemisphere-classifier bundles are tracked with Git LFS under `assets/models/`; wheel/PyPI installs can download the same files into the user cache. Real MRI inputs and generated outputs are not distributed.
+The PyPI project is not public yet; use the GitHub Release or a source checkout.
+
+This page documents the current model-enabled workflow for running HemiSpec with the reusable released model parameters. The DGN checkpoints and hemisphere-classifier bundles are tracked with Git LFS under `assets/models/`; release-wheel installs can download the same files into the user cache. Real MRI inputs and generated outputs are not distributed.
 
 ## Status
 
 - **Synthetic compute-only demo:** available without model assets; see [Quick start](../quickstart.md).
 - **Model-enabled source checkout:** available when cloned with Git LFS and run from a PyTorch environment.
-- **Wheel/PyPI / lightweight desktop installs:** model-enabled through first-run download of the released checkpoints into the user cache; PyTorch is still required in the active environment.
+- **Release wheel / lightweight desktop installs:** model-enabled through first-run download of the released checkpoints into the user cache; PyTorch is still required in the active environment.
 
 ## Setup
 
-PyPI install:
+Source-checkout install:
 
 ```bash
-python -m pip install "hemispec-toolkit[gui,model,classifier]"
+python -m pip install -e .[gui,model,classifier]
 hemispec models --install --with-classifier  # optional pre-download
 ```
 
@@ -40,14 +42,14 @@ assets/models/hemisphere_classifier/
   OUT_noICBM_train_ICBM_external_saved_models_paired_residual/
 ```
 
-HemiSpec discovers this layout automatically. Wheel/PyPI installs use the same layout in the user model cache after automatic download. You only need `HEMISPEC_DGN_MODEL_ROOT` or `HEMISPEC_CLASSIFIER_MODEL_DIR` when you want to override the released defaults.
+HemiSpec discovers this layout automatically. Release-wheel installs use the same layout in the user model cache after automatic download. You only need `HEMISPEC_DGN_MODEL_ROOT` or `HEMISPEC_CLASSIFIER_MODEL_DIR` when you want to override the released defaults.
 
 ## GUI path
 
 Start the GUI with:
 
 ```bash
-hemispec-gui                 # PyPI install
+hemispec-gui                 # installed source or release-wheel environment
 python scripts/hemispec_gui_entry.py  # source checkout
 ```
 

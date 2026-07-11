@@ -1,9 +1,9 @@
 # Python API
 
-HemiSpec 更适合以 Python API 作为主入口来使用：PyTorch、模型缓存、批量运行和下游统计分析都可以放在同一个 Python/conda 环境中完成。PyPI 发行包名是 `hemispec-toolkit`，公开导入路径是 `hemispec`。
+HemiSpec 更适合以 Python API 作为主入口来使用：PyTorch、模型缓存、批量运行和下游统计分析都可以放在同一个 Python/conda 环境中完成。软件包发行名是 `hemispec-toolkit`，公开导入路径是 `hemispec`；当前 PyPI 项目尚未公开。
 
 ```bash
-python -m pip install "hemispec-toolkit[model,classifier]"
+python -m pip install -e .[model,classifier]
 ```
 
 ```python
@@ -52,7 +52,7 @@ outputs/hemispec_workflow/
 
 ## 在 Python 中管理模型资产
 
-Wheel/PyPI 安装不会把大模型二进制文件打进 wheel。首次模型运行时，工作流会自动下载缺失的已发布 DGN 检查点，除非用户禁用了自动下载。也可以显式预下载：
+Release wheel 与源码安装不会把大模型二进制文件打进 Python wheel。首次模型运行时，工作流会自动下载缺失的已发布 DGN 检查点，除非用户禁用了自动下载。也可以显式预下载：
 
 ```python
 from hemispec import ensure_default_classifier_models, ensure_default_dgn_models
@@ -224,3 +224,5 @@ run_synthetic_quickstart(Path("outputs/hemispec_quickstart"))
 ## 暂不作为稳定公开 API 的内容
 
 训练代码、私有稿件分析和原始数据预处理决策不作为稳定公开 Python API 暴露。新增用户文档时，示例应使用 `from hemispec import ...`，并保证 CLI/GUI 示例与同一个包安装环境保持一致。
+
+ANS/RNS 与跨半球 DGN 框架源自 Wang 等人（2024），详见[引用](../citation.md)。

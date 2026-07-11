@@ -1,76 +1,86 @@
 # 发布产物
 
-HemiSpec 以软件产物形式发布，而不仅仅是 GitHub 源码仓库。v0.1.0 的主要公开产物是 PyPI 上的 `hemispec-toolkit` Python 包，因为启用模型的使用最好放在 Python/PyTorch 环境中完成。GitHub Release 产物保留为归档、离线或 Windows 文件夹备用产物：[https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0)。
+HemiSpec v0.1.0 是通过 GitHub Release 和源码仓库分发的公开测试版。`hemispec-toolkit` 项目**当前尚未在 PyPI 公开**，因此现行安装说明不能把 `pip install hemispec-toolkit` 写成可直接从 PyPI 使用的命令。
 
-## v0.1.0 公开产物
+## 当前公开的 v0.1.0 产物
 
-```bash
-python -m pip install hemispec-toolkit
-```
+v0.1.0 GitHub Release 提供：
 
 ```text
 hemispec_toolkit-0.1.0-py3-none-any.whl          Python wheel
-hemispec_toolkit-0.1.0.tar.gz                    源码发行版
+hemispec_toolkit-0.1.0.tar.gz                    源码发行包
 HemiSpec-CLI-v0.1.0-win64.exe                    Windows CLI 可执行文件
-HemiSpec-GUI-v0.1.0-win64.zip                    编译好的 GUI 文件夹发行版
+HemiSpec-GUI-v0.1.0-win64.zip                    Windows GUI 文件夹发行版
 HemiSpec-v0.1.0-SHA256SUMS.txt                   校验和
-HemiSpec-v0.1.0-RELEASE_ARTIFACTS.txt            验证和产物清单
-HemiSpec-Assets-<version>.zip                    用于非默认资产的可选离线/自定义资产包
+HemiSpec-v0.1.0-RELEASE_ARTIFACTS.txt            发布清单
 ```
 
-同一公开 Python API 驱动 PyPI 安装的 CLI、PyPI 安装的 GUI 启动器以及任何编译备用应用，以确保示例和验证行为可复现。
+从 [v0.1.0 GitHub Release](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0) 下载所需产物。安装已下载的 wheel：
 
-ANS/RNS 指标使用应保持引用边界清晰：原始 ANS/RNS 和跨半球 DGN 框架来自 Wang 等人 2024 年 *Patterns* 论文；HemiSpec 为当前软件版本打包并扩展了该工作流。
+```bash
+python -m pip install ./hemispec_toolkit-0.1.0-py3-none-any.whl
+hemispec --help
+```
+
+启用模型的开发或 GUI 使用推荐源码检出：
+
+```bash
+git lfs install
+git clone https://github.com/mqqq333/HemiSpec.git
+cd HemiSpec
+git lfs pull
+python -m pip install -e .[gui,model,classifier]
+```
+
+半球分类器是可选的下游验证步骤。安装 `classifier` 额外依赖并不会使分类器执行成为必选项。
+
+## 科学归因
+
+跨半球 DGN 框架与两种 specificity 指标源自 Wang 等人（2024）：**ANS** 为 **absolute neuroanatomical specificity（绝对神经解剖特异性）**，**RNS** 为 **relative neuroanatomical specificity（相对神经解剖特异性）**。原始论文与软件发布应分别引用，详见[引用](citation.md)。
 
 ## 构建命令
 
-使用以下命令构建轻量包，以及（除非跳过）编译好的 Windows 产物：
+维护者可以使用以下命令构建软件包与 Windows 产物：
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts\build_release.ps1 -Python "py -3.12"
 ```
 
-可用开关：
+可用变体：
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts\build_release.ps1 -Python "py -3.12" -SkipExe
 powershell -ExecutionPolicy Bypass -File scripts\build_release.ps1 -Python "py -3.12" -SkipGuiSmoke
 ```
 
-`-SkipGuiSmoke` 仅应在无头环境（无法进行 GUI 启动检查）中使用。
+`-SkipGuiSmoke` 只应用于无法执行 GUI 启动检查的无图形环境。
 
-## 发布验收条件
+## 发布验收检查
 
-发布只有在所有相关产物都构建并一起检查后才被视为公开就绪：
+公开发布前：
 
-- `python -m build --wheel --sdist` 创建轻量 `hemispec-toolkit` 产物。
-- `python -m twine check dist/hemispec_toolkit-*.whl dist/hemispec_toolkit-*.tar.gz` 在上传前验证包元数据。
-- `python -m twine upload dist/hemispec_toolkit-*.whl dist/hemispec_toolkit-*.tar.gz` 将包发布到 PyPI。
-- `pip install dist/*.whl` 或 `pip install hemispec-toolkit` 会在当前 Python/PyTorch 环境中暴露 `hemispec` 和 `hemispec-gui` 入口点。
-- `hemispec quickstart --out-dir <tmpdir>` 在不需要源码检出的情况下运行内置公开安全合成冒烟测试。
-- `hemispec --help` 和文档中的子命令在干净环境中运行。
-- `hemispec-gui` 启动紧凑标准工作流 GUI。
-- Windows 应用构建为文件夹发行版，仅包含已批准的运行时文件。
-- 任何额外/离线 DGN 模型、atlas、分类器或示例数据包都有清单、校验和、许可证/出处说明和兼容版本。
-- 公开产物和文档通过私有路径、密钥、受试者数据、模型有效载荷和未发表结果声明的泄露检查。
+- 使用 `python -m build --wheel --sdist` 构建 wheel 和源码发行包；
+- 使用 `python -m twine check dist/hemispec_toolkit-*.whl dist/hemispec_toolkit-*.tar.gz` 验证元数据；
+- 本地安装构建出的 wheel，并运行 `hemispec quickstart --out-dir <tmpdir>`；
+- 在干净环境检查 `hemispec --help`、`hemispec-gui` 和文档中的子命令；
+- 核对校验和与发布清单；
+- 确认没有私有路径、凭据、受试者数据、未批准的模型/atlas 载荷或未发表结果声明。
 
-## 源码与资产
+上传 PyPI 是未来单独的发布动作。只有当项目在 PyPI 实际公开后，文档才能把 PyPI 安装写成当前可用方式。
 
-源码仓库包含代码、文档、测试、示例和通过 Git LFS 的已批准可复用模型包。Atlas NIfTI 文件、非公开神经影像衍生数据及任何额外/自定义模型包应单独发布，并附校验和、许可证和模型卡，除非已明确批准放入仓库。
+## 源码与资产边界
 
-## 桌面备用变体
+源码仓库包含代码、文档、测试、合成示例，以及通过 Git LFS 跟踪的已批准可复用模型包。Atlas 载荷、真实神经影像数据、生成结果和额外自定义模型包必须保留在公开源码树之外，除非已经记录其出处、许可证、再分发批准、校验和与兼容版本。
 
-- **轻量应用**：用于备用/演示场景的紧凑 GUI 加 CLI/API 工具；已发布模型从 Git LFS、缓存下载或用户配置路径解析。
-- **启用模型的应用**：当 PyPI/conda 安装不方便时，将紧凑 GUI 加已批准的模型/atlas 资产和 PyTorch 运行时打包为较大文件夹发行版或与离线资产包配对。
-
-两种变体都应在内部使用公开的 `hemispec` 包；对于能够管理 Python 环境的用户，它们不是首选路径。
+轻量 Windows CLI/GUI 产物不嵌入 PyTorch、atlas 载荷、真实 MRI 输入或生成结果。启用模型的工作流需要合适的 Python/PyTorch 环境，并从 Git-LFS 源码检出、用户缓存或离线资产包获得已批准模型。
 
 ## 发布后验证
 
-v0.1.0 发布已于 2026-06-29 从 GitHub 重新下载。SHA256 校验和匹配，下载的 Windows CLI 打印了 `--help`，下载的 wheel 在全新本地验证工作区中运行了公开安全的合成快速入门。详见 [v0.1.0 发布验证](developer/release-verification-v0.1.0.md)。
+v0.1.0 产物于 2026 年 6 月 29 日在发布后重新下载并检查：校验和一致，Windows CLI 能显示 `--help`，下载的 wheel 完成了公开安全的合成快速入门。详见 [v0.1.0 发布验证](developer/release-verification-v0.1.0.md)。
 
 ## 相关页面
 
-- [v0.1.0 发布验证](developer/release-verification-v0.1.0.md)
+- [安装](installation.md)
+- [数据与模型](data-and-models.md)
 - [外部资产包](reference/asset-bundle.md)
 - [路线图](developer/roadmap.md)

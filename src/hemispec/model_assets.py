@@ -41,35 +41,22 @@ DGN_MODEL_ASSETS: tuple[ModelAsset, ...] = (
 )
 
 CLASSIFIER_SINGLE_ASSETS: tuple[ModelAsset, ...] = (
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models/all_model_summaries.csv", 1076, "235c1a4036afde31b88ce77e22ce6e6f91167fa5ca7ccf8edc7866ba8cf0524e"),
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models/all_model_summaries.json", 4703, "3f464ee219d295c002589dd9351398ced79bb6f4b16d9a1a4ff8c1b7493c44ed"),
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models/run_info.json", 584, "8462b9ea0f15540b2c9085d97e0207c9c475200ab402fe450941772405d06fee"),
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models/GLS_ANS/feature_names.csv", 2961, "0669035258d5129a24adc92e5220a1cc077a6b61b413d1fd9c287eef38e36bb3"),
+    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models/GLS_ANS/feature_names.csv", 2780, "eca32b423e0248246ed45f7e757b3bf3bae5e32a431ade5600b205957c034190"),
     ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models/GLS_ANS/GLS_ANS_final_pipeline.joblib", 7421, "9f8fe66759376d1796b411f24689b64bee5f70b934977dadc787ccea6dc1b30a"),
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models/GLS_ANS/GLS_ANS_noICBM_train_ICBM_test_model_bundle.joblib", 11837, "958fc62ef9dd179deb1dca5f6a8d5c5140dcff065adff33aab92f9a54da0d609"),
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models/GLS_ANS/summary.json", 2189, "4469c0ea89bbb4e1a673d268a71da109b2a57523389085696209cc6cb5dc40a2"),
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models/GLS_ANS/summary.txt", 241, "79f5f0e696a75c1eb4af5e4a2e417ad490b8877dd3561ff68088f63eb3cf44db"),
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models/GLS_RNS/feature_names.csv", 2961, "7b5afb38543243490477e0d78b3009b636b2216f07b675706c1704db4fc0db2f"),
+    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models/GLS_ANS/GLS_ANS_noICBM_train_ICBM_test_model_bundle.joblib", 10918, "716858e9de1d6d705cf1fb1a7ad5156bdc2dc6cde33ca9ecac30d2aaf1baaf7d"),
+    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models/GLS_RNS/feature_names.csv", 2780, "e29c97cb5997d6ba1a10e8a96b188316f79ede5ca4f47ce7d6dc619510161c4a"),
     ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models/GLS_RNS/GLS_RNS_final_pipeline.joblib", 7421, "14690266bb898db87a83423abe9091b1155d5f9179026c7841774a0d0e6bcb21"),
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models/GLS_RNS/GLS_RNS_noICBM_train_ICBM_test_model_bundle.joblib", 11837, "d0af3c404478ef6425c47be53115eb37c2e319675d28dc71b0ba56f94e6d2dff"),
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models/GLS_RNS/summary.json", 2133, "9141a3c2090a4770782674249f4eeb1e2200fac8b4f527678af31c2a84d5790a"),
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models/GLS_RNS/summary.txt", 210, "f8c4083d4f5dd3ab756fc1580298e8767a969b0a6b82811300d573c4572591c6"),
+    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models/GLS_RNS/GLS_RNS_noICBM_train_ICBM_test_model_bundle.joblib", 10918, "93687c5c44ef5e2d58141d9e9f8117ff21987ee6955837332655ede5bba4daf4"),
 )
 
+
 CLASSIFIER_PAIRED_RESIDUAL_ASSETS: tuple[ModelAsset, ...] = (
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models_paired_residual/all_model_summaries.csv", 1068, "f3ea287ddd24c9ecb4f0e09884b7026ee0f6c92be0064a9d359db20a866081e6"),
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models_paired_residual/all_model_summaries.json", 4622, "9714ad88213ab8dd31eb6b5b990018188375c1df0a984271530abf91359060bc"),
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models_paired_residual/run_info.json", 624, "e6b581d607ff7d452d8d9f26e29c73a1b07091d0f3bbd30208d3e0635500facd"),
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models_paired_residual/GLS_ANS/feature_names.csv", 2961, "0669035258d5129a24adc92e5220a1cc077a6b61b413d1fd9c287eef38e36bb3"),
+    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models_paired_residual/GLS_ANS/feature_names.csv", 2780, "eca32b423e0248246ed45f7e757b3bf3bae5e32a431ade5600b205957c034190"),
     ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models_paired_residual/GLS_ANS/GLS_ANS_final_pipeline.joblib", 7421, "076458050ca1fc92ded0ac15313a51df08ceeb7a69a6b961a3a57c4dd09faaf4"),
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models_paired_residual/GLS_ANS/GLS_ANS_noICBM_train_ICBM_test_model_bundle.joblib", 11860, "f5b9b83dcc3d2e8547132b0cab4f25478eeca354c01cd05be855d9b0b920a553"),
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models_paired_residual/GLS_ANS/summary.json", 2129, "983c37b810241fb5192f56d948db9882eb645ef040bc7b441b9b58110f762e56"),
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models_paired_residual/GLS_ANS/summary.txt", 235, "df84edf850e46c2c2713d30f9b905c167cfbc4fa0ed8c8bee92df0b379891171"),
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models_paired_residual/GLS_RNS/feature_names.csv", 2961, "7b5afb38543243490477e0d78b3009b636b2216f07b675706c1704db4fc0db2f"),
+    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models_paired_residual/GLS_ANS/GLS_ANS_noICBM_train_ICBM_test_model_bundle.joblib", 10942, "1312294d819e9d4465acde17855a3ce5bf1bd0c38312586fb4c4bae0ea7d3c08"),
+    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models_paired_residual/GLS_RNS/feature_names.csv", 2780, "e29c97cb5997d6ba1a10e8a96b188316f79ede5ca4f47ce7d6dc619510161c4a"),
     ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models_paired_residual/GLS_RNS/GLS_RNS_final_pipeline.joblib", 7421, "1071b4257209fdd553cd3b9a9dee93ad36f738a5d240f8f48f566d7f456bae13"),
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models_paired_residual/GLS_RNS/GLS_RNS_noICBM_train_ICBM_test_model_bundle.joblib", 11860, "ffd8009d738f410d9ba946bc42d9446f4267b49843c88e7575c31a65c88f5da6"),
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models_paired_residual/GLS_RNS/summary.json", 2112, "a376d8e7f8417ef52c1b48ca9c753b3e44c4cca99cff7dc8663325ae8b6da546"),
-    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models_paired_residual/GLS_RNS/summary.txt", 235, "bbcb3cb2b51f4843045217c6def42091cd2f72888dbd2b6038c4eaac6f4db9a1"),
+    ModelAsset("models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models_paired_residual/GLS_RNS/GLS_RNS_noICBM_train_ICBM_test_model_bundle.joblib", 10942, "cba745a7571ab5791af26e3b2f616c0df5ee485fe970e6c17e42fdcb0b6de688"),
 )
 
 

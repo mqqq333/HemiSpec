@@ -1,9 +1,9 @@
 # Python API
 
-HemiSpec is designed to be used from Python first when you need reproducible PyTorch/model setup, batch execution, and downstream statistics in the same environment. The PyPI distribution name is `hemispec-toolkit`; the public import path is `hemispec`.
+HemiSpec is designed to be used from Python first when you need reproducible PyTorch/model setup, batch execution, and downstream statistics in the same environment. The package distribution name is `hemispec-toolkit`; the public import path is `hemispec`. The PyPI project is not public yet.
 
 ```bash
-python -m pip install "hemispec-toolkit[model,classifier]"
+python -m pip install -e .[model,classifier]
 ```
 
 ```python
@@ -52,7 +52,7 @@ outputs/hemispec_workflow/
 
 ## Model assets from Python
 
-Wheel/PyPI installs keep large model binaries outside the wheel. The workflow downloads missing released DGN checkpoints automatically on first use unless automatic downloads are disabled. You can also pre-download assets explicitly:
+Release-wheel and source installs keep large model binaries outside the Python wheel. The workflow downloads missing released DGN checkpoints automatically on first use unless automatic downloads are disabled. You can also pre-download assets explicitly:
 
 ```python
 from hemispec import ensure_default_classifier_models, ensure_default_dgn_models
@@ -141,6 +141,8 @@ wide = summarize_bilateral_roi_features(roi_long, Path("outputs/tables/roi_featu
 
 Use validation APIs when you want explicit Python control over output folders or parameters.
 
+The examples below read `intermediate/combined_maps`. Run the bilateral workflow with `keep_intermediate=True` before using those paths; the default workflow removes `intermediate/` after successful completion.
+
 ```python
 from pathlib import Path
 from hemispec import HemisphereClassificationConfig, ValidationConfig
@@ -224,3 +226,5 @@ run_synthetic_quickstart(Path("outputs/hemispec_quickstart"))
 ## What is intentionally not public API
 
 Training code, private manuscript analyses, and raw-data preprocessing decisions are not exposed as stable public Python API. For new user-facing work, document examples with `from hemispec import ...` and keep CLI/GUI examples aligned with the same package-installed environment.
+
+ANS/RNS and the cross-hemispheric DGN framework originate from Wang et al. (2024); see [Citation](../citation.md).

@@ -1,12 +1,16 @@
 # 教程
 
-教程将把 HemiSpec 工作流转化为可运行示例。除源码开发路径外，教程默认从 PyPI 安装公开包。
+当前教程覆盖公开合成测试、ANS/RNS 计算、DGN 推理和标准模型驱动双向工作流。
 
-计划中的教程：
+## 已有教程
 
-- 从预处理灰质图进行 DGN 推理。
-- 从实际图和重建图计算 ANS/RNS 图。
-- ROI 特征提取和验证。
-- 从稿件级步骤重建行为表型下游分析工作流。
+- [模型驱动 DGN 工作流](model-enabled-dgn-workflow.md)
+- [计算特异性图](compute-specificity.md)
+- [DGN 推理](dgn-inference.md)
+- [快速开始](../quickstart.md)
 
-首个公开版本应使用合成或许可安全的样本数据。
+## 规划中的教程
+
+- [行为表型工作流](behavioral-phenotype-workflow.md)——目前仅为路线图，尚无完整公开复现包。
+
+v0.1.0 软件包目前通过 GitHub Release 和源码检出分发，PyPI 项目尚未公开。

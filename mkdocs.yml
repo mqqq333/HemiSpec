@@ -1,4 +1,4 @@
-﻿site_name: HemiSpec
+site_name: HemiSpec
 site_description: Reconstruction-derived hemispheric specificity analysis toolkit and workflow documentation.
 site_url: https://mqqq333.github.io/HemiSpec/
 repo_url: https://github.com/mqqq333/HemiSpec
@@ -49,28 +49,34 @@ plugins:
           nav_translations:
             Home: 首页
             Get started: 快速入门
+            Software overview: 软件概览
             Installation: 安装
             Input and preprocessing: 输入与预处理
             Quick start: 快速开始
+            GUI user guide: GUI 用户指南
             Data and models: 数据与模型
             Tutorials: 教程
             Model-enabled DGN workflow: 模型驱动 DGN 工作流
             Compute specificity maps: 计算特异性图
             DGN inference: DGN 推理
-            Behavioral phenotype workflow: 行为表型工作流
+            Behavioral phenotype workflow (planned): 行为表型工作流（规划中）
             Methods: 方法
             Overview: 概述
             Reconstruction framework: 重建框架
             ANS and RNS metrics: ANS/RNS 指标
             Downstream task analysis: 下游任务分析
             Reference: 参考手册
+            Reference overview: 参考手册概览
             CLI: 命令行
             Python API: Python API
             Outputs: 输出
+            Model bundles: 模型包
+            Asset bundle: 资产包
             Release artifacts: 发布产物
             Citation: 引用
             Developer: 开发者
             Architecture: 架构
+            GUI design: GUI 设计
             Project structure: 项目结构
             Developer guide: 开发指南
             API design: API 设计
@@ -98,30 +104,36 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Get started:
+      - Software overview: software-overview.md
       - Installation: installation.md
       - Input and preprocessing: input-preprocessing.md
       - Quick start: quickstart.md
+      - GUI user guide: developer/gui-user-guide.md
       - Data and models: data-and-models.md
   - Tutorials:
       - Overview: tutorials/index.md
       - Model-enabled DGN workflow: tutorials/model-enabled-dgn-workflow.md
       - Compute specificity maps: tutorials/compute-specificity.md
       - DGN inference: tutorials/dgn-inference.md
-      - Behavioral phenotype workflow: tutorials/behavioral-phenotype-workflow.md
+      - Behavioral phenotype workflow (planned): tutorials/behavioral-phenotype-workflow.md
   - Methods:
       - Overview: methods/index.md
       - Reconstruction framework: methods/reconstruction-framework.md
       - ANS and RNS metrics: methods/ans-rns-metrics.md
       - Downstream task analysis: methods/downstream-task-analysis.md
   - Reference:
+      - Reference overview: reference/index.md
       - CLI: reference/cli.md
       - Python API: reference/python-api.md
       - Outputs: reference/outputs.md
+      - Model bundles: reference/model-bundles.md
+      - Asset bundle: reference/asset-bundle.md
       - Release artifacts: release-artifacts.md
       - Citation: citation.md
   - Developer:
       - Overview: developer/index.md
       - Architecture: developer/architecture.md
+      - GUI design: developer/gui-design.md
       - Project structure: developer/project-structure.md
       - Developer guide: developer/developer-guide.md
       - API design: developer/api-design.md
@@ -130,4 +142,3 @@ nav:
       - TRT and classifier: developer/trt-and-classifier-tasks.md
       - Roadmap: developer/roadmap.md
       - Release verification v0.1.0: developer/release-verification-v0.1.0.md
-

@@ -1,6 +1,6 @@
 # Model bundles
 
-HemiSpec includes reusable released model parameters under `assets/models/` via Git LFS, and wheel/PyPI installs can download the same files into a per-user cache. Clone with Git LFS enabled for source checkouts; otherwise model files may be downloaded as small pointer files.
+HemiSpec includes reusable released model parameters under `assets/models/` via Git LFS, and release-wheel installs can download the same files into a per-user cache. Clone with Git LFS enabled for source checkouts; otherwise model files may be downloaded as small pointer files.
 
 ```bash
 git lfs install
@@ -27,7 +27,7 @@ assets/models/hemisphere_classifier/
   OUT_noICBM_train_ICBM_external_saved_models_paired_residual/
 ```
 
-Each metric folder contains runnable `*.joblib` bundles plus `feature_names.csv`. The default GUI/API classifier mode uses `OUT_noICBM_train_ICBM_external_saved_models`; `paired_residual` can be selected through CLI/API configuration.
+Each metric folder contains a sanitized runtime `*_model_bundle.joblib`, the trained `*_final_pipeline.joblib`, and `feature_names.csv`. Public bundles exclude cohort identifiers, sample counts, evaluation metrics, training reports, and private provenance paths. The default GUI/API classifier mode uses `OUT_noICBM_train_ICBM_external_saved_models`; `paired_residual` can be selected through CLI/API configuration.
 
 ## Discovery order
 
@@ -38,7 +38,7 @@ HemiSpec resolves model paths in this order:
 3. bundled source-checkout paths under `assets/models/`;
 4. the per-user cache (`HEMISPEC_MODEL_CACHE`, or the OS-specific HemiSpec cache).
 
-If the released defaults are missing from a wheel/PyPI install, model-enabled commands download them from GitHub on first use. To prefetch explicitly:
+If the released defaults are missing from a release-wheel install, model-enabled commands download them from GitHub on first use. To prefetch explicitly:
 
 ```bash
 hemispec models --install --with-classifier
@@ -47,3 +47,5 @@ hemispec models --install --with-classifier
 ## Distribution notes
 
 Model binaries are tracked with Git LFS. Keep raw MRI data, generated outputs, and private manuscript-only artifacts out of the repository. Additional model bundles should include provenance, compatible HemiSpec version, preprocessing assumptions, checksums, license, and citation notes.
+
+For implementation details, see [DGN model bundles](../developer/dgn-model-bundle.md). ANS/RNS and the cross-hemispheric DGN framework originate from Wang et al. (2024).

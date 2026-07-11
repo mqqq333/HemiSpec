@@ -47,8 +47,6 @@ assets/atlases/*
 assets/atlases/glasser/*
 !assets/atlases/glasser/README.md
 !assets/atlases/glasser/ASSET_MANIFEST.template.yml
-!assets/atlases/glasser/MNI_Glasser_HCP_v1.0_1p5mm.nii.gz
-!assets/atlases/glasser/Glasser_label_index_mapping.xlsx
 
 # Real neuroimaging/model/bundle payloads
 *.nii
@@ -85,3 +83,12 @@ PRIVATE_NOTES.md
 !assets/models/dgn/**
 !assets/models/hemisphere_classifier/
 !assets/models/hemisphere_classifier/**
+# Classifier runtime bundles are public; training/evaluation reports remain local
+assets/models/hemisphere_classifier/**/summary.json
+assets/models/hemisphere_classifier/**/summary.txt
+assets/models/hemisphere_classifier/**/all_model_summaries.csv
+assets/models/hemisphere_classifier/**/all_model_summaries.json
+assets/models/hemisphere_classifier/**/run_info.json
+
+# Local temporary work and private review backups
+tmp/

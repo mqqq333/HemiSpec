@@ -1,20 +1,10 @@
 # 安装
 
-HemiSpec 采用 PyPI 优先的安装方式。请将 Python 包安装到用于运行 PyTorch 和访问模型缓存的环境中；`hemispec` CLI 和 `hemispec-gui` 启动器都由该包创建。编译桌面文件夹和 GitHub Release wheel 主要作为备用或归档产物。
+HemiSpec 采用软件包优先的结构，但当前 **PyPI 项目尚未公开**。v0.1.0 公开测试版目前通过 GitHub Release 和源码仓库分发。
 
-## 推荐：从 PyPI 创建启用模型的环境
+## 推荐：通过源码检出运行模型工作流
 
-在计划用于推理的 Python/conda 环境中，从 PyPI 安装已发布包及运行时额外依赖，并可选择预先下载已发布的模型资产到用户缓存：
-
-```bash
-python -m pip install "hemispec-toolkit[gui,model,classifier]"
-hemispec models --install --with-classifier
-hemispec-gui
-```
-
-如果跳过预下载命令，首次启用模型的 CLI/GUI/API 运行时会自动下载已发布的 DGN 检查点。启用分类器验证时，分类器包会自动下载。
-
-如需获取仓库中的 DGN 和分类器模型，可使用 Git-LFS 源码检出：
+运行 DGN 推理、GUI 或分类器验证时，推荐使用源码检出。Git LFS 会获取 `assets/models/` 下追踪的已发布模型包：
 
 ```bash
 git lfs install
@@ -22,57 +12,40 @@ git clone https://github.com/mqqq333/HemiSpec.git
 cd HemiSpec
 git lfs pull
 python -m pip install -e .[gui,model,classifier]
-python scripts/hemispec_gui_entry.py
+hemispec models --install --with-classifier  # 可选：预下载到缓存
+hemispec-gui
 ```
 
-在 Windows 上，请从包含目标 PyTorch 构建的 conda 或虚拟环境中运行 HemiSpec。如需 GPU/CUDA，先在该环境中配置 PyTorch，再安装或运行 HemiSpec。
+PyTorch 必须安装在启动 HemiSpec 的同一 Python/conda 环境中。长时间模型运行前，应先配置合适的 CPU 或 CUDA PyTorch 版本。
 
-## 基础包、备用安装与开发安装
+## 安装 v0.1.0 Release wheel
 
-PyPI 发行包名为 `hemispec-toolkit`；导入路径和 CLI 命令均为 `hemispec`：
+从 GitHub Release 下载 `hemispec_toolkit-0.1.0-py3-none-any.whl`。运行基础 CLI 和合成快速测试：
 
 ```bash
-python -m pip install hemispec-toolkit
+python -m pip install ./hemispec_toolkit-0.1.0-py3-none-any.whl
 hemispec --help
 hemispec quickstart --out-dir hemispec_quickstart
 ```
 
-GitHub Release 产物仍可作为离线、归档或 Windows 文件夹安装的备用来源：
-
-```text
-https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0
-```
-
-如需安装从 GitHub Releases 下载的本地 wheel：
+从本地 wheel 请求可选依赖：
 
 ```bash
-python -m pip install hemispec_toolkit-0.1.0-py3-none-any.whl
-hemispec --help
+python -m pip install "./hemispec_toolkit-0.1.0-py3-none-any.whl[gui,model,classifier]"
 ```
 
-开发期间使用本地工具包检出：
+如果本地 pip 不接受 wheel 路径后的 extras，可先安装 wheel，再显式安装所需可选依赖。
 
-```bash
-cd <本地工具包检出目录>
-python -m pip install -e .[gui,model,classifier]
-hemispec --help
-```
-
-按需安装可选运行时额外依赖：
-
-```bash
-python -m pip install "hemispec-toolkit[gui]"         # 桌面启动器
-python -m pip install "hemispec-toolkit[model]"       # PyTorch DGN 推理运行时
-python -m pip install "hemispec-toolkit[classifier]"  # 保存的 sklearn/joblib 分类器验证
-```
-
-源码检出的开发额外依赖：
+## 开发安装
 
 ```bash
 python -m pip install -e .[dev,gui]
+python -m pytest
+python -m ruff check src tests
+python -m mkdocs build --strict
 ```
 
-公开文档应将软件称为 **HemiSpec Toolkit**，CLI 和 GUI 分别统一使用 `hemispec` 和 `hemispec-gui`。
+软件包元数据中的发行名为 `hemispec-toolkit`，导入路径和 CLI 命令为 `hemispec`。未来发布到 PyPI 时应沿用该发行名，但在项目实际公开前，文档不能把它描述为可用安装源。
 
 ## 神经影像前置条件
 
@@ -80,18 +53,12 @@ python -m pip install -e .[dev,gui]
 
 处理真实数据前，请阅读[输入与预处理](input-preprocessing.md)。该页明确脚本参数、`121 × 145 × 121` 已发布模型网格、`0.15` GM 阈值、质控项目与引用。
 
-## GUI / 编译应用备用方案
+## GUI 与编译备用产物
 
-推荐的 GUI 路径是在 PyPI 安装环境中运行 `hemispec-gui`。当前 GUI 是一个紧凑的标准工作流启动器，仅暴露正常 ANS/RNS 生成所需的用户决策：GM 输入 glob、输出工作区、可选 ROI atlas/标签表、可选分类器验证、可选 TRT 可靠性、运行控件和日志。
+推荐从包含 PyTorch 的源码或本地 wheel 环境运行 `hemispec-gui`。GUI 暴露 GM 输入 glob、输出工作区、可选 ROI atlas/标签表、可选分类器验证、可选 TRT 可靠性、运行控制、日志和等效 CLI 命令。
 
-编译好的 Windows GUI 是一个 onedir 文件夹发行版，适用于无法方便管理 Python 环境时的备用/演示场景：
-
-```text
-dist/hemispec_gui/hemispec_gui.exe
-```
-
-请保持整个 `dist/hemispec_gui/` 文件夹完整；不要单独移动 `.exe` 文件。
+GitHub Release v0.1.0 还归档了 Windows 备用产物。Onedir GUI 发行目录必须整体保留，不能只复制其中的可执行文件。
 
 ## 模型运行时
 
-DGN 推理需要在启动 CLI 或 GUI 的环境中安装 PyTorch，这也是 PyPI/conda 环境作为主要分发路径的原因。HemiSpec 从显式路径、环境变量、`assets/models/` 下的 Git-LFS 检出或每用户模型缓存中发现模型。Wheel/PyPI 和轻量 EXE 构建不嵌入 PyTorch 或 300MB+ 检查点；它们通过首次运行缓存下载使用已发布的 GitHub 资产。详见 [数据与模型](data-and-models.md)。
+HemiSpec 从显式路径、环境变量、`assets/models/` 下的 Git-LFS 检出或每用户模型缓存中发现模型资产。Wheel 和轻量可执行程序不嵌入 PyTorch 或 300MB+ 模型包。启用自动下载时，缺失的已发布模型资产可从 GitHub Release 下载到缓存。详见[数据与模型](data-and-models.md)。

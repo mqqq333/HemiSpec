@@ -1,13 +1,15 @@
 # 计算特异性图
 
+ANS/RNS 的定义见[ANS 与 RNS 指标](../methods/ans-rns-metrics.md)，其方法源自 Wang 等人（2024）。
+
 本教程介绍重建后的 ANS/RNS 计算。
 
 ## 安装
 
-普通使用时，从 PyPI 安装已发布包：
+从 GitHub Release 下载 v0.1.0 wheel 并在本地安装：
 
 ```bash
-python -m pip install hemispec-toolkit
+python -m pip install ./hemispec_toolkit-0.1.0-py3-none-any.whl
 ```
 
 源码开发时，可在本地检出目录中使用 `python -m pip install -e .`。

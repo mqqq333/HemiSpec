@@ -1,7 +1,11 @@
-# Input sample placeholder
+# Input sample policy
 
-Do not commit real subject-level MRI/NIfTI files here.
+Real subject-level MRI files are not distributed from this directory.
 
-For public releases, use only synthetic or explicitly approved example inputs
-with provenance, license, and de-identification notes. Local private examples can
-be kept in this directory because `*.nii` and `*.nii.gz` are ignored by git.
+Use the public synthetic example under:
+
+```text
+examples/synthetic_quickstart/
+```
+
+Local approved inputs may be placed here for private development, but NIfTI files are ignored by git and must not be committed. A valid model input normally ends with `_GM_masked.nii.gz`; see the documentation page `docs/input-preprocessing.md` for the complete grid, value-range, preprocessing, and quality-control contract.

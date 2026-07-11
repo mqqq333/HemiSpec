@@ -1,12 +1,16 @@
 # Tutorials
 
-Tutorials will turn the HemiSpec workflow into runnable examples. Except for source-development paths, tutorials assume installation from PyPI.
+The current tutorials cover the public synthetic smoke test, ANS/RNS computation, DGN inference, and the standard model-enabled bilateral workflow.
 
-Planned tutorials:
+## Available tutorials
 
-- DGN inference from preprocessed gray-matter maps.
-- ANS/RNS map computation from actual and reconstructed maps.
-- ROI feature extraction and validation.
-- Behavioral phenotype downstream-analysis workflow reconstruction from manuscript-level steps.
+- [Model-enabled DGN workflow](model-enabled-dgn-workflow.md)
+- [Compute specificity maps](compute-specificity.md)
+- [DGN inference](dgn-inference.md)
+- [Quick start](../quickstart.md)
 
-The first public release should use synthetic or license-safe sample data.
+## Planned tutorial
+
+- [Behavioral phenotype workflow](behavioral-phenotype-workflow.md) — roadmap only; no complete public reproduction package is available yet.
+
+The v0.1.0 package is currently distributed through GitHub Releases and source checkouts. The PyPI project is not public yet.

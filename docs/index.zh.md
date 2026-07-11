@@ -8,7 +8,7 @@
 <p markdown="span">
   [输入与预处理](input-preprocessing.md){ .md-button .md-button--primary }
   [快速开始](quickstart.md){ .md-button }
-  [从 PyPI 安装](installation.md){ .md-button }
+  [安装](installation.md){ .md-button }
 </p>
 
 ## 端到端工作流
@@ -51,7 +51,7 @@
 
     ---
 
-    安装 PyPI 包，检查模型就绪状态，并运行 GUI 或双向 CLI 工作流。
+    通过 GitHub Release wheel 或源码检出安装，检查模型就绪状态，并运行 GUI 或双向 CLI 工作流。
 
     [快速开始](quickstart.md)
 
@@ -75,7 +75,7 @@
 
 ## 当前软件范围
 
-HemiSpec v0.1.0 为公开测试版，以 PyPI 安装为主。GUI 和 CLI 生成体素级 ANS/RNS 图；ROI 表、半球分类器验证和 TRT 验证目前仍是可选下游步骤。
+HemiSpec v0.1.0 为公开测试版，目前通过 GitHub Release 和源码仓库分发；PyPI 项目尚未公开。GUI 和 CLI 生成体素级 ANS/RNS 图；ROI 表、半球分类器验证和 TRT 验证目前仍是可选下游步骤。
 
 ---
 

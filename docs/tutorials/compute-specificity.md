@@ -1,13 +1,15 @@
 # Compute specificity maps
 
+ANS/RNS are defined in [ANS and RNS metrics](../methods/ans-rns-metrics.md) and originate from Wang et al. (2024).
+
 This tutorial covers ANS/RNS computation after reconstruction.
 
 ## Install
 
-For normal use, install the released package from PyPI:
+Download the v0.1.0 wheel from GitHub Releases and install it locally:
 
 ```bash
-python -m pip install hemispec-toolkit
+python -m pip install ./hemispec_toolkit-0.1.0-py3-none-any.whl
 ```
 
 For source development, use `python -m pip install -e .` from a local checkout.

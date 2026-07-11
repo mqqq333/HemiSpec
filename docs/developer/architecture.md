@@ -1,5 +1,6 @@
 # Architecture Notes
 
+The cross-hemispheric DGN framework and ANS/RNS measures originate from Wang et al. (2024); see [Citation](../citation.md).
 HemiSpec Toolkit follows a layered architecture so that CLI, GUI, and future notebooks call the same tested core logic.
 
 ```text

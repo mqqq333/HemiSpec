@@ -8,7 +8,7 @@
 <p markdown="span">
   [Input and preprocessing](input-preprocessing.md){ .md-button .md-button--primary }
   [Quick start](quickstart.md){ .md-button }
-  [Install from PyPI](installation.md){ .md-button }
+  [Installation](installation.md){ .md-button }
 </p>
 
 ## End-to-end workflow
@@ -51,7 +51,7 @@ See [Citation](citation.md) for the complete reference and citation boundaries.
 
     ---
 
-    Install the PyPI package, inspect model readiness, and run the GUI or bilateral CLI workflow.
+    Install from the GitHub Release wheel or a source checkout, inspect model readiness, and run the GUI or bilateral CLI workflow.
 
     [Quick start](quickstart.md)
 
@@ -75,7 +75,7 @@ See [Citation](citation.md) for the complete reference and citation boundaries.
 
 ## Current software scope
 
-HemiSpec v0.1.0 is a public beta. PyPI is the primary install path. The GUI and CLI generate voxel-wise ANS/RNS maps; ROI tables, hemisphere-classifier validation, and TRT validation are currently optional downstream steps.
+HemiSpec v0.1.0 is a public beta distributed through GitHub Releases and the source repository; the PyPI project is not public yet. The GUI and CLI generate voxel-wise ANS/RNS maps; ROI tables, hemisphere-classifier validation, and TRT validation are currently optional downstream steps.
 
 ---
 

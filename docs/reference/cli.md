@@ -6,11 +6,12 @@ The preferred public command is:
 hemispec
 ```
 
-The subcommands below were checked against the current toolkit interface on 2026-06-29. Re-check them before public release if the toolkit source or package name changes.
+The subcommands below were checked against the current toolkit interface on 2026-07-11. Re-check them before public release if the toolkit source or package name changes.
 
 ## Current subcommands
 
 ```text
+hemispec quickstart      run the public-safe synthetic smoke test
 hemispec models          list or pre-download released trained DGN model bundles
 hemispec infer           run trained DGN inference on preprocessed GM maps
 hemispec compute         compute ANS/RNS maps from actual and reconstructed GM maps
@@ -27,7 +28,7 @@ Use `hemispec` for the command-line interface and `hemispec-gui` for the graphic
 
 ## Model asset prefetch
 
-Wheel/PyPI installs can pre-download the released DGN checkpoints and classifier bundle:
+Release-wheel and source installs can pre-download the released DGN checkpoints and classifier bundle:
 
 ```bash
 hemispec models --install --with-classifier
@@ -53,3 +54,5 @@ There is not yet a standalone `roi` subcommand.
 ## Reporting
 
 There is not yet a standalone `report` subcommand. Reporting should be treated as a planned feature until implemented.
+
+ANS/RNS and the cross-hemispheric DGN framework originate from Wang et al. (2024); see [Citation](../citation.md).

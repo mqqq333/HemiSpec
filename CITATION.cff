@@ -1,10 +1,35 @@
 cff-version: 1.2.0
 title: "HemiSpec: Reconstruction-derived Hemispheric Specificity"
-message: "If you use HemiSpec, please cite the software release and the original ANS/RNS framework paper listed in the documentation."
+message: "If you use HemiSpec, cite the software release and the original ANS/RNS framework paper listed below."
 type: software
 license: MIT
 repository-code: "https://github.com/mqqq333/HemiSpec"
 url: "https://mqqq333.github.io/HemiSpec/"
 version: "0.1.0"
+date-released: 2026-06-28
 authors:
-  - name: "HemiSpec Toolkit Authors"
+  - family-names: "Ma"
+    given-names: "Qi"
+references:
+  - type: article
+    title: "Using a deep generation network reveals neuroanatomical specificity in hemispheres"
+    authors:
+      - family-names: "Wang"
+        given-names: "Gongshu"
+      - family-names: "Jiang"
+        given-names: "Ning"
+      - family-names: "Ma"
+        given-names: "Yunxiao"
+      - family-names: "Suo"
+        given-names: "Dingjie"
+      - family-names: "Liu"
+        given-names: "Tiantian"
+      - family-names: "Funahashi"
+        given-names: "Shintaro"
+      - family-names: "Yan"
+        given-names: "Tianyi"
+    journal: "Patterns"
+    volume: "5"
+    issue: "4"
+    year: 2024
+    doi: "10.1016/j.patter.2024.100930"

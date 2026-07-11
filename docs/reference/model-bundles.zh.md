@@ -1,6 +1,6 @@
 # 模型包
 
-HemiSpec 通过 Git LFS 在 `assets/models/` 下包含可复用的已发布模型参数，wheel/PyPI 安装可将相同文件下载到每用户缓存。源码检出时请使用 Git LFS；否则模型文件可能下载为小型指针文件。
+HemiSpec 通过 Git LFS 在 `assets/models/` 下包含可复用的已发布模型参数，Release wheel 安装可将相同文件下载到每用户缓存。源码检出时请使用 Git LFS；否则模型文件可能下载为小型指针文件。
 
 ```bash
 git lfs install
@@ -27,7 +27,7 @@ assets/models/hemisphere_classifier/
   OUT_noICBM_train_ICBM_external_saved_models_paired_residual/
 ```
 
-每个指标文件夹包含可运行的 `*.joblib` 包以及 `feature_names.csv`。默认 GUI/API 分类器模式使用 `OUT_noICBM_train_ICBM_external_saved_models`；`paired_residual` 可通过 CLI/API 配置选择。
+每个指标文件夹包含已清理的运行时 `*_model_bundle.joblib`、训练完成的 `*_final_pipeline.joblib` 和 `feature_names.csv`。公开模型包不包含队列标识、样本量、评估指标、训练报告或私有出处路径。默认 GUI/API 分类器模式使用 `OUT_noICBM_train_ICBM_external_saved_models`；`paired_residual` 可通过 CLI/API 配置选择。
 
 ## 发现顺序
 
@@ -38,7 +38,7 @@ HemiSpec 按以下顺序解析模型路径：
 3. `assets/models/` 下打包的源码检出路径；
 4. 每用户缓存（`HEMISPEC_MODEL_CACHE`，或系统特定的 HemiSpec 缓存）。
 
-如果 wheel/PyPI 安装中缺少已发布的默认值，启用模型的命令会在首次使用时从 GitHub 下载。显式预取：
+如果 Release wheel 安装中缺少已发布的默认值，启用模型的命令会在首次使用时从 GitHub 下载。显式预取：
 
 ```bash
 hemispec models --install --with-classifier
@@ -47,3 +47,5 @@ hemispec models --install --with-classifier
 ## 发行说明
 
 模型二进制文件通过 Git LFS 追踪。请将原始 MRI 数据、生成输出和私有稿件专用产物保留在仓库之外。额外的模型包应包含出处、兼容的 HemiSpec 版本、预处理假设、校验和、许可证和引用说明。
+
+实现细节见[DGN 模型包](../developer/dgn-model-bundle.md)。ANS/RNS 与跨半球 DGN 框架源自 Wang 等人（2024）。

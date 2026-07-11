@@ -1,6 +1,6 @@
 # External asset bundles
 
-HemiSpec source now includes the approved reusable DGN checkpoints and hemisphere-classifier bundles under `assets/models/` via Git LFS. Wheel/PyPI installs keep those large binaries outside the wheel and can download them into the user cache. External asset bundles remain useful for offline installs, custom model bundles, atlas payloads, real sample data, or compiled app distributions.
+HemiSpec source now includes the approved reusable DGN checkpoints and hemisphere-classifier bundles under `assets/models/` via Git LFS. Wheel installations keep those large binaries outside the wheel and can download approved defaults into the user cache; the PyPI project is not public yet. External asset bundles remain useful for offline installs, custom model bundles, atlas payloads, real sample data, or compiled app distributions.
 
 ## Recommended layout
 

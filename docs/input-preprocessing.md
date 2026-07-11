@@ -1,4 +1,4 @@
-﻿# Input and preprocessing
+# Input and preprocessing
 
 This page defines how a T1-weighted structural MRI becomes an input for the released HemiSpec DGN models.
 

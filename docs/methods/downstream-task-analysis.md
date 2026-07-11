@@ -22,4 +22,4 @@ Can reconstruction-derived hemispheric specificity features capture structure-be
 
 ## Public result boundary
 
-Until the manuscript or preprint is public, this page should frame downstream tasks as methodological test cases. Detailed result comparisons, model-performance claims, tables, and manuscript-specific figures should remain out of the public homepage. Detailed figures, exact tables, and manuscript-specific claims should be checked before public release if the relevant paper is not yet available as a preprint or publication.
+Until the manuscript or preprint is public, this page frames downstream tasks as methodological test cases. Detailed result comparisons, model-performance claims, exact tables, and manuscript-specific figures must remain outside the public documentation until the related work is publicly available.

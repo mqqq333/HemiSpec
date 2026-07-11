@@ -4,7 +4,7 @@ This page tracks public-facing HemiSpec development after the v0.1.0 first publi
 
 ## Current status
 
-HemiSpec v0.1.0 was published on 2026-06-29 as a GitHub prerelease: [https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0). It is research software / public beta, not a mature clinical or commercial product.
+HemiSpec v0.1.0 was published on 2026-06-28 as a GitHub prerelease: [https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0). It is research software / public beta, not a mature clinical or commercial product.
 
 The release includes the unified HemiSpec repository, documentation website, `hemispec` CLI, `hemispec-gui` entry point, wheel/sdist, Windows CLI/GUI artifacts, synthetic quickstart, CI/docs gates, and external-asset distribution policy.
 
@@ -18,7 +18,7 @@ The release includes the unified HemiSpec repository, documentation website, `he
 
 ## v0.2 candidates
 
-- Continue PyPI publication of `hemispec-toolkit` alongside GitHub release artifacts.
+- Publish `hemispec-toolkit` to PyPI after release metadata, ownership, and upload checks are complete; until then, continue GitHub Release distribution.
 - Zenodo DOI or equivalent archived software citation.
 - Richer atlas/custom-bundle downloader or resolver beyond the default released model cache.
 - Small approved demo dataset, if redistribution is permitted.

@@ -4,10 +4,10 @@
 
 ## 安装
 
-从 PyPI 运行启用模型的安装时，包含 model 额外依赖，并可选择预下载已发布检查点：
+从源码检出安装 model 额外依赖，并可选择预下载已发布检查点：
 
 ```bash
-python -m pip install "hemispec-toolkit[model]"
+python -m pip install -e .[model]
 hemispec models --install
 ```
 
@@ -26,4 +26,4 @@ hemispec models --install
 
 ## 当前状态
 
-默认已发布模型包可通过 Git LFS 源码检出或 PyPI 首次运行缓存下载获得。发布任何额外训练权重前，需先批准发布政策、出处、校验和和许可证说明。
+默认已发布模型包可通过 Git LFS 源码检出或 GitHub Release 缓存下载获得。发布任何额外训练权重前，需先批准发布政策、出处、校验和和许可证说明。

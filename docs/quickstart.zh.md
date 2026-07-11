@@ -1,40 +1,23 @@
 # 快速开始
 
-本页使用推荐的 PyPI 优先路径展示当前 HemiSpec 工作流。公开品牌名称、CLI 示例和 Python API 均统一使用 HemiSpec 命名。
-
-CLI 示例已于 2026-06-29 与当前工具包接口核对。公开包名为 `hemispec-toolkit`；导入路径和命令保持为 `hemispec`。
+当前 v0.1.0 公开版本通过 GitHub Release 和源码检出提供，PyPI 项目尚未公开。
 
 !!! note "命令命名"
-    PyPI 会把 `hemispec` 命令行入口和 `hemispec-gui` 图形启动器安装到当前 Python/PyTorch 环境中。
+    命令行界面使用 `hemispec`，图形界面使用 `hemispec-gui`。
 
-!!! note "已发布模型资产"
-    源码仓库通过 Git LFS 包含可复用的 DGN 检查点和半球分类器包。Wheel/PyPI 安装将这些大型二进制文件保存在 wheel 之外，首次模型运行时自动下载已发布的资产到用户缓存。无需重新训练。
+## 1. 运行公开安全的合成测试
 
-## 公开安全的合成计算演示
-
-如需不使用私有 MRI 数据、模型权重、atlas 资产或源码检出的首次 CLI 冒烟测试，可先从 PyPI 安装 HemiSpec，再运行内置合成快速入门：
+从 GitHub Release 下载 `hemispec_toolkit-0.1.0-py3-none-any.whl`，然后运行：
 
 ```bash
-python -m pip install hemispec-toolkit
+python -m pip install ./hemispec_toolkit-0.1.0-py3-none-any.whl
 hemispec --help
 hemispec quickstart --out-dir hemispec_quickstart
 ```
 
-如果进行可编辑源码开发，可将 PyPI 安装命令替换为 `python -m pip install -e .`；源码树中的包装脚本仍保留在 `examples/synthetic_quickstart/` 下。生成的图不是解剖数据，仅用于验证公开命令/文件契约。
+生成数据为合成数据，不是解剖学结果。该命令仅用于验证安装和公开文件/命令契约。
 
-## 从 PyPI 安装启用模型的版本
-
-在包含目标 PyTorch 构建的环境中，从 PyPI 安装已发布包及模型运行时额外依赖，并可选择预下载已发布的模型资产：
-
-```bash
-python -m pip install "hemispec-toolkit[gui,model,classifier]"
-hemispec models --install --with-classifier
-hemispec-gui
-```
-
-如果跳过 `hemispec models --install`，首次 `hemispec workflow`、`hemispec infer`、`hemispec run` 或 GUI 模型运行时会自动下载已发布的 DGN 检查点。
-
-对于 Git-LFS 源码检出，从仓库安装：
+## 2. 安装启用模型的源码检出
 
 ```bash
 git lfs install
@@ -42,16 +25,14 @@ git clone https://github.com/mqqq333/HemiSpec.git
 cd HemiSpec
 git lfs pull
 python -m pip install -e .[gui,model,classifier]
-python scripts/hemispec_gui_entry.py
+hemispec models --install --with-classifier  # 可选：预下载到缓存
 ```
 
-Git LFS 检出或模型缓存下载后，GUI 设置卡应显示 DGN 模型和分类器包已找到。PyTorch 可用性取决于启动 GUI 所用的 Python/conda 环境。
+活动环境中必须安装 PyTorch。已发布 DGN 和分类器包可从 Git-LFS 检出读取，也可下载到用户缓存。
 
-故障排除：如果分类器验证报告 `No module named 'numpy._core'`，请更新到最新的 HemiSpec 检出。运行时包含兼容 shim，可让旧版 conda 环境加载用 NumPy 2.x 保存的分类器包。
+## 3. 准备 DGN 可用的灰质图
 
-## 1. 准备 DGN 可用的灰质图
-
-原始 T1 加权 MRI **不能**直接输入 `hemispec workflow`。在源码检出目录中，必须先运行研究使用的 FSL 预处理脚本，为每名受试者生成一张 MNI152 1.5 mm 空间的掩膜 GM 图。
+原始 T1 加权 MRI **不能**直接输入 `hemispec workflow`。在源码检出目录中运行研究使用的 FSL 预处理脚本：
 
 ```bash
 bash process_single_subject.sh \
@@ -65,40 +46,9 @@ bash process_single_subject.sh \
 derivatives/sub-001_GM_masked.nii.gz
 ```
 
-推理前应检查 `121 × 145 × 121` 网格、`1.5 mm` 体素大小、affine、有限的 `0–1` GM 数值、配准、分割和掩膜质量。完整处理步骤、批处理示例和质量控制清单见[输入与预处理](input-preprocessing.md)。
+推理前应检查 `121 × 145 × 121` 网格、`1.5 mm` 体素大小、affine、有限的 `0–1` GM 数值、配准、分割和掩膜质量。详见[输入与预处理](input-preprocessing.md)。
 
-## 2. 运行标准 GUI 工作流
-
-从已安装 PyTorch 的同一环境启动包内 GUI：
-
-```bash
-python -m pip install "hemispec-toolkit[gui,model,classifier]"
-hemispec-gui
-```
-
-对于 Git-LFS 源码检出，可改用 `python scripts/hemispec_gui_entry.py`。
-
-GUI 是一个精简的标准工作流界面。其设置状态卡在长时间运行前报告 DGN 模型、Glasser atlas 文件、分类器包和 PyTorch 是否已找到。普通用户选择：
-
-1. **输入 GM 图**：如 `derivatives/*_GM_masked.nii.gz` 的 glob。
-2. **输出工作区**：最终 voxel_maps/、tables/ 和可选 validation/ 输出写入位置。默认会删除重建文件，除非保留中间输出。
-3. **可选 ROI 表**：atlas NIfTI 和标签表，有本地 Glasser 资产时默认使用。
-4. **可选验证**：半球分类器验证和 TRT 可靠性。
-5. **运行 HemiSpec**：GUI 显示等效的 `hemispec workflow` 命令以便复现。
-
-主要输出是每个受试者四张体素级图：voxel_maps/ 下的 ANS.L、ANS.R、RNS.L 和 RNS.R。ROI 表是可选的下游功能，分类器验证需要 ROI 表导出。
-
-## 3. 检查已打包的模型包
-
-```bash
-hemispec models
-```
-
-当 Git-LFS 检出或用户缓存包含已发布检查点时，此命令列出两个 DGN 方向。从 wheel/PyPI 安装预下载，运行 `hemispec models --install --with-classifier`。发布或分发额外训练权重前，请参阅 [数据与模型](data-and-models.md)。
-
-## 4. 通过 CLI 运行双向工作流
-
-GUI 映射到 PyPI 安装环境中的相同公开 CLI/API 路径：
+## 4. 运行标准双向工作流
 
 ```bash
 hemispec workflow \
@@ -106,17 +56,38 @@ hemispec workflow \
   --out-dir outputs/hemispec_workflow
 ```
 
-使用自定义 atlas 的可选 ROI 表：
+主要输出：
+
+```text
+outputs/hemispec_workflow/
+├── voxel_maps/     # 每名受试者的 ANS.L、ANS.R、RNS.L、RNS.R
+├── tables/         # 受试者汇总和可选 ROI 表
+└── validation/     # 可选分类器/TRT 输出
+```
+
+ANS/RNS 与跨半球 DGN 框架源自 Wang 等人（2024），详见[ANS 与 RNS 指标](methods/ans-rns-metrics.md)。
+
+## 5. 启动 GUI
+
+```bash
+hemispec-gui
+```
+
+GUI 会报告 PyTorch、DGN、atlas 和分类器的就绪状态。用户选择 GM 输入 glob、输出工作区、可选 ROI 导出、可选半球分类器验证、可选 TRT 可靠性，以及是否保留中间文件。详见[GUI 用户指南](developer/gui-user-guide.md)。
+
+## 6. 可选 ROI 表
+
+使用已批准的 atlas 和兼容标签表：
 
 ```bash
 hemispec workflow \
   --input-glob "derivatives/*_GM_masked.nii.gz" \
   --out-dir outputs/hemispec_workflow \
-  --roi-atlas atlas/custom_atlas.nii.gz \
-  --roi-label-table atlas/custom_labels.xlsx
+  --roi-atlas /approved/path/atlas.nii.gz \
+  --roi-label-table /approved/path/labels.xlsx
 ```
 
-仅需体素级图时跳过 ROI 表导出：
+仅生成体素图：
 
 ```bash
 hemispec workflow \
@@ -125,40 +96,9 @@ hemispec workflow \
   --no-roi-table
 ```
 
-## 5. 底层 CLI 命令
+## 7. 可选验证
 
-单方向 DGN 推理：
-
-```bash
-hemispec infer \
-  --input-glob "derivatives/*_GM_masked.nii.gz" \
-  --direction L_to_R \
-  --out-dir outputs/recon_L_to_R
-```
-
-从已有实际图和重建图计算 ANS/RNS：
-
-```bash
-hemispec compute \
-  --actual-glob "derivatives/*_GM_masked.nii.gz" \
-  --predicted-glob "outputs/recon_L_to_R/*_PRED_LR_full.nii.gz" \
-  --out-dir outputs/specificity_L_to_R \
-  --save-subject-maps
-```
-
-单方向推理和计算一起运行：
-
-```bash
-hemispec run \
-  --input-glob "derivatives/*_GM_masked.nii.gz" \
-  --direction L_to_R \
-  --recon-dir outputs/recon_L_to_R \
-  --metrics-dir outputs/specificity_L_to_R
-```
-
-## 6. 验证图
-
-对于标准工作流，建议在工作流运行时启用验证，以便结果写入可预测的文件夹：
+半球分类和 TRT 均为可选步骤：
 
 ```bash
 hemispec workflow \
@@ -168,12 +108,25 @@ hemispec workflow \
   --run-trt
 ```
 
-这会将分类器输出写入 `outputs/hemispec_workflow/validation/hemi_classify/`，将 TRT 输出写入 `outputs/hemispec_workflow/validation/trt/`。
+分类器验证需要 ROI 特征；TRT 要求文件名符合配置的 session 模式。
 
-## 尚未就绪的功能
+如需后续运行独立验证命令，应保留中间文件：
 
-- 独立的 `report` 命令。
-- 独立的 `roi` 命令。
-- 已获批的公开真实 MRI 示例数据；FSL 预处理脚本本身已经打包并写入文档。
-- 任何尚未获批的 atlas 有效载荷的公开再发行决定。
-- 完全公开的行为表型复现工作流。
+```bash
+hemispec workflow \
+  --input-glob "derivatives/*_GM_masked.nii.gz" \
+  --out-dir outputs/hemispec_workflow \
+  --keep-intermediate
+
+hemispec trt \
+  --maps-dir outputs/hemispec_workflow/intermediate/combined_maps \
+  --out-dir outputs/trt_validation
+```
+
+## 当前边界
+
+- 没有独立 `report` 命令。
+- 没有独立 `roi` 命令。
+- 真实受试者 MRI、未发表队列结果和稿件草图不是公开示例。
+- Atlas 文件需要记录来源和再分发批准。
+- 行为表型教程仍是路线图页面，不是完整复现工作流。

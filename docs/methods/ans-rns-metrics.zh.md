@@ -2,9 +2,9 @@
 
 ANS 和 RNS 由 Wang 等人（2024）提出，用于描述重建衍生的半球特异性。
 
-## 原始定义
+## 指标定义与软件解释
 
-对于目标半球实际 GM 值 `Act_i` 与其重建值 `Recon_i`，原论文定义：
+对于目标半球实际 GM 值 `Act_i` 与其重建值 `Recon_i`，HemiSpec 按照对 Wang 等人（2024）定义的如下软件化解释进行实现：
 
 ```text
 ANS_i = abs(Act_i - Recon_i)

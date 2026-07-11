@@ -1,55 +1,58 @@
 # 项目结构
 
-HemiSpec Toolkit 被组织为一个可部署的 Python 包以及已批准的可复用模型资产。公开仓库应使运行时契约清晰，同时不提交私有 MRI 数据或生成输出。
+HemiSpec 由可安装的 Python 软件包和经过明确批准的运行时资产组成。公开仓库应完整说明软件与文件契约，但不能公开私有 MRI 数据、研究生成结果，或尚未获准再分发的资产。
 
 ```text
 .
-|-- src/hemispec/                         # 可导入包：API、CLI、GUI、工作流
-|   `-- resources/preprocess/             # 小型打包预处理辅助脚本
+|-- src/hemispec/                         # Python API、CLI、GUI 与工作流
+|   `-- resources/preprocess/             # 包内预处理辅助脚本
 |-- tests/                                # 合成/单元回归测试
-|-- examples/                             # 公开安全示例和 IO 契约
-|   |-- synthetic_quickstart/             # 生成的玩具 NIfTI 示例
-|   `-- input_sample/                     # 本地/已批准输入占位符
-|-- docs/                                 # 开发者、架构、部署和方法说明
-|-- scripts/                              # 发布和本地启动器辅助工具；无核心运行时逻辑
-|   `-- research/                         # 本地研究工具，非公开运行时 API
-|-- assets/                               # 已批准模型包和本地资产清单
-|   |-- atlases/glasser/                  # 本地 Glasser atlas + 标签表，未批准则不追踪
-|   `-- models/                           # 已批准 DGN/分类器包，通过 Git LFS 追踪
-|-- data/                                 # 本地验证数据，不追踪
-|-- outputs/                              # 生成输出，不追踪
-|-- reference/                            # 论文/参考材料/训练参考，不追踪
-|-- pyproject.toml                        # 包元数据和工具配置
-|-- MANIFEST.in                           # 源码发行版包含/排除政策
-|-- CONTRIBUTING.md                       # 工程和验证规则
+|-- examples/
+|   |-- synthetic_quickstart/             # 可公开再分发的合成 NIfTI 示例
+|   `-- input_sample/                     # 本地且被 Git 忽略的 MRI 输入目录；仅 README 公开
+|-- docs/                                 # 用户、方法、参考与开发者文档
+|-- scripts/                              # 发布和本地启动辅助脚本
+|   `-- research/                         # 本地研究工具，不属于公开运行时 API
+|-- assets/
+|   |-- atlases/glasser/                  # 公开 README/清单；atlas 载荷获批前仅保留本地
+|   `-- models/                           # 通过 Git LFS 跟踪的已批准 DGN/分类器包
+|-- data/                                 # 本地验证数据，不跟踪
+|-- outputs/                              # 生成结果，不跟踪
+|-- reference/                            # 本地论文/训练参考资料，不跟踪
+|-- pyproject.toml                        # 软件包元数据与工具配置
+|-- MANIFEST.in                           # 源码发行包包含/排除策略
+|-- CONTRIBUTING.md                       # 工程与验证规则
 `-- CHANGELOG.md                          # 发布历史
 ```
 
-## 公开源码与本地资产
+## 公开源码与仅限本地的材料
 
-已追踪的公开源码应包含：
+公开跟踪的内容可以包括：
 
-- `src/hemispec/` 包代码和小型包自有资源。
-- 基于合成/小型生成固件的测试。
-- README、文档、示例、发布脚本和清单模板。
-- 描述预期本地放置位置的资产 README 文件。
-- 通过 Git LFS 追踪的已批准可复用 DGN 检查点和分类器包。
+- `src/hemispec/` 下的软件包代码和小型包内资源；
+- 基于合成或小型生成固件的测试与示例；
+- README、文档、发布脚本和清单模板；
+- 说明本地放置方式与出处字段的资产 README；
+- 通过 Git LFS 放在 `assets/models/` 下的已批准 DGN 与分类器包。
 
-被忽略的本地/私有材料包括：
+以下材料必须保持本地且被忽略，除非已经记录明确的发布批准和再分发权利：
 
-- 真实受试者级 MRI/NIfTI 文件；
+- 真实受试者级 MRI/NIfTI，包括放入 `examples/input_sample/` 的文件；
+- 生成的重建图、ANS/RNS 图、ROI 表和验证结果；
 - 未批准的模型检查点或分类器包；
-- 除非明确批准再发行，否则包括 atlas 有效载荷文件；
-- 生成输出、缓存文件夹和编译发布文件夹。
+- atlas NIfTI 和标签表；
+- 私有路径、受试者标识、凭据和未发表结果摘要。
+
+公开可运行示例是 `examples/synthetic_quickstart/`；`examples/input_sample/` 仅是本地输入位置，不能当作可公开再分发的示例数据。
 
 ## 运行时资产发现
 
-模型和 atlas 发现集中在 `hemispec.paths` 中，按以下顺序进行：
+模型与 atlas 的发现由 `hemispec.paths` 集中管理，顺序如下：
 
-1. 提供时的显式 CLI/API/GUI 覆盖。
-2. 如 `HEMISPEC_DGN_MODEL_ROOT` 等环境变量。
-3. 存在时 `assets/` 下的本地项目资产。
-4. 首次运行模型下载填充的每用户缓存。
-5. 仅用于兼容性的旧版根文件夹，如 `outputs_bi_stable_L/R`。
+1. 显式 CLI/API/GUI 路径；
+2. `HEMISPEC_DGN_MODEL_ROOT` 等环境变量；
+3. 存在时使用项目本地 `assets/`；
+4. 模型下载写入的用户缓存；
+5. 仅为兼容保留的 `outputs_bi_stable_L/R` 等旧目录。
 
-PyPI 包保持轻量，不嵌入大型 DGN 检查点、分类器包、atlas 有效载荷或受试者级示例。已发布的 DGN/分类器默认值在需要时下载到用户缓存。编译应用发行版可在应用文件夹旁边附带已批准的离线资产（带清单和校验和）。
+发布 wheel 保持轻量：只包含软件包代码和小型资源，不嵌入大型模型检查点、atlas 载荷或受试者级示例。启用模型的运行从 Git-LFS 源码检出、用户缓存或显式配置的离线资产包获取已批准的 DGN/分类器资产。

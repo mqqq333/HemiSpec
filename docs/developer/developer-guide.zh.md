@@ -16,7 +16,7 @@ HemiSpec Toolkit 有四个可分离的层：
 ## 本地设置
 
 ```bash
-python -m pip install -e .[dev]
+python -m pip install -e .[dev,gui]
 python -m pytest
 ```
 
@@ -31,6 +31,7 @@ python -m pip install -e .[classifier]
 
 ```bash
 python -m pytest
+python -m ruff check src tests
 python -m build --wheel
 python -m hemispec --help
 hemispec --help
@@ -66,4 +67,4 @@ powershell -ExecutionPolicy Bypass -File examples\synthetic_quickstart\run_synth
 
 ## 发布政策
 
-PyPI wheel 应保持轻量，应包含包代码加上小型包自有资源。已发布的模型权重从 Git LFS 或首次运行用户缓存解析，不嵌入 wheel。编译应用文件夹可在 `dist/` 下生成，但额外发布资产在公开上传前需要明确批准。
+发布 wheel 应保持轻量，应包含包代码加上小型包自有资源。已发布的模型权重从 Git LFS 或首次运行用户缓存解析，不嵌入 wheel。编译应用文件夹可在 `dist/` 下生成，但额外发布资产在公开上传前需要明确批准。

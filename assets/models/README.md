@@ -20,6 +20,8 @@ assets/models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models/
 assets/models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models_paired_residual/
 ```
 
-Each metric folder contains the runnable `*.joblib` classifier bundle and
-`feature_names.csv`. Archive copies and training/prediction dumps are intentionally
-excluded.
+Each metric folder contains the runnable `*_model_bundle.joblib`, the trained
+`*_final_pipeline.joblib`, and `feature_names.csv`. Public runtime bundles retain
+only the trained pipeline and runtime configuration. Cohort identifiers, sample
+counts, evaluation metrics, training reports, and private provenance paths are
+intentionally excluded.

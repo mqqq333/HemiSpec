@@ -16,7 +16,7 @@ The approved reusable DGN/classifier bundles live under `assets/models/` with Gi
 ## Local setup
 
 ```bash
-python -m pip install -e .[dev]
+python -m pip install -e .[dev,gui]
 python -m pytest
 ```
 
@@ -31,6 +31,7 @@ python -m pip install -e .[classifier]
 
 ```bash
 python -m pytest
+python -m ruff check src tests
 python -m build --wheel
 python -m hemispec --help
 hemispec --help
@@ -66,4 +67,4 @@ Do not commit real subject-level MRI/NIfTI files, generated outputs, or unapprov
 
 ## Release policy
 
-The PyPI wheel should stay lightweight and should include package code plus small package-owned resources. Released model weights are resolved from Git LFS or the first-run user cache, not embedded in the wheel. Compiled app folders may be produced under `dist/`, but additional release assets need explicit approval before public upload.
+The release wheel should stay lightweight and should include package code plus small package-owned resources. Released model weights are resolved from Git LFS or the first-run user cache, not embedded in the wheel. Compiled app folders may be produced under `dist/`, but additional release assets need explicit approval before public upload.

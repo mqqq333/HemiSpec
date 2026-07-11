@@ -6,11 +6,12 @@
 hemispec
 ```
 
-以下子命令已于 2026-06-29 与当前工具包接口核对。如果工具包源码或包名发生变化，请在公开发布前重新核对。
+以下子命令已于 2026-07-11 与当前工具包接口核对。如果工具包源码或包名发生变化，请在公开发布前重新核对。
 
 ## 当前子命令
 
 ```text
+hemispec quickstart      运行公开安全的合成测试
 hemispec models          列出或预下载已发布的训练 DGN 模型包
 hemispec infer           在预处理 GM 图上运行训练好的 DGN 推理
 hemispec compute         从实际和重建 GM 图计算 ANS/RNS 图
@@ -27,7 +28,7 @@ hemispec hemi-classify   ROI 级半球分类器验证
 
 ## 模型资产预取
 
-Wheel/PyPI 安装可预下载已发布的 DGN 检查点和分类器包：
+Release wheel 与源码安装可预下载已发布的 DGN 检查点和分类器包：
 
 ```bash
 hemispec models --install --with-classifier
@@ -53,3 +54,5 @@ ROI 导出目前通过 `compute`、`run` 和 `workflow` 上的选项暴露。对
 ## 报告
 
 目前还没有独立的 `report` 子命令。报告应被视为计划中的功能，直到实现为止。
+
+ANS/RNS 与跨半球 DGN 框架源自 Wang 等人（2024），详见[引用](../citation.md)。

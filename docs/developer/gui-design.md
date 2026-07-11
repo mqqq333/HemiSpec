@@ -1,342 +1,63 @@
-﻿# HemiSpec GUI design plan
+# GUI design
 
-This document is a design target for the compiled HemiSpec desktop app. It is
-not a claim that every item is already implemented. The GUI should remain a thin
-front end over the same public `hemispec` API used by the CLI and PyPI package.
+The HemiSpec GUI is a compact `customtkinter` launcher over the same bilateral workflow exposed by the Python API and `hemispec workflow` CLI command. It is not a separate analysis implementation.
 
-## Product position
+## Design goals
 
-**Name:** HemiSpec  
-**Tagline:** Reconstruction-derived Hemispheric Specificity  
-**Primary public artifacts:** `hemispec-toolkit` on PyPI, `hemispec` CLI,
-`hemispec-gui`, and a compiled Windows folder distribution.
+- expose only decisions required for routine ANS/RNS generation;
+- keep advanced model, threshold, suffix, and validation parameters in the CLI/API;
+- show the equivalent CLI command for reproducibility;
+- report runtime/model readiness before a long run;
+- keep logs, cancellation, and output-folder access visible.
 
-HemiSpec is currently implemented as a compact standard-workflow GUI for cross-hemispheric DGN reconstruction, ANS/RNS metric computation, optional ROI feature export, and optional validation. Broader expanded-interface ideas below are design notes, not current public UI scope. ANS/RNS are metric names, not the app
-brand.
+## User-visible workflow
 
-## Release modes
+The current GUI contains six functional cards:
 
-The GUI should make the current runtime mode explicit:
+1. **Input GM maps** — a directory or glob resolving to preprocessed `*_GM_masked.nii.gz` files.
+2. **Output workspace** — the destination for voxel maps, tables, validation results, and optional intermediates.
+3. **Setup status** — shallow checks for PyTorch, both DGN directions, optional atlas files, and the optional classifier bundle.
+4. **Optional ROI table** — atlas NIfTI and label-table paths.
+5. **Optional validation** — hemisphere classification, TRT reliability, and intermediate-output retention.
+6. **Run controls** — equivalent CLI command, run/stop controls, logs, copy command, and open-output actions.
 
-| Mode | Purpose | Runtime expectation |
-| --- | --- | --- |
-| Lightweight app | Inspection, compute, ROI export, validation | No PyTorch/model weights bundled |
-| Model-enabled app | End-to-end DGN + ANS/RNS workflow | PyTorch runtime plus approved local model/atlas assets |
-| Source/developer GUI | Development and debugging | Editable checkout, optional `HEMISPEC_*` env vars |
+Hemisphere-classifier validation remains opt-in. Enabling it also enables ROI export because the classifier consumes ROI features.
 
-The header should show a small mode badge such as `Lightweight`, `Model-enabled`,
-or `Source`. Missing assets should be warnings with next-step guidance, not
-silent failures.
+## Encapsulated defaults
 
-## Design principles
+The GUI intentionally hides:
 
-1. **Workflow first:** users should understand the full pipeline before seeing
-   low-level controls.
-2. **API parity:** every GUI action maps to a documented `hemispec` API/CLI path.
-3. **Asset transparency:** DGN weights, classifier bundles, and atlas files are
-   local/configured assets with visible readiness status and checksums when
-   available.
-4. **Manuscript-safe outputs:** the GUI should not ship private subject data,
-   unpublished exact result claims, or manuscript-only figures by default.
-5. **Recoverable errors:** input validation should fail before long runs begin,
-   with exact missing files/options and the equivalent CLI command.
-6. **Minimal brand vocabulary:** use HemiSpec for the software; use ANS/RNS only
-   for metrics and output filenames.
+- DGN checkpoint paths and direction-specific bundle names;
+- device selection;
+- GM and inference thresholds;
+- reconstruction clipping and suffix rules;
+- classifier mode and model path;
+- TRT session regexes and mask parameters.
 
-## Information architecture
+These values are defined in the GUI state-to-config adapter and remain available through the CLI/API for advanced or study-specific use.
 
-Current GUI pages can be reorganized into a more user-facing layout while keeping
-existing API calls.
-
-### 1. Project setup
-
-Purpose: collect paths and check readiness before analysis.
-
-Key cards:
-
-- **Input GM maps**: glob preview, detected subject count, example filenames.
-- **DGN model assets**: L_to_R and R_to_L checkpoints, model root, status.
-- **Atlas assets**: Glasser atlas and label table, status.
-- **Classifier assets**: classifier mode and model directory, status.
-- **Output workspace**: output root, overwrite policy, free-space estimate.
-
-Primary actions:
-
-- `Validate setup`
-- `Show equivalent CLI`
-- `Save project config`
-- `Load project config`
-
-### 2. Standard workflow
-
-Purpose: compact single-page end-to-end workflow for normal users.
-
-Current product decision (2026-06-28): the normal GUI user is assumed to use the
-standard HemiSpec model workflow to obtain voxel-wise ANS/RNS maps for their own
-downstream analyses. The main workflow page should therefore expose only the
-required user decisions (GM input and output workspace), plus optional ROI table
-and validation branches. DGN model bundles, checkpoint overrides, classifier
-bundles, suffix rules, regexes, and numeric ANS/RNS parameters are encapsulated by
-default and should move to CLI/developer/advanced surfaces rather than the normal
-run screen. Atlas paths remain optional because users may choose a different ROI
-atlas/table, or skip ROI tables and extract features from voxel-wise ANS/RNS maps
-with their own downstream methods.
-
-Pipeline display:
+## Shared execution path
 
 ```text
-Preprocessed GM -> DGN L_to_R/R_to_L -> voxel-wise ANS/RNS maps -> optional ROI table -> optional validation/report
+GUI state
+  -> make_workflow_config(...)
+  -> BilateralWorkflowConfig
+  -> run_bilateral_workflow(...)
+  -> voxel_maps/ + tables/ + optional validation/
 ```
 
-Controls should be grouped by user intent:
+The generated CLI preview is derived from the same workflow configuration. Contract tests under `tests/test_gui_contract.py` protect this alignment.
 
-- Input/output: preprocessed GM glob and output workspace.
-- Primary output: voxel-wise and subject-level ANS/RNS maps, always generated by the standard workflow.
-- Optional ROI table: atlas and label table paths, defaulting to the local Glasser assets when available.
-- Optional validation: classifier on/off and TRT on/off; classifier requires ROI table export.
-- Encapsulated/developer settings: device, model root, checkpoint override, thresholds, suffix rules, regexes, and classifier bundle paths.
+## Runtime behavior
 
-### 3. DGN inference (advanced/future)
+The GUI performs only shallow setup checks before execution; it does not load large checkpoints during status refresh. A background worker runs the workflow so the interface can stream logs and accept cancellation. Cancellation is cooperative and checked between major workflow stages.
 
-Purpose: run and debug reconstruction only.
+## Maintenance rules
 
-Important UX:
+- Keep visible fields synchronized with `WORKFLOW_VISIBLE_FIELDS`.
+- Keep hidden defaults synchronized with CLI defaults and contract tests.
+- Do not add a GUI-only computation path.
+- Treat new advanced parameters as CLI/API options unless routine users must decide them.
+- Update the GUI user guide and screenshots whenever visible cards or labels change.
 
-- Direction selector with plain-language subtitle:
-  - `L_to_R`: left hemisphere input -> generated right hemisphere.
-  - `R_to_L`: right hemisphere input -> generated left hemisphere.
-- Model card panel showing checkpoint path, direction, expected crop, and runtime.
-- Preview table of matched input files.
-
-### 4. ANS/RNS compute
-
-Purpose: compute metrics from actual and reconstructed GM maps.
-
-Important UX:
-
-- Pairing preview before run: actual file, reconstructed file, inferred subject.
-- Clear distinction between:
-  - `compute`: lower-level command; `--save-subject-maps` opt-in.
-  - `run`/`workflow`: subject maps saved by default.
-- ROI route as an optional subpanel, not a separate hidden workflow.
-
-### 5. ROI and classifier
-
-Purpose: inspect ROI features and apply saved classifier bundles.
-
-Important UX:
-
-- Treat classifier as validation, not a training feature.
-- Show `single` versus `paired_residual` interpretation.
-- Display generated paths: ROI long table, wide table, predictions, summary.
-- Reserve exact model performance claims for model cards/release notes.
-
-### 6. Validation
-
-Purpose: combine TRT reliability and structural specificity in one validation
-section with tabs.
-
-Shared controls:
-
-- maps directory,
-- subject/session regex,
-- hemisphere selection (`L`, `R`, `ALL`, `auto`, `target`),
-- similarity metric,
-- mask type and threshold,
-- output directory.
-
-Outputs:
-
-- validation summary table,
-- similarity heatmaps,
-- within-vs-between boxplots,
-- exportable report bundle.
-
-### 7. Reports and export
-
-Purpose: make the compiled app useful for non-coding users.
-
-Report bundle should include:
-
-```text
-run_config.json
-asset_manifest.json
-command_equivalents.txt
-summary_tables/
-figures/
-logs/
-README_report.md
-```
-
-Recommended options:
-
-- `Anonymize local paths in report`.
-- `Include CLI command equivalents`.
-- `Include asset checksums`.
-- `Open output folder after run`.
-
-## Visual design
-
-Use the same identity as the MkDocs Material homepage:
-
-- Primary color: indigo/blue for workflow actions.
-- Accent: teal/green for ready/success state.
-- Warning: amber for missing optional assets.
-- Error: red for blocking missing inputs.
-- Background: light neutral panels; dark log console.
-
-Layout:
-
-- Top header: HemiSpec title, compact subtitle, and global status.
-- Main body: color-separated cards for Input, Output, Optional ROI, Optional validation, and Run.
-- Footer: concise output/status summary.
-- Bottom panel: run log with copy/save controls.
-
-
-## Implemented v0.1.x status card
-
-The compact GUI now includes a setup status card in the standard workflow page. The card performs shallow, non-loading checks and reports:
-
-- DGN model: found when bilateral L_to_R and R_to_L checkpoints are discoverable;
-- Glasser atlas: found when both atlas NIfTI and label table paths exist;
-- classifier bundle: found when ANS/RNS classifier joblib bundles are discoverable;
-- PyTorch: available when the Python runtime can import/locate `torch`.
-
-This does not bundle assets into the lightweight release. It gives users clear next-step guidance before they start a model-enabled workflow.
-
-## Validation and guardrails
-
-Before launching a run, the GUI should check:
-
-- input glob resolves to at least one file,
-- output directory is writable,
-- DGN checkpoint exists when DGN inference (advanced/future) is requested,
-- atlas and label table exist when ROI export is requested,
-- classifier directory exists when classifier validation is enabled,
-- PyTorch import and device availability for DGN pages,
-- no output overwrite unless confirmed.
-
-For every failed check, show:
-
-1. what is missing,
-2. how to fix it,
-3. the relevant environment variable or CLI flag,
-4. whether the workflow can continue without that optional component.
-
-## Implementation notes
-
-- Keep Tkinter acceptable for the first compiled app if it remains stable, but
-  isolate GUI state from analysis code.
-- Add a small config object that can be saved/loaded as JSON.
-- Generate equivalent CLI commands from GUI state for reproducibility.
-- Keep all long-running tasks on worker threads and make cancellation explicit.
-- Do not embed private local asset paths in default values for public builds;
-  use environment variables and placeholder prompts.
-- The compiled app should be built from the installed package path, not by
-  importing legacy local modules.
-
-## Open questions before implementation
-
-1. Should the first public compiled app be lightweight only, or model-enabled?
-2. Which model/atlas assets are approved for inclusion versus external download?
-3. Should reports be English-only first, or bilingual Chinese/English?
-4. Should the GUI include a small synthetic demo workflow before real assets are
-   approved?
-5. Should the public homepage host screenshots of the source GUI now, or wait for
-   a branded compiled build?
-
-## Claude Code design review synthesis
-
-Claude Code reviewed this design as a second agent. The review agreed with the
-thin-front-end/API-parity direction and recommended tightening V1 around a
-smaller number of user goals.
-
-### Revised V1 navigation
-
-The V1 desktop app should present four main destinations and one advanced area:
-
-1. **Setup**: input GM maps, DGN assets, atlas assets, classifier assets, output
-   workspace, and project config load/save.
-2. **Run**: the main end-to-end workflow with collapsible Runtime, Metrics, ROI,
-   Validation, and Output sections.
-3. **Inspect**: read-only tables, predictions, validation summaries, and figures.
-4. **Export**: report bundle options, path anonymization, checksums, and output
-   folder actions.
-5. **Advanced**: DGN-only, ANS/RNS-only, and standalone validation/debug pages.
-
-The current separate workflow pages can remain internally, but the public GUI
-should guide normal users through Setup -> Run -> Inspect -> Export.
-
-### Required V1 architecture decisions
-
-- Use a single shared project `config` object as the source of truth. Pages are
-  views over this state, not independent copies of the same fields.
-- Add `schema_version` to saved config files and provide migration hooks.
-- Generate the equivalent CLI command live from the same config state.
-- Keep GUI logic thin: every run goes through the installed `hemispec` API.
-- Keep long tasks in one worker queue. UI updates must return to the main thread.
-- Define cancellation semantics: cancellation should stop at a subject/batch
-  boundary, record completed subjects, and make resume behavior explicit.
-
-### Required V1 UX additions
-
-- **First-run asset wizard:** detect missing DGN, atlas, and classifier assets;
-  show required files; verify checksums when a manifest is available; and write an
-  asset manifest into the project config.
-- **Single-subject dry run:** before a batch run, users can run one detected
-  subject through the selected workflow to validate model/runtime/output setup.
-- **Progress and ETA:** show processed/total subjects, current stage, estimated
-  time remaining, and a searchable run log.
-- **Run history:** keep a local registry of run timestamp, config snapshot, output
-  path, status, and resume eligibility.
-- **Mode badge definition:**
-  - `Lightweight`: no PyTorch/model inference available.
-  - `Model-enabled`: PyTorch and required model/atlas assets are ready.
-  - `Source`: running from an editable checkout or developer environment.
-- **Clear hemisphere labels:** explain `L_to_R`, `R_to_L`, `auto`, and `target` in
-  the UI next to the controls.
-
-### Release additions for compiled app
-
-- Decide whether V1 is a portable folder distribution or an installer.
-- For Windows release, document code-signing status and possible SmartScreen/AV
-  false positives.
-- If a model-enabled app does not include weights directly, the first-run asset
-  wizard becomes a release blocker rather than a nice-to-have.
-- The report bundle should also include `environment.json` with HemiSpec version,
-  Python version, OS, GPU/CUDA status, and key package versions.
-
-### Recommended V1 wireframe
-
-```text
-鈹屸攢 HemiSpec  [Lightweight]  CUDA: n/a  鈼?ready  v0.x 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?
-鈹溾攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?
-鈹?Setup    鈹? Pipeline: GM -> DGN -> ANS/RNS -> ROI -> validation 鈹?
-鈹?Run   鈼€  鈹? 鈻?Runtime  鈻?Metrics  鈻?ROI  鈻?Validation  鈻?Output 鈹?
-鈹?Inspect  鈹? [Run 1 subject]  [Run batch]  [Show CLI]            鈹?
-鈹?Export   鈹?                                                     鈹?
-鈹?Advanced 鈹? Status cards, tables, and figures for current page   鈹?
-鈹溾攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹粹攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?
-鈹?Log  [鈻堚枅鈻堚枅鈻堚枅鈻堚枅鈻戔枒 8/10]  ETA 2m  [Cancel][Copy][Save]             鈹?
-鈹斺攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?
-```
-
-### Implementation priority
-
-1. Shared config state and CLI-command generation.
-2. Setup page with asset readiness checks.
-3. Single-subject dry-run path.
-4. Progress/ETA/log/cancel semantics.
-5. Exportable report bundle with environment and asset manifests.
-6. Advanced debug pages mapped to the existing subcommands.
-
-### Technology note
-
-Continue with Tkinter for V1 if the current implementation remains stable and
-low-risk. If the GUI is rewritten rather than incrementally improved, evaluate a
-local web UI such as FastAPI + PyWebView because it can better reuse the MkDocs
-Material visual language and support richer tables/plots. In either case, keep
-the analysis runtime in the `hemispec` package and do not duplicate computation in
-the GUI layer.
-
-
+ANS/RNS and the cross-hemispheric DGN framework originate from Wang et al. (2024); see [Citation](../citation.md).

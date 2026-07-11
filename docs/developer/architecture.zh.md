@@ -1,5 +1,6 @@
 # 架构说明
 
+跨半球 DGN 框架与 ANS/RNS 指标源自 Wang 等人（2024），详见[引用](../citation.md)。
 HemiSpec Toolkit 遵循分层架构，使 CLI、GUI 和未来的 notebook 都调用同一套经过测试的核心逻辑。
 
 ```text

@@ -1,150 +1,82 @@
-# DGN Model Bundle Notes
+# DGN model bundles
 
-This document records the trained DGN assets that HemiSpec should deploy for
-inference. Model training is not part of HemiSpec v1.
+HemiSpec v0.1.0 deploys trained generator checkpoints for inference. Model training is reference-only and is not a public workflow requirement.
 
-## Scope
+ANS/RNS and the cross-hemispheric DGN framework originate from Wang et al. (2024); see [Citation](../citation.md).
 
-`train_code/` is reference material only. Use it to understand:
-
-- the `Generator` architecture,
-- the PyTorch checkpoint format,
-- the corrected hemisphere crop convention,
-- how generated hemisphere patches are pasted back for inspection.
-
-Do not expose training as a user-facing feature in v1, and do not require users
-to run `train_code/train.py`.
-
-## Current Local Assets
-
-Reference-only training code:
+## Current asset layout
 
 ```text
-train_code/
-  datasets.py
-  models.py
-  train.py
+assets/models/dgn/
+├── outputs_bi_stable_L/
+│   └── ckpts/
+│       └── best_netG_L.pth       # R_to_L target-left bundle
+└── outputs_bi_stable_R/
+    └── ckpts/
+        └── best_netG_R.pth       # L_to_R target-right bundle
 ```
 
-These files are not imported by the public API, CLI, or GUI. They document the
-origin of the deployed runtime architecture and crop conventions.
+Explicit direction filenames such as `best_netG_R2L.pth` and `best_netG_L2R.pth` are also supported and preferred when both naming styles exist.
 
-Trained model output folders:
+The public bundle should contain only approved runtime assets. Subject-level reconstructions or training metrics must not be included.
+
+## Direction mapping
 
 ```text
-outputs_bi_stable_L/
-  ckpts/
-    best_netG_L.pth
-    netG_L.pth
-  metrics.csv
-
-outputs_bi_stable_R/
-  ckpts/
-    best_netG_R.pth
-    netG_R.pth
-  metrics.csv
-  recon/
+outputs_bi_stable_L = R_to_L = source right -> generated left
+outputs_bi_stable_R = L_to_R = source left  -> generated right
 ```
 
-The inference adapter should load Generator checkpoints, not Discriminator
-checkpoints.
+`discover_local_dgn_bundles()` implements this mapping for the API, CLI, and GUI.
 
-## Direction Mapping
+## Runtime contract
 
-Use this owner-confirmed mapping in API, CLI, GUI, and documentation:
+For one direction, the inference adapter:
+
+1. loads a preprocessed `*_GM_masked.nii.gz` volume;
+2. applies the low-value inference mask;
+3. crops the source hemisphere;
+4. loads the matching generator checkpoint;
+5. predicts the target-hemisphere patch;
+6. pastes the prediction into the original whole-volume grid;
+7. saves a reconstructed NIfTI with the source affine/header.
+
+The bilateral workflow runs both directions and combines target-side results.
+
+## Checkpoint format
+
+Supported generator checkpoints may contain a direct state dictionary or a wrapper containing `state_dict`. The runtime loader normalizes supported formats before loading the generator architecture.
+
+The expected single-channel patch shape is:
 
 ```text
-outputs_bi_stable_L = R_to_L = right hemisphere -> generated left hemisphere
-outputs_bi_stable_R = L_to_R = left hemisphere  -> generated right hemisphere
-```
-
-The current copied checkpoint folders use target-side names:
-
-```text
-assets/models/dgn/outputs_bi_stable_L/ckpts/best_netG_L.pth
-assets/models/dgn/outputs_bi_stable_R/ckpts/best_netG_R.pth
-```
-
-Future checkpoint exports may use explicit direction names:
-
-```text
-assets/models/dgn/outputs_bi_stable_L/ckpts/best_netG_R2L.pth
-assets/models/dgn/outputs_bi_stable_R/ckpts/best_netG_L2R.pth
-```
-
-`discover_local_dgn_bundles()` supports both conventions and prefers explicit
-direction names when both exist.
-
-## Runtime Contract
-
-The package-owned inference adapter should:
-
-1. Load a full preprocessed `*_GM_masked.nii.gz` NIfTI.
-2. Crop the source hemisphere.
-3. Run the matching trained `Generator` checkpoint.
-4. Paste the generated patch into the target hemisphere location.
-5. Save a reconstructed full-volume GM map with the original affine/header.
-
-For a bilateral reconstructed map, run both directions and paste both generated
-hemispheres into one output volume.
-
-## Checkpoint Format
-
-Generator checkpoints are PyTorch files with this shape:
-
-```python
-{
-    "epoch": <int>,
-    "state_dict": <Generator state dict>,
-}
-```
-
-The reference `Generator` expects a single-channel 3D hemisphere patch and
-returns a single-channel generated hemisphere patch. The patch shape is:
-
-```text
-55 x 119 x 87
+55 × 119 × 87
 ```
 
 ## Crops
-
-Use the corrected anatomical convention:
 
 ```text
 anatomical right: z 5:60,   y 15:134, x 15:102
 anatomical left:  z 60:115, y 15:134, x 15:102
 ```
 
-The runtime adapter owns these constants in package code rather than importing
-`train_code` directly.
+These constants are owned by package runtime code.
 
 ## Thresholds
 
-The reference dataset code masks low-valued voxels before inference with:
-
 ```text
-img > 0.05
+DGN input cleanup: values > 0.05
+ANS/RNS valid GM:  values >= 0.15
 ```
 
-ANS/RNS computation later uses:
+The thresholds serve different stages and must remain separately named and reported.
+
+## Output naming
+
+Direction-specific reconstructed full volumes use:
 
 ```text
-GM >= 0.15
+<subject>_PRED_LR_full.nii.gz
 ```
 
-Keep these thresholds separate in parameter names and documentation.
-
-## Output Naming
-
-The final reconstructed output filename convention still needs to be chosen.
-Recommended v1 convention:
-
-```text
-<subject>_DGN_bilateral_full.nii.gz
-```
-
-For compatibility with old scripts, keep support for:
-
-```text
-*_PRED_LR_full.nii.gz
-```
+The bilateral workflow then writes final hemisphere-specific metric maps under `voxel_maps/`.

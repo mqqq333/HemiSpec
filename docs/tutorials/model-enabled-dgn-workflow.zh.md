@@ -1,19 +1,21 @@
 # 模型驱动 DGN 工作流
 
-本页记录使用可复用已发布模型参数运行 HemiSpec 的当前模型驱动工作流。DGN 检查点和半球分类器包通过 Git LFS 追踪在 `assets/models/` 下；wheel/PyPI 安装可将相同文件下载到用户缓存。不分发真实 MRI 输入和生成输出。
+PyPI 项目尚未公开，请使用 GitHub Release 或源码检出。
+
+本页记录使用可复用已发布模型参数运行 HemiSpec 的当前模型驱动工作流。DGN 检查点和半球分类器包通过 Git LFS 追踪在 `assets/models/` 下；Release wheel 安装可将相同文件下载到用户缓存。不分发真实 MRI 输入和生成输出。
 
 ## 状态
 
 - **合成仅计算演示**：无需模型资产即可使用；见 [快速开始](../quickstart.md)。
 - **模型驱动源码检出**：使用 Git LFS 克隆并从 PyTorch 环境运行时可用。
-- **Wheel/PyPI / 轻量桌面安装**：通过首次运行将已发布检查点下载到用户缓存实现模型驱动；仍需在活动环境中安装 PyTorch。
+- **Release wheel / 轻量桌面安装**：通过首次运行将已发布检查点下载到用户缓存实现模型驱动；仍需在活动环境中安装 PyTorch。
 
 ## 设置
 
-PyPI 安装：
+源码检出安装：
 
 ```bash
-python -m pip install "hemispec-toolkit[gui,model,classifier]"
+python -m pip install -e .[gui,model,classifier]
 hemispec models --install --with-classifier  # 可选预下载
 ```
 
@@ -40,14 +42,14 @@ assets/models/hemisphere_classifier/
   OUT_noICBM_train_ICBM_external_saved_models_paired_residual/
 ```
 
-HemiSpec 自动发现此布局。Wheel/PyPI 安装在自动下载后在用户模型缓存中使用相同布局。仅当需要覆盖已发布默认值时才需要 `HEMISPEC_DGN_MODEL_ROOT` 或 `HEMISPEC_CLASSIFIER_MODEL_DIR`。
+HemiSpec 自动发现此布局。Release wheel 安装在自动下载后在用户模型缓存中使用相同布局。仅当需要覆盖已发布默认值时才需要 `HEMISPEC_DGN_MODEL_ROOT` 或 `HEMISPEC_CLASSIFIER_MODEL_DIR`。
 
 ## GUI 路径
 
 启动 GUI：
 
 ```bash
-hemispec-gui                 # PyPI 安装
+hemispec-gui                 # 源码或 Release wheel 环境
 python scripts/hemispec_gui_entry.py  # 源码检出
 ```
 

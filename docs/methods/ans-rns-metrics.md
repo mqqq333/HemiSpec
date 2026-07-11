@@ -2,9 +2,9 @@
 
 ANS and RNS were introduced by Wang et al. (2024) as reconstruction-derived measures of hemispheric specificity.
 
-## Original definitions
+## Metric definitions and software interpretation
 
-For the actual target-hemisphere GM value `Act_i` and its reconstructed value `Recon_i`, the original paper defines:
+For the actual target-hemisphere GM value `Act_i` and its reconstructed value `Recon_i`, HemiSpec uses the following interpretation of the definitions introduced by Wang et al. (2024):
 
 ```text
 ANS_i = abs(Act_i - Recon_i)

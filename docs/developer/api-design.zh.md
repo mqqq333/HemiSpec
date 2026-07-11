@@ -2,7 +2,7 @@
 
 本文档定义了半球重建结构特异性工具包的第一个稳定 Python API 层。
 
-API 有意作为基础层。CLI、PyPI 打包和 GUI 部署应调用此层而非重复工作流逻辑。
+API 有意作为基础层。CLI、软件包分发和 GUI 部署应调用此层而非重复工作流逻辑。
 
 ## 公开包名
 
@@ -41,7 +41,7 @@ src/hemispec/resources/preprocess/process_single_subject_GM_v2_reorient.sh
 它产生 `*_GM_masked.nii.gz` 文件。示例输入在：
 
 ```text
-examples/input_sample/
+examples/synthetic_quickstart/
 ```
 
 ## 指标 API

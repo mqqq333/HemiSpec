@@ -3,7 +3,7 @@
 This document defines the first stable Python API layer for the Hemisphere
 Reconstruction Structural Specificity Toolkit.
 
-The API is intentionally the foundation layer. CLI, PyPI packaging, and GUI
+The API is intentionally the foundation layer. CLI, package distribution, and GUI
 deployment should call this layer instead of duplicating workflow logic.
 
 ## Public package name
@@ -44,7 +44,7 @@ src/hemispec/resources/preprocess/process_single_subject_GM_v2_reorient.sh
 It produces `*_GM_masked.nii.gz` files. Example inputs are in:
 
 ```text
-examples/input_sample/
+examples/synthetic_quickstart/
 ```
 
 ## Metric API
@@ -163,7 +163,7 @@ outputs_bi_stable_L = R_to_L = right hemisphere -> generated left hemisphere
 outputs_bi_stable_R = L_to_R = left hemisphere  -> generated right hemisphere
 ```
 
-See `docs/dgn_model_bundle.md` for checkpoint locations, crop conventions, and
+See [DGN model bundles](dgn-model-bundle.md) for checkpoint locations, crop conventions, and
 current adapter status.
 
 The API now has a package-owned runtime adapter for trained PyTorch Generator

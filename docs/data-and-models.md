@@ -1,78 +1,74 @@
 # Data and models
 
 !!! important "MRI input is a separate prerequisite"
-    Model weights and atlases do not convert raw T1 MRI into DGN input. Prepare one MNI152 1.5 mm `*_GM_masked.nii.gz` file per subject first; see [Input and preprocessing](input-preprocessing.md).
+    Model weights and atlas files do not convert raw T1 MRI into DGN input. Prepare one MNI152 1.5 mm `*_GM_masked.nii.gz` file per subject first; see [Input and preprocessing](input-preprocessing.md).
 
-HemiSpec needs two types of external assets to run model-enabled workflows: **DGN model weights** and an **atlas file** for ROI export. Neither is bundled in the Python wheel or the lightweight desktop app.
+HemiSpec model-enabled workflows use two DGN generator checkpoints, optional hemisphere-classifier bundles, and an optional atlas/label table for ROI export.
 
-## Model weights
+## DGN and classifier model bundles
 
-HemiSpec uses two trained DGN generator checkpoints (one per hemisphere direction) and optional hemisphere-classifier bundles.
-
-**Source checkout (Git LFS)**
-
-Clone with LFS enabled to get the model files directly:
+### Source checkout with Git LFS
 
 ```bash
 git lfs install
 git clone https://github.com/mqqq333/HemiSpec.git
 cd HemiSpec
 git lfs pull
+python -m pip install -e .[model,classifier]
 ```
 
-**PyPI / wheel install**
+### Release wheel or lightweight install
 
-Models are downloaded automatically on the first model-enabled run:
-
-```bash
-python -m pip install "hemispec-toolkit[model,classifier]"
-hemispec workflow --input-glob "derivatives/*_GM_masked.nii.gz" --out-dir outputs/
-```
-
-To pre-download explicitly:
+The Python wheel does not embed the 300 MB+ model bundles. After installing the v0.1.0 wheel, HemiSpec can download the released defaults from the GitHub Release into the per-user cache:
 
 ```bash
+python -m pip install "./hemispec_toolkit-0.1.0-py3-none-any.whl[model,classifier]"
 hemispec models --install --with-classifier
 ```
 
-Downloaded files are stored in the HemiSpec user cache (`HEMISPEC_MODEL_CACHE`, or the OS default cache directory).
+The PyPI project is not public yet. Do not use `pip install hemispec-toolkit` as a current installation instruction.
 
-## Atlas file
+Downloaded files are stored under `HEMISPEC_MODEL_CACHE` when set, otherwise under the platform-specific user cache. Explicit environment variables or CLI/API paths can override the defaults.
 
-ROI table export requires a parcellation atlas in MNI space. HemiSpec includes a Glasser HCP-MMP atlas in the repository as a ready-to-use default. You can also use any compatible atlas in the same format.
+## Atlas files for ROI export
 
-**Download the bundled Glasser atlas**
+ROI export is optional and requires:
 
-The atlas files are included in the repository under `assets/atlases/glasser/`. With a source checkout they are available directly. You can also download them individually from GitHub:
+1. a parcellation atlas NIfTI on the same grid and affine as the HemiSpec maps;
+2. a compatible label table.
 
-- [`MNI_Glasser_HCP_v1.0_1p5mm.nii.gz`](https://github.com/mqqq333/HemiSpec/raw/main/assets/atlases/glasser/MNI_Glasser_HCP_v1.0_1p5mm.nii.gz)
-- [`Glasser_label_index_mapping.xlsx`](https://github.com/mqqq333/HemiSpec/raw/main/assets/atlases/glasser/Glasser_label_index_mapping.xlsx)
+The repository contains only an atlas manifest/template and placement documentation. The Glasser NIfTI and label table are **not distributed in the public source branch** because source, license, checksum, and redistribution approval must be documented first.
 
-Set the paths once via environment variables:
+Place an approved local bundle at:
 
-```bash
-export HEMISPEC_GLASSER_ATLAS=/path/to/MNI_Glasser_HCP_v1.0_1p5mm.nii.gz
-export HEMISPEC_GLASSER_LABEL_TABLE=/path/to/Glasser_label_index_mapping.xlsx
+```text
+assets/atlases/glasser/MNI_Glasser_HCP_v1.0_1p5mm.nii.gz
+assets/atlases/glasser/Glasser_label_index_mapping.xlsx
 ```
 
-**Use a custom atlas**
+or configure explicit paths:
 
-Pass any NIfTI atlas and label table directly:
+```bash
+export HEMISPEC_GLASSER_ATLAS=/approved/path/atlas.nii.gz
+export HEMISPEC_GLASSER_LABEL_TABLE=/approved/path/labels.xlsx
+```
+
+A custom atlas can be passed directly:
 
 ```bash
 hemispec workflow \
   --input-glob "derivatives/*_GM_masked.nii.gz" \
   --out-dir outputs/ \
-  --roi-atlas /path/to/atlas.nii.gz \
-  --roi-label-table /path/to/labels.xlsx
+  --roi-atlas /approved/path/atlas.nii.gz \
+  --roi-label-table /approved/path/labels.xlsx
 ```
 
-ROI export is optional. If no atlas is provided, voxel-wise ANS/RNS maps are still produced.
+Without an atlas, the workflow can still generate voxel-wise ANS/RNS maps by using `--no-roi-table`.
 
 ## What is not distributed
 
-Real MRI data and generated outputs are never distributed with HemiSpec. The public repository contains only code, documentation, tests, synthetic examples, and the approved reusable model bundles under Git LFS.
+The public branch must not contain raw or subject-level MRI, generated study outputs, unpublished cohort results, manuscript-draft figures, or atlas files without documented redistribution approval. Use the synthetic quickstart for public examples.
 
 ## Attribution
 
-The ANS/RNS metrics and cross-hemispheric DGN framework originate from Wang et al. 2024, *Patterns*. HemiSpec packages and extends that workflow.
+The cross-hemispheric DGN and ANS/RNS framework originate from Wang et al. (2024); see [Citation](citation.md). Model and atlas bundles require their own provenance, checksum, compatibility, and license records.

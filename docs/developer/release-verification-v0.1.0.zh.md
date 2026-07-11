@@ -24,6 +24,8 @@ HemiSpec v0.1.0 GitHub Release 于 2026-06-29 发布后进行了事后检查：[
 | `hemispec_toolkit-0.1.0-py3-none-any.whl` | `3f21eeefdbae99bd7d661dd45e469293107162aa30a339f8e0724c8d8ac4c0f3` |
 | `hemispec_toolkit-0.1.0.tar.gz` | `970f8969e79952e4d36ef90218505623950a344f0c5a5338a4ac1fc82e5c7744` |
 
+其余两个下载文件 `HemiSpec-v0.1.0-SHA256SUMS.txt` 和 `HemiSpec-v0.1.0-RELEASE_ARTIFACTS.txt` 分别是校验和来源与发布清单，不是上表中的二进制/软件包载荷。
+
 ## 冒烟测试
 
 - 下载的 Windows CLI：`HemiSpec-CLI-v0.1.0-win64.exe --help` 打印了预期命令列表。

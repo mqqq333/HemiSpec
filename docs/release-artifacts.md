@@ -1,77 +1,86 @@
 # Release artifacts
 
-HemiSpec is published as software artifacts, not only as a GitHub source repository. The primary v0.1.0 public artifact is the `hemispec-toolkit` Python package on PyPI, because model-enabled use is best handled inside a Python/PyTorch environment. GitHub Release artifacts are retained as archived, offline, or Windows-folder fallback artifacts at [https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0).
+HemiSpec v0.1.0 is a public beta distributed through the GitHub Release and the source repository. The `hemispec-toolkit` project is **not currently public on PyPI**, so current installation instructions must not use `pip install hemispec-toolkit` as if it were available from PyPI.
 
-## v0.1.0 public artifacts
+## Current public v0.1.0 artifacts
 
-```bash
-python -m pip install hemispec-toolkit
-```
+The v0.1.0 GitHub Release provides:
 
 ```text
 hemispec_toolkit-0.1.0-py3-none-any.whl          Python wheel
 hemispec_toolkit-0.1.0.tar.gz                    source distribution
 HemiSpec-CLI-v0.1.0-win64.exe                    Windows CLI executable
-HemiSpec-GUI-v0.1.0-win64.zip                    compiled GUI folder distribution
+HemiSpec-GUI-v0.1.0-win64.zip                    Windows GUI folder distribution
 HemiSpec-v0.1.0-SHA256SUMS.txt                   checksums
-HemiSpec-v0.1.0-RELEASE_ARTIFACTS.txt            verification and artifact manifest
-HemiSpec-Assets-<version>.zip                    optional offline/custom asset bundle for non-default assets
+HemiSpec-v0.1.0-RELEASE_ARTIFACTS.txt            release manifest
 ```
 
-The same public Python API powers the PyPI-installed CLI, PyPI-installed GUI launcher, and any compiled fallback app so that examples and validation behavior remain reproducible.
+Download the required artifact from the [v0.1.0 GitHub Release](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0). To install the downloaded wheel:
 
-ANS/RNS metric usage should keep citation boundaries clear: the original ANS/RNS and cross-hemispheric DGN framework comes from Wang et al. 2024, *Patterns*; HemiSpec packages and extends that workflow for the current software release.
+```bash
+python -m pip install ./hemispec_toolkit-0.1.0-py3-none-any.whl
+hemispec --help
+```
+
+For model-enabled development or GUI use, a source checkout is recommended:
+
+```bash
+git lfs install
+git clone https://github.com/mqqq333/HemiSpec.git
+cd HemiSpec
+git lfs pull
+python -m pip install -e .[gui,model,classifier]
+```
+
+The hemisphere classifier is an optional downstream validation step. Installing the `classifier` extra does not make classifier execution mandatory.
+
+## Scientific attribution
+
+The cross-hemispheric DGN framework and both specificity measures originate from Wang et al. (2024): **ANS** is **absolute neuroanatomical specificity**, and **RNS** is **relative neuroanatomical specificity**. Cite the original paper separately from the software release; see [Citation](citation.md).
 
 ## Build commands
 
-Build the lightweight package and, unless skipped, compiled Windows artifacts with:
+Maintainers can build package and Windows artifacts with:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts\build_release.ps1 -Python "py -3.12"
 ```
 
-Useful switches:
+Useful variants:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts\build_release.ps1 -Python "py -3.12" -SkipExe
 powershell -ExecutionPolicy Bypass -File scripts\build_release.ps1 -Python "py -3.12" -SkipGuiSmoke
 ```
 
-`-SkipGuiSmoke` should only be used in a headless environment where GUI launch checks are impossible.
+Use `-SkipGuiSmoke` only in a headless environment where the GUI launch check cannot run.
 
-## Release acceptance gates
+## Release acceptance checks
 
-A release is not considered public-ready until all relevant artifacts are built and checked together:
+Before publishing a release:
 
-- `python -m build --wheel --sdist` creates lightweight `hemispec-toolkit` artifacts.
-- `python -m twine check dist/hemispec_toolkit-*.whl dist/hemispec_toolkit-*.tar.gz` validates package metadata before upload.
-- `python -m twine upload dist/hemispec_toolkit-*.whl dist/hemispec_toolkit-*.tar.gz` publishes the package to PyPI.
-- `pip install dist/*.whl` or `pip install hemispec-toolkit` exposes `hemispec` and `hemispec-gui` entry points in the active Python/PyTorch environment.
-- `hemispec quickstart --out-dir <tmpdir>` runs the built-in public-safe synthetic smoke test without a source checkout.
-- `hemispec --help` and documented subcommands run in a clean environment.
-- `hemispec-gui` starts the compact standard-workflow GUI.
-- The Windows app is built as a folder distribution and includes only approved runtime files.
-- Any additional/offline DGN model, atlas, classifier, or example data bundle has a manifest, checksums, license/provenance notes, and a compatibility version.
-- Public artifacts and docs pass leak checks for private paths, keys, subject data, model payloads, and unpublished result claims.
+- build the wheel and source distribution with `python -m build --wheel --sdist`;
+- validate package metadata with `python -m twine check dist/hemispec_toolkit-*.whl dist/hemispec_toolkit-*.tar.gz`;
+- install the built wheel locally and run `hemispec quickstart --out-dir <tmpdir>`;
+- check `hemispec --help`, `hemispec-gui`, and the documented subcommands in a clean environment;
+- verify checksums and the release manifest;
+- confirm that no private paths, credentials, subject data, unapproved model/atlas payloads, or unpublished result claims are included.
 
-## Source versus assets
+Uploading to PyPI is a separate future release action. Documentation should describe PyPI installation only after the project is publicly available there.
 
-The source repository contains code, documentation, tests, examples, and the approved reusable model bundles under Git LFS. Atlas NIfTI files, non-public neuroimaging derivatives, and any additional/custom model bundles should be released separately with checksums, licenses, and model cards unless explicitly approved for the repository.
+## Source and asset boundary
 
-## Desktop fallback variants
+The source repository contains code, documentation, tests, synthetic examples, and approved reusable model bundles tracked through Git LFS. Atlas payloads, real neuroimaging data, generated outputs, and additional custom model bundles must remain outside the public source tree unless their provenance, license, redistribution approval, checksums, and compatible versions are documented.
 
-- **Lightweight app:** compact GUI plus CLI/API utilities for fallback/demo use; released models are resolved from Git LFS, cache download, or user-configured paths.
-- **Model-enabled app:** compact GUI plus approved model/atlas assets and PyTorch runtime, packaged as a larger folder distribution or paired with an offline asset bundle when PyPI/conda installation is not practical.
-
-Both variants should use the public `hemispec` package internally; they are not the preferred path for users who can manage a Python environment.
-
+The lightweight Windows CLI/GUI artifacts do not embed PyTorch, atlas payloads, real MRI inputs, or generated outputs. Model-enabled workflows require a suitable Python/PyTorch environment and approved model assets from a Git-LFS checkout, the user cache, or an offline asset bundle.
 
 ## Post-release verification
 
-The v0.1.0 release was re-downloaded from GitHub on 2026-06-29. SHA256 checksums matched, the downloaded Windows CLI printed `--help`, and the downloaded wheel ran the public-safe synthetic quickstart in a fresh local verification workspace. See [v0.1.0 release verification](developer/release-verification-v0.1.0.md).
+The v0.1.0 artifacts were downloaded and checked after publication on June 29, 2026. The checksums matched, the Windows CLI displayed `--help`, and the downloaded wheel completed the public-safe synthetic quickstart. See [v0.1.0 release verification](developer/release-verification-v0.1.0.md).
 
 ## Related pages
 
-- [v0.1.0 release verification](developer/release-verification-v0.1.0.md)
+- [Installation](installation.md)
+- [Data and models](data-and-models.md)
 - [External asset bundles](reference/asset-bundle.md)
 - [Roadmap](developer/roadmap.md)

@@ -4,7 +4,7 @@
 
 ## 当前状态
 
-HemiSpec v0.1.0 于 2026-06-29 作为 GitHub 预发布版发布：[https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0)。它是研究软件/公开测试版，不是成熟的临床或商业产品。
+HemiSpec v0.1.0 于 2026-06-28 作为 GitHub 预发布版发布：[https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0)。它是研究软件/公开测试版，不是成熟的临床或商业产品。
 
 该版本包含统一的 HemiSpec 仓库、文档网站、`hemispec` CLI、`hemispec-gui` 入口点、wheel/sdist、Windows CLI/GUI 产物、合成快速入门、CI/文档关卡和外部资产分发政策。
 
@@ -18,7 +18,7 @@ HemiSpec v0.1.0 于 2026-06-29 作为 GitHub 预发布版发布：[https://githu
 
 ## v0.2 候选功能
 
-- 持续发布 `hemispec-toolkit` 到 PyPI，并与 GitHub 发布产物保持一致。
+- 在发布元数据、项目所有权和上传检查完成后再将 `hemispec-toolkit` 发布到 PyPI；在此之前继续通过 GitHub Release 分发。
 - Zenodo DOI 或等效的存档软件引用。
 - 超出默认已发布模型缓存的更丰富 atlas/自定义包下载器或解析器。
 - 小型已批准演示数据集（如果允许再发行）。

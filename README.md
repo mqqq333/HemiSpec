@@ -69,15 +69,8 @@ See the detailed [Input and preprocessing guide](https://mqqq333.github.io/HemiS
 
 ## Install
 
-HemiSpec v0.1.0 is a public beta. The recommended installation is the PyPI package in the same Python/conda environment that provides PyTorch:
+HemiSpec v0.1.0 is a public beta distributed through the GitHub Release and source repository. The PyPI project is not public yet. For the full model/GUI workflow, use a source checkout in the Python/conda environment that provides PyTorch:
 
-```bash
-python -m pip install "hemispec-toolkit[gui,model,classifier]"
-hemispec models --install --with-classifier  # optional pre-download
-hemispec --help
-```
-
-For a source checkout with the released model files tracked through Git LFS:
 
 ```bash
 git lfs install
@@ -85,6 +78,8 @@ git clone https://github.com/mqqq333/HemiSpec.git
 cd HemiSpec
 git lfs pull
 python -m pip install -e .[gui,model,classifier]
+hemispec models --install --with-classifier  # optional cache pre-download
+hemispec --help
 ```
 
 ## Run the standard bilateral workflow
@@ -116,8 +111,10 @@ Hemisphere-classifier validation is currently an **optional downstream validatio
 
 The synthetic quickstart verifies installation and file contracts without real MRI data or model weights:
 
+Download the v0.1.0 wheel from GitHub Releases, then run:
+
 ```bash
-python -m pip install hemispec-toolkit
+python -m pip install ./hemispec_toolkit-0.1.0-py3-none-any.whl
 hemispec quickstart --out-dir hemispec_quickstart
 ```
 

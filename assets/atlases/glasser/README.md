@@ -1,7 +1,6 @@
 # Glasser atlas local bundle
 
-This directory is the default local lookup location for the HemiSpec Glasser
-atlas assets:
+This directory is a local lookup location for optional Glasser atlas assets:
 
 ```text
 assets/atlases/glasser/
@@ -9,18 +8,13 @@ assets/atlases/glasser/
   Glasser_label_index_mapping.xlsx
 ```
 
-The current local copies have been placed here for development and validation,
-but the large/data files remain ignored by git. Do not commit the NIfTI or label
-table directly unless the project owner makes an explicit public release
-decision and the asset source/license is documented.
+Only this README and `ASSET_MANIFEST.template.yml` are intended for the public source branch. The atlas NIfTI and label table are local assets and must not be committed until their source, license, checksum, compatibility, and redistribution approval are documented.
 
-HemiSpec resolves these files automatically from the project root. Users can also
-override them with:
+HemiSpec can resolve approved local files from this directory or from:
 
 ```text
 HEMISPEC_GLASSER_ATLAS
 HEMISPEC_GLASSER_LABEL_TABLE
 ```
 
-Before a public model-enabled release, fill in the companion manifest with
-source, license, checksum, and compatibility notes.
+Complete the manifest before distributing any atlas bundle.
