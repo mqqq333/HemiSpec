@@ -1,4 +1,7 @@
-# 数据与模型
+﻿# 数据与模型
+
+!!! important "MRI 输入是独立前置条件"
+    模型权重和 atlas 不会把原始 T1 MRI 自动转换为 DGN 输入。应先为每名受试者准备一张 MNI152 1.5 mm 的 `*_GM_masked.nii.gz`；详见[输入与预处理](input-preprocessing.md)。
 
 HemiSpec 运行启用模型的工作流需要两类外部资产：**DGN 模型权重**和用于 ROI 导出的 **atlas 文件**。这两类资产均不包含在 Python wheel 或轻量桌面应用中。
 

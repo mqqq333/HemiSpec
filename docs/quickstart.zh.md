@@ -49,21 +49,23 @@ Git LFS 检出或模型缓存下载后，GUI 设置卡应显示 DGN 模型和分
 
 故障排除：如果分类器验证报告 `No module named 'numpy._core'`，请更新到最新的 HemiSpec 检出。运行时包含兼容 shim，可让旧版 conda 环境加载用 NumPy 2.x 保存的分类器包。
 
-## 1. 准备灰质图
+## 1. 准备 DGN 可用的灰质图
 
-在 T1 加权 MRI 数据上运行预处理工作流以生成掩膜灰质图。工具包将参考预处理脚本打包在 `src/hemispec/resources/preprocess/` 下；实际预处理仍依赖本地 FSL 安装和经过验证的站点特定假设：
+原始 T1 加权 MRI **不能**直接输入 `hemispec workflow`。在源码检出目录中，必须先运行研究使用的 FSL 预处理脚本，为每名受试者生成一张 MNI152 1.5 mm 空间的掩膜 GM 图。
 
 ```bash
-bash src/hemispec/resources/preprocess/process_single_subject_GM_v2_reorient.sh \
-  input_T1.nii.gz \
+bash process_single_subject.sh \
+  raw/sub-001_T1w.nii.gz \
   derivatives/sub-001
 ```
 
-预期输出：
+预期 DGN 输入：
 
 ```text
 derivatives/sub-001_GM_masked.nii.gz
 ```
+
+推理前应检查 `121 × 145 × 121` 网格、`1.5 mm` 体素大小、affine、有限的 `0–1` GM 数值、配准、分割和掩膜质量。完整处理步骤、批处理示例和质量控制清单见[输入与预处理](input-preprocessing.md)。
 
 ## 2. 运行标准 GUI 工作流
 
@@ -172,6 +174,6 @@ hemispec workflow \
 
 - 独立的 `report` 命令。
 - 独立的 `roi` 命令。
-- 公开的真实数据预处理资产和批准的真实样本数据。
+- 已获批的公开真实 MRI 示例数据；FSL 预处理脚本本身已经打包并写入文档。
 - 任何尚未获批的 atlas 有效载荷的公开再发行决定。
 - 完全公开的行为表型复现工作流。

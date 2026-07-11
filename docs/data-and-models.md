@@ -1,5 +1,8 @@
 # Data and models
 
+!!! important "MRI input is a separate prerequisite"
+    Model weights and atlases do not convert raw T1 MRI into DGN input. Prepare one MNI152 1.5 mm `*_GM_masked.nii.gz` file per subject first; see [Input and preprocessing](input-preprocessing.md).
+
 HemiSpec needs two types of external assets to run model-enabled workflows: **DGN model weights** and an **atlas file** for ROI export. Neither is bundled in the Python wheel or the lightweight desktop app.
 
 ## Model weights

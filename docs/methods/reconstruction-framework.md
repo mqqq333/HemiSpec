@@ -1,21 +1,26 @@
-# Reconstruction framework
+﻿# Reconstruction framework
 
-The reconstruction framework estimates each anatomical hemisphere from its contralateral counterpart. Instead of treating lateralization as a direct left-right subtraction, it learns a nonlinear mapping between hemispheres and then studies what remains unexplained by that mapping.
+The published framework estimates a target hemisphere from its contralateral counterpart. Instead of treating lateralization only as a direct left–right subtraction, the model learns a nonlinear cross-hemispheric mapping and quantifies what the reconstruction does not explain.
 
-## Conceptual steps
+## Published conceptual sequence
 
-1. Split preprocessed gray-matter maps into left and right hemispheres.
-2. Train direction-specific reconstruction models:
-   - left-to-right reconstruction
-   - right-to-left reconstruction
-3. Apply trained models to held-out participants.
-4. Pair each actual target hemisphere with its reconstructed counterpart.
-5. Compute residual maps and downstream summaries.
+1. Convert T1-weighted MRI into MNI-space gray-matter maps.
+2. Split/crop the maps into left and right hemisphere inputs.
+3. Train direction-specific context-encoder-style DGN models:
+   - left-to-right reconstruction;
+   - right-to-left reconstruction.
+4. Apply the trained model to held-out participants.
+5. Compare each reconstructed target hemisphere with the actual target hemisphere.
+6. Compute ANS and RNS from the actual–reconstructed difference.
 
-## Model family
+This framework originates from Wang et al. (2024); see [Citation](../citation.md).
 
-The HemiSpec manuscript follows the DGN/context-encoder-style reconstruction strategy used in the original Patterns framework. The public documentation should describe the model as a cross-hemispheric DGN unless a specific implementation page is discussing architecture details.
+## HemiSpec runtime sequence
 
-## What HemiSpec adds
+HemiSpec distributes trained generator checkpoints and runs both reconstruction directions. For each preprocessed whole-brain GM input, the software crops the configured source hemisphere, predicts the target hemisphere, pastes the prediction into the whole-volume grid, and computes directional ANS/RNS maps. It then merges the target-side outputs into bilateral left/right maps.
 
-HemiSpec packages the reconstruction outputs into reproducible workflows: map computation, ROI summaries, validation, reporting, and downstream phenotype analyses.
+## Method boundary
+
+- **Published contribution:** cross-hemispheric DGN formulation and ANS/RNS framework.
+- **HemiSpec contribution:** operational preprocessing documentation, model discovery/download, reusable inference code, bilateral export, ROI summaries, optional validation, and user interfaces.
+- **Study-specific responsibility:** acquisition harmonization, preprocessing quality control, exclusion criteria, confound handling, statistical analysis, and external validation.

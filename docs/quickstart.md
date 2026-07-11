@@ -51,21 +51,23 @@ The GUI setup card should show DGN model and classifier bundle as found after Gi
 
 Troubleshooting: if classifier validation reports `No module named 'numpy._core'`, update to the latest HemiSpec checkout. The runtime includes a compatibility shim for classifier bundles saved with NumPy 2.x so older conda environments can still load them.
 
-## 1. Prepare gray-matter maps
+## 1. Prepare DGN-ready gray-matter maps
 
-Run the preprocessing workflow on T1-weighted MRI data to produce masked gray-matter maps. The toolkit packages the reference preprocessing script under `src/hemispec/resources/preprocess/`; real preprocessing still depends on local FSL installation and validated site-specific assumptions:
+Raw T1-weighted MRI is **not** a valid input to `hemispec workflow`. From a source checkout, first run the study FSL preprocessing script to create one MNI152 1.5 mm masked GM map per subject.
 
 ```bash
-bash src/hemispec/resources/preprocess/process_single_subject_GM_v2_reorient.sh \
-  input_T1.nii.gz \
+bash process_single_subject.sh \
+  raw/sub-001_T1w.nii.gz \
   derivatives/sub-001
 ```
 
-Expected output:
+Expected DGN input:
 
 ```text
 derivatives/sub-001_GM_masked.nii.gz
 ```
+
+Before inference, verify the `121 × 145 × 121` grid, `1.5 mm` voxel size, affine, finite `0–1` GM values, registration, segmentation, and mask quality. See [Input and preprocessing](input-preprocessing.md) for the complete processing steps, batch example, and quality-control checklist.
 
 ## 2. Run the standard GUI workflow
 
@@ -163,7 +165,11 @@ hemispec run \
 For the standard workflow, prefer enabling validation during the workflow run so results are written to predictable folders:
 
 ```bash
-hemispec workflow   --input-glob "derivatives/*_GM_masked.nii.gz"   --out-dir outputs/hemispec_workflow   --run-classifier   --run-trt
+hemispec workflow \
+  --input-glob "derivatives/*_GM_masked.nii.gz" \
+  --out-dir outputs/hemispec_workflow \
+  --run-classifier \
+  --run-trt
 ```
 
 This writes classifier outputs under `outputs/hemispec_workflow/validation/hemi_classify/` and TRT outputs under `outputs/hemispec_workflow/validation/trt/`.
@@ -171,15 +177,20 @@ This writes classifier outputs under `outputs/hemispec_workflow/validation/hemi_
 If you want to run standalone validation commands later on workflow-generated merged maps, keep intermediates:
 
 ```bash
-hemispec workflow   --input-glob "derivatives/*_GM_masked.nii.gz"   --out-dir outputs/hemispec_workflow   --keep-intermediate
+hemispec workflow \
+  --input-glob "derivatives/*_GM_masked.nii.gz" \
+  --out-dir outputs/hemispec_workflow \
+  --keep-intermediate
 
-hemispec trt   --maps-dir outputs/hemispec_workflow/intermediate/combined_maps   --out-dir outputs/trt_validation
+hemispec trt \
+  --maps-dir outputs/hemispec_workflow/intermediate/combined_maps \
+  --out-dir outputs/trt_validation
 ```
 
 ## What is not ready yet
 
 - A standalone `report` command.
 - A standalone `roi` command.
-- Public real-data preprocessing assets and approved real sample data.
+- Approved public real-MRI example data; the FSL preprocessing script itself is packaged and documented.
 - Public redistribution decision for any atlas payloads not already cleared.
 - A fully public behavioral-phenotype reproduction workflow.

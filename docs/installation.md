@@ -76,7 +76,9 @@ Public documentation should call the software **HemiSpec Toolkit**. Use `hemispe
 
 ## Neuroimaging prerequisites
 
-The preprocessing workflow depends on FSL tools such as BET, FAST, FLIRT, and `fslmaths`. Inputs to the toolkit are expected to be gray-matter maps in a consistent MNI-space grid, thresholded and masked according to the workflow assumptions.
+The model-enabled workflow starts from preprocessed GM maps, not raw T1 images. The repository study script `process_single_subject.sh` and the package variant depend on FSL tools including BET, FAST, FLIRT, and `fslmaths`; they convert one T1-weighted NIfTI into an MNI152 1.5 mm masked GM map named `*_GM_masked.nii.gz`.
+
+Read [Input and preprocessing](input-preprocessing.md) before processing real data. That page specifies the script arguments, `121 × 145 × 121` released-model grid, `0.15` GM threshold, quality-control checks, and citations.
 
 ## GUI / compiled-app fallback
 

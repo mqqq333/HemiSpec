@@ -1,4 +1,4 @@
-site_name: HemiSpec
+﻿site_name: HemiSpec
 site_description: Reconstruction-derived hemispheric specificity analysis toolkit and workflow documentation.
 site_url: https://mqqq333.github.io/HemiSpec/
 repo_url: https://github.com/mqqq333/HemiSpec
@@ -50,6 +50,7 @@ plugins:
             Home: 首页
             Get started: 快速入门
             Installation: 安装
+            Input and preprocessing: 输入与预处理
             Quick start: 快速开始
             Data and models: 数据与模型
             Tutorials: 教程
@@ -98,6 +99,7 @@ nav:
   - Home: index.md
   - Get started:
       - Installation: installation.md
+      - Input and preprocessing: input-preprocessing.md
       - Quick start: quickstart.md
       - Data and models: data-and-models.md
   - Tutorials:
@@ -128,5 +130,4 @@ nav:
       - TRT and classifier: developer/trt-and-classifier-tasks.md
       - Roadmap: developer/roadmap.md
       - Release verification v0.1.0: developer/release-verification-v0.1.0.md
-
 

@@ -1,27 +1,31 @@
-# Methods overview
+﻿# Methods overview
 
-HemiSpec documentation separates method origin from project-specific extensions.
+HemiSpec documentation separates the published method from the software implementation and downstream extensions.
 
-## Original framework
+## Published framework
 
-Wang et al. 2024 introduced a cross-hemispheric deep generation network framework for estimating one hemisphere from its contralateral counterpart and deriving neuroanatomical specificity maps from actual-reconstructed residuals.
+Wang et al. (2024) introduced a cross-hemispheric deep generation network that predicts one hemisphere from the contralateral hemisphere and derives voxel-wise measures from the actual–reconstructed difference.
 
-## Downstream task layer
+The original metric names are:
 
-HemiSpec extends the reconstruction-derived framework by treating ANS/RNS maps as reusable voxel-wise and ROI-level representations for downstream task analysis. The method layer is framed broadly so the same outputs can support demographic, hemisphere-identity, behavioral-phenotype, and disease-comparison analyses.
+- **ANS — absolute neuroanatomical specificity:** the absolute amount of reconstruction-derived hemisphere-specific signal.
+- **RNS — relative neuroanatomical specialization:** the reconstruction-derived difference expressed relative to local actual/reconstructed magnitude.
 
-## Metrics
+See [Citation](../citation.md) for the complete reference.
 
-- **ANS**: absolute neuroanatomical specificity — the absolute residual between actual and reconstructed gray-matter maps.
-- **RNS**: relative neuroanatomical specificity — the residual normalized by local gray-matter magnitude.
+## HemiSpec implementation layer
 
-ANS and RNS are metrics. HemiSpec is the software and documentation project that packages workflows around them.
+HemiSpec provides:
+
+- a documented T1-to-GM FSL preprocessing path;
+- reusable released DGN inference bundles;
+- bilateral reconstruction and ANS/RNS export;
+- optional ROI aggregation;
+- optional hemisphere-classifier and TRT validation;
+- CLI, GUI, Python API, tests, documentation, and release tooling.
+
+These software components should not be described as the origin of the DGN or ANS/RNS method.
 
 ## Downstream analyses
 
-ANS/RNS maps and ROI-level features support a range of downstream analyses:
-
-- **Age and sex effects** — how reconstruction-derived specificity varies across demographic groups.
-- **Hemisphere identity classification** — distinguishing left from right hemispheres from ROI-level ANS/RNS features.
-- **Behavioral phenotypes** — associating specificity features with behavioral or lateralization phenotypes.
-- **Disease vs. control comparisons** — comparing ANS/RNS profiles between patient groups and healthy controls.
+ANS/RNS maps and ROI features can support demographic analyses, hemisphere-identity classification, behavioral-phenotype associations, and disease–control comparisons. Each downstream analysis requires its own design, confound control, validation, and citation; the existence of a HemiSpec command does not by itself establish scientific validity for a new cohort.

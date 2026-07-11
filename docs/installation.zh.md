@@ -76,7 +76,9 @@ python -m pip install -e .[dev,gui]
 
 ## 神经影像前置条件
 
-预处理工作流依赖 FSL 工具，如 BET、FAST、FLIRT 和 `fslmaths`。工具包的输入应为统一 MNI 空间网格中的灰质图，并根据工作流假设进行阈值处理和掩膜操作。
+启用模型的工作流从预处理 GM 图开始，不能直接输入原始 T1。仓库研究脚本 `process_single_subject.sh` 与包内变体均依赖 BET、FAST、FLIRT 和 `fslmaths` 等 FSL 工具，将每张 T1 加权 NIfTI 转换为 MNI152 1.5 mm 空间的 `*_GM_masked.nii.gz`。
+
+处理真实数据前，请阅读[输入与预处理](input-preprocessing.md)。该页明确脚本参数、`121 × 145 × 121` 已发布模型网格、`0.15` GM 阈值、质控项目与引用。
 
 ## GUI / 编译应用备用方案
 
