@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1753,9 +1753,9 @@
 </p>
 <h2 id="_1">端到端工作流<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <figure>
-  <img alt="HemiSpec 工作流概览" src="../assets/figures/candidate-1.png" width="100%" />
+  <img alt="跨半球重建与 ANS/RNS 定义" src="../assets/figures/hemispec-study-design.png" width="100%" />
 <br />
-<figcaption>T1 加权 MRI → FSL 灰质预处理 → MNI152 1.5 mm GM 输入 → 双向 DGN 重建 → ANS/RNS 图 → 可选 ROI 汇总与验证 → 下游分析。</figcaption>
+<figcaption>基于 Wang 等人（2024）重建框架与 ANS/RNS 定义的原理示意。HemiSpec 从 FSL 预处理后的 GM 图开始；ANS/RNS 为非负的 GM 衍生指标，不是以毫米计量的距离。半球验证为可选步骤，图中的行为表型分析不属于当前内置工作流。</figcaption>
 </figure>
 <table>
 <thead>
@@ -1812,13 +1812,13 @@
 <li>
 <p><strong>准备真实 MRI 输入</strong></p>
 <hr />
-<p>从 T1 加权 NIfTI 开始，运行打包的 FSL 脚本，并检查 DGN 输入网格和质量控制项目。</p>
+<p>从 T1 加权 NIfTI 开始，运行 <code>process_single_subject.sh</code>，并检查 DGN 输入网格和质量控制项目。</p>
 <p><a href="input-preprocessing/">输入与预处理</a></p>
 </li>
 <li>
 <p><strong>运行 HemiSpec</strong></p>
 <hr />
-<p>通过 GitHub Release wheel 或源码检出安装，检查模型就绪状态，并运行 GUI 或双向 CLI 工作流。</p>
+<p>通过 Git LFS 检出并安装当前源码，检查模型就绪状态，再运行 GUI 或双向 CLI 工作流。</p>
 <p><a href="quickstart/">快速开始</a></p>
 </li>
 <li>
@@ -1836,7 +1836,8 @@
 </ul>
 </div>
 <h2 id="_3">当前软件范围<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>HemiSpec v0.1.0 为公开测试版，目前通过 GitHub Release 和源码仓库分发；PyPI 项目尚未公开。GUI 和 CLI 生成体素级 ANS/RNS 图；ROI 表、半球分类器验证和 TRT 验证目前仍是可选下游步骤。</p>
+<p>本站文档对应当前 <code>main</code> 分支源码。归档 <code>v0.1.0</code> 发行包不包含本站所有命令，例如 <code>quickstart</code> 和模型缓存自动安装；详见<a href="installation/">安装</a>。PyPI 项目尚未公开。报告软件使用情况时，应记录源码 commit。</p>
+<p>GUI 和 CLI 生成体素级 ANS/RNS 图。ROI 表、半球分类器验证和 TRT 验证均为可选步骤。ROI 导出需要与输入网格一致的 atlas；已发布分类器还要求兼容的 Glasser atlas 及标签。每次运行应使用新的输出目录。</p>
 <hr />
 <p class="site-credits">
   源码：<a href="https://github.com/mqqq333/HemiSpec" target="_blank" rel="noopener">github.com/mqqq333/HemiSpec</a>。文档基于 <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">Material for MkDocs</a> 构建。
@@ -1894,7 +1895,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

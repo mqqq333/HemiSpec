@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1750,7 +1750,7 @@
 <li>模型下载写入的用户缓存；</li>
 <li>仅为兼容保留的 <code>outputs_bi_stable_L/R</code> 等旧目录。</li>
 </ol>
-<p>发布 wheel 保持轻量：只包含软件包代码和小型资源，不嵌入大型模型检查点、atlas 载荷或受试者级示例。启用模型的运行从 Git-LFS 源码检出、用户缓存或显式配置的离线资产包获取已批准的 DGN/分类器资产。</p>
+<p>发布 wheel 保持轻量：只包含软件包代码和小型资源，不嵌入大型模型检查点、atlas 载荷或受试者级示例。在当前 <code>main</code> 中，DGN 检查点可来自 Git-LFS 源码检出、用户缓存或显式配置的离线资产包。分类器缓存下载目前并不完整，分类器资产需要来自 Git-LFS 检出或显式本地目录；详见<a href="../../data-and-models/">数据与模型</a>。归档 <code>v0.1.0</code> wheel 不包含当前下载器。</p>
 
 
 
@@ -1804,7 +1804,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

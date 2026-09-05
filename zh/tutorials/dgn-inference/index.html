@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -749,7 +749,7 @@
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        安装
+        安装与本地模型资产
       
     </span>
   </a>
@@ -760,7 +760,29 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        输入
+        输入与空间质控
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLI 示例
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python API 示例
       
     </span>
   </a>
@@ -771,18 +793,7 @@
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        输出
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        当前状态
+        实际输出行为
       
     </span>
   </a>
@@ -1684,7 +1695,7 @@
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        安装
+        安装与本地模型资产
       
     </span>
   </a>
@@ -1695,7 +1706,29 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        输入
+        输入与空间质控
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CLI 示例
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python API 示例
       
     </span>
   </a>
@@ -1706,18 +1739,7 @@
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        输出
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        当前状态
+        实际输出行为
       
     </span>
   </a>
@@ -1745,26 +1767,69 @@
 
 
 <h1 id="dgn">DGN 推理<a class="headerlink" href="#dgn" title="Permanent link">&para;</a></h1>
-<p>本教程展示如何将已发布的 HemiSpec DGN 模型包应用于预处理灰质图。</p>
-<h2 id="_1">安装<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>从源码检出安装 model 额外依赖，并可选择预下载已发布检查点：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>model<span class="o">]</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>hemispec<span class="w"> </span>models<span class="w"> </span>--install
+<p>本教程使用当前源码检出中的模型文件，对预处理灰质图运行一个方向的已发布 HemiSpec DGN。</p>
+<h2 id="_1">安装与本地模型资产<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>先按照<a href="../../installation/">安装</a>使用 Git LFS 克隆仓库，再从仓库根目录拉取检查点并安装 model 额外依赖：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>lfs<span class="w"> </span>install
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>lfs<span class="w"> </span>pull
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[model]"</span>
 </code></pre></div>
-<p>源码开发时，请使用 Git LFS 克隆，并运行 <code>python -m pip install -e .[model]</code>。</p>
-<h2 id="_2">输入<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<ul>
-<li>预处理的 <code>*_GM_masked.nii.gz</code> 文件。</li>
-<li>包含权重、模型方向、预处理假设和版本元数据的 HemiSpec 模型包。</li>
-</ul>
-<h2 id="_3">输出<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<ul>
-<li>重建的半球图。</li>
-<li>源半球和目标半球记录。</li>
-<li>包含模型版本、命令、参数和输出路径的运行清单。</li>
-</ul>
-<h2 id="_4">当前状态<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>默认已发布模型包可通过 Git LFS 源码检出或 GitHub Release 缓存下载获得。发布任何额外训练权重前，需先批准发布政策、出处、校验和和许可证说明。</p>
+<p>当前检出应包含：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>assets/models/dgn/outputs_bi_stable_L/ckpts/best_netG_L.pth
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>assets/models/dgn/outputs_bi_stable_R/ckpts/best_netG_R.pth
+</code></pre></div>
+<p>该源码检出流程直接使用这些本地文件，不需要运行 <code>hemispec models --install</code>。</p>
+<h2 id="_2">输入与空间质控<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>输入必须是符合<a href="../../input-preprocessing/">输入与预处理</a>要求的 <code>*_GM_masked.nii.gz</code> 文件。推理前必须核对标准 FSL MNI152 1.5 mm 空间网格：形状为 <code>121 x 145 x 121</code>，体素大小为 <code>1.5 x 1.5 x 1.5 mm</code>，方向一致，并且完整 affine 一致。仅文件名或维度相同不能证明空间兼容。</p>
+<p>检查点布局和模型方向映射见<a href="../../reference/model-bundles/">模型包</a>。</p>
+<h2 id="cli">CLI 示例<a class="headerlink" href="#cli" title="Permanent link">&para;</a></h2>
+<p>在新的输出目录中运行从左到右的推理：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>hemispec<span class="w"> </span>infer<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">"derivatives/*_GM_masked.nii.gz"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>--model-root<span class="w"> </span><span class="s2">"assets/models/dgn"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>--direction<span class="w"> </span>L_to_R<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span>--out-dir<span class="w"> </span><span class="s2">"outputs/dgn_inference_l2r"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span>--device<span class="w"> </span>auto
+</code></pre></div>
+<p>运行相反方向时应使用新的目录，避免混合不同检查点的输出：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>hemispec<span class="w"> </span>infer<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">"derivatives/*_GM_masked.nii.gz"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>--model-root<span class="w"> </span><span class="s2">"assets/models/dgn"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span>--direction<span class="w"> </span>R_to_L<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span>--out-dir<span class="w"> </span><span class="s2">"outputs/dgn_inference_r2l"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span>--device<span class="w"> </span>auto
+</code></pre></div>
+<h2 id="python-api">Python API 示例<a class="headerlink" href="#python-api" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hemispec</span><span class="w"> </span><span class="kn">import</span> <span class="n">DGNInferenceConfig</span><span class="p">,</span> <span class="n">discover_local_dgn_bundles</span><span class="p">,</span> <span class="n">run_dgn_inference</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">bundles</span> <span class="o">=</span> <span class="n">discover_local_dgn_bundles</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">"assets/models/dgn"</span><span class="p">))</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">output_paths</span> <span class="o">=</span> <span class="n">run_dgn_inference</span><span class="p">(</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="n">DGNInferenceConfig</span><span class="p">(</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>        <span class="n">model</span><span class="o">=</span><span class="n">bundles</span><span class="p">[</span><span class="s2">"L_to_R"</span><span class="p">],</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>        <span class="n">input_glob</span><span class="o">=</span><span class="s2">"derivatives/*_GM_masked.nii.gz"</span><span class="p">,</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">"outputs/dgn_inference_l2r_api"</span><span class="p">),</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>        <span class="n">direction</span><span class="o">=</span><span class="s2">"L_to_R"</span><span class="p">,</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>        <span class="n">device</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    <span class="p">)</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="p">)</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">output_paths</span><span class="p">:</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</code></pre></div>
+<p><code>run_dgn_inference()</code> 在内存中返回输出路径；CLI 会打印输出数量和路径。两个接口都不会写出运行清单。</p>
+<h2 id="_3">实际输出行为<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>对于 <code>derivatives/sub-001_GM_masked.nii.gz</code>，默认输出为：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>outputs/dgn_inference_l2r/sub-001_GM_masked_PRED_LR_full.nii.gz
+</code></pre></div>
+<p>输出保持输入 NIfTI 的完整网格，其中目标裁剪区由模型重建，经过阈值处理的源裁剪区从输入复制；目标裁剪区内位于目标掩膜外的体素仍保留输入值。返回记录是路径，不是持久化的源/目标记录表或运行清单。</p>
+<p>请手动记录每次运行的来源信息，至少保存 HemiSpec commit 和检查点哈希：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>git<span class="w"> </span>rev-parse<span class="w"> </span>HEAD<span class="w"> </span>&gt;<span class="w"> </span>outputs/dgn_inference_l2r/hemispec_commit.txt
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>sha256sum<span class="w"> </span>assets/models/dgn/outputs_bi_stable_R/ckpts/best_netG_R.pth<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span>&gt;<span class="w"> </span>outputs/dgn_inference_l2r/checkpoint.sha256
+</code></pre></div>
+<p><code>L_to_R</code> 模型包解析到 <code>outputs_bi_stable_R/ckpts/best_netG_R.pth</code>，因为目标半球是右侧。在 PowerShell 中请使用 <code>Get-FileHash -Algorithm SHA256</code> 代替 <code>sha256sum</code>。</p>
 
 
 
@@ -1818,7 +1883,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

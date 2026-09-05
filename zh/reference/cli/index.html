@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1770,7 +1770,7 @@
 <p>首选公开命令为：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>hemispec
 </code></pre></div>
-<p>以下子命令已于 2026-07-11 与当前工具包接口核对。如果工具包源码或包名发生变化，请在公开发布前重新核对。</p>
+<p>以下子命令已于 2026-09-05 与当前工具包接口核对。如果工具包源码或包名发生变化，请在公开发布前重新核对。</p>
 <h2 id="_1">当前子命令<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>hemispec quickstart      运行公开安全的合成测试
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>hemispec models          列出或预下载已发布的训练 DGN 模型包
@@ -1785,10 +1785,11 @@
 <h2 id="_2">命令命名<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>命令行界面使用 <code>hemispec</code>，图形界面使用 <code>hemispec-gui</code>。</p>
 <h2 id="_3">模型资产预取<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>Release wheel 与源码安装可预下载已发布的 DGN 检查点和分类器包：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>hemispec<span class="w"> </span>models<span class="w"> </span>--install<span class="w"> </span>--with-classifier
+<p>当前 <code>main</code> 可预下载 Git LFS 追踪的 DGN 检查点：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>hemispec<span class="w"> </span>models<span class="w"> </span>--install
 </code></pre></div>
-<p>如果跳过此步骤，<code>workflow</code>、<code>infer</code>、<code>run</code> 和 GUI 会在首次模型使用时自动下载已发布的 DGN 检查点。</p>
+<p>如果跳过此步骤，<code>workflow</code>、<code>infer</code>、<code>run</code> 和 GUI 会在首次使用模型时从仓库 <code>main</code> 分支的 Git LFS media 下载 DGN 检查点。</p>
+<p>CLI 仍支持 <code>--with-classifier</code>，但目前不应将其作为可用的安装方法，因为必需的 <code>feature_names.csv</code> media URL 返回 HTTP 404。请从本地 Git LFS 检出使用分类器资产，并通过 <code>--classifier-model-dir</code> 或 <code>HEMISPEC_CLASSIFIER_MODEL_DIR</code> 指定；详见<a href="../../data-and-models/">数据与模型中的已知限制</a>。</p>
 <h2 id="roi">ROI 输出<a class="headerlink" href="#roi" title="Permanent link">&para;</a></h2>
 <p>ROI 导出目前通过 <code>compute</code>、<code>run</code> 和 <code>workflow</code> 上的选项暴露。对于 <code>workflow</code>，ROI 导出是可选的，可用 <code>--no-roi-table</code> 跳过；分类器验证通过 <code>--run-classifier</code> 选择启用，且需要 ROI 特征。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>--roi-atlas
@@ -1799,6 +1800,7 @@
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>--run-classifier
 </code></pre></div>
 <p>目前还没有独立的 <code>roi</code> 子命令。</p>
+<p>已发布分类器只接受来自兼容 Glasser 1.5 mm atlas 的特征：左侧同源标签为 <code>1..180</code>，右侧为 <code>1001..1180</code>。自定义 atlas 可用于 ROI 导出，但不能与已发布分类器配合使用。</p>
 <h2 id="_4">报告<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>目前还没有独立的 <code>report</code> 子命令。报告应被视为计划中的功能，直到实现为止。</p>
 <p>ANS/RNS 与跨半球 DGN 框架源自 Wang 等人（2024），详见<a href="../../citation/">引用</a>。</p>
@@ -1855,7 +1857,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

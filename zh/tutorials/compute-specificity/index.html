@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1792,29 +1792,34 @@
 <p>ANS/RNS 的定义见<a href="../../methods/ans-rns-metrics/">ANS 与 RNS 指标</a>，其方法源自 Wang 等人（2024）。</p>
 <p>本教程介绍重建后的 ANS/RNS 计算。</p>
 <h2 id="_2">安装<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>从 GitHub Release 下载 v0.1.0 wheel 并在本地安装：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>./hemispec_toolkit-0.1.0-py3-none-any.whl
+<p>使用当前源码检出。克隆前启用 Git LFS，使该检出也可用于模型驱动工作流：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>lfs<span class="w"> </span>install
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mqqq333/HemiSpec.git
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>HemiSpec
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>git<span class="w"> </span>lfs<span class="w"> </span>pull
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">"."</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>git<span class="w"> </span>rev-parse<span class="w"> </span>HEAD
 </code></pre></div>
-<p>源码开发时，可在本地检出目录中使用 <code>python -m pip install -e .</code>。</p>
-<p>如需完整的包内冒烟测试，可运行 <code>hemispec quickstart --out-dir hemispec_quickstart</code>；它会生成玩具配对输入并执行本页的计算路径。</p>
+<p>请将输出的 commit 哈希与分析记录一同保存。旧版本仍可从 <a href="https://github.com/mqqq333/HemiSpec/releases">GitHub Releases 页面</a>获取，但本教程面向当前 <code>main</code>。</p>
+<p>如需完整的包内冒烟测试，可运行 <code>hemispec quickstart --out-dir hemispec_quickstart_run_001</code>；它会生成玩具配对输入并执行本页的计算路径。每次运行应使用新的输出目录。</p>
 <h2 id="_3">所需配对输入<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>每个受试者需要一张实际目标灰质图和一张相同形状、仿射变换和方向的重建对应物。</p>
 <h2 id="_4">当前命令<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>hemispec<span class="w"> </span>compute<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>--actual-glob<span class="w"> </span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>--predicted-glob<span class="w"> </span><span class="s2">&quot;outputs/recon/*_PRED_LR_full.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/specificity<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>--actual-glob<span class="w"> </span><span class="s2">"derivatives/*_GM_masked.nii.gz"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>--predicted-glob<span class="w"> </span><span class="s2">"outputs/recon/*_PRED_LR_full.nii.gz"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/specificity_run_001<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span>--save-subject-maps
 </code></pre></div>
 <p>这会写入组级 ANS/RNS 图，使用 <code>--save-subject-maps</code> 时还会写入受试者级图，用于验证和 ROI 提取。</p>
 <h2 id="roi">ROI 导出<a class="headerlink" href="#roi" title="Permanent link">&para;</a></h2>
-<p>ROI 特征导出可通过 <code>compute</code> 选项实现。在添加公开 HemiSpec atlas 资产或记录外部 atlas 安装之前，atlas 路径为占位符：</p>
+<p>ROI 特征导出可通过 <code>compute</code> 选项实现。请提供位于指标图网格上的经批准本地 atlas，详见<a href="../../data-and-models/">数据与模型</a>。将示例路径替换为实际 atlas 路径：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>hemispec<span class="w"> </span>compute<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>--actual-glob<span class="w"> </span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>--predicted-glob<span class="w"> </span><span class="s2">&quot;outputs/recon/*_PRED_LR_full.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/specificity<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span>--roi-atlas<span class="w"> </span>&lt;atlas路径&gt;<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span>--roi-out-csv<span class="w"> </span>outputs/roi_features.csv
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>--actual-glob<span class="w"> </span><span class="s2">"derivatives/*_GM_masked.nii.gz"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>--predicted-glob<span class="w"> </span><span class="s2">"outputs/recon/*_PRED_LR_full.nii.gz"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/specificity_roi_run_001<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span>--roi-atlas<span class="w"> </span>/approved/path/atlas.nii.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span>--roi-out-csv<span class="w"> </span>outputs/specificity_roi_run_001/roi_features.csv
 </code></pre></div>
 <p>目前还没有独立的 <code>roi</code> 命令。</p>
 <h2 id="_5">输出<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
@@ -1825,7 +1830,7 @@
 <li>启用时的组级体素汇总。</li>
 </ul>
 <h2 id="_6">计算前检查<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<p>HemiSpec 在写入输出之前应验证形状、仿射变换、有限值、半球标签和有效掩膜。</p>
+<p><code>compute</code> 会检查配对文件之间的形状和 affine 是否一致，并将非有限值体素排除在有效掩膜之外。这些检查不能证明标准 MNI 对齐、正确的半球标识或解剖质量。计算前仍应按<a href="../../input-preprocessing/">输入与预处理</a>核验体素大小、方向、完整模板 affine、配准、分割和掩膜质量。</p>
 
 
 
@@ -1879,7 +1884,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1789,40 +1789,36 @@
 
 
 <h1 id="model-enabled-dgn-workflow">Model-enabled DGN workflow<a class="headerlink" href="#model-enabled-dgn-workflow" title="Permanent link">&para;</a></h1>
-<p>The PyPI project is not public yet; use the GitHub Release or a source checkout.</p>
-<p>This page documents the current model-enabled workflow for running HemiSpec with the reusable released model parameters. The DGN checkpoints and hemisphere-classifier bundles are tracked with Git LFS under <code>assets/models/</code>; release-wheel installs can download the same files into the user cache. Real MRI inputs and generated outputs are not distributed.</p>
+<p>The PyPI project is not public. This page targets a current source checkout from <code>main</code>; archived versions are available on the <a href="https://github.com/mqqq333/HemiSpec/releases">GitHub Releases page</a>.</p>
+<p>This page documents the current model-enabled workflow using the reusable parameters tracked with Git LFS under <code>assets/models/</code>. Real MRI inputs and generated outputs are not distributed.</p>
 <h2 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>Synthetic compute-only demo:</strong> available without model assets; see <a href="../../quickstart/">Quick start</a>.</li>
 <li><strong>Model-enabled source checkout:</strong> available when cloned with Git LFS and run from a PyTorch environment.</li>
-<li><strong>Release wheel / lightweight desktop installs:</strong> model-enabled through first-run download of the released checkpoints into the user cache; PyTorch is still required in the active environment.</li>
+<li><strong>DGN cache download:</strong> current <code>main</code> can download missing DGN checkpoints from the repository's Git LFS media; the complete classifier bundle must come from a local Git LFS checkout or another approved local directory.</li>
 </ul>
 <h2 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h2>
-<p>Source-checkout install:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>gui,model,classifier<span class="o">]</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>hemispec<span class="w"> </span>models<span class="w"> </span>--install<span class="w"> </span>--with-classifier<span class="w">  </span><span class="c1"># optional pre-download</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>lfs<span class="w"> </span>install
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mqqq333/HemiSpec.git
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>HemiSpec
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>git<span class="w"> </span>lfs<span class="w"> </span>pull
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[gui,model,classifier]"</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>git<span class="w"> </span>rev-parse<span class="w"> </span>HEAD
 </code></pre></div>
-<p>Source checkout:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>lfs<span class="w"> </span>install
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mqqq333/HemiSpec.git
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nb">cd</span><span class="w"> </span>HemiSpec
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>git<span class="w"> </span>lfs<span class="w"> </span>pull
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>gui,model,classifier<span class="o">]</span>
-</code></pre></div>
-<p>On Windows, run those commands from the conda environment that contains the desired PyTorch/CUDA build.</p>
+<p>Record the printed commit hash with the analysis. On Windows, run these commands from the conda environment that contains the desired PyTorch/CUDA build.</p>
 <h2 id="bundled-model-layout">Bundled model layout<a class="headerlink" href="#bundled-model-layout" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>assets/models/dgn/
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  outputs_bi_stable_L/ckpts/best_netG_L.pth
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  outputs_bi_stable_R/ckpts/best_netG_R.pth
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>assets/models/hemisphere_classifier/
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>  OUT_noICBM_train_ICBM_external_saved_models/
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>  OUT_noICBM_train_ICBM_external_saved_models_paired_residual/
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>assets/models/dgn/
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  outputs_bi_stable_L/ckpts/best_netG_L.pth
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  outputs_bi_stable_R/ckpts/best_netG_R.pth
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>assets/models/hemisphere_classifier/
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>  OUT_noICBM_train_ICBM_external_saved_models/
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  OUT_noICBM_train_ICBM_external_saved_models_paired_residual/
 </code></pre></div>
-<p>HemiSpec discovers this layout automatically. Release-wheel installs use the same layout in the user model cache after automatic download. You only need <code>HEMISPEC_DGN_MODEL_ROOT</code> or <code>HEMISPEC_CLASSIFIER_MODEL_DIR</code> when you want to override the released defaults.</p>
+<p>HemiSpec discovers this source-checkout layout automatically. <code>HEMISPEC_DGN_MODEL_ROOT</code> and <code>HEMISPEC_CLASSIFIER_MODEL_DIR</code> can select other approved local assets. Current <code>main</code> can populate the DGN cache with <code>hemispec models --install</code>; do not use <code>--with-classifier</code> as an installation recipe because required <code>feature_names.csv</code> media URLs currently return HTTP 404. See <a href="../../data-and-models/#current-cache-download-boundary">Data and models</a>.</p>
 <h2 id="gui-path">GUI path<a class="headerlink" href="#gui-path" title="Permanent link">&para;</a></h2>
 <p>Start the GUI with:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>hemispec-gui<span class="w">                 </span><span class="c1"># installed source or release-wheel environment</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>python<span class="w"> </span>scripts/hemispec_gui_entry.py<span class="w">  </span><span class="c1"># source checkout</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>hemispec-gui
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>python<span class="w"> </span>scripts/hemispec_gui_entry.py<span class="w">  </span><span class="c1"># equivalent source-checkout entry</span>
 </code></pre></div>
 <p>The setup status card reports:</p>
 <ul>
@@ -1832,26 +1828,36 @@
 <li>PyTorch: available / missing.</li>
 </ul>
 <p>Choose either a folder containing <code>*_GM_masked.nii.gz</code> files or a glob such as <code>derivatives/*_GM_masked.nii.gz</code>, choose an output workspace, and click <strong>Run HemiSpec</strong>. The log prints per-file inference, compute, and merge progress; <strong>Stop</strong> requests cancellation after the current file.</p>
-<p>ROI table export is optional. The ROI atlas and label table paths are reference files for ROI summaries and classifier validation; uncheck <strong>Export ROI table</strong> when you only need voxel-wise/subject-level ANS/RNS maps.</p>
+<p>ROI table export is optional. Any atlas on the input grid may be used for ROI-only export. The released classifier specifically requires its compatible Glasser 1.5 mm atlas and label table, with labels <code>1..180</code> on the left and <code>1001..1180</code> on the right. Uncheck <strong>Export ROI table</strong> when you only need voxel-wise/subject-level ANS/RNS maps.</p>
 <h2 id="cli-path">CLI path<a class="headerlink" href="#cli-path" title="Permanent link">&para;</a></h2>
 <p>First confirm that HemiSpec discovers both DGN directions:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>hemispec<span class="w"> </span>models
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>hemispec<span class="w"> </span>models
 </code></pre></div>
 <p>Then run the standard bilateral workflow on approved preprocessed gray-matter maps:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">"derivatives/*_GM_masked.nii.gz"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_workflow_run_001
+</code></pre></div>
+<p>Classifier validation requires the compatible Glasser assets; do not substitute a custom atlas:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_full_demo
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">"derivatives/*_GM_masked.nii.gz"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_classifier_run_001<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span>--roi-atlas<span class="w"> </span><span class="s2">"</span><span class="nv">$HEMISPEC_GLASSER_ATLAS</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span>--roi-label-table<span class="w"> </span><span class="s2">"</span><span class="nv">$HEMISPEC_GLASSER_LABEL_TABLE</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span>--classifier-model-dir<span class="w"> </span><span class="s2">"assets/models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">  </span>--run-classifier
 </code></pre></div>
-<p>With optional ROI table, classifier validation, and TRT reliability:</p>
+<p>TRT requires at least two subjects with two scans each. For example, prepare <code>sub-001_run-01_GM_masked.nii.gz</code>, <code>sub-001_run-02_GM_masked.nii.gz</code>, and the corresponding pair for <code>sub-002</code>; then make the filename parser and session values explicit:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_full_demo<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span>--roi-atlas<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HEMISPEC_GLASSER_ATLAS</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span>--roi-label-table<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$HEMISPEC_GLASSER_LABEL_TABLE</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">  </span>--run-classifier<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">  </span>--run-trt
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">"derivatives/sub-*_run-*_GM_masked.nii.gz"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_trt_run_001<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span>--run-trt<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span>--trt-file-regex<span class="w"> </span><span class="s2">"(?P&lt;subject&gt;sub-[0-9]+)_(?P&lt;session&gt;run-[0-9]+)"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">  </span>--trt-session-a<span class="w"> </span>run-01<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">  </span>--trt-session-b<span class="w"> </span>run-02<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">  </span>--keep-intermediate
 </code></pre></div>
-<p>Classifier/TRT outputs from tiny smoke-test datasets should be treated as connectivity checks, not model-performance evidence.</p>
+<p>The TRT regex is applied to merged names such as <code>sub-001_run-01_ANS.nii.gz</code>, after <code>_GM_masked</code> has been removed. Use <code>--keep-intermediate</code> when <code>intermediate/combined_maps/</code> will later be passed to standalone validation; direction-specific maps use a different suffix contract. Every example uses a fresh output directory because workflow output directories are not intended to be reused.</p>
 <h2 id="release-boundary">Release boundary<a class="headerlink" href="#release-boundary" title="Permanent link">&para;</a></h2>
 <p>The repository model bundles let users run inference without retraining. They do not include raw MRI data, generated outputs, or private manuscript-only analysis tables. Additional public assets should include provenance, checksums, compatible HemiSpec version, preprocessing assumptions, and license/citation notes; see <a href="../../reference/asset-bundle/">External asset bundles</a>.</p>
 
@@ -1907,7 +1913,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

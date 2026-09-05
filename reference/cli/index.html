@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1770,7 +1770,7 @@
 <p>The preferred public command is:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>hemispec
 </code></pre></div>
-<p>The subcommands below were checked against the current toolkit interface on 2026-07-11. Re-check them before public release if the toolkit source or package name changes.</p>
+<p>The subcommands below were checked against the current toolkit interface on 2026-09-05. Re-check them before public release if the toolkit source or package name changes.</p>
 <h2 id="current-subcommands">Current subcommands<a class="headerlink" href="#current-subcommands" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>hemispec quickstart      run the public-safe synthetic smoke test
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>hemispec models          list or pre-download released trained DGN model bundles
@@ -1785,10 +1785,11 @@
 <h2 id="command-naming">Command naming<a class="headerlink" href="#command-naming" title="Permanent link">&para;</a></h2>
 <p>Use <code>hemispec</code> for the command-line interface and <code>hemispec-gui</code> for the graphical interface.</p>
 <h2 id="model-asset-prefetch">Model asset prefetch<a class="headerlink" href="#model-asset-prefetch" title="Permanent link">&para;</a></h2>
-<p>Release-wheel and source installs can pre-download the released DGN checkpoints and classifier bundle:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>hemispec<span class="w"> </span>models<span class="w"> </span>--install<span class="w"> </span>--with-classifier
+<p>Current <code>main</code> can pre-download the DGN checkpoints tracked by Git LFS:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>hemispec<span class="w"> </span>models<span class="w"> </span>--install
 </code></pre></div>
-<p>If this is skipped, <code>workflow</code>, <code>infer</code>, <code>run</code>, and the GUI download the released DGN checkpoints automatically on first model use.</p>
+<p>If this is skipped, <code>workflow</code>, <code>infer</code>, <code>run</code>, and the GUI download the DGN checkpoints from the repository's <code>main</code> Git LFS media on first model use.</p>
+<p>The CLI still supports <code>--with-classifier</code>, but it is not a working installation recommendation at present because required <code>feature_names.csv</code> media URLs return HTTP 404. Obtain classifier assets from a local Git LFS checkout and use <code>--classifier-model-dir</code> or <code>HEMISPEC_CLASSIFIER_MODEL_DIR</code>; see the <a href="../../data-and-models/#current-cache-download-boundary">known limitation</a>.</p>
 <h2 id="roi-outputs">ROI outputs<a class="headerlink" href="#roi-outputs" title="Permanent link">&para;</a></h2>
 <p>ROI export is currently exposed through options on <code>compute</code>, <code>run</code>, and <code>workflow</code>. For <code>workflow</code>, ROI export is optional and can be skipped with <code>--no-roi-table</code>; classifier validation is opt-in with <code>--run-classifier</code> and requires ROI features.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>--roi-atlas
@@ -1799,6 +1800,7 @@
 <a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>--run-classifier
 </code></pre></div>
 <p>There is not yet a standalone <code>roi</code> subcommand.</p>
+<p>The released classifier accepts only features from its compatible Glasser 1.5 mm atlas: homologous labels <code>1..180</code> on the left and <code>1001..1180</code> on the right. A custom atlas may be used for ROI export, but not with the released classifier.</p>
 <h2 id="reporting">Reporting<a class="headerlink" href="#reporting" title="Permanent link">&para;</a></h2>
 <p>There is not yet a standalone <code>report</code> subcommand. Reporting should be treated as a planned feature until implemented.</p>
 <p>ANS/RNS and the cross-hemispheric DGN framework originate from Wang et al. (2024); see <a href="../../citation/">Citation</a>.</p>
@@ -1855,7 +1857,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

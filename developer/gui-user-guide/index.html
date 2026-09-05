@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1891,36 +1891,37 @@
 <h1 id="gui-user-guide">GUI user guide<a class="headerlink" href="#gui-user-guide" title="Permanent link">&para;</a></h1>
 <p>The package-installed <code>hemispec-gui</code> command launches the standard HemiSpec bilateral workflow. Start it from the same Python environment that contains HemiSpec and PyTorch.</p>
 <h2 id="launch">Launch<a class="headerlink" href="#launch" title="Permanent link">&para;</a></h2>
-<p>From a source checkout:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>gui,model,classifier<span class="o">]</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>hemispec-gui
+<p>Install the current GUI from a Git LFS source checkout of <code>main</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>lfs<span class="w"> </span>install
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mqqq333/HemiSpec.git
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>HemiSpec
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>git<span class="w"> </span>lfs<span class="w"> </span>pull
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[gui,model,classifier]"</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>git<span class="w"> </span>rev-parse<span class="w"> </span>HEAD
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>hemispec-gui
 </code></pre></div>
-<p>From the v0.1.0 release wheel:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;./hemispec_toolkit-0.1.0-py3-none-any.whl[gui,model,classifier]&quot;</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>hemispec-gui
-</code></pre></div>
-<p>The PyPI project is not yet public; use the GitHub Release wheel or a source checkout.</p>
+<p>Record the printed commit hash with the analysis. The PyPI project is not public, and this guide does not use the archived v0.1.0 wheel. Older versions remain available on the <a href="https://github.com/mqqq333/HemiSpec/releases">GitHub Releases page</a>.</p>
 <h2 id="before-opening-the-gui">Before opening the GUI<a class="headerlink" href="#before-opening-the-gui" title="Permanent link">&para;</a></h2>
 <p>Prepare one DGN-ready GM map per subject. Raw T1-weighted images must first pass through the documented FSL preprocessing workflow:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>T1-weighted NIfTI -&gt; process_single_subject.sh -&gt; *_GM_masked.nii.gz
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>T1-weighted NIfTI -&gt; process_single_subject.sh -&gt; *_GM_masked.nii.gz
 </code></pre></div>
 <p>See <a href="../../input-preprocessing/">Input and preprocessing</a>.</p>
 <h2 id="six-gui-cards">Six GUI cards<a class="headerlink" href="#six-gui-cards" title="Permanent link">&para;</a></h2>
 <h3 id="1-input-gm-maps">1. Input GM maps<a class="headerlink" href="#1-input-gm-maps" title="Permanent link">&para;</a></h3>
 <p>Select a directory or enter a glob such as:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>derivatives/*_GM_masked.nii.gz
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>derivatives/*_GM_masked.nii.gz
 </code></pre></div>
 <h3 id="2-output-workspace">2. Output workspace<a class="headerlink" href="#2-output-workspace" title="Permanent link">&para;</a></h3>
-<p>Choose a new or existing output directory. Final maps are written under <code>voxel_maps/</code>; tables and optional validation outputs use their own subdirectories.</p>
+<p>Choose a new, empty output directory for each run. Final maps are written under <code>voxel_maps/</code>; tables and optional validation outputs use their own subdirectories.</p>
 <h3 id="3-setup-status">3. Setup status<a class="headerlink" href="#3-setup-status" title="Permanent link">&para;</a></h3>
 <p>Confirm that PyTorch and both DGN directions are available. Atlas and classifier rows are optional unless their corresponding options are enabled.</p>
 <h3 id="4-optional-roi-table">4. Optional ROI table<a class="headerlink" href="#4-optional-roi-table" title="Permanent link">&para;</a></h3>
-<p>Enable ROI export only when an atlas and compatible label table are available. The atlas must share the input-map grid and affine.</p>
+<p>Enable ROI export only when an atlas and compatible label table are available. The atlas must share the input-map grid and affine. A custom atlas is valid for ROI-only export. The released classifier instead requires its compatible Glasser 1.5 mm atlas, with labels <code>1..180</code> on the left and <code>1001..1180</code> on the right.</p>
 <h3 id="5-optional-validation">5. Optional validation<a class="headerlink" href="#5-optional-validation" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Hemisphere-classifier validation</strong> requires ROI features and remains optional.</li>
-<li><strong>TRT reliability</strong> requires filenames that match the configured session pattern.</li>
-<li><strong>Keep intermediate outputs</strong> preserves reconstructions and direction-specific maps for debugging or standalone validation.</li>
+<li><strong>Hemisphere-classifier validation</strong> requires the compatible Glasser ROI features and a local classifier bundle from the Git LFS checkout. Current classifier cache download is incomplete; see <a href="../../data-and-models/#current-cache-download-boundary">Data and models</a>.</li>
+<li><strong>TRT reliability</strong> requires at least two subjects with two scans each. The GUI uses its encapsulated default pattern, such as <code>sub-MSC001_run-01_GM_masked.nii.gz</code> and <code>sub-MSC001_run-02_GM_masked.nii.gz</code>; use the CLI when filenames such as <code>sub-001_run-01_GM_masked.nii.gz</code> require explicit regex/session flags.</li>
+<li><strong>Keep intermediate outputs</strong> preserves reconstructions and direction-specific maps for debugging, plus <code>intermediate/combined_maps/</code> for later standalone validation. Direction-specific maps use a different suffix contract.</li>
 </ul>
 <h3 id="6-run-controls">6. Run controls<a class="headerlink" href="#6-run-controls" title="Permanent link">&para;</a></h3>
 <p>Review or copy the equivalent CLI command, start or stop the workflow, inspect logs, and open the output directory.</p>
@@ -1980,7 +1981,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

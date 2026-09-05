@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1200,10 +1200,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#current-public-v010-artifacts" class="md-nav__link">
+  <a href="#archived-v010-artifacts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Current public v0.1.0 artifacts
+        Archived v0.1.0 artifacts
       
     </span>
   </a>
@@ -1714,10 +1714,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#current-public-v010-artifacts" class="md-nav__link">
+  <a href="#archived-v010-artifacts" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Current public v0.1.0 artifacts
+        Archived v0.1.0 artifacts
       
     </span>
   </a>
@@ -1811,8 +1811,8 @@
 
 
 <h1 id="release-artifacts">Release artifacts<a class="headerlink" href="#release-artifacts" title="Permanent link">&para;</a></h1>
-<p>HemiSpec v0.1.0 is a public beta distributed through the GitHub Release and the source repository. The <code>hemispec-toolkit</code> project is <strong>not currently public on PyPI</strong>, so current installation instructions must not use <code>pip install hemispec-toolkit</code> as if it were available from PyPI.</p>
-<h2 id="current-public-v010-artifacts">Current public v0.1.0 artifacts<a class="headerlink" href="#current-public-v010-artifacts" title="Permanent link">&para;</a></h2>
+<p>This page separates the archived <code>v0.1.0</code> GitHub Release from the current <code>main</code> source tree. Both currently report package version <code>0.1.0</code>, but they do not have the same feature set. The <code>hemispec-toolkit</code> project is <strong>not currently public on PyPI</strong>.</p>
+<h2 id="archived-v010-artifacts">Archived v0.1.0 artifacts<a class="headerlink" href="#archived-v010-artifacts" title="Permanent link">&para;</a></h2>
 <p>The v0.1.0 GitHub Release provides:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>hemispec_toolkit-0.1.0-py3-none-any.whl          Python wheel
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>hemispec_toolkit-0.1.0.tar.gz                    source distribution
@@ -1825,23 +1825,24 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>./hemispec_toolkit-0.1.0-py3-none-any.whl
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>hemispec<span class="w"> </span>--help
 </code></pre></div>
-<p>For model-enabled development or GUI use, a source checkout is recommended:</p>
+<p>The archived <code>v0.1.0</code> tag does not contain the current synthetic quickstart or <code>model_assets</code> downloader. Use a current source checkout for current documentation and model-enabled workflows:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>git<span class="w"> </span>lfs<span class="w"> </span>install
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mqqq333/HemiSpec.git
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nb">cd</span><span class="w"> </span>HemiSpec
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>git<span class="w"> </span>lfs<span class="w"> </span>pull
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>gui,model,classifier<span class="o">]</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[gui,model,classifier]"</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>git<span class="w"> </span>rev-parse<span class="w"> </span>HEAD
 </code></pre></div>
-<p>The hemisphere classifier is an optional downstream validation step. Installing the <code>classifier</code> extra does not make classifier execution mandatory.</p>
+<p>Record the commit hash with each analysis because the package version alone does not distinguish the current source from the archived tag. Use the classifier assets in the Git-LFS checkout or an explicitly configured local directory.</p>
 <h2 id="scientific-attribution">Scientific attribution<a class="headerlink" href="#scientific-attribution" title="Permanent link">&para;</a></h2>
 <p>The cross-hemispheric DGN framework and both specificity measures originate from Wang et al. (2024): <strong>ANS</strong> is <strong>absolute neuroanatomical specificity</strong>, and <strong>RNS</strong> is <strong>relative neuroanatomical specificity</strong>. Cite the original paper separately from the software release; see <a href="../citation/">Citation</a>.</p>
 <h2 id="build-commands">Build commands<a class="headerlink" href="#build-commands" title="Permanent link">&para;</a></h2>
 <p>Maintainers can build package and Windows artifacts with:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">\</span><span class="n">build_release</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Python</span> <span class="s2">&quot;py -3.12&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">\</span><span class="n">build_release</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Python</span> <span class="s2">"py -3.12"</span>
 </code></pre></div>
 <p>Useful variants:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">\</span><span class="n">build_release</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Python</span> <span class="s2">&quot;py -3.12&quot;</span> <span class="n">-SkipExe</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">\</span><span class="n">build_release</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Python</span> <span class="s2">&quot;py -3.12&quot;</span> <span class="n">-SkipGuiSmoke</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">\</span><span class="n">build_release</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Python</span> <span class="s2">"py -3.12"</span> <span class="n">-SkipExe</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">\</span><span class="n">build_release</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Python</span> <span class="s2">"py -3.12"</span> <span class="n">-SkipGuiSmoke</span>
 </code></pre></div>
 <p>Use <code>-SkipGuiSmoke</code> only in a headless environment where the GUI launch check cannot run.</p>
 <h2 id="release-acceptance-checks">Release acceptance checks<a class="headerlink" href="#release-acceptance-checks" title="Permanent link">&para;</a></h2>
@@ -1856,10 +1857,10 @@
 </ul>
 <p>Uploading to PyPI is a separate future release action. Documentation should describe PyPI installation only after the project is publicly available there.</p>
 <h2 id="source-and-asset-boundary">Source and asset boundary<a class="headerlink" href="#source-and-asset-boundary" title="Permanent link">&para;</a></h2>
-<p>The source repository contains code, documentation, tests, synthetic examples, and approved reusable model bundles tracked through Git LFS. Atlas payloads, real neuroimaging data, generated outputs, and additional custom model bundles must remain outside the public source tree unless their provenance, license, redistribution approval, checksums, and compatible versions are documented.</p>
+<p>The current source repository contains code, documentation, tests, synthetic examples, and approved reusable model bundles tracked through Git LFS. These current-source features must not be attributed to the archived <code>v0.1.0</code> packages. Atlas payloads, real neuroimaging data, generated outputs, and additional custom model bundles must remain outside the public source tree unless their provenance, license, redistribution approval, checksums, and compatible versions are documented.</p>
 <p>The lightweight Windows CLI/GUI artifacts do not embed PyTorch, atlas payloads, real MRI inputs, or generated outputs. Model-enabled workflows require a suitable Python/PyTorch environment and approved model assets from a Git-LFS checkout, the user cache, or an offline asset bundle.</p>
 <h2 id="post-release-verification">Post-release verification<a class="headerlink" href="#post-release-verification" title="Permanent link">&para;</a></h2>
-<p>The v0.1.0 artifacts were downloaded and checked after publication on June 29, 2026. The checksums matched, the Windows CLI displayed <code>--help</code>, and the downloaded wheel completed the public-safe synthetic quickstart. See <a href="../developer/release-verification-v0.1.0/">v0.1.0 release verification</a>.</p>
+<p>The v0.1.0 artifacts were downloaded and checked after publication on June 29, 2026. The recorded checksums matched, the Windows CLI displayed <code>--help</code>, and the wheel was imported from a clean environment. There is no retained evidence that the downloaded wheel ran the later synthetic quickstart. See <a href="../developer/release-verification-v0.1.0/">v0.1.0 release verification</a>.</p>
 <h2 id="related-pages">Related pages<a class="headerlink" href="#related-pages" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../installation/">Installation</a></li>
@@ -1920,7 +1921,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

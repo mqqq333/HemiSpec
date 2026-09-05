@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -463,10 +463,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#recommended-source-checkout-for-model-enabled-use" class="md-nav__link">
+  <a href="#recommended-source-install" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Recommended: source checkout for model-enabled use
+        Recommended source install
       
     </span>
   </a>
@@ -474,10 +474,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-the-v010-release-wheel" class="md-nav__link">
+  <a href="#archived-v010-release" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install the v0.1.0 release wheel
+        Archived v0.1.0 release
       
     </span>
   </a>
@@ -507,21 +507,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#gui-and-compiled-fallback-artifacts" class="md-nav__link">
+  <a href="#gui-and-model-runtime" class="md-nav__link">
     <span class="md-ellipsis">
       
-        GUI and compiled fallback artifacts
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#model-runtime" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Model runtime
+        GUI and model runtime
       
     </span>
   </a>
@@ -1703,10 +1692,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#recommended-source-checkout-for-model-enabled-use" class="md-nav__link">
+  <a href="#recommended-source-install" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Recommended: source checkout for model-enabled use
+        Recommended source install
       
     </span>
   </a>
@@ -1714,10 +1703,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-the-v010-release-wheel" class="md-nav__link">
+  <a href="#archived-v010-release" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install the v0.1.0 release wheel
+        Archived v0.1.0 release
       
     </span>
   </a>
@@ -1747,21 +1736,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#gui-and-compiled-fallback-artifacts" class="md-nav__link">
+  <a href="#gui-and-model-runtime" class="md-nav__link">
     <span class="md-ellipsis">
       
-        GUI and compiled fallback artifacts
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#model-runtime" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Model runtime
+        GUI and model runtime
       
     </span>
   </a>
@@ -1789,43 +1767,39 @@
 
 
 <h1 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h1>
-<p>HemiSpec is package-first, but the PyPI project is <strong>not public yet</strong>. The current v0.1.0 public beta is distributed through the GitHub Release and the source repository.</p>
-<h2 id="recommended-source-checkout-for-model-enabled-use">Recommended: source checkout for model-enabled use<a class="headerlink" href="#recommended-source-checkout-for-model-enabled-use" title="Permanent link">&para;</a></h2>
-<p>Use a source checkout when running DGN inference, the GUI, or classifier validation. Git LFS retrieves the released model bundles tracked under <code>assets/models/</code>:</p>
+<p>The supported public setup documented here targets the current <code>main</code> source tree. The package metadata still reports version <code>0.1.0</code>, but <code>main</code> contains functionality that is not present in the older <code>v0.1.0</code> tag or its archived packages. The <code>hemispec-toolkit</code> project is not currently public on PyPI.</p>
+<h2 id="recommended-source-install">Recommended source install<a class="headerlink" href="#recommended-source-install" title="Permanent link">&para;</a></h2>
+<p>Git LFS is required to retrieve the model files tracked under <code>assets/models/</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>lfs<span class="w"> </span>install
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mqqq333/HemiSpec.git
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>HemiSpec
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>git<span class="w"> </span>lfs<span class="w"> </span>pull
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>gui,model,classifier<span class="o">]</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>hemispec<span class="w"> </span>models<span class="w"> </span>--install<span class="w"> </span>--with-classifier<span class="w">  </span><span class="c1"># optional cache pre-download</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>hemispec-gui
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[gui,model,classifier]"</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>git<span class="w"> </span>rev-parse<span class="w"> </span>HEAD
 </code></pre></div>
-<p>PyTorch must be installed in the same Python/conda environment used to launch HemiSpec. Configure the appropriate CPU or CUDA PyTorch build before a long model run.</p>
-<h2 id="install-the-v010-release-wheel">Install the v0.1.0 release wheel<a class="headerlink" href="#install-the-v010-release-wheel" title="Permanent link">&para;</a></h2>
-<p>Download <code>hemispec_toolkit-0.1.0-py3-none-any.whl</code> from the GitHub Release. For the base CLI and synthetic quickstart:</p>
+<p>Record the output of <code>git rev-parse HEAD</code> with each analysis. A branch name and the package version alone do not identify the source revision reproducibly.</p>
+<p>PyTorch must be installed in the same Python or conda environment used to launch HemiSpec. Configure the appropriate CPU or CUDA PyTorch build before a model run.</p>
+<p>The checked-out DGN and classifier assets are used directly from <code>assets/models/</code>. For classifier validation, use these local classifier assets or provide an explicit approved local classifier directory; do not rely on a cache pre-download as part of the recommended setup.</p>
+<h2 id="archived-v010-release">Archived v0.1.0 release<a class="headerlink" href="#archived-v010-release" title="Permanent link">&para;</a></h2>
+<p>The GitHub <a href="https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0"><code>v0.1.0</code> release</a> archives the original wheel, source distribution, and Windows artifacts. It is a historical release, not a package of current <code>main</code> features. In particular, the <code>v0.1.0</code> tag does not contain the current synthetic quickstart or model-cache downloader modules.</p>
+<p>After downloading the archived wheel, its base CLI can be inspected with:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>./hemispec_toolkit-0.1.0-py3-none-any.whl
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>hemispec<span class="w"> </span>--help
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>hemispec<span class="w"> </span>quickstart<span class="w"> </span>--out-dir<span class="w"> </span>hemispec_quickstart
 </code></pre></div>
-<p>To request optional dependencies from the local wheel:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;./hemispec_toolkit-0.1.0-py3-none-any.whl[gui,model,classifier]&quot;</span>
-</code></pre></div>
-<p>If a local pip version does not accept extras on a wheel path, install the wheel first and then install the required optional packages explicitly.</p>
+<p>Do not use the archived wheel as the installation path for current quickstart, model discovery, or model download documentation. See <a href="../release-artifacts/">Release artifacts</a> for the exact archive contents.</p>
 <h2 id="development-install">Development install<a class="headerlink" href="#development-install" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>dev,gui<span class="o">]</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>python<span class="w"> </span>-m<span class="w"> </span>pytest
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>python<span class="w"> </span>-m<span class="w"> </span>ruff<span class="w"> </span>check<span class="w"> </span>src<span class="w"> </span>tests
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>python<span class="w"> </span>-m<span class="w"> </span>mkdocs<span class="w"> </span>build<span class="w"> </span>--strict
+<p>From a current source checkout:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[dev,gui]"</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>python<span class="w"> </span>-m<span class="w"> </span>pytest
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>python<span class="w"> </span>-m<span class="w"> </span>ruff<span class="w"> </span>check<span class="w"> </span>src<span class="w"> </span>tests
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>python<span class="w"> </span>-m<span class="w"> </span>mkdocs<span class="w"> </span>build<span class="w"> </span>--strict
 </code></pre></div>
-<p>The distribution name in package metadata is <code>hemispec-toolkit</code>; the import path and CLI command are <code>hemispec</code>. A future PyPI publication should use the same distribution name, but documentation must not describe it as available until the project is actually public.</p>
+<p>The distribution name is <code>hemispec-toolkit</code>; the import path and CLI command are <code>hemispec</code>. Documentation should not present a PyPI install command until the project is actually public there.</p>
 <h2 id="neuroimaging-prerequisites">Neuroimaging prerequisites<a class="headerlink" href="#neuroimaging-prerequisites" title="Permanent link">&para;</a></h2>
-<p>The model-enabled workflow starts from preprocessed GM maps, not raw T1 images. The repository study script <code>process_single_subject.sh</code> and the package variant depend on FSL tools including BET, FAST, FLIRT, and <code>fslmaths</code>; they convert one T1-weighted NIfTI into an MNI152 1.5 mm masked GM map named <code>*_GM_masked.nii.gz</code>.</p>
-<p>Read <a href="../input-preprocessing/">Input and preprocessing</a> before processing real data. That page specifies the script arguments, <code>121 × 145 × 121</code> released-model grid, <code>0.15</code> GM threshold, quality-control checks, and citations.</p>
-<h2 id="gui-and-compiled-fallback-artifacts">GUI and compiled fallback artifacts<a class="headerlink" href="#gui-and-compiled-fallback-artifacts" title="Permanent link">&para;</a></h2>
-<p>The recommended GUI path is <code>hemispec-gui</code> from a source or local-wheel environment containing PyTorch. The GUI exposes the GM input glob, output workspace, optional ROI atlas/label table, optional classifier validation, optional TRT reliability, run controls, logs, and an equivalent CLI command.</p>
-<p>GitHub Release v0.1.0 also archives Windows fallback artifacts. Keep an onedir GUI distribution together; do not copy only its executable out of the folder.</p>
-<h2 id="model-runtime">Model runtime<a class="headerlink" href="#model-runtime" title="Permanent link">&para;</a></h2>
-<p>HemiSpec discovers model assets from explicit paths, environment variables, a Git-LFS checkout under <code>assets/models/</code>, or the per-user model cache. Wheels and lightweight executables do not embed PyTorch or the 300 MB+ model bundles. Missing released model assets can be downloaded from the GitHub Release into the cache when automatic download is enabled. See <a href="../data-and-models/">Data and models</a>.</p>
+<p>The model-enabled workflow starts from preprocessed GM maps, not raw T1 images. The repository scripts depend on FSL tools including BET, FAST, FLIRT, and <code>fslmaths</code> to produce MNI152 1.5 mm <code>*_GM_masked.nii.gz</code> inputs.</p>
+<p>Read <a href="../input-preprocessing/">Input and preprocessing</a> before processing real data.</p>
+<h2 id="gui-and-model-runtime">GUI and model runtime<a class="headerlink" href="#gui-and-model-runtime" title="Permanent link">&para;</a></h2>
+<p>Launch <code>hemispec-gui</code> from the source environment containing PyTorch. HemiSpec discovers assets from explicit paths, environment variables, the Git-LFS checkout under <code>assets/models/</code>, or the per-user cache. Wheels and lightweight Windows artifacts do not embed PyTorch or the 300 MB+ DGN checkpoints. See <a href="../data-and-models/">Data and models</a> for the current asset boundary.</p>
 
 
 
@@ -1879,7 +1853,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

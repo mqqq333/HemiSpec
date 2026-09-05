@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -519,10 +519,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-run-the-public-safe-synthetic-smoke-test" class="md-nav__link">
+  <a href="#1-install-the-current-source-checkout" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Run the public-safe synthetic smoke test
+        1. Install the current source checkout
       
     </span>
   </a>
@@ -530,10 +530,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-install-a-model-enabled-source-checkout" class="md-nav__link">
+  <a href="#2-run-the-synthetic-smoke-test" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Install a model-enabled source checkout
+        2. Run the synthetic smoke test
       
     </span>
   </a>
@@ -592,6 +592,34 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="7. Optional validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hemisphere-classification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hemisphere classification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-retest-reliability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test-retest reliability
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1725,10 +1753,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-run-the-public-safe-synthetic-smoke-test" class="md-nav__link">
+  <a href="#1-install-the-current-source-checkout" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Run the public-safe synthetic smoke test
+        1. Install the current source checkout
       
     </span>
   </a>
@@ -1736,10 +1764,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-install-a-model-enabled-source-checkout" class="md-nav__link">
+  <a href="#2-run-the-synthetic-smoke-test" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Install a model-enabled source checkout
+        2. Run the synthetic smoke test
       
     </span>
   </a>
@@ -1799,6 +1827,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="7. Optional validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hemisphere-classification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hemisphere classification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-retest-reliability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test-retest reliability
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1833,32 +1889,33 @@
 
 
 <h1 id="quick-start">Quick start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h1>
-<p>The current public v0.1.0 release is available from GitHub Releases and source checkouts. The PyPI project is not public yet.</p>
+<p>These commands target the current <code>main</code> source checkout, not the archived <code>v0.1.0</code> wheel. The PyPI project is not public yet. See <a href="../installation/">Installation</a> for the release boundary.</p>
 <div class="admonition note">
 <p class="admonition-title">Command naming</p>
 <p>Use <code>hemispec</code> for the command-line interface and <code>hemispec-gui</code> for the graphical interface.</p>
 </div>
-<h2 id="1-run-the-public-safe-synthetic-smoke-test">1. Run the public-safe synthetic smoke test<a class="headerlink" href="#1-run-the-public-safe-synthetic-smoke-test" title="Permanent link">&para;</a></h2>
-<p>Download <code>hemispec_toolkit-0.1.0-py3-none-any.whl</code> from the GitHub Release, then run:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>./hemispec_toolkit-0.1.0-py3-none-any.whl
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>hemispec<span class="w"> </span>--help
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>hemispec<span class="w"> </span>quickstart<span class="w"> </span>--out-dir<span class="w"> </span>hemispec_quickstart
+<h2 id="1-install-the-current-source-checkout">1. Install the current source checkout<a class="headerlink" href="#1-install-the-current-source-checkout" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>lfs<span class="w"> </span>install
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mqqq333/HemiSpec.git
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>HemiSpec
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>git<span class="w"> </span>lfs<span class="w"> </span>pull
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[gui,model,classifier]"</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>git<span class="w"> </span>rev-parse<span class="w"> </span>HEAD
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>hemispec<span class="w"> </span>models
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>hemispec<span class="w"> </span>--help
 </code></pre></div>
-<p>The generated data are synthetic and are not anatomical results. Use this command only to validate installation and public file/command contracts.</p>
-<h2 id="2-install-a-model-enabled-source-checkout">2. Install a model-enabled source checkout<a class="headerlink" href="#2-install-a-model-enabled-source-checkout" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>lfs<span class="w"> </span>install
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mqqq333/HemiSpec.git
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nb">cd</span><span class="w"> </span>HemiSpec
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>git<span class="w"> </span>lfs<span class="w"> </span>pull
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>gui,model,classifier<span class="o">]</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>hemispec<span class="w"> </span>models<span class="w"> </span>--install<span class="w"> </span>--with-classifier<span class="w">  </span><span class="c1"># optional cache pre-download</span>
+<p>PyTorch must be installed in the active environment. Keep the Git commit with your run record. <code>git lfs pull</code> must retrieve the actual DGN and classifier files. Use these local classifier bundles; the current classifier-cache download has a known CSV URL issue described in <a href="../data-and-models/">Data and models</a>.</p>
+<h2 id="2-run-the-synthetic-smoke-test">2. Run the synthetic smoke test<a class="headerlink" href="#2-run-the-synthetic-smoke-test" title="Permanent link">&para;</a></h2>
+<p>From the installed source checkout:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>hemispec<span class="w"> </span>quickstart<span class="w"> </span>--out-dir<span class="w"> </span>hemispec_quickstart
 </code></pre></div>
-<p>PyTorch must be installed in the active environment. The released DGN and classifier bundles can be read from the Git-LFS checkout or downloaded into the user cache.</p>
+<p>The generated data are synthetic and are not anatomical results. This checks installation and file/command contracts without running model inference. Use a new or empty output directory; <code>--force</code> currently deletes the whole selected directory, including unrelated files.</p>
 <h2 id="3-prepare-dgn-ready-gray-matter-maps">3. Prepare DGN-ready gray-matter maps<a class="headerlink" href="#3-prepare-dgn-ready-gray-matter-maps" title="Permanent link">&para;</a></h2>
 <p>Raw T1-weighted MRI is <strong>not</strong> a valid input to <code>hemispec workflow</code>. From a source checkout, run the study FSL preprocessing script:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>bash<span class="w"> </span>process_single_subject.sh<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>raw/sub-001_T1w.nii.gz<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>derivatives/sub-001
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>derivatives
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>bash<span class="w"> </span>process_single_subject.sh<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>raw/sub-001_T1w.nii.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>derivatives/sub-001
 </code></pre></div>
 <p>Expected DGN input:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>derivatives/sub-001_GM_masked.nii.gz
@@ -1866,9 +1923,11 @@
 <p>Before inference, verify the <code>121 × 145 × 121</code> grid, <code>1.5 mm</code> voxel size, affine, finite <code>0–1</code> GM values, registration, segmentation, and mask quality. See <a href="../input-preprocessing/">Input and preprocessing</a>.</p>
 <h2 id="4-run-the-standard-bilateral-workflow">4. Run the standard bilateral workflow<a class="headerlink" href="#4-run-the-standard-bilateral-workflow" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_workflow
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">"derivatives/*_GM_masked.nii.gz"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_workflow<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span>--no-roi-table
 </code></pre></div>
+<p>This first run produces voxel maps and the subject summary without requiring an atlas. Use a new output directory for every run, including retries and different input subsets, to avoid mixing current and earlier outputs.</p>
 <p>The primary outputs are:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>outputs/hemispec_workflow/
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>├── voxel_maps/     # ANS.L, ANS.R, RNS.L, RNS.R per subject
@@ -1881,37 +1940,49 @@
 </code></pre></div>
 <p>The GUI reports PyTorch, DGN, atlas, and classifier readiness. Users choose the GM input glob, output workspace, optional ROI export, optional hemisphere-classifier validation, optional TRT reliability, and whether to retain intermediates. See the <a href="../developer/gui-user-guide/">GUI user guide</a>.</p>
 <h2 id="6-optional-roi-table">6. Optional ROI table<a class="headerlink" href="#6-optional-roi-table" title="Permanent link">&para;</a></h2>
-<p>Use an approved atlas and compatible label table:</p>
+<p>Use an approved atlas on the same grid as the GM maps and a compatible label table. Custom atlases are supported for ROI summaries, but are not interchangeable with the atlas used to train the released classifier:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_workflow<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">"derivatives/*_GM_masked.nii.gz"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_roi<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span>--roi-atlas<span class="w"> </span>/approved/path/atlas.nii.gz<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span>--roi-label-table<span class="w"> </span>/approved/path/labels.xlsx
 </code></pre></div>
-<p>For voxel maps only:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_workflow<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span>--no-roi-table
-</code></pre></div>
 <h2 id="7-optional-validation">7. Optional validation<a class="headerlink" href="#7-optional-validation" title="Permanent link">&para;</a></h2>
-<p>Hemisphere classification and TRT are opt-in:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_workflow<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span>--run-classifier<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span>--run-trt
+<h3 id="hemisphere-classification">Hemisphere classification<a class="headerlink" href="#hemisphere-classification" title="Permanent link">&para;</a></h3>
+<p>The released classifier requires the compatible Glasser atlas: 180 homologous parcels per hemisphere, with left labels <code>1–180</code> and right labels <code>1001–1180</code>, on the same 1.5 mm grid. The atlas is not distributed in the public checkout; obtain it and its label table as described in <a href="../data-and-models/">Data and models</a>. Label numbers alone do not establish anatomical compatibility.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">"derivatives/*_GM_masked.nii.gz"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_classifier<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span>--roi-atlas<span class="w"> </span>/approved/path/glasser_1p5mm.nii.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span>--roi-label-table<span class="w"> </span>/approved/path/glasser_labels.csv<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span>--classifier-model-dir<span class="w"> </span>assets/models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">  </span>--run-classifier
 </code></pre></div>
-<p>Classifier validation requires ROI features. TRT requires filenames matching the configured session pattern.</p>
-<p>To run standalone validation commands later, keep intermediates:</p>
+<h3 id="test-retest-reliability">Test-retest reliability<a class="headerlink" href="#test-retest-reliability" title="Permanent link">&para;</a></h3>
+<p>TRT needs two scans from each of at least two subjects. For example, prepare a separate input directory containing:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>derivatives_trt/
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>  sub-001_run-01_GM_masked.nii.gz
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>  sub-001_run-02_GM_masked.nii.gz
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>  sub-002_run-01_GM_masked.nii.gz
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>  sub-002_run-02_GM_masked.nii.gz
+</code></pre></div>
+<p>Use an explicit subject/session pattern for these names. Retaining intermediates also permits later standalone validation:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_workflow<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span>--keep-intermediate
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>hemispec<span class="w"> </span>trt<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">  </span>--maps-dir<span class="w"> </span>outputs/hemispec_workflow/intermediate/combined_maps<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/trt_validation
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">"derivatives_trt/*_GM_masked.nii.gz"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_trt<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span>--no-roi-table<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span>--keep-intermediate<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">  </span>--run-trt<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">  </span>--trt-file-regex<span class="w"> </span><span class="s1">'(?P&lt;subject&gt;sub-[0-9]+)_(?P&lt;session&gt;run-[0-9]+)'</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">  </span>--trt-session-a<span class="w"> </span>run-01<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">  </span>--trt-session-b<span class="w"> </span>run-02
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>hemispec<span class="w"> </span>trt<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">  </span>--maps-dir<span class="w"> </span>outputs/hemispec_trt/intermediate/combined_maps<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/trt_validation<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">  </span>--file-regex<span class="w"> </span><span class="s1">'(?P&lt;subject&gt;sub-[0-9]+)_(?P&lt;session&gt;run-[0-9]+)'</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">  </span>--session-a<span class="w"> </span>run-01<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="w">  </span>--session-b<span class="w"> </span>run-02
 </code></pre></div>
 <h2 id="current-boundaries">Current boundaries<a class="headerlink" href="#current-boundaries" title="Permanent link">&para;</a></h2>
 <ul>
@@ -1974,7 +2045,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

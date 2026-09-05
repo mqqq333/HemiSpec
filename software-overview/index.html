@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1723,7 +1723,7 @@
 
 
 <h1 id="software-overview">Software overview<a class="headerlink" href="#software-overview" title="Permanent link">&para;</a></h1>
-<p>HemiSpec is organized as a package-first software ecosystem rather than a source-only repository. The v0.1.0 beta is currently distributed through GitHub Releases and source checkouts; the PyPI project is not public yet. The Python package is the primary artifact; the CLI, GUI entry point, and compiled desktop folders are built from the same public API.</p>
+<p>HemiSpec is organized as a package-first software ecosystem rather than a collection of standalone scripts. Current documentation targets a source installation from <code>main</code>; archived versions remain on the <a href="https://github.com/mqqq333/HemiSpec/releases">GitHub Releases page</a>, and the PyPI project is not public. The Python package is the primary artifact; the CLI and GUI entry points are built from the same public API.</p>
 <figure>
   <img alt="HemiSpec workflow overview" src="../assets/figures/hemispec-workflow-overview-ai.png" width="100%" />
 <br />
@@ -1761,8 +1761,8 @@
 <tr>
 <td>Compiled app</td>
 <td>HemiSpec Desktop / HemiSpec Model App</td>
-<td>Fallback release target</td>
-<td>Folder distributions for users who cannot manage Python environments.</td>
+<td>Build target</td>
+<td>Optional folder distributions built from a source checkout.</td>
 </tr>
 </tbody>
 </table>
@@ -1784,10 +1784,10 @@
 <p>It does not expose model checkpoints, device selection, thresholds, suffix rules, classifier bundle paths, or TRT regexes. Those advanced settings remain available through the CLI/API so that the GUI remains reproducible and easy to maintain.</p>
 <h2 id="current-release-split">Current release split<a class="headerlink" href="#current-release-split" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Release wheel/source package:</strong> CLI, compact GUI launcher, compute, ROI export, validation, and inspection without bundling subject data or unapproved atlas assets.</li>
-<li><strong>Model-enabled environment:</strong> end-to-end DGN inference plus ANS/RNS workflows using released DGN/classifier defaults from Git LFS, GitHub Release cache download, or explicit offline assets; approved atlas files remain optional for ROI export.</li>
+<li><strong>Current source package:</strong> CLI, compact GUI launcher, compute, ROI export, validation, and inspection without bundling subject data or unapproved atlas assets.</li>
+<li><strong>Model-enabled environment:</strong> end-to-end DGN inference plus ANS/RNS workflows using DGN and classifier assets from a Git LFS checkout or explicit approved local assets. Current <code>main</code> can cache-download DGN checkpoints from Git LFS media, but not the complete classifier bundle; see <a href="../data-and-models/#current-cache-download-boundary">Data and models</a>.</li>
 </ul>
-<p>The default public build should avoid silently bundling private <code>assets/</code>; model and atlas bundles should be explicit release artifacts with checksums, license notes, and compatibility metadata. Compiled apps remain fallback variants rather than the primary distribution path.</p>
+<p>Atlas files remain optional for ROI export. The released classifier, however, requires its compatible Glasser 1.5 mm atlas and labels <code>1..180</code> left / <code>1001..1180</code> right; custom atlases are ROI-only. Public builds should not silently bundle private assets.</p>
 <p>ANS/RNS and the cross-hemispheric DGN framework originate from Wang et al. (2024); see <a href="../citation/">Citation</a>.</p>
 
 
@@ -1842,7 +1842,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

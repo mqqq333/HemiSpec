@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -466,7 +466,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        推荐：通过源码检出运行模型工作流
+        推荐的源码安装
       
     </span>
   </a>
@@ -474,10 +474,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#v010-release-wheel" class="md-nav__link">
+  <a href="#v010" class="md-nav__link">
     <span class="md-ellipsis">
       
-        安装 v0.1.0 Release wheel
+        归档的 v0.1.0 发布
       
     </span>
   </a>
@@ -510,18 +510,7 @@
   <a href="#gui" class="md-nav__link">
     <span class="md-ellipsis">
       
-        GUI 与编译备用产物
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        模型运行时
+        GUI 与模型运行时
       
     </span>
   </a>
@@ -1706,7 +1695,7 @@
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        推荐：通过源码检出运行模型工作流
+        推荐的源码安装
       
     </span>
   </a>
@@ -1714,10 +1703,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#v010-release-wheel" class="md-nav__link">
+  <a href="#v010" class="md-nav__link">
     <span class="md-ellipsis">
       
-        安装 v0.1.0 Release wheel
+        归档的 v0.1.0 发布
       
     </span>
   </a>
@@ -1750,18 +1739,7 @@
   <a href="#gui" class="md-nav__link">
     <span class="md-ellipsis">
       
-        GUI 与编译备用产物
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        模型运行时
+        GUI 与模型运行时
       
     </span>
   </a>
@@ -1789,43 +1767,39 @@
 
 
 <h1 id="_1">安装<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>HemiSpec 采用软件包优先的结构，但当前 <strong>PyPI 项目尚未公开</strong>。v0.1.0 公开测试版目前通过 GitHub Release 和源码仓库分发。</p>
-<h2 id="_2">推荐：通过源码检出运行模型工作流<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>运行 DGN 推理、GUI 或分类器验证时，推荐使用源码检出。Git LFS 会获取 <code>assets/models/</code> 下追踪的已发布模型包：</p>
+<p>本文档支持的公开安装方式面向当前 <code>main</code> 源码树。软件包元数据仍显示版本 <code>0.1.0</code>，但 <code>main</code> 已包含旧 <code>v0.1.0</code> 标签及其归档软件包中没有的功能。<code>hemispec-toolkit</code> 项目当前尚未在 PyPI 公开。</p>
+<h2 id="_2">推荐的源码安装<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>必须使用 Git LFS 获取 <code>assets/models/</code> 下跟踪的模型文件：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>lfs<span class="w"> </span>install
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mqqq333/HemiSpec.git
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>HemiSpec
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>git<span class="w"> </span>lfs<span class="w"> </span>pull
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>gui,model,classifier<span class="o">]</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>hemispec<span class="w"> </span>models<span class="w"> </span>--install<span class="w"> </span>--with-classifier<span class="w">  </span><span class="c1"># 可选：预下载到缓存</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>hemispec-gui
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[gui,model,classifier]"</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>git<span class="w"> </span>rev-parse<span class="w"> </span>HEAD
 </code></pre></div>
-<p>PyTorch 必须安装在启动 HemiSpec 的同一 Python/conda 环境中。长时间模型运行前，应先配置合适的 CPU 或 CUDA PyTorch 版本。</p>
-<h2 id="v010-release-wheel">安装 v0.1.0 Release wheel<a class="headerlink" href="#v010-release-wheel" title="Permanent link">&para;</a></h2>
-<p>从 GitHub Release 下载 <code>hemispec_toolkit-0.1.0-py3-none-any.whl</code>。运行基础 CLI 和合成快速测试：</p>
+<p>每次分析都应记录 <code>git rev-parse HEAD</code> 的输出。仅记录分支名和软件包版本无法可复现地标识源码修订。</p>
+<p>PyTorch 必须安装在启动 HemiSpec 的同一 Python 或 conda 环境中。运行模型前，请先配置合适的 CPU 或 CUDA PyTorch 构建。</p>
+<p>源码检出中的 DGN 和分类器资产直接从 <code>assets/models/</code> 使用。进行分类器验证时，请使用这些本地分类器资产，或显式指定经批准的本地分类器目录；推荐安装流程不依赖缓存预下载。</p>
+<h2 id="v010">归档的 v0.1.0 发布<a class="headerlink" href="#v010" title="Permanent link">&para;</a></h2>
+<p>GitHub <a href="https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0"><code>v0.1.0</code> 发布</a>归档了原始 wheel、源码发行包和 Windows 产物。它是历史发布，不包含当前 <code>main</code> 的全部功能。具体而言，<code>v0.1.0</code> 标签不包含当前的合成快速入门或模型缓存下载模块。</p>
+<p>下载归档 wheel 后，可以检查其基础 CLI：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>./hemispec_toolkit-0.1.0-py3-none-any.whl
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>hemispec<span class="w"> </span>--help
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>hemispec<span class="w"> </span>quickstart<span class="w"> </span>--out-dir<span class="w"> </span>hemispec_quickstart
 </code></pre></div>
-<p>从本地 wheel 请求可选依赖：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;./hemispec_toolkit-0.1.0-py3-none-any.whl[gui,model,classifier]&quot;</span>
-</code></pre></div>
-<p>如果本地 pip 不接受 wheel 路径后的 extras，可先安装 wheel，再显式安装所需可选依赖。</p>
+<p>不要用归档 wheel 作为当前快速入门、模型发现或模型下载文档的安装方式。准确的归档内容见<a href="../release-artifacts/">发布产物</a>。</p>
 <h2 id="_3">开发安装<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>dev,gui<span class="o">]</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>python<span class="w"> </span>-m<span class="w"> </span>pytest
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>python<span class="w"> </span>-m<span class="w"> </span>ruff<span class="w"> </span>check<span class="w"> </span>src<span class="w"> </span>tests
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>python<span class="w"> </span>-m<span class="w"> </span>mkdocs<span class="w"> </span>build<span class="w"> </span>--strict
+<p>在当前源码检出中运行：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[dev,gui]"</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>python<span class="w"> </span>-m<span class="w"> </span>pytest
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>python<span class="w"> </span>-m<span class="w"> </span>ruff<span class="w"> </span>check<span class="w"> </span>src<span class="w"> </span>tests
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>python<span class="w"> </span>-m<span class="w"> </span>mkdocs<span class="w"> </span>build<span class="w"> </span>--strict
 </code></pre></div>
-<p>软件包元数据中的发行名为 <code>hemispec-toolkit</code>，导入路径和 CLI 命令为 <code>hemispec</code>。未来发布到 PyPI 时应沿用该发行名，但在项目实际公开前，文档不能把它描述为可用安装源。</p>
+<p>发行名为 <code>hemispec-toolkit</code>，导入路径和 CLI 命令为 <code>hemispec</code>。只有当项目实际在 PyPI 公开后，文档才能提供 PyPI 安装命令。</p>
 <h2 id="_4">神经影像前置条件<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>启用模型的工作流从预处理 GM 图开始，不能直接输入原始 T1。仓库研究脚本 <code>process_single_subject.sh</code> 与包内变体均依赖 BET、FAST、FLIRT 和 <code>fslmaths</code> 等 FSL 工具，将每张 T1 加权 NIfTI 转换为 MNI152 1.5 mm 空间的 <code>*_GM_masked.nii.gz</code>。</p>
-<p>处理真实数据前，请阅读<a href="../input-preprocessing/">输入与预处理</a>。该页明确脚本参数、<code>121 × 145 × 121</code> 已发布模型网格、<code>0.15</code> GM 阈值、质控项目与引用。</p>
-<h2 id="gui">GUI 与编译备用产物<a class="headerlink" href="#gui" title="Permanent link">&para;</a></h2>
-<p>推荐从包含 PyTorch 的源码或本地 wheel 环境运行 <code>hemispec-gui</code>。GUI 暴露 GM 输入 glob、输出工作区、可选 ROI atlas/标签表、可选分类器验证、可选 TRT 可靠性、运行控制、日志和等效 CLI 命令。</p>
-<p>GitHub Release v0.1.0 还归档了 Windows 备用产物。Onedir GUI 发行目录必须整体保留，不能只复制其中的可执行文件。</p>
-<h2 id="_5">模型运行时<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>HemiSpec 从显式路径、环境变量、<code>assets/models/</code> 下的 Git-LFS 检出或每用户模型缓存中发现模型资产。Wheel 和轻量可执行程序不嵌入 PyTorch 或 300MB+ 模型包。启用自动下载时，缺失的已发布模型资产可从 GitHub Release 下载到缓存。详见<a href="../data-and-models/">数据与模型</a>。</p>
+<p>启用模型的工作流从预处理 GM 图开始，不能直接输入原始 T1。仓库脚本依赖 BET、FAST、FLIRT 和 <code>fslmaths</code> 等 FSL 工具，以生成 MNI152 1.5 mm 的 <code>*_GM_masked.nii.gz</code> 输入。</p>
+<p>处理真实数据前，请阅读<a href="../input-preprocessing/">输入与预处理</a>。</p>
+<h2 id="gui">GUI 与模型运行时<a class="headerlink" href="#gui" title="Permanent link">&para;</a></h2>
+<p>请从包含 PyTorch 的源码环境启动 <code>hemispec-gui</code>。HemiSpec 可从显式路径、环境变量、<code>assets/models/</code> 下的 Git-LFS 检出或每用户缓存发现资产。Wheel 和轻量 Windows 产物不嵌入 PyTorch 或 300 MB 以上的 DGN 检查点。当前资产边界见<a href="../data-and-models/">数据与模型</a>。</p>
 
 
 
@@ -1879,7 +1853,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

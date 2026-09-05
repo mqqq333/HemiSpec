@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1789,7 +1789,7 @@
 
 
 <h1 id="external-asset-bundles">External asset bundles<a class="headerlink" href="#external-asset-bundles" title="Permanent link">&para;</a></h1>
-<p>HemiSpec source now includes the approved reusable DGN checkpoints and hemisphere-classifier bundles under <code>assets/models/</code> via Git LFS. Wheel installations keep those large binaries outside the wheel and can download approved defaults into the user cache; the PyPI project is not public yet. External asset bundles remain useful for offline installs, custom model bundles, atlas payloads, real sample data, or compiled app distributions.</p>
+<p>Current HemiSpec <code>main</code> includes reusable DGN checkpoints and hemisphere-classifier bundles under <code>assets/models/</code> via Git LFS. Large model binaries remain outside the wheel. The current source code supports DGN checkpoint downloads into the user cache, but classifier assets require a Git-LFS checkout or explicit local directory because the classifier cache download is incomplete. The archived <code>v0.1.0</code> wheel does not include this downloader, and the PyPI project is not public yet. External asset bundles remain useful for offline installs, custom model bundles, atlas payloads, approved sample data, or compiled app distributions.</p>
 <h2 id="recommended-layout">Recommended layout<a class="headerlink" href="#recommended-layout" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>HemiSpec-Assets/
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  ASSET_MANIFEST.yml
@@ -1807,34 +1807,35 @@
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>      &lt;glasser-label-table&gt;.xlsx
 </code></pre></div>
 <h2 id="manifest-contract">Manifest contract<a class="headerlink" href="#manifest-contract" title="Permanent link">&para;</a></h2>
-<p><code>ASSET_MANIFEST.yml</code> should record enough information for another lab to decide whether the bundle is compatible with their workflow:</p>
+<p><code>ASSET_MANIFEST.yml</code> should record enough information for another lab to decide whether the bundle is compatible with their workflow. This is a template, not a published compatibility claim; replace the example metadata with tested values:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">asset_bundle</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HemiSpec-Assets</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1.0</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nt">date</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2026-06-29</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nt">compatible_with</span><span class="p">:</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="nt">package</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hemispec-toolkit</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&gt;=0.1.0,&lt;0.2&quot;</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="nt">contents</span><span class="p">:</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="nt">dgn_models</span><span class="p">:</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">models/dgn</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="nt">directions</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">L_to_R</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">R_to_L</span><span class="p p-Indicator">]</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="nt">hemisphere_classifier</span><span class="p">:</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">models/hemisphere_classifier</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">  </span><span class="nt">glasser_atlas</span><span class="p">:</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="nt">atlas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">atlases/glasser/&lt;glasser-atlas&gt;.nii.gz</span>
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="nt">label_table</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">atlases/glasser/&lt;glasser-label-table&gt;.xlsx</span>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="nt">provenance</span><span class="p">:</span>
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">  </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;dataset/training/source summary&gt;</span>
-<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">  </span><span class="nt">preprocessing</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;required preprocessing assumptions&gt;</span>
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="nt">license</span><span class="p">:</span>
-<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span><span class="nt">assets</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;license or redistribution restriction&gt;</span>
-<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">  </span><span class="nt">citations</span><span class="p">:</span>
-<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="nt">method</span><span class="p">:</span>
-<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Wang et al. 2024, Patterns, https://doi.org/10.1016/j.patter.2024.100930</span>
-<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">    </span><span class="nt">assets</span><span class="p">:</span>
-<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;asset-specific citation or DOI&gt;</span>
-<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="nt">checksums</span><span class="p">:</span>
-<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">  </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SHA256SUMS.txt</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;tested package version&gt;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="nt">commit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;tested HemiSpec commit&gt;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="nt">contents</span><span class="p">:</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="nt">dgn_models</span><span class="p">:</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">models/dgn</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="nt">directions</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">L_to_R</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">R_to_L</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span><span class="nt">hemisphere_classifier</span><span class="p">:</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">models/hemisphere_classifier</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span><span class="nt">glasser_atlas</span><span class="p">:</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="nt">atlas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">atlases/glasser/&lt;glasser-atlas&gt;.nii.gz</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="nt">label_table</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">atlases/glasser/&lt;glasser-label-table&gt;.xlsx</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="nt">provenance</span><span class="p">:</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">  </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;dataset/training/source summary&gt;</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">  </span><span class="nt">preprocessing</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;required preprocessing assumptions&gt;</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="nt">license</span><span class="p">:</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">  </span><span class="nt">assets</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;license or redistribution restriction&gt;</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">  </span><span class="nt">citations</span><span class="p">:</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">    </span><span class="nt">method</span><span class="p">:</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Wang et al. 2024, Patterns, https://doi.org/10.1016/j.patter.2024.100930</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">    </span><span class="nt">assets</span><span class="p">:</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;asset-specific citation or DOI&gt;</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="nt">checksums</span><span class="p">:</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="w">  </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SHA256SUMS.txt</span>
 </code></pre></div>
 <h2 id="runtime-configuration">Runtime configuration<a class="headerlink" href="#runtime-configuration" title="Permanent link">&para;</a></h2>
 <p>Prefer explicit CLI/GUI paths for reproducible runs. Environment variables are useful for local defaults:</p>
@@ -1852,11 +1853,11 @@
 <li>every model, atlas, classifier, and label table has a checksum in <code>SHA256SUMS.txt</code>;</li>
 <li>license and citation requirements are present in <code>LICENSES/</code> or the manifest;</li>
 <li>preprocessing assumptions and compatible HemiSpec versions are stated;</li>
-<li>the bundle works with the lightweight HemiSpec release downloaded from <a href="https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0">https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0</a>;</li>
+<li>the bundle works with the current <code>main</code> source checkout, recording <code>git rev-parse HEAD</code>; the archived <code>v0.1.0</code> artifacts are historical and are not the current compatibility target;</li>
 <li>the bundle is published through an explicit release channel such as GitHub Releases, Zenodo, OSF, or institutional storage.</li>
 </ul>
 <h2 id="runtime-boundary">Runtime boundary<a class="headerlink" href="#runtime-boundary" title="Permanent link">&para;</a></h2>
-<p>The lightweight Windows CLI/GUI artifacts do not bundle PyTorch, atlas payloads, real MRI inputs, or generated outputs. Model-enabled workflows require a Python environment with PyTorch. Released DGN/classifier model defaults can come from a Git-LFS source checkout, the per-user auto-download cache, or an explicitly configured offline asset bundle.</p>
+<p>The lightweight Windows CLI/GUI artifacts do not bundle PyTorch, atlas payloads, real MRI inputs, or generated outputs. Model-enabled workflows require a Python environment with PyTorch. In current <code>main</code>, DGN checkpoints can come from a Git-LFS source checkout, the per-user auto-download cache, or an explicitly configured offline asset bundle. Classifier assets require a Git-LFS checkout or explicit local directory; see the current download limitation in <a href="../../data-and-models/">Data and models</a>.</p>
 <h2 id="related-pages">Related pages<a class="headerlink" href="#related-pages" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../../data-and-models/">Data and models</a></li>
@@ -1917,7 +1918,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

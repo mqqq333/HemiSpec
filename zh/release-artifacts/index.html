@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1203,7 +1203,7 @@
   <a href="#v010" class="md-nav__link">
     <span class="md-ellipsis">
       
-        当前公开的 v0.1.0 产物
+        归档的 v0.1.0 产物
       
     </span>
   </a>
@@ -1717,7 +1717,7 @@
   <a href="#v010" class="md-nav__link">
     <span class="md-ellipsis">
       
-        当前公开的 v0.1.0 产物
+        归档的 v0.1.0 产物
       
     </span>
   </a>
@@ -1811,8 +1811,8 @@
 
 
 <h1 id="_1">发布产物<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>HemiSpec v0.1.0 是通过 GitHub Release 和源码仓库分发的公开测试版。<code>hemispec-toolkit</code> 项目<strong>当前尚未在 PyPI 公开</strong>，因此现行安装说明不能把 <code>pip install hemispec-toolkit</code> 写成可直接从 PyPI 使用的命令。</p>
-<h2 id="v010">当前公开的 v0.1.0 产物<a class="headerlink" href="#v010" title="Permanent link">&para;</a></h2>
+<p>本页区分归档的 <code>v0.1.0</code> GitHub Release 与当前 <code>main</code> 源码树。两者当前都显示软件包版本 <code>0.1.0</code>，但功能集并不相同。<code>hemispec-toolkit</code> 项目<strong>当前尚未在 PyPI 公开</strong>。</p>
+<h2 id="v010">归档的 v0.1.0 产物<a class="headerlink" href="#v010" title="Permanent link">&para;</a></h2>
 <p>v0.1.0 GitHub Release 提供：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>hemispec_toolkit-0.1.0-py3-none-any.whl          Python wheel
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>hemispec_toolkit-0.1.0.tar.gz                    源码发行包
@@ -1825,23 +1825,24 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>./hemispec_toolkit-0.1.0-py3-none-any.whl
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>hemispec<span class="w"> </span>--help
 </code></pre></div>
-<p>启用模型的开发或 GUI 使用推荐源码检出：</p>
+<p>归档 <code>v0.1.0</code> 标签不包含当前的合成快速入门或 <code>model_assets</code> 下载器。当前文档和启用模型的工作流应使用当前源码检出：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>git<span class="w"> </span>lfs<span class="w"> </span>install
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mqqq333/HemiSpec.git
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nb">cd</span><span class="w"> </span>HemiSpec
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>git<span class="w"> </span>lfs<span class="w"> </span>pull
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>gui,model,classifier<span class="o">]</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[gui,model,classifier]"</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>git<span class="w"> </span>rev-parse<span class="w"> </span>HEAD
 </code></pre></div>
-<p>半球分类器是可选的下游验证步骤。安装 <code>classifier</code> 额外依赖并不会使分类器执行成为必选项。</p>
+<p>每次分析都应记录提交哈希，因为仅凭软件包版本无法区分当前源码与归档标签。请使用 Git-LFS 检出中的分类器资产，或显式配置本地目录。</p>
 <h2 id="_2">科学归因<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>跨半球 DGN 框架与两种 specificity 指标源自 Wang 等人（2024）：<strong>ANS</strong> 为 <strong>absolute neuroanatomical specificity（绝对神经解剖特异性）</strong>，<strong>RNS</strong> 为 <strong>relative neuroanatomical specificity（相对神经解剖特异性）</strong>。原始论文与软件发布应分别引用，详见<a href="../citation/">引用</a>。</p>
 <h2 id="_3">构建命令<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>维护者可以使用以下命令构建软件包与 Windows 产物：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">\</span><span class="n">build_release</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Python</span> <span class="s2">&quot;py -3.12&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">\</span><span class="n">build_release</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Python</span> <span class="s2">"py -3.12"</span>
 </code></pre></div>
 <p>可用变体：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">\</span><span class="n">build_release</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Python</span> <span class="s2">&quot;py -3.12&quot;</span> <span class="n">-SkipExe</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">\</span><span class="n">build_release</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Python</span> <span class="s2">&quot;py -3.12&quot;</span> <span class="n">-SkipGuiSmoke</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">\</span><span class="n">build_release</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Python</span> <span class="s2">"py -3.12"</span> <span class="n">-SkipExe</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">\</span><span class="n">build_release</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Python</span> <span class="s2">"py -3.12"</span> <span class="n">-SkipGuiSmoke</span>
 </code></pre></div>
 <p><code>-SkipGuiSmoke</code> 只应用于无法执行 GUI 启动检查的无图形环境。</p>
 <h2 id="_4">发布验收检查<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
@@ -1856,10 +1857,10 @@
 </ul>
 <p>上传 PyPI 是未来单独的发布动作。只有当项目在 PyPI 实际公开后，文档才能把 PyPI 安装写成当前可用方式。</p>
 <h2 id="_5">源码与资产边界<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>源码仓库包含代码、文档、测试、合成示例，以及通过 Git LFS 跟踪的已批准可复用模型包。Atlas 载荷、真实神经影像数据、生成结果和额外自定义模型包必须保留在公开源码树之外，除非已经记录其出处、许可证、再分发批准、校验和与兼容版本。</p>
+<p>当前源码仓库包含代码、文档、测试、合成示例，以及通过 Git LFS 跟踪的已批准可复用模型包。不能把这些当前源码功能归于归档 <code>v0.1.0</code> 软件包。Atlas 载荷、真实神经影像数据、生成结果和额外自定义模型包必须保留在公开源码树之外，除非已经记录其出处、许可证、再分发批准、校验和与兼容版本。</p>
 <p>轻量 Windows CLI/GUI 产物不嵌入 PyTorch、atlas 载荷、真实 MRI 输入或生成结果。启用模型的工作流需要合适的 Python/PyTorch 环境，并从 Git-LFS 源码检出、用户缓存或离线资产包获得已批准模型。</p>
 <h2 id="_6">发布后验证<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<p>v0.1.0 产物于 2026 年 6 月 29 日在发布后重新下载并检查：校验和一致，Windows CLI 能显示 <code>--help</code>，下载的 wheel 完成了公开安全的合成快速入门。详见 <a href="../developer/release-verification-v0.1.0/">v0.1.0 发布验证</a>。</p>
+<p>v0.1.0 产物于 2026 年 6 月 29 日在发布后重新下载并检查：记录的校验和一致，Windows CLI 能显示 <code>--help</code>，wheel 可从干净环境导入。没有保留证据证明下载的 wheel 运行过后来加入的合成快速入门。详见 <a href="../developer/release-verification-v0.1.0/">v0.1.0 发布验证</a>。</p>
 <h2 id="_7">相关页面<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../installation/">安装</a></li>
@@ -1920,7 +1921,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

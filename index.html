@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1753,9 +1753,9 @@
 </p>
 <h2 id="end-to-end-workflow">End-to-end workflow<a class="headerlink" href="#end-to-end-workflow" title="Permanent link">&para;</a></h2>
 <figure>
-  <img alt="HemiSpec workflow overview" src="assets/figures/candidate-1.png" width="100%" />
+  <img alt="Cross-hemispheric reconstruction and ANS/RNS definitions" src="assets/figures/hemispec-study-design.png" width="100%" />
 <br />
-<figcaption>T1-weighted MRI → FSL gray-matter preprocessing → MNI152 1.5 mm GM input → bilateral DGN reconstruction → ANS/RNS maps → optional ROI summaries and validation → downstream analyses.</figcaption>
+<figcaption>Conceptual reconstruction framework and ANS/RNS definitions from Wang et al. (2024). HemiSpec starts from FSL-preprocessed GM maps. ANS/RNS are non-negative GM-derived measures, not distances in millimetres. Hemisphere validation is optional; behavioral-phenotype analysis shown in the schematic is not a built-in workflow.</figcaption>
 </figure>
 <table>
 <thead>
@@ -1812,13 +1812,13 @@
 <li>
 <p><strong>Prepare real MRI input</strong></p>
 <hr />
-<p>Start from T1-weighted NIfTI, run the packaged FSL script, and verify the DGN input grid and quality-control checks.</p>
+<p>Start from T1-weighted NIfTI, run <code>process_single_subject.sh</code>, and verify the DGN input grid and quality-control checks.</p>
 <p><a href="input-preprocessing/">Input and preprocessing</a></p>
 </li>
 <li>
 <p><strong>Run HemiSpec</strong></p>
 <hr />
-<p>Install from the GitHub Release wheel or a source checkout, inspect model readiness, and run the GUI or bilateral CLI workflow.</p>
+<p>Install the current source checkout with Git LFS, inspect model readiness, and run the GUI or bilateral CLI workflow.</p>
 <p><a href="quickstart/">Quick start</a></p>
 </li>
 <li>
@@ -1836,7 +1836,8 @@
 </ul>
 </div>
 <h2 id="current-software-scope">Current software scope<a class="headerlink" href="#current-software-scope" title="Permanent link">&para;</a></h2>
-<p>HemiSpec v0.1.0 is a public beta distributed through GitHub Releases and the source repository; the PyPI project is not public yet. The GUI and CLI generate voxel-wise ANS/RNS maps; ROI tables, hemisphere-classifier validation, and TRT validation are currently optional downstream steps.</p>
+<p>This site documents the current <code>main</code> source checkout. The archived <code>v0.1.0</code> release does not include every command shown here, including <code>quickstart</code> and automatic model-cache installation; see <a href="installation/">Installation</a>. The PyPI project is not public yet. Record the source commit when reporting software use.</p>
+<p>The GUI and CLI generate voxel-wise ANS/RNS maps. ROI tables, hemisphere-classifier validation, and TRT validation are optional. ROI export requires an atlas on the input grid; the released classifier specifically requires its compatible Glasser atlas and labels. Each run should use a new output directory.</p>
 <hr />
 <p class="site-credits">
   Source: <a href="https://github.com/mqqq333/HemiSpec" target="_blank" rel="noopener">github.com/mqqq333/HemiSpec</a>. Documentation built with <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">Material for MkDocs</a>.
@@ -1894,7 +1895,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

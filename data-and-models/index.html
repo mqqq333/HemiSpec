@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -575,41 +575,24 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#dgn-and-classifier-model-bundles" class="md-nav__link">
+  <a href="#recommended-local-model-assets" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DGN and classifier model bundles
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="DGN and classifier model bundles">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#source-checkout-with-git-lfs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Source checkout with Git LFS
+        Recommended local model assets
       
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#release-wheel-or-lightweight-install" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#current-cache-download-boundary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Release wheel or lightweight install
+        Current cache-download boundary
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1709,41 +1692,24 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#dgn-and-classifier-model-bundles" class="md-nav__link">
+  <a href="#recommended-local-model-assets" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DGN and classifier model bundles
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="DGN and classifier model bundles">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#source-checkout-with-git-lfs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Source checkout with Git LFS
+        Recommended local model assets
       
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#release-wheel-or-lightweight-install" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#current-cache-download-boundary" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Release wheel or lightweight install
+        Current cache-download boundary
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1805,49 +1771,40 @@
 <p class="admonition-title">MRI input is a separate prerequisite</p>
 <p>Model weights and atlas files do not convert raw T1 MRI into DGN input. Prepare one MNI152 1.5 mm <code>*_GM_masked.nii.gz</code> file per subject first; see <a href="../input-preprocessing/">Input and preprocessing</a>.</p>
 </div>
-<p>HemiSpec model-enabled workflows use two DGN generator checkpoints, optional hemisphere-classifier bundles, and an optional atlas/label table for ROI export.</p>
-<h2 id="dgn-and-classifier-model-bundles">DGN and classifier model bundles<a class="headerlink" href="#dgn-and-classifier-model-bundles" title="Permanent link">&para;</a></h2>
-<h3 id="source-checkout-with-git-lfs">Source checkout with Git LFS<a class="headerlink" href="#source-checkout-with-git-lfs" title="Permanent link">&para;</a></h3>
+<p>Current <code>main</code> uses two DGN generator checkpoints, optional hemisphere-classifier bundles, and an optional atlas/label table for ROI export.</p>
+<h2 id="recommended-local-model-assets">Recommended local model assets<a class="headerlink" href="#recommended-local-model-assets" title="Permanent link">&para;</a></h2>
+<p>Use a current source checkout with Git LFS:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>lfs<span class="w"> </span>install
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mqqq333/HemiSpec.git
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>HemiSpec
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>git<span class="w"> </span>lfs<span class="w"> </span>pull
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>model,classifier<span class="o">]</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[model,classifier]"</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>git<span class="w"> </span>rev-parse<span class="w"> </span>HEAD
 </code></pre></div>
-<h3 id="release-wheel-or-lightweight-install">Release wheel or lightweight install<a class="headerlink" href="#release-wheel-or-lightweight-install" title="Permanent link">&para;</a></h3>
-<p>The Python wheel does not embed the 300 MB+ model bundles. After installing the v0.1.0 wheel, HemiSpec can download the released defaults from the GitHub Release into the per-user cache:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;./hemispec_toolkit-0.1.0-py3-none-any.whl[model,classifier]&quot;</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>hemispec<span class="w"> </span>models<span class="w"> </span>--install<span class="w"> </span>--with-classifier
-</code></pre></div>
-<p>The PyPI project is not public yet. Do not use <code>pip install hemispec-toolkit</code> as a current installation instruction.</p>
-<p>Downloaded files are stored under <code>HEMISPEC_MODEL_CACHE</code> when set, otherwise under the platform-specific user cache. Explicit environment variables or CLI/API paths can override the defaults.</p>
+<p>The DGN checkpoints and classifier bundles are then available under <code>assets/models/</code>. Record the commit hash printed by <code>git rev-parse HEAD</code> so the code and model checkout can be identified later. Explicit CLI/API paths or <code>HEMISPEC_DGN_MODEL_ROOT</code> and <code>HEMISPEC_CLASSIFIER_MODEL_DIR</code> can select another approved local bundle.</p>
+<h2 id="current-cache-download-boundary">Current cache-download boundary<a class="headerlink" href="#current-cache-download-boundary" title="Permanent link">&para;</a></h2>
+<p>Current <code>main</code> can download missing DGN checkpoints into the per-user cache from files tracked by Git LFS on the repository's <code>main</code> branch. These downloads come from GitHub's media endpoint, not from the archived <code>v0.1.0</code> GitHub Release assets. The current classifier cache download is incomplete because its required <code>feature_names.csv</code> media URLs return HTTP 404; use the classifier files from a Git-LFS checkout or an explicit local classifier directory instead. Downloaded DGN files are stored under <code>HEMISPEC_MODEL_CACHE</code> when set, otherwise under the platform-specific user cache.</p>
+<p>The archived <code>v0.1.0</code> wheel does not contain the current model downloader. The PyPI project is not public, so <code>pip install hemispec-toolkit</code> is not a current installation instruction.</p>
 <h2 id="atlas-files-for-roi-export">Atlas files for ROI export<a class="headerlink" href="#atlas-files-for-roi-export" title="Permanent link">&para;</a></h2>
 <p>ROI export is optional and requires:</p>
 <ol>
 <li>a parcellation atlas NIfTI on the same grid and affine as the HemiSpec maps;</li>
 <li>a compatible label table.</li>
 </ol>
-<p>The repository contains only an atlas manifest/template and placement documentation. The Glasser NIfTI and label table are <strong>not distributed in the public source branch</strong> because source, license, checksum, and redistribution approval must be documented first.</p>
+<p>The repository contains only an atlas manifest/template and placement documentation. The Glasser NIfTI and label table are not distributed in the public source branch because source, license, checksum, and redistribution approval must be documented first.</p>
 <p>Place an approved local bundle at:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>assets/atlases/glasser/MNI_Glasser_HCP_v1.0_1p5mm.nii.gz
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>assets/atlases/glasser/Glasser_label_index_mapping.xlsx
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>assets/atlases/glasser/MNI_Glasser_HCP_v1.0_1p5mm.nii.gz
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>assets/atlases/glasser/Glasser_label_index_mapping.xlsx
 </code></pre></div>
 <p>or configure explicit paths:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">HEMISPEC_GLASSER_ATLAS</span><span class="o">=</span>/approved/path/atlas.nii.gz
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">HEMISPEC_GLASSER_LABEL_TABLE</span><span class="o">=</span>/approved/path/labels.xlsx
-</code></pre></div>
-<p>A custom atlas can be passed directly:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span>--roi-atlas<span class="w"> </span>/approved/path/atlas.nii.gz<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span>--roi-label-table<span class="w"> </span>/approved/path/labels.xlsx
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">HEMISPEC_GLASSER_ATLAS</span><span class="o">=</span>/approved/path/atlas.nii.gz
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">HEMISPEC_GLASSER_LABEL_TABLE</span><span class="o">=</span>/approved/path/labels.xlsx
 </code></pre></div>
 <p>Without an atlas, the workflow can still generate voxel-wise ANS/RNS maps by using <code>--no-roi-table</code>.</p>
 <h2 id="what-is-not-distributed">What is not distributed<a class="headerlink" href="#what-is-not-distributed" title="Permanent link">&para;</a></h2>
-<p>The public branch must not contain raw or subject-level MRI, generated study outputs, unpublished cohort results, manuscript-draft figures, or atlas files without documented redistribution approval. Use the synthetic quickstart for public examples.</p>
+<p>The public branch must not contain raw or subject-level MRI, generated study outputs, unpublished cohort results, manuscript-draft figures, or atlas files without documented redistribution approval.</p>
 <h2 id="attribution">Attribution<a class="headerlink" href="#attribution" title="Permanent link">&para;</a></h2>
-<p>The cross-hemispheric DGN and ANS/RNS framework originate from Wang et al. (2024); see <a href="../citation/">Citation</a>. Model and atlas bundles require their own provenance, checksum, compatibility, and license records.</p>
+<p>The cross-hemispheric DGN and ANS/RNS framework originate from Wang et al. (2024). For Glasser/HCP-MMP atlas use, also cite Glasser et al. (2016), separately from the provenance of the derived MNI NIfTI conversion; see <a href="../citation/">Citation</a>. Model and atlas bundles require their own provenance, checksum, compatibility, and license records.</p>
 
 
 
@@ -1901,7 +1858,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

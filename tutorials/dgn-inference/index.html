@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -746,10 +746,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install" class="md-nav__link">
+  <a href="#install-and-local-model-assets" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install
+        Install and local model assets
       
     </span>
   </a>
@@ -757,10 +757,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#inputs" class="md-nav__link">
+  <a href="#inputs-and-spatial-qc" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Inputs
+        Inputs and spatial QC
       
     </span>
   </a>
@@ -768,10 +768,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#outputs" class="md-nav__link">
+  <a href="#cli-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Outputs
+        CLI example
       
     </span>
   </a>
@@ -779,10 +779,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#current-status" class="md-nav__link">
+  <a href="#python-api-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Current status
+        Python API example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actual-output-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actual output behavior
       
     </span>
   </a>
@@ -1681,10 +1692,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install" class="md-nav__link">
+  <a href="#install-and-local-model-assets" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install
+        Install and local model assets
       
     </span>
   </a>
@@ -1692,10 +1703,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#inputs" class="md-nav__link">
+  <a href="#inputs-and-spatial-qc" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Inputs
+        Inputs and spatial QC
       
     </span>
   </a>
@@ -1703,10 +1714,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#outputs" class="md-nav__link">
+  <a href="#cli-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Outputs
+        CLI example
       
     </span>
   </a>
@@ -1714,10 +1725,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#current-status" class="md-nav__link">
+  <a href="#python-api-example" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Current status
+        Python API example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#actual-output-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Actual output behavior
       
     </span>
   </a>
@@ -1745,26 +1767,69 @@
 
 
 <h1 id="dgn-inference">DGN inference<a class="headerlink" href="#dgn-inference" title="Permanent link">&para;</a></h1>
-<p>This tutorial shows how to apply released HemiSpec DGN model bundles to preprocessed gray-matter maps.</p>
-<h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h2>
-<p>From a source checkout, install the model extra and optionally pre-download released checkpoints:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>model<span class="o">]</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>hemispec<span class="w"> </span>models<span class="w"> </span>--install
+<p>This tutorial runs one released HemiSpec DGN direction on preprocessed gray-matter maps by using the model files in the current source checkout.</p>
+<h2 id="install-and-local-model-assets">Install and local model assets<a class="headerlink" href="#install-and-local-model-assets" title="Permanent link">&para;</a></h2>
+<p>Follow <a href="../../installation/">Installation</a> to clone the repository with Git LFS. From the repository root, materialize the tracked checkpoints and install the model extra:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>lfs<span class="w"> </span>install
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>lfs<span class="w"> </span>pull
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[model]"</span>
 </code></pre></div>
-<p>For source development, clone with Git LFS and use <code>python -m pip install -e .[model]</code>.</p>
-<h2 id="inputs">Inputs<a class="headerlink" href="#inputs" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Preprocessed <code>*_GM_masked.nii.gz</code> files.</li>
-<li>A HemiSpec model bundle containing weights, model direction, preprocessing assumptions, and version metadata.</li>
-</ul>
-<h2 id="outputs">Outputs<a class="headerlink" href="#outputs" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Reconstructed hemisphere maps.</li>
-<li>Source and target hemisphere records.</li>
-<li>Run manifest with model version, command, parameters, and output paths.</li>
-</ul>
-<h2 id="current-status">Current status<a class="headerlink" href="#current-status" title="Permanent link">&para;</a></h2>
-<p>Released default model bundles are available through Git LFS source checkouts or GitHub Release cache download. Do not publish additional trained weights until their release policy, provenance, checksums, and license notes are approved.</p>
+<p>The current checkout should contain:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>assets/models/dgn/outputs_bi_stable_L/ckpts/best_netG_L.pth
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>assets/models/dgn/outputs_bi_stable_R/ckpts/best_netG_R.pth
+</code></pre></div>
+<p>This source-checkout workflow uses those local files. It does not require <code>hemispec models --install</code>.</p>
+<h2 id="inputs-and-spatial-qc">Inputs and spatial QC<a class="headerlink" href="#inputs-and-spatial-qc" title="Permanent link">&para;</a></h2>
+<p>Use preprocessed <code>*_GM_masked.nii.gz</code> files that satisfy <a href="../../input-preprocessing/">Input and preprocessing</a>. In particular, verify the canonical FSL MNI152 1.5 mm spatial grid before inference: shape <code>121 x 145 x 121</code>, voxel size <code>1.5 x 1.5 x 1.5 mm</code>, matching orientation, and matching full affine. A filename or matching dimensions alone do not establish spatial compatibility.</p>
+<p>See <a href="../../reference/model-bundles/">Model bundles</a> for the checkpoint layout and model-direction mapping.</p>
+<h2 id="cli-example">CLI example<a class="headerlink" href="#cli-example" title="Permanent link">&para;</a></h2>
+<p>Run left-to-right inference into a new output directory:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>hemispec<span class="w"> </span>infer<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">"derivatives/*_GM_masked.nii.gz"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>--model-root<span class="w"> </span><span class="s2">"assets/models/dgn"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>--direction<span class="w"> </span>L_to_R<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span>--out-dir<span class="w"> </span><span class="s2">"outputs/dgn_inference_l2r"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span>--device<span class="w"> </span>auto
+</code></pre></div>
+<p>For the opposite direction, use a fresh directory so outputs from different checkpoints are not mixed:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>hemispec<span class="w"> </span>infer<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">"derivatives/*_GM_masked.nii.gz"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>--model-root<span class="w"> </span><span class="s2">"assets/models/dgn"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span>--direction<span class="w"> </span>R_to_L<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span>--out-dir<span class="w"> </span><span class="s2">"outputs/dgn_inference_r2l"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span>--device<span class="w"> </span>auto
+</code></pre></div>
+<h2 id="python-api-example">Python API example<a class="headerlink" href="#python-api-example" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hemispec</span><span class="w"> </span><span class="kn">import</span> <span class="n">DGNInferenceConfig</span><span class="p">,</span> <span class="n">discover_local_dgn_bundles</span><span class="p">,</span> <span class="n">run_dgn_inference</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">bundles</span> <span class="o">=</span> <span class="n">discover_local_dgn_bundles</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s2">"assets/models/dgn"</span><span class="p">))</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">output_paths</span> <span class="o">=</span> <span class="n">run_dgn_inference</span><span class="p">(</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="n">DGNInferenceConfig</span><span class="p">(</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>        <span class="n">model</span><span class="o">=</span><span class="n">bundles</span><span class="p">[</span><span class="s2">"L_to_R"</span><span class="p">],</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>        <span class="n">input_glob</span><span class="o">=</span><span class="s2">"derivatives/*_GM_masked.nii.gz"</span><span class="p">,</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>        <span class="n">out_dir</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">"outputs/dgn_inference_l2r_api"</span><span class="p">),</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>        <span class="n">direction</span><span class="o">=</span><span class="s2">"L_to_R"</span><span class="p">,</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>        <span class="n">device</span><span class="o">=</span><span class="s2">"auto"</span><span class="p">,</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    <span class="p">)</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="p">)</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">output_paths</span><span class="p">:</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</code></pre></div>
+<p><code>run_dgn_inference()</code> returns the output paths in memory. The CLI prints the output count and paths. Neither interface writes a run manifest.</p>
+<h2 id="actual-output-behavior">Actual output behavior<a class="headerlink" href="#actual-output-behavior" title="Permanent link">&para;</a></h2>
+<p>With an input such as <code>derivatives/sub-001_GM_masked.nii.gz</code>, the default output is:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>outputs/dgn_inference_l2r/sub-001_GM_masked_PRED_LR_full.nii.gz
+</code></pre></div>
+<p>The output is on the input NIfTI's full grid. It contains the reconstructed target crop, while the thresholded source crop is copied from the input; input values remain at target-crop voxels outside the target mask. The returned records are paths, not a persisted source/target record table or manifest.</p>
+<p>Record provenance alongside each run yourself. At minimum, retain the HemiSpec commit and checkpoint hash:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>git<span class="w"> </span>rev-parse<span class="w"> </span>HEAD<span class="w"> </span>&gt;<span class="w"> </span>outputs/dgn_inference_l2r/hemispec_commit.txt
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>sha256sum<span class="w"> </span>assets/models/dgn/outputs_bi_stable_R/ckpts/best_netG_R.pth<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span>&gt;<span class="w"> </span>outputs/dgn_inference_l2r/checkpoint.sha256
+</code></pre></div>
+<p>The <code>L_to_R</code> bundle resolves to <code>outputs_bi_stable_R/ckpts/best_netG_R.pth</code> because the target hemisphere is right. Use <code>Get-FileHash -Algorithm SHA256</code> instead of <code>sha256sum</code> on PowerShell.</p>
 
 
 
@@ -1818,7 +1883,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

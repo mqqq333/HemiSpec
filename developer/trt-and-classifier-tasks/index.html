@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1707,7 +1707,7 @@ values.</p>
 <p><code>hemispec trt</code> estimates test-retest reliability from paired ANS/RNS maps. The
 command writes similarity matrices, within-subject summaries, summary plots, and
 <code>validation_summary.csv</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>hemispec<span class="w"> </span>trt<span class="w">   </span>--maps-dir<span class="w"> </span><span class="s2">&quot;/path/to/workflow/intermediate/combined_maps&quot;</span><span class="w">   </span>--out-dir<span class="w"> </span><span class="s2">&quot;/path/to/workflow/validation/trt&quot;</span><span class="w">   </span>--kinds<span class="w"> </span>ANS,RNS<span class="w">   </span>--hemis<span class="w"> </span>L,R
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>hemispec<span class="w"> </span>trt<span class="w">   </span>--maps-dir<span class="w"> </span><span class="s2">"/path/to/workflow/intermediate/combined_maps"</span><span class="w">   </span>--out-dir<span class="w"> </span><span class="s2">"/path/to/workflow/validation/trt"</span><span class="w">   </span>--kinds<span class="w"> </span>ANS,RNS<span class="w">   </span>--hemis<span class="w"> </span>L,R
 </code></pre></div>
 <p>Before public release, use only approved/synthetic examples in this document.
 Do not publish private cohort sizes, exact p-values, or manuscript-only summary
@@ -1715,7 +1715,7 @@ statistics here.</p>
 <h2 id="hemisphere-classifier-validation">Hemisphere-classifier validation<a class="headerlink" href="#hemisphere-classifier-validation" title="Permanent link">&para;</a></h2>
 <p><code>hemispec hemi-classify</code> loads saved sklearn/joblib classifier artifacts and
 applies them to ROI-level ANS/RNS features. Training is not a product feature.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>hemispec<span class="w"> </span>hemi-classify<span class="w">   </span>--maps-dir<span class="w"> </span><span class="s2">&quot;/path/to/workflow/voxel_maps&quot;</span><span class="w">   </span>--roi-csv<span class="w"> </span><span class="s2">&quot;/path/to/workflow/tables/roi_features_bilateral.csv&quot;</span><span class="w">   </span>--classifier-model-dir<span class="w"> </span><span class="s2">&quot;/path/to/classifier_bundle&quot;</span><span class="w">   </span>--out-dir<span class="w"> </span><span class="s2">&quot;/path/to/workflow/validation/hemi_classify&quot;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>hemispec<span class="w"> </span>hemi-classify<span class="w">   </span>--maps-dir<span class="w"> </span><span class="s2">"/path/to/workflow/voxel_maps"</span><span class="w">   </span>--roi-csv<span class="w"> </span><span class="s2">"/path/to/workflow/tables/roi_features_bilateral.csv"</span><span class="w">   </span>--classifier-model-dir<span class="w"> </span><span class="s2">"/path/to/classifier_bundle"</span><span class="w">   </span>--out-dir<span class="w"> </span><span class="s2">"/path/to/workflow/validation/hemi_classify"</span>
 </code></pre></div>
 <p>Supported runtime modes:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>single
@@ -1777,7 +1777,7 @@ feature transforms, software versions, checksums, and citation boundaries.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

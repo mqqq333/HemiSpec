@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1250,6 +1250,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#glasser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Glasser 皮层分区
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#hemispec" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1714,6 +1725,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#glasser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Glasser 皮层分区
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#hemispec" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1787,8 +1809,14 @@
 <p>Zhang, Y., Brady, M., &amp; Smith, S. (2001). Segmentation of brain MR images through a hidden Markov random field model and the expectation-maximization algorithm. <em>IEEE Transactions on Medical Imaging, 20</em>(1), 45–57. https://doi.org/10.1109/42.906424</p>
 <p>Jenkinson, M., &amp; Smith, S. (2001). A global optimisation method for robust affine registration of brain images. <em>Medical Image Analysis, 5</em>(2), 143–156. https://doi.org/10.1016/S1361-8415(01)00036-6</p>
 </blockquote>
+<h2 id="glasser">Glasser 皮层分区<a class="headerlink" href="#glasser" title="Permanent link">&para;</a></h2>
+<p>使用 Glasser/HCP-MMP atlas 进行 ROI 导出或半球分类时，应引用原始分区论文：</p>
+<blockquote>
+<p>Glasser, M. F., Coalson, T. S., Robinson, E. C., et al. (2016). A multi-modal parcellation of human cerebral cortex. <em>Nature, 536</em>, 171-178. https://doi.org/10.1038/nature18933</p>
+</blockquote>
+<p>MNI 1.5 mm NIfTI 转换版属于派生 atlas 资产，并非原始分区本身。应另行记录其分发者/来源 URL、版本或 commit、获取日期、MNI 模板、体素大小、转换方法和标签映射。不能将 <code>1..180</code>、<code>1001..1180</code> 等转换版特有的整数标签约定归于原始论文。本地 atlas 的要求见<a href="../data-and-models/">数据与模型</a>。</p>
 <h2 id="hemispec">HemiSpec 软件引用<a class="headerlink" href="#hemispec" title="Permanent link">&para;</a></h2>
-<p>使用软件时，应在公共 HemiSpec 发布/归档记录可用后引用对应记录，并在方法部分保留软件版本。在归档 DOI 尚未注册前，可使用仓库 <code>CITATION.cff</code>、发布标签与访问日期。</p>
+<p>使用软件时，应在公共 HemiSpec 发布/归档记录可用后引用对应记录，并在方法部分保留软件版本。在归档 DOI 尚未注册前，可使用仓库 <code>CITATION.cff</code>、发布标签与访问日期。使用当前 <code>main</code> 源码检出时，还应报告 <code>git rev-parse HEAD</code> 输出的准确 commit；仅凭包版本号无法将其与归档 <code>v0.1.0</code> 发布版区分。</p>
 <p>不能用软件引用替代 Wang 等人的方法论文：原始科学方法与软件实现是两类独立贡献，应分别致谢和引用。</p>
 <h2 id="hemispec_1">HemiSpec 下游论文<a class="headerlink" href="#hemispec_1" title="Permanent link">&para;</a></h2>
 <p>“稿件准备中”不是稳定的公共文献。只有在预印本、期刊论文或归档记录公开后，才应将 HemiSpec 下游论文作为正式引用。在此之前，应描述“使用 HemiSpec 完成分析”，并报告准确的软件版本或 commit。</p>
@@ -1849,7 +1877,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

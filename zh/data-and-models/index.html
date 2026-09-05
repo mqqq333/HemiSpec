@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -575,41 +575,24 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#dgn" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DGN 与分类器模型包
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="DGN 与分类器模型包">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#git-lfs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Git LFS 源码检出
+        推荐的本地模型资产
       
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#release-wheel" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Release wheel 或轻量安装
+        当前缓存下载边界
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -625,7 +608,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         不分发的内容
@@ -636,7 +619,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         归因
@@ -1709,41 +1692,24 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#dgn" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DGN 与分类器模型包
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="DGN 与分类器模型包">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#git-lfs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Git LFS 源码检出
+        推荐的本地模型资产
       
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#release-wheel" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Release wheel 或轻量安装
+        当前缓存下载边界
       
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1759,7 +1725,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         不分发的内容
@@ -1770,7 +1736,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       
         归因
@@ -1805,49 +1771,40 @@
 <p class="admonition-title">MRI 输入是独立前置条件</p>
 <p>模型权重和 atlas 文件不会把原始 T1 MRI 自动转换为 DGN 输入。应先为每名受试者准备一张 MNI152 1.5 mm 的 <code>*_GM_masked.nii.gz</code>；详见<a href="../input-preprocessing/">输入与预处理</a>。</p>
 </div>
-<p>HemiSpec 模型工作流使用两个 DGN 生成器检查点、可选半球分类器包，以及用于 ROI 导出的可选 atlas/标签表。</p>
-<h2 id="dgn">DGN 与分类器模型包<a class="headerlink" href="#dgn" title="Permanent link">&para;</a></h2>
-<h3 id="git-lfs">Git LFS 源码检出<a class="headerlink" href="#git-lfs" title="Permanent link">&para;</a></h3>
+<p>当前 <code>main</code> 使用两个 DGN 生成器检查点、可选的半球分类器包，以及用于 ROI 导出的可选 atlas/标签表。</p>
+<h2 id="_2">推荐的本地模型资产<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>使用带 Git LFS 的当前源码检出：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>lfs<span class="w"> </span>install
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mqqq333/HemiSpec.git
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>HemiSpec
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>git<span class="w"> </span>lfs<span class="w"> </span>pull
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>model,classifier<span class="o">]</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[model,classifier]"</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>git<span class="w"> </span>rev-parse<span class="w"> </span>HEAD
 </code></pre></div>
-<h3 id="release-wheel">Release wheel 或轻量安装<a class="headerlink" href="#release-wheel" title="Permanent link">&para;</a></h3>
-<p>Python wheel 不嵌入 300MB+ 模型包。安装 v0.1.0 wheel 后，HemiSpec 可将 GitHub Release 中的默认模型下载到每用户缓存：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;./hemispec_toolkit-0.1.0-py3-none-any.whl[model,classifier]&quot;</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>hemispec<span class="w"> </span>models<span class="w"> </span>--install<span class="w"> </span>--with-classifier
-</code></pre></div>
-<p>当前 PyPI 项目尚未公开，不能把 <code>pip install hemispec-toolkit</code> 作为现行安装说明。</p>
-<p>设置 <code>HEMISPEC_MODEL_CACHE</code> 时，下载文件存储到指定目录；否则使用平台对应的用户缓存。显式环境变量或 CLI/API 路径可以覆盖默认位置。</p>
+<p>DGN 检查点和分类器包随后位于 <code>assets/models/</code>。请记录 <code>git rev-parse HEAD</code> 输出的提交哈希，以便以后识别代码和模型检出。也可通过显式 CLI/API 路径或 <code>HEMISPEC_DGN_MODEL_ROOT</code>、<code>HEMISPEC_CLASSIFIER_MODEL_DIR</code> 选择其他经批准的本地包。</p>
+<h2 id="_3">当前缓存下载边界<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>当前 <code>main</code> 可以把缺失的 DGN 检查点下载到每用户缓存；文件来自仓库 <code>main</code> 分支通过 Git LFS 跟踪的内容。这些下载使用 GitHub media 端点，并非归档 <code>v0.1.0</code> GitHub Release 的资产。当前分类器缓存下载并不完整，因为所需的 <code>feature_names.csv</code> media URL 返回 HTTP 404；请改用 Git-LFS 源码检出中的分类器文件，或显式指定本地分类器目录。设置 <code>HEMISPEC_MODEL_CACHE</code> 时，下载的 DGN 文件保存在该目录，否则使用平台对应的用户缓存。</p>
+<p>归档 <code>v0.1.0</code> wheel 不包含当前模型下载器。PyPI 项目尚未公开，因此 <code>pip install hemispec-toolkit</code> 不是当前安装命令。</p>
 <h2 id="roi-atlas">ROI 导出的 atlas 文件<a class="headerlink" href="#roi-atlas" title="Permanent link">&para;</a></h2>
 <p>ROI 导出是可选功能，需要：</p>
 <ol>
 <li>与 HemiSpec 图具有相同网格和 affine 的分区 atlas NIfTI；</li>
-<li>与 atlas 兼容的标签表。</li>
+<li>与该 atlas 兼容的标签表。</li>
 </ol>
-<p>公开源码分支仅保留 atlas manifest/template 和放置说明。Glasser NIfTI 与标签表<strong>不在公开源码分支中分发</strong>，因为必须先记录来源、许可证、校验和与再分发批准。</p>
-<p>将已批准的本地资产放置于：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>assets/atlases/glasser/MNI_Glasser_HCP_v1.0_1p5mm.nii.gz
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>assets/atlases/glasser/Glasser_label_index_mapping.xlsx
+<p>仓库仅包含 atlas manifest/template 和放置说明。Glasser NIfTI 与标签表不在公开源码分支中分发，因为必须先记录来源、许可证、校验和与再分发批准。</p>
+<p>将经批准的本地资产放置于：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>assets/atlases/glasser/MNI_Glasser_HCP_v1.0_1p5mm.nii.gz
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>assets/atlases/glasser/Glasser_label_index_mapping.xlsx
 </code></pre></div>
 <p>或配置显式路径：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">HEMISPEC_GLASSER_ATLAS</span><span class="o">=</span>/approved/path/atlas.nii.gz
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">HEMISPEC_GLASSER_LABEL_TABLE</span><span class="o">=</span>/approved/path/labels.xlsx
-</code></pre></div>
-<p>也可以直接传入自定义 atlas：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span>--roi-atlas<span class="w"> </span>/approved/path/atlas.nii.gz<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span>--roi-label-table<span class="w"> </span>/approved/path/labels.xlsx
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">HEMISPEC_GLASSER_ATLAS</span><span class="o">=</span>/approved/path/atlas.nii.gz
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">HEMISPEC_GLASSER_LABEL_TABLE</span><span class="o">=</span>/approved/path/labels.xlsx
 </code></pre></div>
 <p>没有 atlas 时，可使用 <code>--no-roi-table</code> 仅生成体素级 ANS/RNS 图。</p>
-<h2 id="_2">不分发的内容<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>公开分支不能包含原始或受试者级 MRI、研究生成结果、未发表队列结果、稿件草图，或缺少再分发批准的 atlas 文件。公开示例应使用合成快速测试。</p>
-<h2 id="_3">归因<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>跨半球 DGN 与 ANS/RNS 框架源自 Wang 等人（2024），详见<a href="../citation/">引用</a>。模型和 atlas 包还需要各自的来源、校验和、兼容性和许可证记录。</p>
+<h2 id="_4">不分发的内容<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>公开分支不能包含原始或受试者级 MRI、研究生成结果、未发表队列结果、稿件草图，或缺少再分发批准的 atlas 文件。</p>
+<h2 id="_5">归因<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>跨半球 DGN 与 ANS/RNS 框架源自 Wang 等人（2024）。使用 Glasser/HCP-MMP atlas 时，还应引用 Glasser 等人（2016），并另行记录派生 MNI NIfTI 转换版的来源；详见<a href="../citation/">引用</a>。模型和 atlas 包还需要各自的来源、校验和、兼容性和许可证记录。</p>
 
 
 
@@ -1901,7 +1858,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

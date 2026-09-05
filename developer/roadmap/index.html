@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1770,14 +1770,16 @@
 <p>This page tracks public-facing HemiSpec development after the v0.1.0 first public beta.</p>
 <h2 id="current-status">Current status<a class="headerlink" href="#current-status" title="Permanent link">&para;</a></h2>
 <p>HemiSpec v0.1.0 was published on 2026-06-28 as a GitHub prerelease: <a href="https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0">https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0</a>. It is research software / public beta, not a mature clinical or commercial product.</p>
-<p>The release includes the unified HemiSpec repository, documentation website, <code>hemispec</code> CLI, <code>hemispec-gui</code> entry point, wheel/sdist, Windows CLI/GUI artifacts, synthetic quickstart, CI/docs gates, and external-asset distribution policy.</p>
+<p>The archived release includes the <code>hemispec</code> CLI, <code>hemispec-gui</code> entry point, wheel/sdist, and Windows CLI/GUI artifacts. Current <code>main</code> adds the synthetic quickstart and model-cache download code. The public documentation targets that source checkout; these additions are not retroactive features of the archived release.</p>
 <h2 id="v01x-priorities">v0.1.x priorities<a class="headerlink" href="#v01x-priorities" title="Permanent link">&para;</a></h2>
 <ol>
-<li>Keep the release downloadable and reproducible: checksum release assets, smoke-test the CLI, and run the synthetic quickstart from the released wheel. Baseline established on 2026-06-29; see <a href="../release-verification-v0.1.0/">v0.1.0 release verification</a>.</li>
-<li>Make first-run documentation clearer: prominent download links, quickstart path, and asset/model boundaries.</li>
-<li>Harden asset handling: keep approved DGN/classifier bundles reusable through Git LFS and first-run cache download; keep manifest/checksum/license/provenance templates for atlas and custom/offline bundles.</li>
-<li>Improve GUI diagnostics: setup status card now shows DGN model, Glasser atlas, classifier bundle, and PyTorch availability as found/missing/download-pending; next steps are checksum display and richer first-run guidance.</li>
-<li>Improve error messages and logs for missing models, missing atlas files, missing classifier bundles, and missing optional dependencies.</li>
+<li>Publish current functionality under a new version and immutable tag. Verify the resulting wheel, CLI, GUI, and synthetic quickstart independently, and preserve the archived <a href="../release-verification-v0.1.0/">v0.1.0 verification record</a>.</li>
+<li>Validate inputs before inference: enforce the released-model grid and affine, reject duplicate subject/session keys, and check classifier atlas/features and optional dependencies before expensive work.</li>
+<li>Isolate outputs by run and make reruns safe: prevent stale subjects from entering summaries and restrict quickstart cleanup to its own generated files.</li>
+<li>Repair classifier-cache URLs, verify cached model hashes before loading, and publish versioned compatibility/provenance manifests for reusable assets.</li>
+<li>Add regression coverage for tied-value Spearman correlations, unsymmetrized TRT matrices, and ROI masks that retain valid zero residuals.</li>
+<li>Propagate GUI cancellation through classifier/TRT stages and improve missing-asset diagnostics.</li>
+<li>Add an optional study policy requiring hemisphere-classifier validation. Classification remains opt-in until that policy is implemented and tested; TRT still requires repeated scans.</li>
 </ol>
 <h2 id="v02-candidates">v0.2 candidates<a class="headerlink" href="#v02-candidates" title="Permanent link">&para;</a></h2>
 <ul>
@@ -1851,7 +1853,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

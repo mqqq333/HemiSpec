@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1770,14 +1770,16 @@
 <p>本页追踪 v0.1.0 首个公开测试版之后面向公众的 HemiSpec 开发。</p>
 <h2 id="_2">当前状态<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>HemiSpec v0.1.0 于 2026-06-28 作为 GitHub 预发布版发布：<a href="https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0">https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0</a>。它是研究软件/公开测试版，不是成熟的临床或商业产品。</p>
-<p>该版本包含统一的 HemiSpec 仓库、文档网站、<code>hemispec</code> CLI、<code>hemispec-gui</code> 入口点、wheel/sdist、Windows CLI/GUI 产物、合成快速入门、CI/文档关卡和外部资产分发政策。</p>
+<p>归档版本包含 <code>hemispec</code> CLI、<code>hemispec-gui</code> 入口点、wheel/sdist 和 Windows CLI/GUI 产物。当前 <code>main</code> 另外加入了合成快速测试和模型缓存下载代码。公开文档对应当前源码，这些新增功能不属于归档发行包。</p>
 <h2 id="v01x">v0.1.x 优先事项<a class="headerlink" href="#v01x" title="Permanent link">&para;</a></h2>
 <ol>
-<li>保持发布可下载和可复现：对发布资产进行校验和验证，冒烟测试 CLI，并从已发布 wheel 运行合成快速入门。基线于 2026-06-29 建立；见 <a href="../release-verification-v0.1.0/">v0.1.0 发布验证</a>。</li>
-<li>使首次运行文档更清晰：突出下载链接、快速入门路径和资产/模型边界。</li>
-<li>强化资产处理：通过 Git LFS 和首次运行缓存下载保持已批准 DGN/分类器包的可复用性；保持用于 atlas 和自定义/离线包的清单/校验和/许可证/出处模板。</li>
-<li>改进 GUI 诊断：设置状态卡现已将 DGN 模型、Glasser atlas、分类器包和 PyTorch 可用性报告为已找到/未找到/下载待处理；下一步是校验和显示和更丰富的首次运行指导。</li>
-<li>改进缺失模型、缺失 atlas 文件、缺失分类器包和缺失可选依赖项的错误消息和日志。</li>
+<li>为当前功能发布新的版本号和不可变标签。独立验证新 wheel、CLI、GUI 和合成快速测试，并保留归档 <a href="../release-verification-v0.1.0/">v0.1.0 验证记录</a>。</li>
+<li>在推理前完成输入校验：检查模型要求的网格和 affine，拒绝重复的受试者/session 标识，并提前检查分类器 atlas、特征和可选依赖。</li>
+<li>按运行隔离输出并保障重跑安全：防止旧受试者混入汇总，将快速测试的清理范围限制为自身生成文件。</li>
+<li>修复分类器缓存下载地址，加载前校验缓存模型哈希，并为可复用资产发布带版本的兼容性和来源清单。</li>
+<li>为并列值 Spearman 相关、非对称 TRT 矩阵及保留有效零残差的 ROI 掩膜补充回归测试。</li>
+<li>将 GUI 取消操作传递到分类器/TRT 阶段，改善缺失资产诊断。</li>
+<li>增加可选的研究策略，将半球分类验证设为必须步骤。在该策略实现并测试前，分类仍为可选；TRT 始终需要重复扫描。</li>
 </ol>
 <h2 id="v02">v0.2 候选功能<a class="headerlink" href="#v02" title="Permanent link">&para;</a></h2>
 <ul>
@@ -1851,7 +1853,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -522,7 +522,7 @@
   <a href="#1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. 运行公开安全的合成测试
+        1. 安装当前源码
       
     </span>
   </a>
@@ -533,7 +533,7 @@
   <a href="#2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. 安装启用模型的源码检出
+        2. 运行合成测试
       
     </span>
   </a>
@@ -593,10 +593,38 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="7. 可选验证">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        半球分类
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        重测可靠性
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         当前边界
@@ -1728,7 +1756,7 @@
   <a href="#1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. 运行公开安全的合成测试
+        1. 安装当前源码
       
     </span>
   </a>
@@ -1739,7 +1767,7 @@
   <a href="#2" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. 安装启用模型的源码检出
+        2. 运行合成测试
       
     </span>
   </a>
@@ -1799,10 +1827,38 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="7. 可选验证">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        半球分类
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        重测可靠性
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         当前边界
@@ -1833,32 +1889,33 @@
 
 
 <h1 id="_1">快速开始<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>当前 v0.1.0 公开版本通过 GitHub Release 和源码检出提供，PyPI 项目尚未公开。</p>
+<p>以下命令对应当前 <code>main</code> 分支源码，不适用于归档 <code>v0.1.0</code> wheel 的全部功能。PyPI 项目尚未公开。发行版本边界见<a href="../installation/">安装</a>。</p>
 <div class="admonition note">
 <p class="admonition-title">命令命名</p>
 <p>命令行界面使用 <code>hemispec</code>，图形界面使用 <code>hemispec-gui</code>。</p>
 </div>
-<h2 id="1">1. 运行公开安全的合成测试<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
-<p>从 GitHub Release 下载 <code>hemispec_toolkit-0.1.0-py3-none-any.whl</code>，然后运行：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>./hemispec_toolkit-0.1.0-py3-none-any.whl
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>hemispec<span class="w"> </span>--help
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>hemispec<span class="w"> </span>quickstart<span class="w"> </span>--out-dir<span class="w"> </span>hemispec_quickstart
+<h2 id="1">1. 安装当前源码<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>lfs<span class="w"> </span>install
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mqqq333/HemiSpec.git
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>HemiSpec
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>git<span class="w"> </span>lfs<span class="w"> </span>pull
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[gui,model,classifier]"</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>git<span class="w"> </span>rev-parse<span class="w"> </span>HEAD
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>hemispec<span class="w"> </span>models
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>hemispec<span class="w"> </span>--help
 </code></pre></div>
-<p>生成数据为合成数据，不是解剖学结果。该命令仅用于验证安装和公开文件/命令契约。</p>
-<h2 id="2">2. 安装启用模型的源码检出<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>lfs<span class="w"> </span>install
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mqqq333/HemiSpec.git
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nb">cd</span><span class="w"> </span>HemiSpec
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>git<span class="w"> </span>lfs<span class="w"> </span>pull
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>gui,model,classifier<span class="o">]</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>hemispec<span class="w"> </span>models<span class="w"> </span>--install<span class="w"> </span>--with-classifier<span class="w">  </span><span class="c1"># 可选：预下载到缓存</span>
+<p>活动环境中必须安装 PyTorch。运行记录中应保留 Git commit。<code>git lfs pull</code> 必须取得实际的 DGN 和分类器文件。分类器使用这些本地模型包；当前分类器缓存下载存在 CSV 地址问题，详见<a href="../data-and-models/">数据与模型</a>。</p>
+<h2 id="2">2. 运行合成测试<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<p>在已安装的源码目录中运行：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>hemispec<span class="w"> </span>quickstart<span class="w"> </span>--out-dir<span class="w"> </span>hemispec_quickstart
 </code></pre></div>
-<p>活动环境中必须安装 PyTorch。已发布 DGN 和分类器包可从 Git-LFS 检出读取，也可下载到用户缓存。</p>
+<p>生成数据为合成数据，不是解剖学结果。该测试不执行模型推理，只检查安装和文件/命令契约。使用新的或空的输出目录；当前 <code>--force</code> 会删除整个指定目录，包括无关文件。</p>
 <h2 id="3-dgn">3. 准备 DGN 可用的灰质图<a class="headerlink" href="#3-dgn" title="Permanent link">&para;</a></h2>
 <p>原始 T1 加权 MRI <strong>不能</strong>直接输入 <code>hemispec workflow</code>。在源码检出目录中运行研究使用的 FSL 预处理脚本：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>bash<span class="w"> </span>process_single_subject.sh<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>raw/sub-001_T1w.nii.gz<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>derivatives/sub-001
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>derivatives
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>bash<span class="w"> </span>process_single_subject.sh<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>raw/sub-001_T1w.nii.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>derivatives/sub-001
 </code></pre></div>
 <p>预期 DGN 输入：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>derivatives/sub-001_GM_masked.nii.gz
@@ -1866,9 +1923,11 @@
 <p>推理前应检查 <code>121 × 145 × 121</code> 网格、<code>1.5 mm</code> 体素大小、affine、有限的 <code>0–1</code> GM 数值、配准、分割和掩膜质量。详见<a href="../input-preprocessing/">输入与预处理</a>。</p>
 <h2 id="4">4. 运行标准双向工作流<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_workflow
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">"derivatives/*_GM_masked.nii.gz"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_workflow<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span>--no-roi-table
 </code></pre></div>
+<p>首次运行生成体素图和受试者汇总，不需要 atlas。每次运行，包括重试或更换输入子集，都使用新的输出目录，避免混合本次与既往输出。</p>
 <p>主要输出：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>outputs/hemispec_workflow/
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>├── voxel_maps/     # 每名受试者的 ANS.L、ANS.R、RNS.L、RNS.R
@@ -1881,39 +1940,51 @@
 </code></pre></div>
 <p>GUI 会报告 PyTorch、DGN、atlas 和分类器的就绪状态。用户选择 GM 输入 glob、输出工作区、可选 ROI 导出、可选半球分类器验证、可选 TRT 可靠性，以及是否保留中间文件。详见<a href="../developer/gui-user-guide/">GUI 用户指南</a>。</p>
 <h2 id="6-roi">6. 可选 ROI 表<a class="headerlink" href="#6-roi" title="Permanent link">&para;</a></h2>
-<p>使用已批准的 atlas 和兼容标签表：</p>
+<p>使用与 GM 图网格一致、来源已批准的 atlas 和兼容标签表。自定义 atlas 可用于 ROI 汇总，但不能替代已发布分类器训练时使用的 atlas：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_workflow<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">"derivatives/*_GM_masked.nii.gz"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_roi<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span>--roi-atlas<span class="w"> </span>/approved/path/atlas.nii.gz<span class="w"> </span><span class="se">\</span>
 <a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span>--roi-label-table<span class="w"> </span>/approved/path/labels.xlsx
 </code></pre></div>
-<p>仅生成体素图：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_workflow<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span>--no-roi-table
-</code></pre></div>
 <h2 id="7">7. 可选验证<a class="headerlink" href="#7" title="Permanent link">&para;</a></h2>
-<p>半球分类和 TRT 均为可选步骤：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_workflow<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span>--run-classifier<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span>--run-trt
+<h3 id="_2">半球分类<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p>已发布分类器要求兼容的 Glasser atlas：每侧 180 个同源脑区，左侧标签为 <code>1–180</code>，右侧为 <code>1001–1180</code>，且位于相同的 1.5 mm 网格。公开仓库不分发该 atlas，应按照<a href="../data-and-models/">数据与模型</a>准备 atlas 和标签表。仅有相同标签编号不能证明解剖学兼容。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">"derivatives/*_GM_masked.nii.gz"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_classifier<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span>--roi-atlas<span class="w"> </span>/approved/path/glasser_1p5mm.nii.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span>--roi-label-table<span class="w"> </span>/approved/path/glasser_labels.csv<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span>--classifier-model-dir<span class="w"> </span>assets/models/hemisphere_classifier/OUT_noICBM_train_ICBM_external_saved_models<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">  </span>--run-classifier
 </code></pre></div>
-<p>分类器验证需要 ROI 特征；TRT 要求文件名符合配置的 session 模式。</p>
-<p>如需后续运行独立验证命令，应保留中间文件：</p>
+<h3 id="_3">重测可靠性<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>TRT 要求至少两名受试者，每人有两次扫描。例如，另行准备以下输入目录：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>derivatives_trt/
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>  sub-001_run-01_GM_masked.nii.gz
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>  sub-001_run-02_GM_masked.nii.gz
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>  sub-002_run-01_GM_masked.nii.gz
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>  sub-002_run-02_GM_masked.nii.gz
+</code></pre></div>
+<p>为这些文件名显式指定受试者/session 模式。保留中间文件后，也可在后续单独运行验证：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>hemispec<span class="w"> </span>workflow<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">&quot;derivatives/*_GM_masked.nii.gz&quot;</span><span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_workflow<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span>--keep-intermediate
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>hemispec<span class="w"> </span>trt<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">  </span>--maps-dir<span class="w"> </span>outputs/hemispec_workflow/intermediate/combined_maps<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/trt_validation
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span>--input-glob<span class="w"> </span><span class="s2">"derivatives_trt/*_GM_masked.nii.gz"</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/hemispec_trt<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span>--no-roi-table<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span>--keep-intermediate<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">  </span>--run-trt<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">  </span>--trt-file-regex<span class="w"> </span><span class="s1">'(?P&lt;subject&gt;sub-[0-9]+)_(?P&lt;session&gt;run-[0-9]+)'</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">  </span>--trt-session-a<span class="w"> </span>run-01<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">  </span>--trt-session-b<span class="w"> </span>run-02
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>hemispec<span class="w"> </span>trt<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">  </span>--maps-dir<span class="w"> </span>outputs/hemispec_trt/intermediate/combined_maps<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">  </span>--out-dir<span class="w"> </span>outputs/trt_validation<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">  </span>--file-regex<span class="w"> </span><span class="s1">'(?P&lt;subject&gt;sub-[0-9]+)_(?P&lt;session&gt;run-[0-9]+)'</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">  </span>--session-a<span class="w"> </span>run-01<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="w">  </span>--session-b<span class="w"> </span>run-02
 </code></pre></div>
-<h2 id="_2">当前边界<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_4">当前边界<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <ul>
 <li>没有独立 <code>report</code> 命令。</li>
 <li>没有独立 <code>roi</code> 命令。</li>
@@ -1974,7 +2045,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1745,12 +1745,15 @@
 
 
 <h1 id="_1">模型包<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>HemiSpec 通过 Git LFS 在 <code>assets/models/</code> 下包含可复用的已发布模型参数，Release wheel 安装可将相同文件下载到每用户缓存。源码检出时请使用 Git LFS；否则模型文件可能下载为小型指针文件。</p>
+<p>HemiSpec 通过 Git LFS 在 <code>assets/models/</code> 下追踪可复用模型参数。请启用 Git LFS 后克隆当前 <code>main</code>；否则模型文件可能仍是小型指针文件。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>lfs<span class="w"> </span>install
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mqqq333/HemiSpec.git
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>HemiSpec
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>git<span class="w"> </span>lfs<span class="w"> </span>pull
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[model,classifier]"</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>git<span class="w"> </span>rev-parse<span class="w"> </span>HEAD
 </code></pre></div>
+<p>请记录输出的 commit 哈希，以便后续识别代码和模型检出。</p>
 <h2 id="dgn">打包的 DGN 检查点<a class="headerlink" href="#dgn" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>assets/models/dgn/
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  outputs_bi_stable_L/ckpts/best_netG_L.pth
@@ -1763,6 +1766,7 @@
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  OUT_noICBM_train_ICBM_external_saved_models_paired_residual/
 </code></pre></div>
 <p>每个指标文件夹包含已清理的运行时 <code>*_model_bundle.joblib</code>、训练完成的 <code>*_final_pipeline.joblib</code> 和 <code>feature_names.csv</code>。公开模型包不包含队列标识、样本量、评估指标、训练报告或私有出处路径。默认 GUI/API 分类器模式使用 <code>OUT_noICBM_train_ICBM_external_saved_models</code>；<code>paired_residual</code> 可通过 CLI/API 配置选择。</p>
+<p>已发布分类器要求兼容的 Glasser 1.5 mm atlas 和标签表，每侧包含 180 个同源脑区：左侧标签为 <code>1..180</code>，右侧为 <code>1001..1180</code>。自定义 atlas 仅支持 ROI 导出，不能与已发布分类器配合使用。</p>
 <h2 id="_3">发现顺序<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>HemiSpec 按以下顺序解析模型路径：</p>
 <ol>
@@ -1771,9 +1775,10 @@
 <li><code>assets/models/</code> 下打包的源码检出路径；</li>
 <li>每用户缓存（<code>HEMISPEC_MODEL_CACHE</code>，或系统特定的 HemiSpec 缓存）。</li>
 </ol>
-<p>如果 Release wheel 安装中缺少已发布的默认值，启用模型的命令会在首次使用时从 GitHub 下载。显式预取：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>hemispec<span class="w"> </span>models<span class="w"> </span>--install<span class="w"> </span>--with-classifier
+<p>当前 <code>main</code> 可以把缺失的 DGN 检查点从仓库 Git LFS media 下载到用户缓存。显式预取这些检查点：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>hemispec<span class="w"> </span>models<span class="w"> </span>--install
 </code></pre></div>
+<p>虽然 <code>hemispec models</code> 仍提供 <code>--with-classifier</code>，但当前分类器缓存下载不完整，因为必需的 <code>feature_names.csv</code> media URL 返回 HTTP 404。请改用 Git LFS 检出中的分类器资产或显式本地目录；详见<a href="../../data-and-models/">数据与模型</a>。</p>
 <h2 id="_4">发行说明<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>模型二进制文件通过 Git LFS 追踪。请将原始 MRI 数据、生成输出和私有稿件专用产物保留在仓库之外。额外的模型包应包含出处、兼容的 HemiSpec 版本、预处理假设、校验和、许可证和引用说明。</p>
 <p>实现细节见<a href="../../developer/dgn-model-bundle/">DGN 模型包</a>。ANS/RNS 与跨半球 DGN 框架源自 Wang 等人（2024）。</p>
@@ -1830,7 +1835,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

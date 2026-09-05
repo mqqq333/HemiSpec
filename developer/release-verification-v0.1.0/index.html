@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1809,10 +1809,10 @@
 <ul>
 <li>Downloaded Windows CLI: <code>HemiSpec-CLI-v0.1.0-win64.exe --help</code> printed the expected command list.</li>
 <li>Downloaded wheel: installed into a fresh local verification environment and imported from that environment's <code>site-packages</code>.</li>
-<li>Public-safe synthetic quickstart: ran successfully from the downloaded wheel and produced ANS/RNS group maps, subject maps, coverage/validN maps, and <code>toy_roi_summary.csv</code>.</li>
 </ul>
+<p>No retained verification evidence supports a claim that the downloaded wheel ran the synthetic quickstart. The <code>v0.1.0</code> tag does not contain the current <code>quickstart.py</code> module or <code>hemispec quickstart</code> command, so that later current-source feature is not part of this historical smoke-test record.</p>
 <h2 id="known-boundary">Known boundary<a class="headerlink" href="#known-boundary" title="Permanent link">&para;</a></h2>
-<p>This historical verification describes the original v0.1.0 artifacts. Those compiled artifacts do not embed torch, atlas payloads, real MRI inputs, or generated outputs. Current main-branch code adds released DGN/classifier model discovery through Git LFS and first-run user-cache download; use a newer wheel/build for that behavior.</p>
+<p>This historical verification describes only the original <code>v0.1.0</code> artifacts and preserves their checksum evidence. Those artifacts do not embed torch, atlas payloads, real MRI inputs, generated outputs, the current synthetic quickstart, or the current model-cache downloader. For current functionality, install from <code>main</code>, run <code>git rev-parse HEAD</code>, and record that commit hash with the analysis.</p>
 <h2 id="related-pages">Related pages<a class="headerlink" href="#related-pages" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../../release-artifacts/">Release artifacts</a></li>
@@ -1872,7 +1872,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

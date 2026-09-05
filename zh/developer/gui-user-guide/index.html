@@ -27,7 +27,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -35,7 +35,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1891,36 +1891,37 @@
 <h1 id="gui">GUI 用户指南<a class="headerlink" href="#gui" title="Permanent link">&para;</a></h1>
 <p>安装包提供的 <code>hemispec-gui</code> 命令用于启动标准 HemiSpec 双向工作流。请从同时安装了 HemiSpec 和 PyTorch 的同一 Python 环境启动。</p>
 <h2 id="_1">启动<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>从源码检出安装：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>gui,model,classifier<span class="o">]</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>hemispec-gui
+<p>从 <code>main</code> 的 Git LFS 源码检出安装当前 GUI：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>lfs<span class="w"> </span>install
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/mqqq333/HemiSpec.git
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>HemiSpec
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>git<span class="w"> </span>lfs<span class="w"> </span>pull
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[gui,model,classifier]"</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>git<span class="w"> </span>rev-parse<span class="w"> </span>HEAD
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>hemispec-gui
 </code></pre></div>
-<p>从 v0.1.0 Release wheel 安装：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;./hemispec_toolkit-0.1.0-py3-none-any.whl[gui,model,classifier]&quot;</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>hemispec-gui
-</code></pre></div>
-<p>当前 PyPI 项目尚未公开，请使用 GitHub Release wheel 或源码检出。</p>
+<p>请将输出的 commit 哈希与分析记录一同保存。当前 PyPI 项目尚未公开，本指南不使用已归档的 v0.1.0 wheel。旧版本仍可从 <a href="https://github.com/mqqq333/HemiSpec/releases">GitHub Releases 页面</a>获取。</p>
 <h2 id="gui_1">打开 GUI 前<a class="headerlink" href="#gui_1" title="Permanent link">&para;</a></h2>
 <p>每名受试者应准备一张 DGN 可用的 GM 图。原始 T1 加权图像必须先通过 FSL 预处理：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>T1 加权 NIfTI -&gt; process_single_subject.sh -&gt; *_GM_masked.nii.gz
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>T1 加权 NIfTI -&gt; process_single_subject.sh -&gt; *_GM_masked.nii.gz
 </code></pre></div>
 <p>详见<a href="../../input-preprocessing/">输入与预处理</a>。</p>
 <h2 id="gui_2">六个 GUI 卡片<a class="headerlink" href="#gui_2" title="Permanent link">&para;</a></h2>
 <h3 id="1-gm">1. 输入 GM 图<a class="headerlink" href="#1-gm" title="Permanent link">&para;</a></h3>
 <p>选择目录，或输入类似下面的 glob：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>derivatives/*_GM_masked.nii.gz
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>derivatives/*_GM_masked.nii.gz
 </code></pre></div>
 <h3 id="2">2. 输出工作区<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
-<p>选择新的或已有的输出目录。最终图写入 <code>voxel_maps/</code>，表格和可选验证结果写入各自子目录。</p>
+<p>每次运行选择一个新的空输出目录。最终图写入 <code>voxel_maps/</code>，表格和可选验证结果写入各自子目录。</p>
 <h3 id="3">3. 设置状态<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
 <p>确认 PyTorch 和两个 DGN 方向可用。Atlas 和分类器仅在启用对应选项时才是必需项。</p>
 <h3 id="4-roi">4. 可选 ROI 表<a class="headerlink" href="#4-roi" title="Permanent link">&para;</a></h3>
-<p>仅在具有 atlas 和兼容标签表时启用 ROI 导出。Atlas 必须与输入图具有相同网格和 affine。</p>
+<p>仅在具有 atlas 和兼容标签表时启用 ROI 导出。Atlas 必须与输入图具有相同网格和 affine。自定义 atlas 可用于仅 ROI 导出；已发布分类器则要求兼容的 Glasser 1.5 mm atlas，左侧标签为 <code>1..180</code>，右侧为 <code>1001..1180</code>。</p>
 <h3 id="5">5. 可选验证<a class="headerlink" href="#5" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>半球分类器验证</strong>需要 ROI 特征，并保持为可选步骤。</li>
-<li><strong>TRT 可靠性</strong>要求文件名符合配置的 session 正则表达式。</li>
-<li><strong>保留中间输出</strong>会保存重建图和方向特定图，用于调试或独立验证。</li>
+<li><strong>半球分类器验证</strong>需要兼容的 Glasser ROI 特征，以及 Git LFS 检出中的本地分类器包。当前分类器缓存下载不完整；详见<a href="../../data-and-models/">数据与模型</a>。</li>
+<li><strong>TRT 可靠性</strong>至少需要 2 名受试者、每名 2 次扫描。GUI 使用封装的默认模式，例如 <code>sub-MSC001_run-01_GM_masked.nii.gz</code> 和 <code>sub-MSC001_run-02_GM_masked.nii.gz</code>；如果文件名为 <code>sub-001_run-01_GM_masked.nii.gz</code> 并需要显式 regex/session 参数，请使用 CLI。</li>
+<li><strong>保留中间输出</strong>会保存用于调试的重建图和方向特定图，并保存供后续独立验证使用的 <code>intermediate/combined_maps/</code>。方向特定图使用不同的后缀契约。</li>
 </ul>
 <h3 id="6">6. 运行控制<a class="headerlink" href="#6" title="Permanent link">&para;</a></h3>
 <p>检查或复制等效 CLI 命令，启动或停止工作流，查看日志，并打开输出目录。</p>
@@ -1980,7 +1981,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "search.suggest", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
