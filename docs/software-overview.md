@@ -1,6 +1,6 @@
 # Software overview
 
-HemiSpec is organized as a package-first software ecosystem rather than a source-only repository. The v0.1.0 beta is currently distributed through GitHub Releases and source checkouts; the PyPI project is not public yet. The Python package is the primary artifact; the CLI, GUI entry point, and compiled desktop folders are built from the same public API.
+HemiSpec is organized as a package-first software ecosystem rather than a collection of standalone scripts. Current documentation targets a source installation from `main`; archived versions remain on the [GitHub Releases page](https://github.com/mqqq333/HemiSpec/releases), and the PyPI project is not public. The Python package is the primary artifact; the CLI and GUI entry points are built from the same public API.
 
 <figure markdown="span">
   ![HemiSpec workflow overview](assets/figures/hemispec-workflow-overview-ai.png){ width="100%" }
@@ -14,7 +14,7 @@ HemiSpec is organized as a package-first software ecosystem rather than a source
 | Python package | `hemispec-toolkit` | Primary public artifact | Installable API plus CLI/GUI entry points in the active Python/PyTorch environment. |
 | CLI | `hemispec` | Package entry point | Scriptable workflows for servers and clusters. |
 | GUI | `hemispec-gui` | Package entry point | Desktop launcher for ANS/RNS generation, optional ROI tables, and optional validation, run from the same environment as PyTorch. |
-| Compiled app | HemiSpec Desktop / HemiSpec Model App | Fallback release target | Folder distributions for users who cannot manage Python environments. |
+| Compiled app | HemiSpec Desktop / HemiSpec Model App | Build target | Optional folder distributions built from a source checkout. |
 
 <figure markdown="span">
   ![HemiSpec GUI preview](assets/figures/hemispec-gui-preview.png){ width="100%" }
@@ -36,9 +36,9 @@ It does not expose model checkpoints, device selection, thresholds, suffix rules
 
 ## Current release split
 
-- **Release wheel/source package:** CLI, compact GUI launcher, compute, ROI export, validation, and inspection without bundling subject data or unapproved atlas assets.
-- **Model-enabled environment:** end-to-end DGN inference plus ANS/RNS workflows using released DGN/classifier defaults from Git LFS, GitHub Release cache download, or explicit offline assets; approved atlas files remain optional for ROI export.
+- **Current source package:** CLI, compact GUI launcher, compute, ROI export, validation, and inspection without bundling subject data or unapproved atlas assets.
+- **Model-enabled environment:** end-to-end DGN inference plus ANS/RNS workflows using DGN and classifier assets from a Git LFS checkout or explicit approved local assets. Current `main` can cache-download DGN checkpoints from Git LFS media, but not the complete classifier bundle; see [Data and models](data-and-models.md#current-cache-download-boundary).
 
-The default public build should avoid silently bundling private `assets/`; model and atlas bundles should be explicit release artifacts with checksums, license notes, and compatibility metadata. Compiled apps remain fallback variants rather than the primary distribution path.
+Atlas files remain optional for ROI export. The released classifier, however, requires its compatible Glasser 1.5 mm atlas and labels `1..180` left / `1001..1180` right; custom atlases are ROI-only. Public builds should not silently bundle private assets.
 
 ANS/RNS and the cross-hemispheric DGN framework originate from Wang et al. (2024); see [Citation](citation.md).

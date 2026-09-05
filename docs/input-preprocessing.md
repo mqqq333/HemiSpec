@@ -67,6 +67,7 @@ process_single_subject.sh INPUT_T1 OUTPUT_PREFIX
 Example:
 
 ```bash
+mkdir -p derivatives
 bash process_single_subject.sh \
   raw/sub-001_T1w.nii.gz \
   derivatives/sub-001
@@ -85,6 +86,8 @@ derivatives/sub-001_debug.log
 ```
 
 The current study script removes its intermediate BET, FAST, FLIRT, and mask products after successful processing. If intermediate images are required for a formal QC record, run a retained-copy variant or temporarily disable cleanup in a version-controlled study copy; document that change.
+
+Use a new output prefix when reprocessing. A failed rerun can leave an older `*_GM_masked.nii.gz` in place; a matching filename alone does not establish that the latest preprocessing succeeded.
 
 ## What `process_single_subject.sh` does
 
@@ -114,6 +117,8 @@ The released HemiSpec checkpoints and public examples use the following contract
 
 HemiSpec identifies subjects by removing configured filename suffixes. Every file matched by one workflow glob should therefore have a unique and stable prefix.
 
+These are required input conditions, not a description of automatic validation: current DGN inference does not enforce the complete template affine or orientation. Complete the checks below before inference.
+
 ## Quality control before DGN inference
 
 Do not rely on filename matching alone. For every cohort, inspect at least the following:
@@ -139,16 +144,22 @@ fsleyes \
 A small Python check:
 
 ```python
+import os
 from pathlib import Path
 import nibabel as nib
 import numpy as np
 
 path = Path("derivatives/sub-001_GM_masked.nii.gz")
 img = nib.load(path)
+reference = nib.load(
+    Path(os.environ["FSLDIR"]) / "data/standard/MNI152_T1_1.5mm_brain.nii.gz"
+)
 data = img.get_fdata(dtype=np.float32)
 
-assert img.shape == (121, 145, 121)
+assert img.shape == reference.shape == (121, 145, 121)
 assert np.allclose(img.header.get_zooms()[:3], (1.5, 1.5, 1.5))
+assert np.allclose(img.affine, reference.affine, rtol=0, atol=1e-4)
+assert nib.aff2axcodes(img.affine) == nib.aff2axcodes(reference.affine)
 assert np.isfinite(data).all()
 assert data.min() >= 0
 assert data.max() <= 1.0 + 1e-5
@@ -157,9 +168,12 @@ assert data.max() <= 1.0 + 1e-5
 ## Batch example
 
 ```bash
+set -e
+shopt -s nullglob
 mkdir -p derivatives
 for t1 in raw/sub-*/anat/*_T1w.nii.gz; do
   subject=$(basename "$t1" _T1w.nii.gz)
+  test ! -e "derivatives/${subject}_GM_masked.nii.gz"
   bash process_single_subject.sh "$t1" "derivatives/$subject"
 done
 ```
@@ -169,8 +183,11 @@ After quality control, run HemiSpec on the resulting files:
 ```bash
 hemispec workflow \
   --input-glob "derivatives/*_GM_masked.nii.gz" \
-  --out-dir outputs/hemispec_workflow
+  --out-dir outputs/hemispec_preprocessed \
+  --no-roi-table
 ```
+
+The batch example stops on preprocessing errors or an existing final output. Use a new HemiSpec output directory for each run and retain subject/session identifiers in filenames for repeated scans.
 
 ## Thresholds used at different stages
 

@@ -14,4 +14,5 @@ prune dist
 prune data
 prune outputs
 prune reference
+prune ref_paper
 prune p2a-session

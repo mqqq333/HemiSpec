@@ -1,13 +1,17 @@
 # Model bundles
 
-HemiSpec includes reusable released model parameters under `assets/models/` via Git LFS, and release-wheel installs can download the same files into a per-user cache. Clone with Git LFS enabled for source checkouts; otherwise model files may be downloaded as small pointer files.
+HemiSpec tracks reusable model parameters under `assets/models/` via Git LFS. Clone current `main` with Git LFS enabled; otherwise model files may remain small pointer files.
 
 ```bash
 git lfs install
 git clone https://github.com/mqqq333/HemiSpec.git
 cd HemiSpec
 git lfs pull
+python -m pip install -e ".[model,classifier]"
+git rev-parse HEAD
 ```
+
+Record the printed commit hash so the code and model checkout can be identified later.
 
 ## Bundled DGN checkpoints
 
@@ -29,6 +33,8 @@ assets/models/hemisphere_classifier/
 
 Each metric folder contains a sanitized runtime `*_model_bundle.joblib`, the trained `*_final_pipeline.joblib`, and `feature_names.csv`. Public bundles exclude cohort identifiers, sample counts, evaluation metrics, training reports, and private provenance paths. The default GUI/API classifier mode uses `OUT_noICBM_train_ICBM_external_saved_models`; `paired_residual` can be selected through CLI/API configuration.
 
+The released classifier requires its compatible Glasser 1.5 mm atlas and label table, with 180 homologous parcels per hemisphere: labels `1..180` on the left and `1001..1180` on the right. A custom atlas is supported for ROI-only export; it is not compatible with the released classifier.
+
 ## Discovery order
 
 HemiSpec resolves model paths in this order:
@@ -38,11 +44,13 @@ HemiSpec resolves model paths in this order:
 3. bundled source-checkout paths under `assets/models/`;
 4. the per-user cache (`HEMISPEC_MODEL_CACHE`, or the OS-specific HemiSpec cache).
 
-If the released defaults are missing from a release-wheel install, model-enabled commands download them from GitHub on first use. To prefetch explicitly:
+Current `main` can download missing DGN checkpoints from the repository's Git LFS media into the per-user cache. To prefetch those checkpoints explicitly:
 
 ```bash
-hemispec models --install --with-classifier
+hemispec models --install
 ```
+
+Although `hemispec models` still exposes `--with-classifier`, the current classifier cache download is incomplete because required `feature_names.csv` media URLs return HTTP 404. Use classifier assets from the Git LFS checkout or an explicit local directory instead; see [Data and models](../data-and-models.md#current-cache-download-boundary).
 
 ## Distribution notes
 

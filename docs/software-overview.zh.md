@@ -1,6 +1,6 @@
 # 软件概述
 
-HemiSpec 被组织为软件包优先的生态系统，而非单纯的源码仓库。v0.1.0 测试版目前通过 GitHub Release 和源码检出分发；PyPI 项目尚未公开。Python 包是主要产物；CLI、GUI 入口点和编译好的桌面文件夹均基于同一公开 API 构建。
+HemiSpec 被组织为软件包优先的生态系统，而非一组独立脚本。当前文档面向从 `main` 安装源码；旧版本保留在 [GitHub Releases 页面](https://github.com/mqqq333/HemiSpec/releases)，PyPI 项目尚未公开。Python 包是主要产物；CLI 和 GUI 入口点均基于同一公开 API 构建。
 
 <figure markdown="span">
   ![HemiSpec 工作流概览](assets/figures/hemispec-workflow-overview-ai.png){ width="100%" }
@@ -14,7 +14,7 @@ HemiSpec 被组织为软件包优先的生态系统，而非单纯的源码仓�
 | Python 包 | `hemispec-toolkit` | 主要公开产物 | 安装到当前 Python/PyTorch 环境中的 API 和 CLI/GUI 入口点。 |
 | CLI | `hemispec` | 软件包入口点 | 适用于服务器和集群的脚本化工作流。 |
 | GUI | `hemispec-gui` | 软件包入口点 | 从同一 PyTorch 环境启动，用于 ANS/RNS 生成、可选 ROI 表和可选验证的桌面启动器。 |
-| 编译应用 | HemiSpec Desktop / HemiSpec Model App | 备用发布目标 | 面向无法管理 Python 环境的用户的文件夹发行版。 |
+| 编译应用 | HemiSpec Desktop / HemiSpec Model App | 构建目标 | 从源码检出构建的可选文件夹发行版。 |
 
 <figure markdown="span">
   ![HemiSpec GUI 预览](assets/figures/hemispec-gui-preview.png){ width="100%" }
@@ -36,9 +36,9 @@ HemiSpec 被组织为软件包优先的生态系统，而非单纯的源码仓�
 
 ## 当前发布分类
 
-- **Release wheel/源码包**：提供 CLI、紧凑 GUI 启动器、计算、ROI 导出、验证和检查，不打包受试者数据或未批准 atlas 资产。
-- **启用模型的环境**：使用 Git LFS、GitHub Release 缓存下载或显式离线资产中的已发布 DGN/分类器默认值，进行端到端 DGN 推理和 ANS/RNS 工作流；已批准 atlas 文件对于 ROI 导出仍为可选项。
+- **当前源码包**：提供 CLI、紧凑 GUI 启动器、计算、ROI 导出、验证和检查，不打包受试者数据或未批准 atlas 资产。
+- **启用模型的环境**：使用 Git LFS 检出或显式批准的本地 DGN 与分类器资产运行端到端 DGN 推理和 ANS/RNS 工作流。当前 `main` 可从 Git LFS media 缓存下载 DGN 检查点，但不能下载完整分类器包；详见[数据与模型](data-and-models.md)。
 
-默认公开构建应避免静默打包私有 `assets/`；模型和 atlas 包应作为带有校验和、许可证说明和兼容性元数据的显式发布产物。编译应用保留为备用变体，而不是主要分发路径。
+Atlas 文件对 ROI 导出仍是可选项，但已发布分类器要求兼容的 Glasser 1.5 mm atlas，以及左侧 `1..180` / 右侧 `1001..1180` 标签；自定义 atlas 仅用于 ROI。公开构建不应静默打包私有资产。
 
 ANS/RNS 与跨半球 DGN 框架源自 Wang 等人（2024），详见[引用](citation.md)。

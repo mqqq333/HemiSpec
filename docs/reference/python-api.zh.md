@@ -2,8 +2,10 @@
 
 HemiSpec 更适合以 Python API 作为主入口来使用：PyTorch、模型缓存、批量运行和下游统计分析都可以放在同一个 Python/conda 环境中完成。软件包发行名是 `hemispec-toolkit`，公开导入路径是 `hemispec`；当前 PyPI 项目尚未公开。
 
+请先完成[安装前提条件](../installation.zh.md)。然后在仓库根目录安装可编辑模式下的 model 和 classifier 额外依赖：
+
 ```bash
-python -m pip install -e .[model,classifier]
+python -m pip install -e ".[model,classifier]"
 ```
 
 ```python
@@ -11,9 +13,9 @@ import hemispec
 print(hemispec.__version__)
 ```
 
-下面的 API 已按 HemiSpec v0.1.0 核对。新分析优先使用高层工作流 API；只有在需要手动拆分推理、指标计算或验证时，再使用底层 API。
+下面的 API 反映当前 `main` 源码检出。仅记录软件包版本不足以标识可编辑源码检出；请使用 `git rev-parse HEAD` 记录准确源码修订。新分析优先使用高层工作流 API；只有在需要手动拆分推理、指标计算或验证时，再使用底层 API。
 
-本页覆盖的公开入口包括 `run_bilateral_workflow`、`ensure_default_dgn_models`、`ensure_default_classifier_models`、ROI 汇总辅助函数、`validate_specificity`、`validate_reliability`、`validate_hemisphere_classification`、底层 DGN/指标函数，以及合成快速测试入口。
+本页覆盖的公开入口包括 `run_bilateral_workflow`、模型发现辅助函数、ROI 汇总辅助函数、`validate_specificity`、`validate_reliability`、`validate_hemisphere_classification`、底层 DGN/指标函数，以及合成快速测试入口。
 
 ## 推荐：一行式双向工作流
 
@@ -28,6 +30,7 @@ result = run_bilateral_workflow(
     BilateralWorkflowConfig(
         input_glob="derivatives/*_GM_masked.nii.gz",
         out_dir=Path("outputs/hemispec_workflow"),
+        model_root=Path("assets/models/dgn"),
         device="auto",          # "auto"、"cuda" 或 "cpu"
     )
 )
@@ -38,6 +41,8 @@ print(result.subject_summary_csv)    # 每个受试者的体素均值汇总
 ```
 
 当 atlas 可用时，ROI 导出默认开启。只有在只需要体素级图和受试者汇总、不需要 ROI 特征时，才设置 `export_roi_table=False`。
+
+模型推理前必须确认每个输入均匹配标准 FSL MNI152 1.5 mm 网格，包括形状、体素大小、方向和完整 affine；详见[输入与预处理](../input-preprocessing.zh.md)。
 
 主要输出结构：
 
@@ -52,23 +57,23 @@ outputs/hemispec_workflow/
 
 ## 在 Python 中管理模型资产
 
-Release wheel 与源码安装不会把大模型二进制文件打进 Python wheel。首次模型运行时，工作流会自动下载缺失的已发布 DGN 检查点，除非用户禁用了自动下载。也可以显式预下载：
-
-```python
-from hemispec import ensure_default_classifier_models, ensure_default_dgn_models
-
-# 返回 DGN 模型根目录（.../models/dgn）。
-dgn_root = ensure_default_dgn_models()
-
-# 可选：半球分类器验证所需的模型包
-classifier_dir = ensure_default_classifier_models(mode="single")
-```
-
-如果想显式指定模型路径，可以传入工作流配置：
+对于当前源码检出，请先运行 `git lfs pull` 取得受 Git LFS 管理的模型文件，再显式使用本地路径。不要依赖分类器自动下载：当前 `/media` 端点请求 `feature_names.csv` 时返回 HTTP 404，因此无法提供完整分类器包。
 
 ```python
 from pathlib import Path
 from hemispec import BilateralWorkflowConfig, run_bilateral_workflow
+
+dgn_root = Path("assets/models/dgn")
+classifier_dir = Path(
+    "assets/models/hemisphere_classifier/"
+    "OUT_noICBM_train_ICBM_external_saved_models"
+)
+glasser_atlas = Path(
+    "assets/atlases/glasser/MNI_Glasser_HCP_v1.0_1p5mm.nii.gz"
+)
+glasser_labels = Path(
+    "assets/atlases/glasser/Glasser_label_index_mapping.xlsx"
+)
 
 result = run_bilateral_workflow(
     BilateralWorkflowConfig(
@@ -77,11 +82,13 @@ result = run_bilateral_workflow(
         model_root=dgn_root,
         run_classifier=True,
         classifier_model_dir=classifier_dir,
-        roi_atlas=Path("atlas/custom_atlas.nii.gz"),
-        roi_label_table=Path("atlas/custom_labels.xlsx"),
+        roi_atlas=glasser_atlas,
+        roi_label_table=glasser_labels,
     )
 )
 ```
+
+atlas 文件是另外提供的本地资产，不属于公开源码分支中的 Git LFS 文件。已发布分类器只兼容 MNI Glasser 1.5 mm 标签映射：左半球为 `1..180`，右半球为 `1001..1180`。不要将任意自定义 atlas 与已发布分类器组合使用。
 
 常用环境变量：
 
@@ -96,7 +103,7 @@ HEMISPEC_DISABLE_MODEL_AUTO_DOWNLOAD=1
 
 ## 面向下游分析的 ROI 特征表
 
-提供 atlas 后，可以生成用于统计模型或机器学习分类器的 ROI 水平特征。长表是每个受试者 / 图 / ROI 一行；宽表是每个受试者一行，特征列名类似 `ANS.L_roi_1` 或 `RNS.R_roi_180`。
+提供 atlas 后，可以生成用于下游分析的 ROI 水平特征。长表是每个受试者 / 图 / ROI 一行；宽表是每个受试者一行。自定义 atlas 只支持 ROI 导出，并应设置 `run_classifier=False`；其特征不能作为已发布 Glasser 分类器的输入。
 
 ```python
 from pathlib import Path
@@ -109,6 +116,7 @@ result = run_bilateral_workflow(
         roi_atlas=Path("atlas/custom_atlas.nii.gz"),
         roi_label_table=Path("atlas/custom_labels.xlsx"),
         export_roi_table=True,
+        run_classifier=False,
     )
 )
 
@@ -139,17 +147,41 @@ wide = summarize_bilateral_roi_features(roi_long, Path("outputs/tables/roi_featu
 
 ## 验证 API
 
-如果需要在 Python 中控制输出目录或参数，可以直接调用验证 API。
+如果需要在 Python 中控制输出目录或参数，可以直接调用验证 API。下面使用两个受试者、每个受试者两个重复扫描 session：
+
+```text
+derivatives/sub-001_ses-01_GM_masked.nii.gz
+derivatives/sub-001_ses-02_GM_masked.nii.gz
+derivatives/sub-002_ses-01_GM_masked.nii.gz
+derivatives/sub-002_ses-02_GM_masked.nii.gz
+```
+
+先运行双向工作流并保留中间结果；默认工作流会在成功后删除 `intermediate/`。
 
 ```python
 from pathlib import Path
-from hemispec import HemisphereClassificationConfig, ValidationConfig
+from hemispec import BilateralWorkflowConfig, HemisphereClassificationConfig, ValidationConfig
+from hemispec import run_bilateral_workflow
 from hemispec import validate_hemisphere_classification, validate_reliability, validate_specificity
+
+workflow = run_bilateral_workflow(
+    BilateralWorkflowConfig(
+        input_glob="derivatives/sub-*_ses-*_GM_masked.nii.gz",
+        out_dir=Path("outputs/hemispec_trt_ses01_ses02"),
+        model_root=Path("assets/models/dgn"),
+        roi_atlas=Path("assets/atlases/glasser/MNI_Glasser_HCP_v1.0_1p5mm.nii.gz"),
+        roi_label_table=Path("assets/atlases/glasser/Glasser_label_index_mapping.xlsx"),
+        keep_intermediate=True,
+    )
+)
 
 specificity = validate_specificity(
     ValidationConfig(
-        maps_dir=Path("outputs/hemispec_workflow/intermediate/combined_maps"),
-        out_dir=Path("outputs/validation/specificity"),
+        maps_dir=workflow.combined_maps_dir,
+        out_dir=Path("outputs/validation/specificity_ses01_ses02"),
+        file_regex=r"(?P<subject>sub-[^_]+)_(?P<session>ses-[^_]+)_",
+        session_a="ses-01",
+        session_b="ses-02",
         hemis=("L", "R"),
         dgn_direction="bilateral",
     )
@@ -158,26 +190,30 @@ print(specificity.to_dataframe())
 
 trt = validate_reliability(
     ValidationConfig(
-        maps_dir=Path("outputs/hemispec_workflow/intermediate/combined_maps"),
-        out_dir=Path("outputs/validation/trt"),
-        file_regex=r"(sub-MSC\d+).*?(run-\d+)",
-        session_a="run-01",
-        session_b="run-02",
+        maps_dir=workflow.combined_maps_dir,
+        out_dir=Path("outputs/validation/trt_ses01_ses02"),
+        file_regex=r"(?P<subject>sub-[^_]+)_(?P<session>ses-[^_]+)_",
+        session_a="ses-01",
+        session_b="ses-02",
         dgn_direction="bilateral",
     )
 )
 
 classifier = validate_hemisphere_classification(
     HemisphereClassificationConfig(
-        maps_dir=Path("outputs/hemispec_workflow/voxel_maps"),
-        roi_csv=Path("outputs/hemispec_workflow/tables/roi_features_bilateral.csv"),
-        atlas_path=Path("atlas/custom_atlas.nii.gz"),
-        label_table=Path("atlas/custom_labels.xlsx"),
-        out_dir=Path("outputs/validation/hemi_classify"),
+        maps_dir=workflow.hemi_maps_dir,
+        roi_csv=workflow.roi_csv,
+        classifier_model_dir=Path(
+            "assets/models/hemisphere_classifier/"
+            "OUT_noICBM_train_ICBM_external_saved_models"
+        ),
+        out_dir=Path("outputs/validation/hemi_classify_ses01_ses02"),
     )
 )
 print(classifier.accuracy, classifier.predictions_csv)
 ```
+
+保留的双侧合并图文件名示例为 `sub-001_ses-01_ANS.nii.gz` 和 `sub-002_ses-02_RNS.nii.gz`。该正则表达式会把 `sub-001` 捕获为受试者，把 `ses-01` 捕获为 session。每个替代 session 配对或参数变体都应使用新的工作流和验证输出目录。
 
 ## 底层推理和指标计算 API
 
@@ -188,7 +224,7 @@ from pathlib import Path
 from hemispec import DGNInferenceConfig, MetricComputeConfig
 from hemispec import compute_metrics, discover_local_dgn_bundles, run_dgn_inference
 
-bundles = discover_local_dgn_bundles()
+bundles = discover_local_dgn_bundles(Path("assets/models/dgn"))
 reconstructed = run_dgn_inference(
     DGNInferenceConfig(
         model=bundles["L_to_R"],

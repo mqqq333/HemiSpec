@@ -1,6 +1,6 @@
 # DGN model bundles
 
-HemiSpec v0.1.0 deploys trained generator checkpoints for inference. Model training is reference-only and is not a public workflow requirement.
+Current HemiSpec `main` deploys trained generator checkpoints for inference. Record the exact source commit with `git rev-parse HEAD`. Model training is reference-only and is not a public workflow requirement.
 
 ANS/RNS and the cross-hemispheric DGN framework originate from Wang et al. (2024); see [Citation](../citation.md).
 

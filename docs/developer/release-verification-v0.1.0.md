@@ -30,11 +30,12 @@ The two remaining downloaded files, `HemiSpec-v0.1.0-SHA256SUMS.txt` and `HemiSp
 
 - Downloaded Windows CLI: `HemiSpec-CLI-v0.1.0-win64.exe --help` printed the expected command list.
 - Downloaded wheel: installed into a fresh local verification environment and imported from that environment's `site-packages`.
-- Public-safe synthetic quickstart: ran successfully from the downloaded wheel and produced ANS/RNS group maps, subject maps, coverage/validN maps, and `toy_roi_summary.csv`.
+
+No retained verification evidence supports a claim that the downloaded wheel ran the synthetic quickstart. The `v0.1.0` tag does not contain the current `quickstart.py` module or `hemispec quickstart` command, so that later current-source feature is not part of this historical smoke-test record.
 
 ## Known boundary
 
-This historical verification describes the original v0.1.0 artifacts. Those compiled artifacts do not embed torch, atlas payloads, real MRI inputs, or generated outputs. Current main-branch code adds released DGN/classifier model discovery through Git LFS and first-run user-cache download; use a newer wheel/build for that behavior.
+This historical verification describes only the original `v0.1.0` artifacts and preserves their checksum evidence. Those artifacts do not embed torch, atlas payloads, real MRI inputs, generated outputs, the current synthetic quickstart, or the current model-cache downloader. For current functionality, install from `main`, run `git rev-parse HEAD`, and record that commit hash with the analysis.
 
 ## Related pages
 

@@ -30,11 +30,12 @@ HemiSpec v0.1.0 GitHub Release 于 2026-06-29 发布后进行了事后检查：[
 
 - 下载的 Windows CLI：`HemiSpec-CLI-v0.1.0-win64.exe --help` 打印了预期命令列表。
 - 下载的 wheel：安装到全新本地验证环境并从该环境的 `site-packages` 导入。
-- 公开安全的合成快速入门：从下载的 wheel 成功运行，生成了 ANS/RNS 组图、受试者图、coverage/validN 图和 `toy_roi_summary.csv`。
+
+没有保留的验证证据支持“下载的 wheel 运行过合成快速入门”这一说法。`v0.1.0` 标签不包含当前的 `quickstart.py` 模块或 `hemispec quickstart` 命令，因此这一后来加入的当前源码功能不属于本历史冒烟测试记录。
 
 ## 已知边界
 
-本历史验证描述原始 v0.1.0 产物。这些编译产物不嵌入 torch、atlas 有效载荷、真实 MRI 输入或生成输出。当前 main 分支代码通过 Git LFS 和首次运行用户缓存下载添加了已发布 DGN/分类器模型发现；使用更新版本的 wheel/构建来获取该行为。
+本历史验证仅描述原始 `v0.1.0` 产物，并保留其校验和证据。这些产物不嵌入 torch、atlas 载荷、真实 MRI 输入、生成输出、当前合成快速入门或当前模型缓存下载器。使用当前功能时，请从 `main` 安装，运行 `git rev-parse HEAD`，并随分析记录该提交哈希。
 
 ## 相关页面
 

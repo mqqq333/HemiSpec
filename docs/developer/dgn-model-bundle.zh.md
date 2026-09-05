@@ -1,6 +1,6 @@
 # DGN 模型包
 
-HemiSpec v0.1.0 为推理部署训练好的生成器检查点。模型训练仅作参考，不是公开工作流的运行要求。
+当前 HemiSpec `main` 为推理部署训练好的生成器检查点。请通过 `git rev-parse HEAD` 记录准确的源码 commit。模型训练仅作参考，不是公开工作流的运行要求。
 
 ANS/RNS 与跨半球 DGN 框架源自 Wang 等人（2024），详见[引用](../citation.md)。
 

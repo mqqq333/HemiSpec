@@ -11,7 +11,9 @@ HemiSpec treats reconstruction-derived ANS/RNS maps as intermediate representati
 
 Can reconstruction-derived hemispheric specificity features capture structure-behavior information beyond conventional gray-matter-volume asymmetry indices or other direct left-right comparison baselines?
 
-## Analyses in the current downstream scope
+## Downstream analysis scope
+
+HemiSpec implements reconstruction, ANS/RNS map and ROI export, hemisphere classification, and TRT validation. Behavioral-phenotype modeling, baseline comparisons, and task-related feature localization require user-supplied analysis code; they are not built-in workflows. The following list describes the broader research scope, not a list of implemented commands.
 
 - Reconstruction plausibility of generated contralateral maps.
 - Preservation of individual-specific information.

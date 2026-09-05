@@ -1,64 +1,58 @@
 # 安装
 
-HemiSpec 采用软件包优先的结构，但当前 **PyPI 项目尚未公开**。v0.1.0 公开测试版目前通过 GitHub Release 和源码仓库分发。
+本文档支持的公开安装方式面向当前 `main` 源码树。软件包元数据仍显示版本 `0.1.0`，但 `main` 已包含旧 `v0.1.0` 标签及其归档软件包中没有的功能。`hemispec-toolkit` 项目当前尚未在 PyPI 公开。
 
-## 推荐：通过源码检出运行模型工作流
+## 推荐的源码安装
 
-运行 DGN 推理、GUI 或分类器验证时，推荐使用源码检出。Git LFS 会获取 `assets/models/` 下追踪的已发布模型包：
+必须使用 Git LFS 获取 `assets/models/` 下跟踪的模型文件：
 
 ```bash
 git lfs install
 git clone https://github.com/mqqq333/HemiSpec.git
 cd HemiSpec
 git lfs pull
-python -m pip install -e .[gui,model,classifier]
-hemispec models --install --with-classifier  # 可选：预下载到缓存
-hemispec-gui
+python -m pip install -e ".[gui,model,classifier]"
+git rev-parse HEAD
 ```
 
-PyTorch 必须安装在启动 HemiSpec 的同一 Python/conda 环境中。长时间模型运行前，应先配置合适的 CPU 或 CUDA PyTorch 版本。
+每次分析都应记录 `git rev-parse HEAD` 的输出。仅记录分支名和软件包版本无法可复现地标识源码修订。
 
-## 安装 v0.1.0 Release wheel
+PyTorch 必须安装在启动 HemiSpec 的同一 Python 或 conda 环境中。运行模型前，请先配置合适的 CPU 或 CUDA PyTorch 构建。
 
-从 GitHub Release 下载 `hemispec_toolkit-0.1.0-py3-none-any.whl`。运行基础 CLI 和合成快速测试：
+源码检出中的 DGN 和分类器资产直接从 `assets/models/` 使用。进行分类器验证时，请使用这些本地分类器资产，或显式指定经批准的本地分类器目录；推荐安装流程不依赖缓存预下载。
+
+## 归档的 v0.1.0 发布
+
+GitHub [`v0.1.0` 发布](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0)归档了原始 wheel、源码发行包和 Windows 产物。它是历史发布，不包含当前 `main` 的全部功能。具体而言，`v0.1.0` 标签不包含当前的合成快速入门或模型缓存下载模块。
+
+下载归档 wheel 后，可以检查其基础 CLI：
 
 ```bash
 python -m pip install ./hemispec_toolkit-0.1.0-py3-none-any.whl
 hemispec --help
-hemispec quickstart --out-dir hemispec_quickstart
 ```
 
-从本地 wheel 请求可选依赖：
-
-```bash
-python -m pip install "./hemispec_toolkit-0.1.0-py3-none-any.whl[gui,model,classifier]"
-```
-
-如果本地 pip 不接受 wheel 路径后的 extras，可先安装 wheel，再显式安装所需可选依赖。
+不要用归档 wheel 作为当前快速入门、模型发现或模型下载文档的安装方式。准确的归档内容见[发布产物](release-artifacts.md)。
 
 ## 开发安装
 
+在当前源码检出中运行：
+
 ```bash
-python -m pip install -e .[dev,gui]
+python -m pip install -e ".[dev,gui]"
 python -m pytest
 python -m ruff check src tests
 python -m mkdocs build --strict
 ```
 
-软件包元数据中的发行名为 `hemispec-toolkit`，导入路径和 CLI 命令为 `hemispec`。未来发布到 PyPI 时应沿用该发行名，但在项目实际公开前，文档不能把它描述为可用安装源。
+发行名为 `hemispec-toolkit`，导入路径和 CLI 命令为 `hemispec`。只有当项目实际在 PyPI 公开后，文档才能提供 PyPI 安装命令。
 
 ## 神经影像前置条件
 
-启用模型的工作流从预处理 GM 图开始，不能直接输入原始 T1。仓库研究脚本 `process_single_subject.sh` 与包内变体均依赖 BET、FAST、FLIRT 和 `fslmaths` 等 FSL 工具，将每张 T1 加权 NIfTI 转换为 MNI152 1.5 mm 空间的 `*_GM_masked.nii.gz`。
+启用模型的工作流从预处理 GM 图开始，不能直接输入原始 T1。仓库脚本依赖 BET、FAST、FLIRT 和 `fslmaths` 等 FSL 工具，以生成 MNI152 1.5 mm 的 `*_GM_masked.nii.gz` 输入。
 
-处理真实数据前，请阅读[输入与预处理](input-preprocessing.md)。该页明确脚本参数、`121 × 145 × 121` 已发布模型网格、`0.15` GM 阈值、质控项目与引用。
+处理真实数据前，请阅读[输入与预处理](input-preprocessing.md)。
 
-## GUI 与编译备用产物
+## GUI 与模型运行时
 
-推荐从包含 PyTorch 的源码或本地 wheel 环境运行 `hemispec-gui`。GUI 暴露 GM 输入 glob、输出工作区、可选 ROI atlas/标签表、可选分类器验证、可选 TRT 可靠性、运行控制、日志和等效 CLI 命令。
-
-GitHub Release v0.1.0 还归档了 Windows 备用产物。Onedir GUI 发行目录必须整体保留，不能只复制其中的可执行文件。
-
-## 模型运行时
-
-HemiSpec 从显式路径、环境变量、`assets/models/` 下的 Git-LFS 检出或每用户模型缓存中发现模型资产。Wheel 和轻量可执行程序不嵌入 PyTorch 或 300MB+ 模型包。启用自动下载时，缺失的已发布模型资产可从 GitHub Release 下载到缓存。详见[数据与模型](data-and-models.md)。
+请从包含 PyTorch 的源码环境启动 `hemispec-gui`。HemiSpec 可从显式路径、环境变量、`assets/models/` 下的 Git-LFS 检出或每用户缓存发现资产。Wheel 和轻量 Windows 产物不嵌入 PyTorch 或 300 MB 以上的 DGN 检查点。当前资产边界见[数据与模型](data-and-models.md)。

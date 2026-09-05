@@ -32,6 +32,7 @@ htmlcov/
 /outputs/
 /data/
 /reference/
+/ref_paper/
 /p2a-session/
 
 # Local/private release assets: commit manifests/readmes only

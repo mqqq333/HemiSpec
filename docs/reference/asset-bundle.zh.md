@@ -1,6 +1,6 @@
 # 外部资产包
 
-HemiSpec 源码现已通过 Git LFS 在 `assets/models/` 下包含已批准的可复用 DGN 检查点和半球分类器包。Wheel 安装将这些大型二进制文件保留在 wheel 之外，并可把已批准默认资产下载到用户缓存；当前 PyPI 项目尚未公开。外部资产包仍适用于离线安装、自定义模型包、atlas 有效载荷、真实样本数据或编译应用发行版。
+当前 HemiSpec `main` 通过 Git LFS 在 `assets/models/` 下包含可复用的 DGN 检查点和半球分类器包。大型模型二进制文件保留在 wheel 之外。当前源码支持将 DGN 检查点下载到用户缓存，但分类器缓存下载并不完整，分类器资产需要来自 Git-LFS 源码检出或显式本地目录。归档 `v0.1.0` wheel 不包含此下载器，PyPI 项目尚未公开。外部资产包仍适用于离线安装、自定义模型包、atlas 载荷、获准分发的样本数据或编译应用发行版。
 
 ## 推荐布局
 
@@ -23,7 +23,7 @@ HemiSpec-Assets/
 
 ## 清单契约
 
-`ASSET_MANIFEST.yml` 应记录足够的信息，让其他实验室判断该包是否与其工作流兼容：
+`ASSET_MANIFEST.yml` 应记录足够的信息，让其他实验室判断该包是否与其工作流兼容。以下是模板，并非已经发布的兼容性声明；应将示例元数据替换为经过测试的值：
 
 ```yaml
 asset_bundle: HemiSpec-Assets
@@ -31,7 +31,8 @@ version: 0.1.0
 date: 2026-06-29
 compatible_with:
   package: hemispec-toolkit
-  version: ">=0.1.0,<0.2"
+  version: <tested package version>
+  commit: <tested HemiSpec commit>
 contents:
   dgn_models:
     root: models/dgn
@@ -77,12 +78,12 @@ HEMISPEC_GLASSER_LABEL_TABLE
 - 每个模型、atlas、分类器和标签表在 `SHA256SUMS.txt` 中都有校验和；
 - 许可证和引用要求在 `LICENSES/` 或清单中存在；
 - 预处理假设和兼容的 HemiSpec 版本已说明；
-- 该包与从 [https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0) 下载的轻量 HemiSpec 版本兼容；
+- 该包已在当前 `main` 源码检出上验证，并记录 `git rev-parse HEAD`；归档 `v0.1.0` 产物属于历史版本，不是当前兼容性验证目标；
 - 该包通过 GitHub Releases、Zenodo、OSF 或机构存储等显式发布渠道发布。
 
 ## 运行时边界
 
-轻量 Windows CLI/GUI 产物不打包 PyTorch、atlas 有效载荷、真实 MRI 输入或生成输出。启用模型的工作流需要包含 PyTorch 的 Python 环境。已发布的 DGN/分类器模型默认值可来自 Git-LFS 源码检出、每用户自动下载缓存或显式配置的离线资产包。
+轻量 Windows CLI/GUI 产物不打包 PyTorch、atlas 载荷、真实 MRI 输入或生成输出。启用模型的工作流需要包含 PyTorch 的 Python 环境。在当前 `main` 中，DGN 检查点可来自 Git-LFS 源码检出、每用户自动下载缓存或显式配置的离线资产包。分类器资产需要来自 Git-LFS 检出或显式本地目录；当前下载限制见[数据与模型](../data-and-models.md)。
 
 ## 相关页面
 

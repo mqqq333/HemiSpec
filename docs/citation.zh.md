@@ -27,9 +27,17 @@ HemiSpec 文档沿用原论文的名称与缩写。
 
 > Jenkinson, M., & Smith, S. (2001). A global optimisation method for robust affine registration of brain images. *Medical Image Analysis, 5*(2), 143–156. https://doi.org/10.1016/S1361-8415(01)00036-6
 
+## Glasser 皮层分区
+
+使用 Glasser/HCP-MMP atlas 进行 ROI 导出或半球分类时，应引用原始分区论文：
+
+> Glasser, M. F., Coalson, T. S., Robinson, E. C., et al. (2016). A multi-modal parcellation of human cerebral cortex. *Nature, 536*, 171-178. https://doi.org/10.1038/nature18933
+
+MNI 1.5 mm NIfTI 转换版属于派生 atlas 资产，并非原始分区本身。应另行记录其分发者/来源 URL、版本或 commit、获取日期、MNI 模板、体素大小、转换方法和标签映射。不能将 `1..180`、`1001..1180` 等转换版特有的整数标签约定归于原始论文。本地 atlas 的要求见[数据与模型](data-and-models.md)。
+
 ## HemiSpec 软件引用
 
-使用软件时，应在公共 HemiSpec 发布/归档记录可用后引用对应记录，并在方法部分保留软件版本。在归档 DOI 尚未注册前，可使用仓库 `CITATION.cff`、发布标签与访问日期。
+使用软件时，应在公共 HemiSpec 发布/归档记录可用后引用对应记录，并在方法部分保留软件版本。在归档 DOI 尚未注册前，可使用仓库 `CITATION.cff`、发布标签与访问日期。使用当前 `main` 源码检出时，还应报告 `git rev-parse HEAD` 输出的准确 commit；仅凭包版本号无法将其与归档 `v0.1.0` 发布版区分。
 
 不能用软件引用替代 Wang 等人的方法论文：原始科学方法与软件实现是两类独立贡献，应分别致谢和引用。
 

@@ -67,6 +67,7 @@ process_single_subject.sh 输入_T1 输出前缀
 示例：
 
 ```bash
+mkdir -p derivatives
 bash process_single_subject.sh \
   raw/sub-001_T1w.nii.gz \
   derivatives/sub-001
@@ -85,6 +86,8 @@ derivatives/sub-001_debug.log
 ```
 
 当前研究脚本在成功处理后会删除 BET、FAST、FLIRT 和掩膜中间产物。如果正式质控记录需要保留中间图，应使用保留中间文件的脚本副本，或在版本控制的研究副本中暂时关闭清理，并记录该变更。
+
+重新处理时使用新的输出前缀。失败的重跑可能留下旧的 `*_GM_masked.nii.gz`，仅凭文件名匹配不能确认最新一次预处理成功。
 
 ## `process_single_subject.sh` 的处理步骤
 
@@ -114,6 +117,8 @@ derivatives/sub-001_debug.log
 
 HemiSpec 通过移除配置的文件后缀获得受试者标识。因此，同一输入 glob 匹配到的每个文件都必须拥有唯一、稳定的前缀。
 
+以上是输入必须满足的条件，不代表软件已自动检查全部条件：当前 DGN 推理不会完整校验模板 affine 或方向。推理前应完成以下检查。
+
 ## DGN 推理前的质量控制
 
 不能只检查文件名。每个队列至少应检查：
@@ -139,16 +144,22 @@ fsleyes \
 Python 检查示例：
 
 ```python
+import os
 from pathlib import Path
 import nibabel as nib
 import numpy as np
 
 path = Path("derivatives/sub-001_GM_masked.nii.gz")
 img = nib.load(path)
+reference = nib.load(
+    Path(os.environ["FSLDIR"]) / "data/standard/MNI152_T1_1.5mm_brain.nii.gz"
+)
 data = img.get_fdata(dtype=np.float32)
 
-assert img.shape == (121, 145, 121)
+assert img.shape == reference.shape == (121, 145, 121)
 assert np.allclose(img.header.get_zooms()[:3], (1.5, 1.5, 1.5))
+assert np.allclose(img.affine, reference.affine, rtol=0, atol=1e-4)
+assert nib.aff2axcodes(img.affine) == nib.aff2axcodes(reference.affine)
 assert np.isfinite(data).all()
 assert data.min() >= 0
 assert data.max() <= 1.0 + 1e-5
@@ -157,9 +168,12 @@ assert data.max() <= 1.0 + 1e-5
 ## 批处理示例
 
 ```bash
+set -e
+shopt -s nullglob
 mkdir -p derivatives
 for t1 in raw/sub-*/anat/*_T1w.nii.gz; do
   subject=$(basename "$t1" _T1w.nii.gz)
+  test ! -e "derivatives/${subject}_GM_masked.nii.gz"
   bash process_single_subject.sh "$t1" "derivatives/$subject"
 done
 ```
@@ -169,8 +183,11 @@ done
 ```bash
 hemispec workflow \
   --input-glob "derivatives/*_GM_masked.nii.gz" \
-  --out-dir outputs/hemispec_workflow
+  --out-dir outputs/hemispec_preprocessed \
+  --no-roi-table
 ```
+
+批处理示例会在预处理失败或发现已有最终输出时停止。每次 HemiSpec 运行都使用新的输出目录；重复扫描的文件名应同时保留受试者和 session 标识。
 
 ## 不同阶段的阈值
 

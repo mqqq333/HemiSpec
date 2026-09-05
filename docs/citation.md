@@ -27,9 +27,17 @@ The study `process_single_subject.sh` workflow and the packaged reorientation-en
 
 > Jenkinson, M., & Smith, S. (2001). A global optimisation method for robust affine registration of brain images. *Medical Image Analysis, 5*(2), 143–156. https://doi.org/10.1016/S1361-8415(01)00036-6
 
+## Glasser cortical parcellation
+
+When using a Glasser/HCP-MMP atlas for ROI export or hemisphere classification, cite the original parcellation:
+
+> Glasser, M. F., Coalson, T. S., Robinson, E. C., et al. (2016). A multi-modal parcellation of human cerebral cortex. *Nature, 536*, 171-178. https://doi.org/10.1038/nature18933
+
+An MNI 1.5 mm NIfTI conversion is a derived atlas asset, not the original parcellation itself. Separately record its distributor/source URL, version or commit, retrieval date, MNI template, voxel size, conversion method, and label mapping. Do not attribute a conversion-specific integer convention, such as `1..180` and `1001..1180`, to the original paper. See [Data and models](data-and-models.md) for the local atlas requirements.
+
 ## HemiSpec software citation
 
-For software use, cite the public HemiSpec release/archive record when available and retain the software version in the Methods section. Until an archival DOI is registered, use the repository `CITATION.cff` metadata together with the release tag and access date.
+For software use, cite the public HemiSpec release/archive record when available and retain the software version in the Methods section. Until an archival DOI is registered, use the repository `CITATION.cff` metadata together with the release tag and access date. For a current `main` source checkout, also report the exact commit from `git rev-parse HEAD`; the package version alone does not distinguish it from the archived `v0.1.0` release.
 
 Do not replace the Wang et al. citation with a software citation: the original scientific method and the software implementation are separate contributions and should be credited separately.
 

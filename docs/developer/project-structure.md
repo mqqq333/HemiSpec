@@ -55,4 +55,4 @@ Model and atlas discovery is centralized in `hemispec.paths` and follows this or
 4. the per-user cache populated by model download;
 5. legacy root folders such as `outputs_bi_stable_L/R`, for compatibility only.
 
-The release wheel remains lightweight: it contains package code and small resources, not large model checkpoints, atlas payloads, or subject-level examples. Model-enabled runs obtain approved DGN/classifier assets from a Git-LFS source checkout, the per-user cache, or an explicitly configured offline asset bundle.
+The release wheel remains lightweight: it contains package code and small resources, not large model checkpoints, atlas payloads, or subject-level examples. In current `main`, DGN checkpoints can come from a Git-LFS source checkout, the per-user cache, or an explicitly configured offline asset bundle. Classifier assets require a Git-LFS checkout or explicit local directory because their current cache download is incomplete; see [Data and models](../data-and-models.md). The archived `v0.1.0` wheel does not include the current downloader.

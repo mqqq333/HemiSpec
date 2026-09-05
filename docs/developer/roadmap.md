@@ -6,15 +6,17 @@ This page tracks public-facing HemiSpec development after the v0.1.0 first publi
 
 HemiSpec v0.1.0 was published on 2026-06-28 as a GitHub prerelease: [https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0). It is research software / public beta, not a mature clinical or commercial product.
 
-The release includes the unified HemiSpec repository, documentation website, `hemispec` CLI, `hemispec-gui` entry point, wheel/sdist, Windows CLI/GUI artifacts, synthetic quickstart, CI/docs gates, and external-asset distribution policy.
+The archived release includes the `hemispec` CLI, `hemispec-gui` entry point, wheel/sdist, and Windows CLI/GUI artifacts. Current `main` adds the synthetic quickstart and model-cache download code. The public documentation targets that source checkout; these additions are not retroactive features of the archived release.
 
 ## v0.1.x priorities
 
-1. Keep the release downloadable and reproducible: checksum release assets, smoke-test the CLI, and run the synthetic quickstart from the released wheel. Baseline established on 2026-06-29; see [v0.1.0 release verification](release-verification-v0.1.0.md).
-2. Make first-run documentation clearer: prominent download links, quickstart path, and asset/model boundaries.
-3. Harden asset handling: keep approved DGN/classifier bundles reusable through Git LFS and first-run cache download; keep manifest/checksum/license/provenance templates for atlas and custom/offline bundles.
-4. Improve GUI diagnostics: setup status card now shows DGN model, Glasser atlas, classifier bundle, and PyTorch availability as found/missing/download-pending; next steps are checksum display and richer first-run guidance.
-5. Improve error messages and logs for missing models, missing atlas files, missing classifier bundles, and missing optional dependencies.
+1. Publish current functionality under a new version and immutable tag. Verify the resulting wheel, CLI, GUI, and synthetic quickstart independently, and preserve the archived [v0.1.0 verification record](release-verification-v0.1.0.md).
+2. Validate inputs before inference: enforce the released-model grid and affine, reject duplicate subject/session keys, and check classifier atlas/features and optional dependencies before expensive work.
+3. Isolate outputs by run and make reruns safe: prevent stale subjects from entering summaries and restrict quickstart cleanup to its own generated files.
+4. Repair classifier-cache URLs, verify cached model hashes before loading, and publish versioned compatibility/provenance manifests for reusable assets.
+5. Add regression coverage for tied-value Spearman correlations, unsymmetrized TRT matrices, and ROI masks that retain valid zero residuals.
+6. Propagate GUI cancellation through classifier/TRT stages and improve missing-asset diagnostics.
+7. Add an optional study policy requiring hemisphere-classifier validation. Classification remains opt-in until that policy is implemented and tested; TRT still requires repeated scans.
 
 ## v0.2 candidates
 

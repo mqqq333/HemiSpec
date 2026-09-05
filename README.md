@@ -14,6 +14,8 @@ HemiSpec is a research-software toolkit for generating reconstruction-derived he
   <img src="docs/assets/figures/hemispec-study-design.png" alt="HemiSpec study design overview" width="100%">
 </p>
 
+The schematic illustrates the method and possible downstream analyses. HemiSpec implements ANS/RNS map generation and optional hemisphere/TRT validation; behavioral-phenotype modeling is not a built-in workflow.
+
 ## From T1 MRI to HemiSpec outputs
 
 ```text
@@ -54,6 +56,7 @@ process_single_subject.sh
 It accepts a T1 NIfTI and an output prefix. The Python package also contains a documented reorientation-enhanced variant under `src/hemispec/resources/preprocess/`; do not mix script variants within one cohort:
 
 ```bash
+mkdir -p derivatives
 bash process_single_subject.sh \
   raw/sub-001_T1w.nii.gz \
   derivatives/sub-001
@@ -69,26 +72,31 @@ See the detailed [Input and preprocessing guide](https://mqqq333.github.io/HemiS
 
 ## Install
 
-HemiSpec v0.1.0 is a public beta distributed through the GitHub Release and source repository. The PyPI project is not public yet. For the full model/GUI workflow, use a source checkout in the Python/conda environment that provides PyTorch:
-
+This README documents the current `main` source checkout. The archived `v0.1.0` release predates the synthetic `quickstart` command and automatic model-cache downloads. The PyPI project is not public yet. Use the source checkout for the commands below, in the Python/conda environment that provides PyTorch:
 
 ```bash
 git lfs install
 git clone https://github.com/mqqq333/HemiSpec.git
 cd HemiSpec
 git lfs pull
-python -m pip install -e .[gui,model,classifier]
-hemispec models --install --with-classifier  # optional cache pre-download
+python -m pip install -e ".[gui,model,classifier]"
+git rev-parse HEAD
+hemispec models
 hemispec --help
 ```
+
+Record the Git commit with your analysis: the source package still reports `0.1.0`, so its version string alone does not distinguish it from the archived release. Git LFS must retrieve the actual checkpoint and classifier files, not just pointer files. Use the local checkout for classifier assets; see [Data and models](https://mqqq333.github.io/HemiSpec/data-and-models/) for current download limitations.
 
 ## Run the standard bilateral workflow
 
 ```bash
 hemispec workflow \
   --input-glob "derivatives/*_GM_masked.nii.gz" \
-  --out-dir outputs/hemispec_workflow
+  --out-dir outputs/hemispec_workflow \
+  --no-roi-table
 ```
+
+Use a new output directory for each run. This example needs no atlas. To export ROI tables or run the released Glasser-based classifier, supply the compatible atlas described in [Quick start](https://mqqq333.github.io/HemiSpec/quickstart/).
 
 Or launch the GUI from the same environment:
 
@@ -109,16 +117,13 @@ Hemisphere-classifier validation is currently an **optional downstream validatio
 
 ## Public-safe smoke test
 
-The synthetic quickstart verifies installation and file contracts without real MRI data or model weights:
-
-Download the v0.1.0 wheel from GitHub Releases, then run:
+After installing the current source checkout, run the synthetic quickstart without real MRI data or model inference:
 
 ```bash
-python -m pip install ./hemispec_toolkit-0.1.0-py3-none-any.whl
 hemispec quickstart --out-dir hemispec_quickstart
 ```
 
-Synthetic outputs are not anatomical results and must not be used for scientific interpretation.
+Use a new or empty directory. Do not use `--force` on a directory containing other files: the current command deletes that directory before regenerating the demo. Synthetic outputs are not anatomical results and must not be used for scientific interpretation.
 
 ## Method and citation boundary
 
@@ -151,7 +156,7 @@ Real subject-level MRI data and generated study outputs are not part of the publ
 ## Development and documentation
 
 ```bash
-python -m pip install -e .[dev,gui]
+python -m pip install -e ".[dev,gui]"
 python -m pytest
 python -m ruff check src tests
 python -m pip install -r requirements-docs.txt

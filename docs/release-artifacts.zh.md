@@ -1,8 +1,8 @@
 # 发布产物
 
-HemiSpec v0.1.0 是通过 GitHub Release 和源码仓库分发的公开测试版。`hemispec-toolkit` 项目**当前尚未在 PyPI 公开**，因此现行安装说明不能把 `pip install hemispec-toolkit` 写成可直接从 PyPI 使用的命令。
+本页区分归档的 `v0.1.0` GitHub Release 与当前 `main` 源码树。两者当前都显示软件包版本 `0.1.0`，但功能集并不相同。`hemispec-toolkit` 项目**当前尚未在 PyPI 公开**。
 
-## 当前公开的 v0.1.0 产物
+## 归档的 v0.1.0 产物
 
 v0.1.0 GitHub Release 提供：
 
@@ -22,17 +22,18 @@ python -m pip install ./hemispec_toolkit-0.1.0-py3-none-any.whl
 hemispec --help
 ```
 
-启用模型的开发或 GUI 使用推荐源码检出：
+归档 `v0.1.0` 标签不包含当前的合成快速入门或 `model_assets` 下载器。当前文档和启用模型的工作流应使用当前源码检出：
 
 ```bash
 git lfs install
 git clone https://github.com/mqqq333/HemiSpec.git
 cd HemiSpec
 git lfs pull
-python -m pip install -e .[gui,model,classifier]
+python -m pip install -e ".[gui,model,classifier]"
+git rev-parse HEAD
 ```
 
-半球分类器是可选的下游验证步骤。安装 `classifier` 额外依赖并不会使分类器执行成为必选项。
+每次分析都应记录提交哈希，因为仅凭软件包版本无法区分当前源码与归档标签。请使用 Git-LFS 检出中的分类器资产，或显式配置本地目录。
 
 ## 科学归因
 
@@ -70,13 +71,13 @@ powershell -ExecutionPolicy Bypass -File scripts\build_release.ps1 -Python "py -
 
 ## 源码与资产边界
 
-源码仓库包含代码、文档、测试、合成示例，以及通过 Git LFS 跟踪的已批准可复用模型包。Atlas 载荷、真实神经影像数据、生成结果和额外自定义模型包必须保留在公开源码树之外，除非已经记录其出处、许可证、再分发批准、校验和与兼容版本。
+当前源码仓库包含代码、文档、测试、合成示例，以及通过 Git LFS 跟踪的已批准可复用模型包。不能把这些当前源码功能归于归档 `v0.1.0` 软件包。Atlas 载荷、真实神经影像数据、生成结果和额外自定义模型包必须保留在公开源码树之外，除非已经记录其出处、许可证、再分发批准、校验和与兼容版本。
 
 轻量 Windows CLI/GUI 产物不嵌入 PyTorch、atlas 载荷、真实 MRI 输入或生成结果。启用模型的工作流需要合适的 Python/PyTorch 环境，并从 Git-LFS 源码检出、用户缓存或离线资产包获得已批准模型。
 
 ## 发布后验证
 
-v0.1.0 产物于 2026 年 6 月 29 日在发布后重新下载并检查：校验和一致，Windows CLI 能显示 `--help`，下载的 wheel 完成了公开安全的合成快速入门。详见 [v0.1.0 发布验证](developer/release-verification-v0.1.0.md)。
+v0.1.0 产物于 2026 年 6 月 29 日在发布后重新下载并检查：记录的校验和一致，Windows CLI 能显示 `--help`，wheel 可从干净环境导入。没有保留证据证明下载的 wheel 运行过后来加入的合成快速入门。详见 [v0.1.0 发布验证](developer/release-verification-v0.1.0.md)。
 
 ## 相关页面
 

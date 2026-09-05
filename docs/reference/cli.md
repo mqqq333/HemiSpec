@@ -6,7 +6,7 @@ The preferred public command is:
 hemispec
 ```
 
-The subcommands below were checked against the current toolkit interface on 2026-07-11. Re-check them before public release if the toolkit source or package name changes.
+The subcommands below were checked against the current toolkit interface on 2026-09-05. Re-check them before public release if the toolkit source or package name changes.
 
 ## Current subcommands
 
@@ -28,13 +28,15 @@ Use `hemispec` for the command-line interface and `hemispec-gui` for the graphic
 
 ## Model asset prefetch
 
-Release-wheel and source installs can pre-download the released DGN checkpoints and classifier bundle:
+Current `main` can pre-download the DGN checkpoints tracked by Git LFS:
 
 ```bash
-hemispec models --install --with-classifier
+hemispec models --install
 ```
 
-If this is skipped, `workflow`, `infer`, `run`, and the GUI download the released DGN checkpoints automatically on first model use.
+If this is skipped, `workflow`, `infer`, `run`, and the GUI download the DGN checkpoints from the repository's `main` Git LFS media on first model use.
+
+The CLI still supports `--with-classifier`, but it is not a working installation recommendation at present because required `feature_names.csv` media URLs return HTTP 404. Obtain classifier assets from a local Git LFS checkout and use `--classifier-model-dir` or `HEMISPEC_CLASSIFIER_MODEL_DIR`; see the [known limitation](../data-and-models.md#current-cache-download-boundary).
 
 ## ROI outputs
 
@@ -50,6 +52,8 @@ ROI export is currently exposed through options on `compute`, `run`, and `workfl
 ```
 
 There is not yet a standalone `roi` subcommand.
+
+The released classifier accepts only features from its compatible Glasser 1.5 mm atlas: homologous labels `1..180` on the left and `1001..1180` on the right. A custom atlas may be used for ROI export, but not with the released classifier.
 
 ## Reporting
 

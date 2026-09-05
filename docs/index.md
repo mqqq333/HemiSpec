@@ -14,8 +14,8 @@
 ## End-to-end workflow
 
 <figure markdown="span">
-  ![HemiSpec workflow overview](assets/figures/candidate-1.png){ width="100%" }
-  <figcaption>T1-weighted MRI → FSL gray-matter preprocessing → MNI152 1.5 mm GM input → bilateral DGN reconstruction → ANS/RNS maps → optional ROI summaries and validation → downstream analyses.</figcaption>
+  ![Cross-hemispheric reconstruction and ANS/RNS definitions](assets/figures/hemispec-study-design.png){ width="100%" }
+  <figcaption>Conceptual reconstruction framework and ANS/RNS definitions from Wang et al. (2024). HemiSpec starts from FSL-preprocessed GM maps. ANS/RNS are non-negative GM-derived measures, not distances in millimetres. Hemisphere validation is optional; behavioral-phenotype analysis shown in the schematic is not a built-in workflow.</figcaption>
 </figure>
 
 | Stage | Input | Main operation | Output |
@@ -43,7 +43,7 @@ See [Citation](citation.md) for the complete reference and citation boundaries.
 
     ---
 
-    Start from T1-weighted NIfTI, run the packaged FSL script, and verify the DGN input grid and quality-control checks.
+    Start from T1-weighted NIfTI, run `process_single_subject.sh`, and verify the DGN input grid and quality-control checks.
 
     [Input and preprocessing](input-preprocessing.md)
 
@@ -51,7 +51,7 @@ See [Citation](citation.md) for the complete reference and citation boundaries.
 
     ---
 
-    Install from the GitHub Release wheel or a source checkout, inspect model readiness, and run the GUI or bilateral CLI workflow.
+    Install the current source checkout with Git LFS, inspect model readiness, and run the GUI or bilateral CLI workflow.
 
     [Quick start](quickstart.md)
 
@@ -75,7 +75,9 @@ See [Citation](citation.md) for the complete reference and citation boundaries.
 
 ## Current software scope
 
-HemiSpec v0.1.0 is a public beta distributed through GitHub Releases and the source repository; the PyPI project is not public yet. The GUI and CLI generate voxel-wise ANS/RNS maps; ROI tables, hemisphere-classifier validation, and TRT validation are currently optional downstream steps.
+This site documents the current `main` source checkout. The archived `v0.1.0` release does not include every command shown here, including `quickstart` and automatic model-cache installation; see [Installation](installation.md). The PyPI project is not public yet. Record the source commit when reporting software use.
+
+The GUI and CLI generate voxel-wise ANS/RNS maps. ROI tables, hemisphere-classifier validation, and TRT validation are optional. ROI export requires an atlas on the input grid; the released classifier specifically requires its compatible Glasser atlas and labels. Each run should use a new output directory.
 
 ---
 

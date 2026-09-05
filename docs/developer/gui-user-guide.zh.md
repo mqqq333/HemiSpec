@@ -4,21 +4,19 @@
 
 ## 启动
 
-从源码检出安装：
+从 `main` 的 Git LFS 源码检出安装当前 GUI：
 
 ```bash
-python -m pip install -e .[gui,model,classifier]
+git lfs install
+git clone https://github.com/mqqq333/HemiSpec.git
+cd HemiSpec
+git lfs pull
+python -m pip install -e ".[gui,model,classifier]"
+git rev-parse HEAD
 hemispec-gui
 ```
 
-从 v0.1.0 Release wheel 安装：
-
-```bash
-python -m pip install "./hemispec_toolkit-0.1.0-py3-none-any.whl[gui,model,classifier]"
-hemispec-gui
-```
-
-当前 PyPI 项目尚未公开，请使用 GitHub Release wheel 或源码检出。
+请将输出的 commit 哈希与分析记录一同保存。当前 PyPI 项目尚未公开，本指南不使用已归档的 v0.1.0 wheel。旧版本仍可从 [GitHub Releases 页面](https://github.com/mqqq333/HemiSpec/releases)获取。
 
 ## 打开 GUI 前
 
@@ -42,7 +40,7 @@ derivatives/*_GM_masked.nii.gz
 
 ### 2. 输出工作区
 
-选择新的或已有的输出目录。最终图写入 `voxel_maps/`，表格和可选验证结果写入各自子目录。
+每次运行选择一个新的空输出目录。最终图写入 `voxel_maps/`，表格和可选验证结果写入各自子目录。
 
 ### 3. 设置状态
 
@@ -50,13 +48,13 @@ derivatives/*_GM_masked.nii.gz
 
 ### 4. 可选 ROI 表
 
-仅在具有 atlas 和兼容标签表时启用 ROI 导出。Atlas 必须与输入图具有相同网格和 affine。
+仅在具有 atlas 和兼容标签表时启用 ROI 导出。Atlas 必须与输入图具有相同网格和 affine。自定义 atlas 可用于仅 ROI 导出；已发布分类器则要求兼容的 Glasser 1.5 mm atlas，左侧标签为 `1..180`，右侧为 `1001..1180`。
 
 ### 5. 可选验证
 
-- **半球分类器验证**需要 ROI 特征，并保持为可选步骤。
-- **TRT 可靠性**要求文件名符合配置的 session 正则表达式。
-- **保留中间输出**会保存重建图和方向特定图，用于调试或独立验证。
+- **半球分类器验证**需要兼容的 Glasser ROI 特征，以及 Git LFS 检出中的本地分类器包。当前分类器缓存下载不完整；详见[数据与模型](../data-and-models.md)。
+- **TRT 可靠性**至少需要 2 名受试者、每名 2 次扫描。GUI 使用封装的默认模式，例如 `sub-MSC001_run-01_GM_masked.nii.gz` 和 `sub-MSC001_run-02_GM_masked.nii.gz`；如果文件名为 `sub-001_run-01_GM_masked.nii.gz` 并需要显式 regex/session 参数，请使用 CLI。
+- **保留中间输出**会保存用于调试的重建图和方向特定图，并保存供后续独立验证使用的 `intermediate/combined_maps/`。方向特定图使用不同的后缀契约。
 
 ### 6. 运行控制
 

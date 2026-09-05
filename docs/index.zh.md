@@ -14,8 +14,8 @@
 ## 端到端工作流
 
 <figure markdown="span">
-  ![HemiSpec 工作流概览](assets/figures/candidate-1.png){ width="100%" }
-  <figcaption>T1 加权 MRI → FSL 灰质预处理 → MNI152 1.5 mm GM 输入 → 双向 DGN 重建 → ANS/RNS 图 → 可选 ROI 汇总与验证 → 下游分析。</figcaption>
+  ![跨半球重建与 ANS/RNS 定义](assets/figures/hemispec-study-design.png){ width="100%" }
+  <figcaption>基于 Wang 等人（2024）重建框架与 ANS/RNS 定义的原理示意。HemiSpec 从 FSL 预处理后的 GM 图开始；ANS/RNS 为非负的 GM 衍生指标，不是以毫米计量的距离。半球验证为可选步骤，图中的行为表型分析不属于当前内置工作流。</figcaption>
 </figure>
 
 | 阶段 | 输入 | 主要处理 | 输出 |
@@ -43,7 +43,7 @@
 
     ---
 
-    从 T1 加权 NIfTI 开始，运行打包的 FSL 脚本，并检查 DGN 输入网格和质量控制项目。
+    从 T1 加权 NIfTI 开始，运行 `process_single_subject.sh`，并检查 DGN 输入网格和质量控制项目。
 
     [输入与预处理](input-preprocessing.md)
 
@@ -51,7 +51,7 @@
 
     ---
 
-    通过 GitHub Release wheel 或源码检出安装，检查模型就绪状态，并运行 GUI 或双向 CLI 工作流。
+    通过 Git LFS 检出并安装当前源码，检查模型就绪状态，再运行 GUI 或双向 CLI 工作流。
 
     [快速开始](quickstart.md)
 
@@ -75,7 +75,9 @@
 
 ## 当前软件范围
 
-HemiSpec v0.1.0 为公开测试版，目前通过 GitHub Release 和源码仓库分发；PyPI 项目尚未公开。GUI 和 CLI 生成体素级 ANS/RNS 图；ROI 表、半球分类器验证和 TRT 验证目前仍是可选下游步骤。
+本站文档对应当前 `main` 分支源码。归档 `v0.1.0` 发行包不包含本站所有命令，例如 `quickstart` 和模型缓存自动安装；详见[安装](installation.md)。PyPI 项目尚未公开。报告软件使用情况时，应记录源码 commit。
+
+GUI 和 CLI 生成体素级 ANS/RNS 图。ROI 表、半球分类器验证和 TRT 验证均为可选步骤。ROI 导出需要与输入网格一致的 atlas；已发布分类器还要求兼容的 Glasser atlas 及标签。每次运行应使用新的输出目录。
 
 ---
 

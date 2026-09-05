@@ -1,8 +1,8 @@
 # Release artifacts
 
-HemiSpec v0.1.0 is a public beta distributed through the GitHub Release and the source repository. The `hemispec-toolkit` project is **not currently public on PyPI**, so current installation instructions must not use `pip install hemispec-toolkit` as if it were available from PyPI.
+This page separates the archived `v0.1.0` GitHub Release from the current `main` source tree. Both currently report package version `0.1.0`, but they do not have the same feature set. The `hemispec-toolkit` project is **not currently public on PyPI**.
 
-## Current public v0.1.0 artifacts
+## Archived v0.1.0 artifacts
 
 The v0.1.0 GitHub Release provides:
 
@@ -22,17 +22,18 @@ python -m pip install ./hemispec_toolkit-0.1.0-py3-none-any.whl
 hemispec --help
 ```
 
-For model-enabled development or GUI use, a source checkout is recommended:
+The archived `v0.1.0` tag does not contain the current synthetic quickstart or `model_assets` downloader. Use a current source checkout for current documentation and model-enabled workflows:
 
 ```bash
 git lfs install
 git clone https://github.com/mqqq333/HemiSpec.git
 cd HemiSpec
 git lfs pull
-python -m pip install -e .[gui,model,classifier]
+python -m pip install -e ".[gui,model,classifier]"
+git rev-parse HEAD
 ```
 
-The hemisphere classifier is an optional downstream validation step. Installing the `classifier` extra does not make classifier execution mandatory.
+Record the commit hash with each analysis because the package version alone does not distinguish the current source from the archived tag. Use the classifier assets in the Git-LFS checkout or an explicitly configured local directory.
 
 ## Scientific attribution
 
@@ -70,13 +71,13 @@ Uploading to PyPI is a separate future release action. Documentation should desc
 
 ## Source and asset boundary
 
-The source repository contains code, documentation, tests, synthetic examples, and approved reusable model bundles tracked through Git LFS. Atlas payloads, real neuroimaging data, generated outputs, and additional custom model bundles must remain outside the public source tree unless their provenance, license, redistribution approval, checksums, and compatible versions are documented.
+The current source repository contains code, documentation, tests, synthetic examples, and approved reusable model bundles tracked through Git LFS. These current-source features must not be attributed to the archived `v0.1.0` packages. Atlas payloads, real neuroimaging data, generated outputs, and additional custom model bundles must remain outside the public source tree unless their provenance, license, redistribution approval, checksums, and compatible versions are documented.
 
 The lightweight Windows CLI/GUI artifacts do not embed PyTorch, atlas payloads, real MRI inputs, or generated outputs. Model-enabled workflows require a suitable Python/PyTorch environment and approved model assets from a Git-LFS checkout, the user cache, or an offline asset bundle.
 
 ## Post-release verification
 
-The v0.1.0 artifacts were downloaded and checked after publication on June 29, 2026. The checksums matched, the Windows CLI displayed `--help`, and the downloaded wheel completed the public-safe synthetic quickstart. See [v0.1.0 release verification](developer/release-verification-v0.1.0.md).
+The v0.1.0 artifacts were downloaded and checked after publication on June 29, 2026. The recorded checksums matched, the Windows CLI displayed `--help`, and the wheel was imported from a clean environment. There is no retained evidence that the downloaded wheel ran the later synthetic quickstart. See [v0.1.0 release verification](developer/release-verification-v0.1.0.md).
 
 ## Related pages
 

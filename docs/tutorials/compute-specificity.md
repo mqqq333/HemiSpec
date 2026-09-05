@@ -6,15 +6,20 @@ This tutorial covers ANS/RNS computation after reconstruction.
 
 ## Install
 
-Download the v0.1.0 wheel from GitHub Releases and install it locally:
+Use a current source checkout. Enable Git LFS before cloning so the checkout is also ready for model-enabled workflows:
 
 ```bash
-python -m pip install ./hemispec_toolkit-0.1.0-py3-none-any.whl
+git lfs install
+git clone https://github.com/mqqq333/HemiSpec.git
+cd HemiSpec
+git lfs pull
+python -m pip install -e "."
+git rev-parse HEAD
 ```
 
-For source development, use `python -m pip install -e .` from a local checkout.
+Record the printed commit hash with the analysis. Archived versions remain available on the [GitHub Releases page](https://github.com/mqqq333/HemiSpec/releases), but this tutorial targets current `main`.
 
-For a complete packaged smoke test, run `hemispec quickstart --out-dir hemispec_quickstart`; it generates toy paired inputs and runs this compute path.
+For a complete packaged smoke test, run `hemispec quickstart --out-dir hemispec_quickstart_run_001`; it generates toy paired inputs and runs this compute path. Use a new output directory for each run.
 
 ## Required paired inputs
 
@@ -26,7 +31,7 @@ Each subject needs an actual target gray-matter map and a reconstructed counterp
 hemispec compute \
   --actual-glob "derivatives/*_GM_masked.nii.gz" \
   --predicted-glob "outputs/recon/*_PRED_LR_full.nii.gz" \
-  --out-dir outputs/specificity \
+  --out-dir outputs/specificity_run_001 \
   --save-subject-maps
 ```
 
@@ -34,15 +39,15 @@ This writes group-level ANS/RNS maps and, with `--save-subject-maps`, subject-le
 
 ## ROI export
 
-ROI feature export is available through `compute` options. The atlas path is a placeholder until the public HemiSpec atlas assets are added or an external atlas installation is documented:
+ROI feature export is available through `compute` options. Supply an approved local atlas on the map grid; see [Data and models](../data-and-models.md). Replace the example path with your atlas path:
 
 ```bash
 hemispec compute \
   --actual-glob "derivatives/*_GM_masked.nii.gz" \
   --predicted-glob "outputs/recon/*_PRED_LR_full.nii.gz" \
-  --out-dir outputs/specificity \
-  --roi-atlas <atlas-path> \
-  --roi-out-csv outputs/roi_features.csv
+  --out-dir outputs/specificity_roi_run_001 \
+  --roi-atlas /approved/path/atlas.nii.gz \
+  --roi-out-csv outputs/specificity_roi_run_001/roi_features.csv
 ```
 
 There is not yet a standalone `roi` command.
@@ -56,4 +61,4 @@ There is not yet a standalone `roi` command.
 
 ## Checks before computation
 
-HemiSpec should validate shape, affine, finite values, hemisphere labels, and valid masks before writing outputs.
+`compute` checks shape and affine agreement among the paired files and excludes non-finite voxels from its valid mask. These checks do not establish canonical MNI alignment, correct hemisphere labeling, or anatomical quality. Before computation, verify voxel size, orientation, full template affine, registration, segmentation, and mask quality as described in [Input and preprocessing](../input-preprocessing.md).

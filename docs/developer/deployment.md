@@ -1,31 +1,31 @@
 # Deployment
 
-HemiSpec can be deployed as an installable Python package, a command wrapper, a Windows CLI/GUI build, or a model-enabled Python application. The current public v0.1.0 package artifacts are distributed through GitHub Releases; the PyPI project is not public yet.
+HemiSpec can be deployed as an installable Python package, a command wrapper, a Windows CLI/GUI build, or a model-enabled Python application. This page targets current `main`; archived versions are available on the [GitHub Releases page](https://github.com/mqqq333/HemiSpec/releases), and the PyPI project is not public.
 
 ## 1. Python package
 
 Recommended for analysis servers, clusters, and model-enabled use:
 
 ```bash
-cd <hemispec-checkout>
-python -m pip install -e .[model]
+git lfs install
+git clone https://github.com/mqqq333/HemiSpec.git
+cd HemiSpec
+git lfs pull
+python -m pip install -e ".[model]"
+git rev-parse HEAD
 hemispec --help
 ```
+
+Record the printed commit hash with deployment metadata.
 
 Add GUI or optional classifier dependencies only when needed:
 
 ```bash
-python -m pip install -e .[gui,model]
-python -m pip install -e .[gui,model,classifier]
+python -m pip install -e ".[gui,model]"
+python -m pip install -e ".[gui,model,classifier]"
 ```
 
 The classifier remains an optional downstream validation branch.
-
-A downloaded v0.1.0 wheel can be installed directly:
-
-```bash
-python -m pip install ./hemispec_toolkit-0.1.0-py3-none-any.whl
-```
 
 ## 2. Windows command wrapper
 
@@ -42,8 +42,8 @@ The wrapper delegates to `python -m hemispec %*` and must not contain separate w
 Install development and GUI dependencies, then build:
 
 ```powershell
-cd <hemispec-checkout>
-python -m pip install -e .[dev,gui]
+cd "C:\path\to\HemiSpec"
+python -m pip install -e ".[dev,gui]"
 powershell -ExecutionPolicy Bypass -File scripts\build_exe.ps1
 ```
 
@@ -61,7 +61,7 @@ For a clean build environment:
 ```powershell
 python -m venv .venv-build
 .\.venv-build\Scripts\python.exe -m pip install --upgrade pip setuptools wheel
-.\.venv-build\Scripts\python.exe -m pip install -e .[dev,gui] --no-build-isolation
+.\.venv-build\Scripts\python.exe -m pip install -e ".[dev,gui]" --no-build-isolation
 .\.venv-build\Scripts\python.exe -m PyInstaller --clean --onedir --windowed --name hemispec_gui scripts\hemispec_gui_entry.py
 ```
 
@@ -78,7 +78,7 @@ A model-enabled installation requires:
 5. the reconstruction output naming contract;
 6. ANS/RNS computation and optional validation settings.
 
-Expected model assets follow the layout documented in [DGN model bundles](dgn-model-bundle.md). They may be resolved from a Git-LFS source checkout, the per-user cache, an explicit model root, or an approved offline asset bundle.
+Expected model assets follow the layout documented in [DGN model bundles](dgn-model-bundle.md). DGN checkpoints may be resolved from the Git LFS source checkout, the per-user cache populated from `main` Git LFS media, an explicit model root, or an approved offline bundle. Classifier assets should come from the local Git LFS checkout or an explicit local directory because the current classifier cache download is incomplete; see [Data and models](../data-and-models.md#current-cache-download-boundary).
 
 ```bash
 hemispec models
@@ -89,7 +89,7 @@ hemispec infer \
   --device cuda
 ```
 
-The standard bilateral workflow exposes ROI export, classifier validation, and TRT validation as optional flags; none of them is required to generate voxel-wise ANS/RNS maps.
+The standard bilateral workflow exposes ROI export, classifier validation, and TRT validation as optional flags; none is required to generate voxel-wise ANS/RNS maps. The released classifier requires the compatible Glasser 1.5 mm labels `1..180` left / `1001..1180` right; a custom atlas is ROI-only. TRT requires at least two subjects with two scans each and matching `--trt-file-regex`, `--trt-session-a`, and `--trt-session-b` values. Use `--keep-intermediate` when later standalone validation needs `intermediate/combined_maps/`; direction-specific maps use a different suffix contract.
 
 ## Cluster usage
 
@@ -97,11 +97,11 @@ Use the Python package on Linux clusters:
 
 ```bash
 module load python
-cd <remote-hemispec-checkout>
-python -m pip install -e .[model]
+cd /path/to/HemiSpec
+python -m pip install -e ".[model]"
 hemispec workflow \
   --input-glob "<preprocessed-gm-dir>/*_GM_masked.nii.gz" \
-  --out-dir "<hemispec-results>/bilateral" \
+  --out-dir "<new-hemispec-results>/bilateral_run_001" \
   --device cuda
 ```
 
@@ -111,8 +111,8 @@ For a single direction followed by metric computation:
 hemispec run \
   --direction L_to_R \
   --input-glob "<preprocessed-gm-dir>/*_GM_masked.nii.gz" \
-  --recon-dir "<hemispec-results>/recon_L_to_R" \
-  --metrics-dir "<hemispec-results>/ANS_RNS_thr0p15" \
+  --recon-dir "<new-hemispec-results>/recon_L_to_R_run_001" \
+  --metrics-dir "<new-hemispec-results>/ANS_RNS_thr0p15_run_001" \
   --device cuda
 ```
 

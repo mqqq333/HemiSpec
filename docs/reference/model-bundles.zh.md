@@ -1,13 +1,17 @@
 # 模型包
 
-HemiSpec 通过 Git LFS 在 `assets/models/` 下包含可复用的已发布模型参数，Release wheel 安装可将相同文件下载到每用户缓存。源码检出时请使用 Git LFS；否则模型文件可能下载为小型指针文件。
+HemiSpec 通过 Git LFS 在 `assets/models/` 下追踪可复用模型参数。请启用 Git LFS 后克隆当前 `main`；否则模型文件可能仍是小型指针文件。
 
 ```bash
 git lfs install
 git clone https://github.com/mqqq333/HemiSpec.git
 cd HemiSpec
 git lfs pull
+python -m pip install -e ".[model,classifier]"
+git rev-parse HEAD
 ```
+
+请记录输出的 commit 哈希，以便后续识别代码和模型检出。
 
 ## 打包的 DGN 检查点
 
@@ -29,6 +33,8 @@ assets/models/hemisphere_classifier/
 
 每个指标文件夹包含已清理的运行时 `*_model_bundle.joblib`、训练完成的 `*_final_pipeline.joblib` 和 `feature_names.csv`。公开模型包不包含队列标识、样本量、评估指标、训练报告或私有出处路径。默认 GUI/API 分类器模式使用 `OUT_noICBM_train_ICBM_external_saved_models`；`paired_residual` 可通过 CLI/API 配置选择。
 
+已发布分类器要求兼容的 Glasser 1.5 mm atlas 和标签表，每侧包含 180 个同源脑区：左侧标签为 `1..180`，右侧为 `1001..1180`。自定义 atlas 仅支持 ROI 导出，不能与已发布分类器配合使用。
+
 ## 发现顺序
 
 HemiSpec 按以下顺序解析模型路径：
@@ -38,11 +44,13 @@ HemiSpec 按以下顺序解析模型路径：
 3. `assets/models/` 下打包的源码检出路径；
 4. 每用户缓存（`HEMISPEC_MODEL_CACHE`，或系统特定的 HemiSpec 缓存）。
 
-如果 Release wheel 安装中缺少已发布的默认值，启用模型的命令会在首次使用时从 GitHub 下载。显式预取：
+当前 `main` 可以把缺失的 DGN 检查点从仓库 Git LFS media 下载到用户缓存。显式预取这些检查点：
 
 ```bash
-hemispec models --install --with-classifier
+hemispec models --install
 ```
+
+虽然 `hemispec models` 仍提供 `--with-classifier`，但当前分类器缓存下载不完整，因为必需的 `feature_names.csv` media URL 返回 HTTP 404。请改用 Git LFS 检出中的分类器资产或显式本地目录；详见[数据与模型](../data-and-models.md)。
 
 ## 发行说明
 

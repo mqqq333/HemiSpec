@@ -1,64 +1,58 @@
 # Installation
 
-HemiSpec is package-first, but the PyPI project is **not public yet**. The current v0.1.0 public beta is distributed through the GitHub Release and the source repository.
+The supported public setup documented here targets the current `main` source tree. The package metadata still reports version `0.1.0`, but `main` contains functionality that is not present in the older `v0.1.0` tag or its archived packages. The `hemispec-toolkit` project is not currently public on PyPI.
 
-## Recommended: source checkout for model-enabled use
+## Recommended source install
 
-Use a source checkout when running DGN inference, the GUI, or classifier validation. Git LFS retrieves the released model bundles tracked under `assets/models/`:
+Git LFS is required to retrieve the model files tracked under `assets/models/`:
 
 ```bash
 git lfs install
 git clone https://github.com/mqqq333/HemiSpec.git
 cd HemiSpec
 git lfs pull
-python -m pip install -e .[gui,model,classifier]
-hemispec models --install --with-classifier  # optional cache pre-download
-hemispec-gui
+python -m pip install -e ".[gui,model,classifier]"
+git rev-parse HEAD
 ```
 
-PyTorch must be installed in the same Python/conda environment used to launch HemiSpec. Configure the appropriate CPU or CUDA PyTorch build before a long model run.
+Record the output of `git rev-parse HEAD` with each analysis. A branch name and the package version alone do not identify the source revision reproducibly.
 
-## Install the v0.1.0 release wheel
+PyTorch must be installed in the same Python or conda environment used to launch HemiSpec. Configure the appropriate CPU or CUDA PyTorch build before a model run.
 
-Download `hemispec_toolkit-0.1.0-py3-none-any.whl` from the GitHub Release. For the base CLI and synthetic quickstart:
+The checked-out DGN and classifier assets are used directly from `assets/models/`. For classifier validation, use these local classifier assets or provide an explicit approved local classifier directory; do not rely on a cache pre-download as part of the recommended setup.
+
+## Archived v0.1.0 release
+
+The GitHub [`v0.1.0` release](https://github.com/mqqq333/HemiSpec/releases/tag/v0.1.0) archives the original wheel, source distribution, and Windows artifacts. It is a historical release, not a package of current `main` features. In particular, the `v0.1.0` tag does not contain the current synthetic quickstart or model-cache downloader modules.
+
+After downloading the archived wheel, its base CLI can be inspected with:
 
 ```bash
 python -m pip install ./hemispec_toolkit-0.1.0-py3-none-any.whl
 hemispec --help
-hemispec quickstart --out-dir hemispec_quickstart
 ```
 
-To request optional dependencies from the local wheel:
-
-```bash
-python -m pip install "./hemispec_toolkit-0.1.0-py3-none-any.whl[gui,model,classifier]"
-```
-
-If a local pip version does not accept extras on a wheel path, install the wheel first and then install the required optional packages explicitly.
+Do not use the archived wheel as the installation path for current quickstart, model discovery, or model download documentation. See [Release artifacts](release-artifacts.md) for the exact archive contents.
 
 ## Development install
 
+From a current source checkout:
+
 ```bash
-python -m pip install -e .[dev,gui]
+python -m pip install -e ".[dev,gui]"
 python -m pytest
 python -m ruff check src tests
 python -m mkdocs build --strict
 ```
 
-The distribution name in package metadata is `hemispec-toolkit`; the import path and CLI command are `hemispec`. A future PyPI publication should use the same distribution name, but documentation must not describe it as available until the project is actually public.
+The distribution name is `hemispec-toolkit`; the import path and CLI command are `hemispec`. Documentation should not present a PyPI install command until the project is actually public there.
 
 ## Neuroimaging prerequisites
 
-The model-enabled workflow starts from preprocessed GM maps, not raw T1 images. The repository study script `process_single_subject.sh` and the package variant depend on FSL tools including BET, FAST, FLIRT, and `fslmaths`; they convert one T1-weighted NIfTI into an MNI152 1.5 mm masked GM map named `*_GM_masked.nii.gz`.
+The model-enabled workflow starts from preprocessed GM maps, not raw T1 images. The repository scripts depend on FSL tools including BET, FAST, FLIRT, and `fslmaths` to produce MNI152 1.5 mm `*_GM_masked.nii.gz` inputs.
 
-Read [Input and preprocessing](input-preprocessing.md) before processing real data. That page specifies the script arguments, `121 × 145 × 121` released-model grid, `0.15` GM threshold, quality-control checks, and citations.
+Read [Input and preprocessing](input-preprocessing.md) before processing real data.
 
-## GUI and compiled fallback artifacts
+## GUI and model runtime
 
-The recommended GUI path is `hemispec-gui` from a source or local-wheel environment containing PyTorch. The GUI exposes the GM input glob, output workspace, optional ROI atlas/label table, optional classifier validation, optional TRT reliability, run controls, logs, and an equivalent CLI command.
-
-GitHub Release v0.1.0 also archives Windows fallback artifacts. Keep an onedir GUI distribution together; do not copy only its executable out of the folder.
-
-## Model runtime
-
-HemiSpec discovers model assets from explicit paths, environment variables, a Git-LFS checkout under `assets/models/`, or the per-user model cache. Wheels and lightweight executables do not embed PyTorch or the 300 MB+ model bundles. Missing released model assets can be downloaded from the GitHub Release into the cache when automatic download is enabled. See [Data and models](data-and-models.md).
+Launch `hemispec-gui` from the source environment containing PyTorch. HemiSpec discovers assets from explicit paths, environment variables, the Git-LFS checkout under `assets/models/`, or the per-user cache. Wheels and lightweight Windows artifacts do not embed PyTorch or the 300 MB+ DGN checkpoints. See [Data and models](data-and-models.md) for the current asset boundary.
