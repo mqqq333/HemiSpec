@@ -49,10 +49,11 @@ HemiSpec 由可安装的 Python 软件包和经过明确批准的运行时资产
 
 模型与 atlas 的发现由 `hemispec.paths` 集中管理，顺序如下：
 
-1. 显式 CLI/API/GUI 路径；
-2. `HEMISPEC_DGN_MODEL_ROOT` 等环境变量；
-3. 存在时使用项目本地 `assets/`；
-4. 模型下载写入的用户缓存；
-5. 仅为兼容保留的 `outputs_bi_stable_L/R` 等旧目录。
+1. `HEMISPEC_DGN_MODEL_ROOT` 或 `HEMISPEC_MODEL_ROOT`；
+2. 如果设置了 `HEMISPEC_ASSET_ROOT`，则查找 `HEMISPEC_ASSET_ROOT/models/dgn`；
+3. 项目中的 `assets/models/dgn` 等候选目录；
+4. 为兼容历史布局而检查包含 `outputs_bi_stable_L/R` 的项目根目录；
+5. 用户缓存目录，包括 `HEMISPEC_MODEL_CACHE`。
 
+显式提供 root 时，解析器只检查由该 root 派生的候选目录，不会继续默认的自动搜索。
 发布 wheel 保持轻量：只包含软件包代码和小型资源，不嵌入大型模型检查点、atlas 载荷或受试者级示例。在当前 `main` 中，DGN 检查点可来自 Git-LFS 源码检出、用户缓存或显式配置的离线资产包。分类器缓存下载目前并不完整，分类器资产需要来自 Git-LFS 检出或显式本地目录；详见[数据与模型](../data-and-models.md)。归档 `v0.1.0` wheel 不包含当前下载器。

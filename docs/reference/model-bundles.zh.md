@@ -39,11 +39,13 @@ assets/models/hemisphere_classifier/
 
 HemiSpec 按以下顺序解析模型路径：
 
-1. 提供时的显式 CLI/API/GUI 路径；
-2. 如 `HEMISPEC_DGN_MODEL_ROOT` 和 `HEMISPEC_CLASSIFIER_MODEL_DIR` 等环境变量；
-3. `assets/models/` 下打包的源码检出路径；
-4. 每用户缓存（`HEMISPEC_MODEL_CACHE`，或系统特定的 HemiSpec 缓存）。
+1. `HEMISPEC_DGN_MODEL_ROOT` 或 `HEMISPEC_MODEL_ROOT`；
+2. 如果设置了 `HEMISPEC_ASSET_ROOT`，则查找 `HEMISPEC_ASSET_ROOT/models/dgn`；
+3. 项目中的 `assets/models/dgn` 目录；
+4. 包含历史 `outputs_bi_stable_L/R` 目录的项目根目录；
+5. 用户缓存目录（`HEMISPEC_MODEL_CACHE` 或操作系统对应的 HemiSpec 缓存目录）。
 
+显式提供 CLI/API/GUI root 时，解析器会独立处理该 root，不会继续默认的自动搜索。
 当前 `main` 可以把缺失的 DGN 检查点从仓库 Git LFS media 下载到用户缓存。显式预取这些检查点：
 
 ```bash

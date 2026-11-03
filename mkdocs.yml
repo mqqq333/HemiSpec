@@ -1,5 +1,8 @@
 site_name: HemiSpec
-site_description: Reconstruction-derived hemispheric specificity analysis toolkit and workflow documentation.
+site_description: >-
+  HemiSpec is research software for reconstruction-derived hemispheric specificity:
+  bilateral ANS/RNS maps, optional ROI summaries, and validation utilities. Co-branded
+  with the WeChat channel 阿瞒的脑洞 / A MAN'S BRAINHOLE.
 site_url: https://mqqq333.github.io/HemiSpec/
 repo_url: https://github.com/mqqq333/HemiSpec
 repo_name: mqqq333/HemiSpec
@@ -8,6 +11,9 @@ edit_uri: edit/main/docs/
 theme:
   name: material
   language: en
+  font: false
+  logo: assets/images/hemispec-logo.svg
+  favicon: assets/images/hemispec-logo.svg
   features:
     - navigation.sections
     - navigation.top
@@ -16,14 +22,14 @@ theme:
     - content.code.copy
   palette:
     - scheme: default
-      primary: indigo
-      accent: teal
+      primary: custom
+      accent: custom
       toggle:
         icon: material/weather-night
         name: Switch to dark mode
     - scheme: slate
-      primary: indigo
-      accent: teal
+      primary: custom
+      accent: custom
       toggle:
         icon: material/weather-sunny
         name: Switch to light mode
@@ -31,6 +37,13 @@ theme:
 
 extra:
   generator: false
+  alternate:
+    - name: English
+      link: /HemiSpec/
+      lang: en
+    - name: 中文
+      link: /HemiSpec/zh/
+      lang: zh
 
 extra_css:
   - assets/stylesheets/extra.css

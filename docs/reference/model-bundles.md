@@ -37,12 +37,15 @@ The released classifier requires its compatible Glasser 1.5 mm atlas and label t
 
 ## Discovery order
 
-HemiSpec resolves model paths in this order:
+For DGN model roots, HemiSpec resolves paths in this order when no explicit root is provided:
 
-1. explicit CLI/API/GUI path when provided;
-2. environment variables such as `HEMISPEC_DGN_MODEL_ROOT` and `HEMISPEC_CLASSIFIER_MODEL_DIR`;
-3. bundled source-checkout paths under `assets/models/`;
-4. the per-user cache (`HEMISPEC_MODEL_CACHE`, or the OS-specific HemiSpec cache).
+1. `HEMISPEC_DGN_MODEL_ROOT` or `HEMISPEC_MODEL_ROOT`;
+2. `HEMISPEC_ASSET_ROOT/models/dgn`, when `HEMISPEC_ASSET_ROOT` is set;
+3. the project `assets/models/dgn` directory;
+4. a project root containing legacy `outputs_bi_stable_L/R` folders;
+5. the per-user cache (`HEMISPEC_MODEL_CACHE`, or the OS-specific HemiSpec cache).
+
+An explicit CLI/API/GUI root is resolved separately from this automatic search. Classifier directories can be supplied explicitly or through `HEMISPEC_CLASSIFIER_MODEL_DIR`.
 
 Current `main` can download missing DGN checkpoints from the repository's Git LFS media into the per-user cache. To prefetch those checkpoints explicitly:
 

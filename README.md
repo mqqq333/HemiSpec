@@ -1,17 +1,29 @@
-# HemiSpec
+<p align="center">
+  <img src="https://raw.githubusercontent.com/mqqq333/HemiSpec/v0.2.0/docs/assets/images/hemispec-logo-wordmark.svg" alt="HemiSpec — co-branded with 阿瞒的脑洞 / A MAN'S BRAINHOLE" width="760">
+</p>
 
-**HemiSpec: Reconstruction-derived Hemispheric Specificity**
+<p align="center">
+  <strong>Reconstruction-derived hemispheric specificity</strong><br>
+  Bilateral ANS/RNS maps from FSL-preprocessed gray-matter inputs.
+</p>
 
-[![Python](https://img.shields.io/badge/Python-3.9%2B-blue)](#)
-[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
-[![Documentation](https://img.shields.io/badge/docs-MkDocs-indigo)](https://mqqq333.github.io/HemiSpec/)
+<p align="center">
+  <a href="https://mqqq333.github.io/HemiSpec/"><img src="https://img.shields.io/badge/docs-MkDocs-0F7A78" alt="Documentation"></a>
+  <a href="https://github.com/mqqq333/HemiSpec/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-B8352A" alt="License: MIT"></a>
+  <img src="https://img.shields.io/badge/Python-3.9%2B-0F2B2A" alt="Python 3.9+">
+</p>
+
+<p align="center">
+  <em>Brand co-mark with the WeChat channel <strong>阿瞒的脑洞 / A MAN'S BRAINHOLE</strong>.
+  The circuit-brain head mark is adapted in deep teal and vermilion.</em>
+</p>
 
 HemiSpec is a research-software toolkit for generating reconstruction-derived hemispheric maps from T1-weighted structural MRI. It packages a reproducible path from **preprocessed gray-matter (GM) maps** to bilateral **ANS/RNS maps**, optional ROI tables, and validation outputs.
 
 > **Scientific attribution.** The cross-hemispheric deep generation network (DGN) framework and the ANS/RNS metrics were introduced by Wang et al. (2024). HemiSpec is the software, documentation, packaging, and downstream-workflow layer built around that published method; it does not claim authorship of the original DGN or ANS/RNS definitions.
 
 <p align="center">
-  <img src="docs/assets/figures/hemispec-study-design.png" alt="HemiSpec study design overview" width="100%">
+  <img src="https://raw.githubusercontent.com/mqqq333/HemiSpec/v0.2.0/docs/assets/figures/hemispec-study-design.png" alt="HemiSpec study design overview" width="100%">
 </p>
 
 The schematic illustrates the method and possible downstream analyses. HemiSpec implements ANS/RNS map generation and optional hemisphere/TRT validation; behavioral-phenotype modeling is not a built-in workflow.
@@ -85,7 +97,7 @@ hemispec models
 hemispec --help
 ```
 
-Record the Git commit with your analysis: the source package still reports `0.1.0`, so its version string alone does not distinguish it from the archived release. Git LFS must retrieve the actual checkpoint and classifier files, not just pointer files. Use the local checkout for classifier assets; see [Data and models](https://mqqq333.github.io/HemiSpec/data-and-models/) for current download limitations.
+Record the Git commit with your analysis: the source package reports `0.2.0`, but a `main` checkout after that release can differ from it, so the version string alone does not identify the exact code. Git LFS must retrieve the actual checkpoint and classifier files, not just pointer files. Use the local checkout for classifier assets; see [Data and models](https://mqqq333.github.io/HemiSpec/data-and-models/) for current download limitations.
 
 ## Run the standard bilateral workflow
 
@@ -175,4 +187,4 @@ GitHub Release v0.1.0 contains archived/fallback Windows and Python artifacts:
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT. See [LICENSE](https://github.com/mqqq333/HemiSpec/blob/main/LICENSE).

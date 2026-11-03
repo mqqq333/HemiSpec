@@ -142,6 +142,7 @@ summary = summarize_maps_by_atlas(
         file_regex=r"(?P<subject>.+?)_(?P<kind>ANS|RNS)[._](?P<map_hemi>L|R)\.nii(?:\.gz)?$",
     )
 )
+# Use this helper only when roi_long uses the canonical bilateral labels; arbitrary custom labels remain in the long table.
 wide = summarize_bilateral_roi_features(roi_long, Path("outputs/tables/roi_features_bilateral_wide.csv"))
 ```
 

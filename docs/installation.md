@@ -1,6 +1,6 @@
 # Installation
 
-The supported public setup documented here targets the current `main` source tree. The package metadata still reports version `0.1.0`, but `main` contains functionality that is not present in the older `v0.1.0` tag or its archived packages. The `hemispec-toolkit` project is not currently public on PyPI.
+The supported public setup documented here targets the current `main` source tree. The package metadata reports version `0.2.0`, and `main` contains functionality that is not present in the older `v0.1.0` tag or its archived packages. The `hemispec-toolkit` project is not currently public on PyPI.
 
 ## Recommended source install
 

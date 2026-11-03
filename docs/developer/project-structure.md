@@ -47,12 +47,14 @@ The public runnable example is `examples/synthetic_quickstart/`; `examples/input
 
 ## Runtime asset discovery
 
-Model and atlas discovery is centralized in `hemispec.paths` and follows this order:
+DGN model-root discovery is centralized in `hemispec.paths`. When no explicit root is supplied, the automatic search considers:
 
-1. explicit CLI/API/GUI override;
-2. environment variables such as `HEMISPEC_DGN_MODEL_ROOT`;
-3. local project assets under `assets/`, when present;
-4. the per-user cache populated by model download;
-5. legacy root folders such as `outputs_bi_stable_L/R`, for compatibility only.
+1. `HEMISPEC_DGN_MODEL_ROOT` or `HEMISPEC_MODEL_ROOT`;
+2. `HEMISPEC_ASSET_ROOT/models/dgn`, when `HEMISPEC_ASSET_ROOT` is set;
+3. project candidates such as `assets/models/dgn`;
+4. a project root containing legacy `outputs_bi_stable_L/R` folders;
+5. the per-user cache, including `HEMISPEC_MODEL_CACHE`.
+
+When an explicit root is supplied, the resolver checks only candidates derived from that root rather than continuing the default automatic search.
 
 The release wheel remains lightweight: it contains package code and small resources, not large model checkpoints, atlas payloads, or subject-level examples. In current `main`, DGN checkpoints can come from a Git-LFS source checkout, the per-user cache, or an explicitly configured offline asset bundle. Classifier assets require a Git-LFS checkout or explicit local directory because their current cache download is incomplete; see [Data and models](../data-and-models.md). The archived `v0.1.0` wheel does not include the current downloader.

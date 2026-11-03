@@ -6,7 +6,7 @@ The preferred public command is:
 hemispec
 ```
 
-The subcommands below were checked against the current toolkit interface on 2026-09-05. Re-check them before public release if the toolkit source or package name changes.
+The subcommands below reflect the current `main` interface. Re-check them before public release if the toolkit source or package name changes.
 
 ## Current subcommands
 
@@ -53,7 +53,7 @@ ROI export is currently exposed through options on `compute`, `run`, and `workfl
 
 There is not yet a standalone `roi` subcommand.
 
-The released classifier accepts only features from its compatible Glasser 1.5 mm atlas: homologous labels `1..180` on the left and `1001..1180` on the right. A custom atlas may be used for ROI export, but not with the released classifier.
+The released classifier accepts only features from its compatible Glasser 1.5 mm atlas: homologous labels `1..180` on the left and `1001..1180` on the right. Custom atlases can be used for ROI export, but the standard bilateral feature naming and wide-table helper currently map only homologous labels `1..180` on the left and `1001..1180` on the right. For arbitrary custom labels, use the long-table ROI export and do not treat the bilateral wide table as complete.
 
 ## Reporting
 
