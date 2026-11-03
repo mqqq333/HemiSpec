@@ -1,6 +1,6 @@
 # Release artifacts
 
-This page separates the archived `v0.1.0` GitHub Release from the current `main` source tree. Both currently report package version `0.1.0`, but they do not have the same feature set. The `hemispec-toolkit` project is **not currently public on PyPI**.
+This page separates the archived `v0.1.0` GitHub Release from the current `main` source tree. The current source tree reports package version `0.2.0` and the archived release reports `0.1.0`, so they do not have the same feature set. The `hemispec-toolkit` project is **not currently public on PyPI**.
 
 ## Archived v0.1.0 artifacts
 

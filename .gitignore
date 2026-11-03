@@ -93,3 +93,10 @@ assets/models/hemisphere_classifier/**/run_info.json
 
 # Local temporary work and private review backups
 tmp/
+
+# Internal design/handoff notes and local scratch (not published)
+HEMISPEC_DESIGN_SPEC.md
+XREVIEW_HANDOFF.md
+HemiSpec_v0.1_manual_test_checklist.md
+output/
+scripts/_tmp_crawl.py

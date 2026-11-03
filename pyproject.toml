@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hemispec-toolkit"
-version = "0.1.0"
+version = "0.2.0"
 description = "HemiSpec toolkit for reconstruction-derived hemispheric specificity analysis from NIfTI maps."
 readme = "README.md"
 license = "MIT"
@@ -78,6 +78,8 @@ where = ["src"]
 hemispec = [
   "py.typed",
   "resources/preprocess/*.sh",
+  "resources/gui/*.png",
+  "resources/gui/*.ico",
 ]
 
 [tool.pytest.ini_options]
