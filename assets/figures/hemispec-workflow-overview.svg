@@ -1,53 +1,287 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="460" viewBox="0 0 1280 460" role="img" aria-labelledby="title desc">
-  <title id="title">HemiSpec workflow overview</title>
-  <desc id="desc">Minimal scientific workflow schematic aligned with the manuscript Fig. 1B logic: Input GM, Reconstruction, Difference analysis, and hemisphere-specific metrics.</desc>
-  <defs>
-    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth"><path d="M1,1 L9,5 L1,9 Z" fill="#1f4e79"/></marker>
-    <style>
-      .bg{fill:#ffffff}.title{font:700 30px Arial,Helvetica,sans-serif;fill:#111827}.subtitle{font:400 15px Arial,Helvetica,sans-serif;fill:#4b5563}.box{fill:#f8fafc;stroke:#334155;stroke-width:1.4;rx:10}.box2{fill:#eff6ff;stroke:#1f4e79;stroke-width:1.5;rx:10}.box3{fill:#f0fdf4;stroke:#2f6f4e;stroke-width:1.5;rx:10}.label{font:700 17px Arial,Helvetica,sans-serif;fill:#111827}.small{font:400 13px Arial,Helvetica,sans-serif;fill:#374151}.tiny{font:400 12px Arial,Helvetica,sans-serif;fill:#64748b}.arrow{stroke:#1f4e79;stroke-width:2.4;fill:none;marker-end:url(#arrow)}.bracket{stroke:#94a3b8;stroke-width:1.5;fill:none;stroke-dasharray:5 5}
-    </style>
-  </defs>
-  <rect class="bg" width="1280" height="460"/>
-  <text x="52" y="56" class="title">HemiSpec workflow overview</text>
-  <text x="52" y="84" class="subtitle">Aligned with the manuscript Fig. 1B logic: Input GM -> Reconstruction -> Difference analysis -> Hemisphere-specific metrics.</text>
-
-  <g transform="translate(48,132)">
-    <rect class="box" width="190" height="112"/>
-    <text x="22" y="36" class="label">1. Input GM</text>
-    <text x="22" y="64" class="small">Preprocessed gray-matter</text>
-    <text x="22" y="84" class="small">maps in a common space</text>
-  </g>
-  <path class="arrow" d="M252 188 H312"/>
-
-  <g transform="translate(326,132)">
-    <rect class="box2" width="210" height="112"/>
-    <text x="22" y="36" class="label">2. Reconstruction</text>
-    <text x="22" y="64" class="small">Cross-hemispheric DGN</text>
-    <text x="22" y="84" class="small">L-&gt;R and R-&gt;L estimates</text>
-  </g>
-  <path class="arrow" d="M550 188 H610"/>
-
-  <g transform="translate(624,132)">
-    <rect class="box2" width="214" height="112"/>
-    <text x="22" y="36" class="label">3. Difference analysis</text>
-    <text x="22" y="64" class="small">Compare actual GM with</text>
-    <text x="22" y="84" class="small">contralateral reconstruction</text>
-  </g>
-  <path class="arrow" d="M852 188 H912"/>
-
-  <g transform="translate(926,132)">
-    <rect class="box3" width="240" height="112"/>
-    <text x="22" y="36" class="label">4. Hemisphere-specific metrics</text>
-    <text x="22" y="64" class="small">ANS and RNS maps</text>
-    <text x="22" y="84" class="small">reconstruction-derived residuals</text>
-  </g>
-
-  <path class="bracket" d="M436 282 C436 328 900 328 900 282"/>
-  <g transform="translate(320,344)">
-    <rect class="box" width="640" height="74"/>
-    <text x="22" y="31" class="label">Downstream HemiSpec Toolkit outputs</text>
-    <text x="22" y="55" class="small">ROI features | TRT reliability | structural specificity | classifier validation | package / CLI / GUI / compiled app</text>
-  </g>
-
-  <text x="52" y="432" class="tiny">Method boundary: ANS/RNS and the original cross-hemispheric DGN framework are attributed to Wang et al. 2024; HemiSpec packages and extends the workflow for the current study and software.</text>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1280 904" width="1280" height="904" role="img" aria-labelledby="fig-title fig-desc" lang="en">
+<title id="fig-title">HemiSpec workflow: bilateral DGN reconstruction to ANS/RNS maps (illustrative schematic)</title>
+<desc id="fig-desc">Method schematic, not data. Stage 1: external FSL preprocessing (BET, FAST, FLIRT, GM threshold and mask) converts T1-weighted MRI to an MNI152 1.5 mm gray-matter map, one subject per NIfTI file. HemiSpec DGN input begins at this preprocessed map, not raw T1. Stage 2: two direction-specific DGN models reconstruct contralateral target hemispheres. Lane A, L_to_R, uses LEFT as source and reconstructs RIGHT; lane B, R_to_L, uses RIGHT as source and reconstructs LEFT. Stage 3: compare each reconstructed target with the actual target voxel-wise. ANS is the absolute residual. Public RNS is the absolute residual divided by the target sum; the numerical implementation uses an absolute-value denominator plus epsilon, not an exactly equivalent expression. Defaults: finite values, actual GM at least 0.15, epsilon 1e-6. Stage 4: L_to_R yields ANS.R and RNS.R; R_to_L yields ANS.L and RNS.L. Optional: atlas-based ROI tables, test–retest reliability across repeated sessions, and hemisphere-classifier validation requiring compatible ROI features and classifier assets. Python package, CLI, GUI and compiled Windows app are interfaces with differing feature coverage. Abstract hemisphere glyphs and hatched map tiles are illustrative, not anatomy or data. DGN and ANS/RNS: Wang et al. (2024), Patterns 5:100930. HemiSpec provides software, packaging and downstream workflow.</desc>
+<defs>
+<style>
+/* Local system fonts only. */
+text{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-weight:400;fill:#1C1B18}
+.title{font-size:32px;font-weight:700;letter-spacing:-.01em;fill:#1C1B18} /* ink-900 */
+.stage{font-size:17px;font-weight:600;fill:#1C1B18}
+.card{font-size:15px;font-weight:600;fill:#1C1B18}
+.body{font-size:13px;fill:#4F4B43} /* ink-600 */
+.cap{font-size:12px;fill:#4F4B43}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.06em;fill:#4F4B43}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;font-size:12px;fill:#3A3832} /* ink-700 */
+.badge{font-size:13px;font-weight:700;fill:#FFFFFF} /* paper-0 */
+.left{fill:#0A5957} /* teal-700 */
+.right{fill:#84251D} /* verm-700 */
+.conn{fill:none;stroke:#4F4B43;stroke-width:1.5;stroke-linejoin:round}
+.conn-opt{fill:none;stroke:#6F6A5F;stroke-width:1.25;stroke-dasharray:6 4} /* ink-500 */
+</style>
+<marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#4F4B43"/></marker>
+<marker id="arw-open" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M1,1 L9,5 L1,9" fill="none" stroke="#6F6A5F" stroke-width="1.5"/></marker>
+<pattern id="ph-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#D6CDB9" stroke-width="1"/></pattern>
+<path id="hemi-L" d="M23,0 C10,0 0,7 0,16 C0,25 10,32 23,32 Z"/>
+<path id="hemi-R" d="M1,0 C14,0 24,7 24,16 C24,25 14,32 1,32 Z"/>
+</defs>
+<g id="bg">
+<rect x="0" y="0" width="1280" height="904" rx="0" fill="#FBF8F2" stroke="none" />
+</g>
+<g id="header">
+<rect x="48" y="32" width="47" height="4" rx="0" fill="#0F7A78" stroke="none" />
+<rect x="97" y="32" width="47" height="4" rx="0" fill="#B8352A" stroke="none" />
+<text x="48" y="64" class="eyebrow" >HEMISPEC · METHOD SCHEMATIC</text>
+<text x="48" y="100" class="title" >From gray-matter map to bilateral ANS/RNS maps</text>
+<rect x="976" y="76" width="256" height="28" rx="14" fill="#EFE7D6" stroke="#D6CDB9" />
+<text x="1104" y="95" class="body" text-anchor="middle" style="font-weight:600">Illustrative schematic — not data</text>
+<text x="48" y="128" class="card" style="fill:#4F4B43;font-weight:400">Cross-hemispheric DGN reconstruction (Wang et al., 2024), packaged as a reproducible HemiSpec workflow.</text>
+</g>
+<g id="legend">
+<use href="#hemi-L" xlink:href="#hemi-L" x="96" y="296" transform="scale(.5)" fill="#0F7A78"/>
+<text x="66" y="161" class="body" >Left hemisphere (L)</text>
+<use href="#hemi-R" xlink:href="#hemi-R" x="448" y="296" transform="scale(.5)" fill="#B8352A"/>
+<text x="242" y="161" class="body" >Right hemisphere (R)</text>
+<rect x="408" y="148" width="16" height="16" rx="3" fill="#FFFFFF" stroke="#4F4B43" stroke-dasharray="3 2"/>
+<text x="432" y="161" class="body" >Reconstructed (DGN output)</text>
+<rect x="640" y="148" width="16" height="16" rx="0" fill="url(#ph-hatch)" stroke="#A8A294" />
+<text x="664" y="161" class="body" >Placeholder tile — not data</text>
+<path d="M872,156 H899" class="conn" marker-end="url(#arw)"/>
+<text x="908" y="161" class="body" >Primary flow</text>
+<path d="M1016,156 H1043" class="conn-opt" marker-end="url(#arw-open)"/>
+<text x="1052" y="161" class="body" >Optional / downstream</text>
+</g>
+<g id="primary">
+<rect x="32" y="184" width="1216" height="432" rx="10" fill="#FFFFFF" stroke="#E6DFD0" />
+<g id="stage-headers">
+<g id="stage-1">
+<circle cx="60" cy="216" r="12" fill="#3A3832"/>
+<text x="60" y="221" class="badge" text-anchor="middle">1</text>
+<text x="80" y="222" class="stage" >GM input</text>
+<text x="48" y="246" class="body" >one subject per .nii.gz file</text>
+</g>
+<g id="stage-2">
+<circle cx="316" cy="216" r="12" fill="#3A3832"/>
+<text x="316" y="221" class="badge" text-anchor="middle">2</text>
+<text x="336" y="222" class="stage" >Bilateral DGN reconstruction</text>
+<text x="304" y="246" class="body" >two direction-specific models</text>
+</g>
+<g id="stage-3">
+<circle cx="748" cy="216" r="12" fill="#3A3832"/>
+<text x="748" y="221" class="badge" text-anchor="middle">3</text>
+<text x="768" y="222" class="stage" >Target comparison</text>
+<text x="736" y="246" class="body" >actual vs reconstructed target</text>
+</g>
+<g id="stage-4">
+<circle cx="1036" cy="216" r="12" fill="#3A3832"/>
+<text x="1036" y="221" class="badge" text-anchor="middle">4</text>
+<text x="1056" y="222" class="stage" >ANS / RNS maps</text>
+<text x="1024" y="246" class="body" >bilateral voxel-wise NIfTI</text>
+</g>
+</g>
+<g id="stage1-input">
+<g id="t1-box">
+<rect x="48" y="264" width="208" height="48" rx="10" fill="#F5F0E6" stroke="#6F6A5F" stroke-dasharray="4 3"/>
+<text x="64" y="284" class="body" style="fill:#1C1B18;font-weight:600">T1-weighted MRI</text>
+<text x="64" y="302" class="cap" >raw · not a direct DGN input</text>
+</g>
+<path d="M152,312 V335" class="conn" marker-end="url(#arw)"/>
+<g id="fsl-box">
+<rect x="48" y="336" width="208" height="64" rx="10" fill="#FFFFFF" stroke="#D6CDB9" />
+<text x="64" y="354" class="eyebrow" >FSL · EXTERNAL STEP</text>
+<text x="64" y="373" class="mono" >BET → FAST → FLIRT</text>
+<text x="64" y="390" class="cap" >GM threshold + mask</text>
+</g>
+<path d="M152,400 V423" class="conn" marker-end="url(#arw)"/>
+<g id="gm-card">
+<rect x="48" y="424" width="208" height="176" rx="10" fill="#FFFFFF" stroke="#4F4B43" stroke-width="1.5"/>
+<text x="152" y="443" class="eyebrow" text-anchor="middle">DGN INPUT</text>
+<g id="brain-glyph">
+<path d="M151,456 C124,456 100,470 100,492 C100,514 124,528 151,528 Z" fill="#D3EAE6" stroke="#0F7A78" stroke-width="1.5"/>
+<path d="M153,456 C180,456 204,470 204,492 C204,514 180,528 153,528 Z" fill="#F6DAD4" stroke="#B8352A" stroke-width="1.5"/>
+<path d="M151,465 C130,465 110,476 110,492 C110,508 130,519 151,519 Z" fill="#FFFFFF" stroke="#A9D4CE" stroke-width="1.5"/>
+<path d="M153,465 C174,465 194,476 194,492 C194,508 174,519 153,519 Z" fill="#FFFFFF" stroke="#EDB5AB" stroke-width="1.5"/>
+<text x="128" y="497" class="card left" text-anchor="middle">L</text>
+<text x="176" y="497" class="card right" text-anchor="middle">R</text>
+</g>
+<text x="152" y="552" class="mono" text-anchor="middle">*_GM_masked.nii.gz</text>
+<text x="152" y="570" class="cap" text-anchor="middle">MNI152 · 1.5 mm</text>
+<text x="152" y="586" class="cap" text-anchor="middle">GM probability 0–1</text>
+</g>
+</g>
+<g id="lane-backgrounds">
+<rect x="288" y="264" width="944" height="160" rx="10" fill="#FBF8F2" stroke="none" />
+<rect x="288" y="440" width="944" height="160" rx="10" fill="#FBF8F2" stroke="none" />
+</g>
+<g id="input-bus">
+<path d="M256,488 H272 M272,328 V568" class="conn" />
+<circle cx="272" cy="488" r="3" fill="#4F4B43"/>
+<path d="M272,328 H303" class="conn" marker-end="url(#arw)"/>
+<path d="M272,392 H303" class="conn" marker-end="url(#arw)"/>
+<path d="M272,504 H303" class="conn" marker-end="url(#arw)"/>
+<path d="M272,568 H303" class="conn" marker-end="url(#arw)"/>
+</g>
+<g id="lane-A-L_to_R">
+<text x="304" y="286" class="cap" style="font-weight:600">LANE A · L_to_R — source LEFT → target RIGHT</text>
+<text x="1024" y="286" class="eyebrow right" style="letter-spacing:0">OUTPUT · RIGHT HEMISPHERE</text>
+<g id="A-source">
+<rect x="304" y="304" width="112" height="48" rx="8" fill="#EAF4F2" stroke="#0F7A78" stroke-width="1.5"/>
+<use href="#hemi-L" xlink:href="#hemi-L" x="316" y="312" fill="#0F7A78" stroke="#0F7A78" stroke-width="1.5"/>
+<text x="348" y="324" class="eyebrow left" style="letter-spacing:.04em">SOURCE</text>
+<text x="348" y="342" class="card" >LEFT</text>
+</g>
+<g id="A-recon">
+<rect x="592" y="304" width="112" height="48" rx="8" fill="#FFFFFF" stroke="#B8352A" stroke-width="1.5" stroke-dasharray="5 3"/>
+<use href="#hemi-R" xlink:href="#hemi-R" x="604" y="312" fill="none" stroke="#B8352A" stroke-width="1.5" stroke-dasharray="3 2"/>
+<text x="636" y="324" class="eyebrow right" style="letter-spacing:.04em">RECON</text>
+<text x="636" y="342" class="card" >RIGHT</text>
+</g>
+<g id="A-actual">
+<rect x="304" y="368" width="112" height="48" rx="8" fill="#FBEEEB" stroke="#B8352A" stroke-width="1.5"/>
+<use href="#hemi-R" xlink:href="#hemi-R" x="316" y="376" fill="#B8352A" stroke="#B8352A" stroke-width="1.5"/>
+<text x="348" y="388" class="eyebrow right" style="letter-spacing:.04em">ACTUAL</text>
+<text x="348" y="406" class="card" >RIGHT</text>
+</g>
+<g id="A-dgn">
+<rect x="448" y="304" width="112" height="48" rx="8" fill="#FFFFFF" stroke="#4F4B43" stroke-width="1.5"/>
+<text x="504" y="324" class="card" text-anchor="middle" style="font-weight:700">DGN</text>
+<text x="504" y="342" class="mono" text-anchor="middle">L_to_R</text>
+</g>
+<g id="A-compare">
+<rect x="736" y="304" width="256" height="112" rx="10" fill="#FFFFFF" stroke="#D6CDB9" />
+<text x="752" y="327" class="card" >Compare RIGHT target</text>
+<text x="752" y="356" class="mono">ANS<tspan class="right">.R</tspan> = |Act − Recon|</text>
+<text x="752" y="376" class="mono">RNS<tspan class="right">.R</tspan> = ANS<tspan class="right">.R</tspan> / D†</text>
+<text x="752" y="400" class="cap" >finite; Act ≥ 0.15 (default)</text>
+</g>
+<g id="A-maps">
+<rect x="1024" y="304" width="192" height="112" rx="10" fill="#FBEEEB" stroke="#EDB5AB" />
+<g id="map-ANS-R">
+<rect x="1032" y="312" width="176" height="40" rx="6" fill="#FFFFFF" stroke="#E6DFD0" />
+<use href="#hemi-R" xlink:href="#hemi-R" x="1044" y="316" fill="url(#ph-hatch)" stroke="#B8352A" stroke-width="1.25"/>
+<text x="1076" y="329" class="card" style="font-weight:700">ANS.R</text>
+<text x="1076" y="345" class="cap" >absolute residual</text>
+</g>
+<g id="map-RNS-R">
+<rect x="1032" y="368" width="176" height="40" rx="6" fill="#FFFFFF" stroke="#E6DFD0" />
+<use href="#hemi-R" xlink:href="#hemi-R" x="1044" y="372" fill="url(#ph-hatch)" stroke="#B8352A" stroke-width="1.25"/>
+<text x="1076" y="385" class="card" style="font-weight:700">RNS.R</text>
+<text x="1076" y="401" class="cap" >normalized residual</text>
+</g>
+</g>
+<g id="A-connectors">
+<path d="M416,328 H447" class="conn" marker-end="url(#arw)"/>
+<path d="M560,328 H591" class="conn" marker-end="url(#arw)"/>
+<path d="M704,328 H735" class="conn" marker-end="url(#arw)"/>
+<path d="M416,392 H735" class="conn" marker-end="url(#arw)"/>
+<path d="M992,360 H1023" class="conn" marker-end="url(#arw)"/>
+<text x="576" y="384" class="cap" text-anchor="middle">actual target (Act)</text>
+</g>
+</g>
+<g id="lane-B-R_to_L">
+<text x="304" y="462" class="cap" style="font-weight:600">LANE B · R_to_L — source RIGHT → target LEFT</text>
+<text x="1024" y="462" class="eyebrow left" style="letter-spacing:0">OUTPUT · LEFT HEMISPHERE</text>
+<g id="B-source">
+<rect x="304" y="480" width="112" height="48" rx="8" fill="#FBEEEB" stroke="#B8352A" stroke-width="1.5"/>
+<use href="#hemi-R" xlink:href="#hemi-R" x="316" y="488" fill="#B8352A" stroke="#B8352A" stroke-width="1.5"/>
+<text x="348" y="500" class="eyebrow right" style="letter-spacing:.04em">SOURCE</text>
+<text x="348" y="518" class="card" >RIGHT</text>
+</g>
+<g id="B-recon">
+<rect x="592" y="480" width="112" height="48" rx="8" fill="#FFFFFF" stroke="#0F7A78" stroke-width="1.5" stroke-dasharray="5 3"/>
+<use href="#hemi-L" xlink:href="#hemi-L" x="604" y="488" fill="none" stroke="#0F7A78" stroke-width="1.5" stroke-dasharray="3 2"/>
+<text x="636" y="500" class="eyebrow left" style="letter-spacing:.04em">RECON</text>
+<text x="636" y="518" class="card" >LEFT</text>
+</g>
+<g id="B-actual">
+<rect x="304" y="544" width="112" height="48" rx="8" fill="#EAF4F2" stroke="#0F7A78" stroke-width="1.5"/>
+<use href="#hemi-L" xlink:href="#hemi-L" x="316" y="552" fill="#0F7A78" stroke="#0F7A78" stroke-width="1.5"/>
+<text x="348" y="564" class="eyebrow left" style="letter-spacing:.04em">ACTUAL</text>
+<text x="348" y="582" class="card" >LEFT</text>
+</g>
+<g id="B-dgn">
+<rect x="448" y="480" width="112" height="48" rx="8" fill="#FFFFFF" stroke="#4F4B43" stroke-width="1.5"/>
+<text x="504" y="500" class="card" text-anchor="middle" style="font-weight:700">DGN</text>
+<text x="504" y="518" class="mono" text-anchor="middle">R_to_L</text>
+</g>
+<g id="B-compare">
+<rect x="736" y="480" width="256" height="112" rx="10" fill="#FFFFFF" stroke="#D6CDB9" />
+<text x="752" y="503" class="card" >Compare LEFT target</text>
+<text x="752" y="532" class="mono">ANS<tspan class="left">.L</tspan> = |Act − Recon|</text>
+<text x="752" y="552" class="mono">RNS<tspan class="left">.L</tspan> = ANS<tspan class="left">.L</tspan> / D†</text>
+<text x="752" y="576" class="cap" >finite; Act ≥ 0.15 (default)</text>
+</g>
+<g id="B-maps">
+<rect x="1024" y="480" width="192" height="112" rx="10" fill="#EAF4F2" stroke="#A9D4CE" />
+<g id="map-ANS-L">
+<rect x="1032" y="488" width="176" height="40" rx="6" fill="#FFFFFF" stroke="#E6DFD0" />
+<use href="#hemi-L" xlink:href="#hemi-L" x="1044" y="492" fill="url(#ph-hatch)" stroke="#0F7A78" stroke-width="1.25"/>
+<text x="1076" y="505" class="card" style="font-weight:700">ANS.L</text>
+<text x="1076" y="521" class="cap" >absolute residual</text>
+</g>
+<g id="map-RNS-L">
+<rect x="1032" y="544" width="176" height="40" rx="6" fill="#FFFFFF" stroke="#E6DFD0" />
+<use href="#hemi-L" xlink:href="#hemi-L" x="1044" y="548" fill="url(#ph-hatch)" stroke="#0F7A78" stroke-width="1.25"/>
+<text x="1076" y="561" class="card" style="font-weight:700">RNS.L</text>
+<text x="1076" y="577" class="cap" >normalized residual</text>
+</g>
+</g>
+<g id="B-connectors">
+<path d="M416,504 H447" class="conn" marker-end="url(#arw)"/>
+<path d="M560,504 H591" class="conn" marker-end="url(#arw)"/>
+<path d="M704,504 H735" class="conn" marker-end="url(#arw)"/>
+<path d="M416,568 H735" class="conn" marker-end="url(#arw)"/>
+<path d="M992,536 H1023" class="conn" marker-end="url(#arw)"/>
+<text x="576" y="560" class="cap" text-anchor="middle">actual target (Act)</text>
+</g>
+</g>
+</g>
+<g id="connector-optional">
+<path d="M1120,616 V647" class="conn-opt" marker-end="url(#arw-open)"/>
+<text x="1108" y="636" class="cap" text-anchor="end">uses primary outputs</text>
+</g>
+<g id="optional">
+<rect x="32" y="648" width="1216" height="112" rx="10" fill="#F5F0E6" stroke="#A8A294" stroke-dasharray="6 4"/>
+<rect x="48" y="656" width="80" height="24" rx="12" fill="#EFE7D6" stroke="#A8A294" />
+<text x="88" y="672" class="eyebrow" text-anchor="middle">OPTIONAL</text>
+<text x="144" y="672" class="body" >Downstream outputs and validation — not required to produce the ANS/RNS maps</text>
+<g id="opt-A">
+<rect x="48" y="688" width="384" height="56" rx="10" fill="#FBF8F2" stroke="#D6CDB9" stroke-dasharray="4 3"/>
+<circle cx="72" cy="716" r="11" fill="#FFFFFF" stroke="#6F6A5F" stroke-width="1.25"/>
+<text x="72" y="720" class="eyebrow" text-anchor="middle">A</text>
+<text x="92" y="711" class="card" >ROI tables</text>
+<text x="92" y="731" class="body" >atlas-derived regional summaries</text>
+</g>
+<g id="opt-B">
+<rect x="448" y="688" width="384" height="56" rx="10" fill="#FBF8F2" stroke="#D6CDB9" stroke-dasharray="4 3"/>
+<circle cx="472" cy="716" r="11" fill="#FFFFFF" stroke="#6F6A5F" stroke-width="1.25"/>
+<text x="472" y="720" class="eyebrow" text-anchor="middle">B</text>
+<text x="492" y="711" class="card" >Test–retest reliability</text>
+<text x="492" y="731" class="body" >TRT across repeated sessions</text>
+</g>
+<g id="opt-C">
+<rect x="848" y="688" width="384" height="56" rx="10" fill="#FBF8F2" stroke="#D6CDB9" stroke-dasharray="4 3"/>
+<circle cx="872" cy="716" r="11" fill="#FFFFFF" stroke="#6F6A5F" stroke-width="1.25"/>
+<text x="872" y="720" class="eyebrow" text-anchor="middle">C</text>
+<text x="892" y="711" class="card" >Hemisphere classifier</text>
+<text x="892" y="731" class="body" >requires compatible ROI features + model</text>
+</g>
+</g>
+<g id="surfaces">
+<text x="48" y="797" class="eyebrow" >RUN VIA</text>
+<rect x="120" y="776" width="136" height="32" rx="16" fill="#FFFFFF" stroke="#D6CDB9" />
+<text x="188.0" y="797" class="body" text-anchor="middle">Python package</text>
+<rect x="272" y="776" width="64" height="32" rx="16" fill="#FFFFFF" stroke="#D6CDB9" />
+<text x="304.0" y="797" class="body" text-anchor="middle">CLI</text>
+<rect x="352" y="776" width="64" height="32" rx="16" fill="#FFFFFF" stroke="#D6CDB9" />
+<text x="384.0" y="797" class="body" text-anchor="middle">GUI</text>
+<rect x="432" y="776" width="184" height="32" rx="16" fill="#FFFFFF" stroke="#D6CDB9" />
+<text x="524.0" y="797" class="body" text-anchor="middle">Windows app (compiled)</text>
+<text x="1232" y="797" class="cap" text-anchor="end">Interfaces; feature coverage varies</text>
+</g>
+<g id="footnotes">
+<path d="M48,824 H1232" class="conn" stroke="#D6CDB9" stroke-width="1"/>
+<text x="48" y="844" class="cap" >† D = |Act| + |Recon| + 1e-6 (code). Public RNS: |(Act − Recon)/(Act + Recon)|; for nonnegative values, code approaches public form as ε → 0.</text>
+<text x="48" y="862" class="cap" >Act = actual target GM; Recon = its reconstruction from the opposite hemisphere. L is shown on the left; abstract glyphs are not anatomy.</text>
+<text x="48" y="880" class="cap" >DGN / ANS / RNS: Wang et al. (2024), Patterns 5:100930. HemiSpec: software, packaging and downstream workflow. Illustrative schematic — not data.</text>
+</g>
 </svg>
