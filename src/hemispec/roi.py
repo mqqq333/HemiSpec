@@ -35,20 +35,16 @@ def summarize_maps_by_atlas(config: RoiSummaryConfig) -> pd.DataFrame:
         data = np.squeeze(map_img.get_fdata(dtype=np.float32))
         _assert_compatible(atlas_img, atlas, map_img, data, map_path)
         meta = _parse_map_name(map_path, config.file_regex)
+        values_by_label = _summarize_values_by_label(
+            data,
+            atlas,
+            labels,
+            stat=config.stat,
+            ignore_zero=config.ignore_zero,
+            background_label=config.background_label,
+        )
 
-        for label in labels:
-            values = data[atlas == label]
-            values = values[np.isfinite(values)]
-            if config.ignore_zero:
-                values = values[values != 0]
-            if values.size == 0:
-                value = np.nan
-            elif config.stat == "mean":
-                value = float(np.mean(values))
-            elif config.stat == "median":
-                value = float(np.median(values))
-            else:
-                raise ValueError("ROI stat must be one of: mean, median")
+        for label, (value, n_voxels) in zip(labels, values_by_label):
             rows.append(
                 {
                     **meta,
@@ -57,7 +53,7 @@ def summarize_maps_by_atlas(config: RoiSummaryConfig) -> pd.DataFrame:
                     "roi_name": label_names.get(label, ""),
                     "stat": config.stat,
                     "value": value,
-                    "n_voxels": int(values.size),
+                    "n_voxels": n_voxels,
                     "map_path": str(map_path),
                 }
             )
@@ -66,6 +62,97 @@ def summarize_maps_by_atlas(config: RoiSummaryConfig) -> pd.DataFrame:
     config.out_csv.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(config.out_csv, index=False)
     return df
+
+
+def _summarize_values_by_label(
+    data: np.ndarray,
+    atlas: np.ndarray,
+    labels: list[int],
+    *,
+    stat: str,
+    ignore_zero: bool,
+    background_label: int,
+) -> list[tuple[float, int]]:
+    if stat == "mean":
+        return _mean_values_by_label(data, atlas, labels, ignore_zero=ignore_zero, background_label=background_label)
+    if stat == "median":
+        return _median_values_by_label(data, atlas, labels, ignore_zero=ignore_zero)
+    raise ValueError("ROI stat must be one of: mean, median")
+
+
+def _mean_values_by_label(
+    data: np.ndarray,
+    atlas: np.ndarray,
+    labels: list[int],
+    *,
+    ignore_zero: bool,
+    background_label: int,
+) -> list[tuple[float, int]]:
+    """Compute per-label means with one vectorized pass over the map.
+
+    The previous implementation sliced the full 3D image once per ROI label
+    (`data[atlas == label]`).  For whole-cortex Glasser exports this repeated
+    scan dominates runtime.  `np.bincount` aggregates all labels in one pass
+    while preserving the public CSV schema and ROI ordering.
+    """
+
+    if not labels:
+        return []
+    if min(labels) < 0:
+        return _mean_values_by_label_slow(data, atlas, labels, ignore_zero=ignore_zero)
+
+    flat_labels = atlas.ravel()
+    flat_values = data.ravel()
+    valid = (flat_labels != int(background_label)) & np.isfinite(flat_values)
+    if ignore_zero:
+        valid &= flat_values != 0
+
+    label_values = flat_labels[valid].astype(np.int64, copy=False)
+    value_values = flat_values[valid].astype(np.float64, copy=False)
+    minlength = max(labels) + 1
+    sums = np.bincount(label_values, weights=value_values, minlength=minlength)
+    counts = np.bincount(label_values, minlength=minlength)
+
+    out: list[tuple[float, int]] = []
+    for label in labels:
+        count = int(counts[label]) if label < len(counts) else 0
+        value = float(sums[label] / count) if count else float("nan")
+        out.append((value, count))
+    return out
+
+
+def _mean_values_by_label_slow(
+    data: np.ndarray,
+    atlas: np.ndarray,
+    labels: list[int],
+    *,
+    ignore_zero: bool,
+) -> list[tuple[float, int]]:
+    out: list[tuple[float, int]] = []
+    for label in labels:
+        values = data[atlas == label]
+        values = values[np.isfinite(values)]
+        if ignore_zero:
+            values = values[values != 0]
+        out.append((float(np.mean(values)) if values.size else float("nan"), int(values.size)))
+    return out
+
+
+def _median_values_by_label(
+    data: np.ndarray,
+    atlas: np.ndarray,
+    labels: list[int],
+    *,
+    ignore_zero: bool,
+) -> list[tuple[float, int]]:
+    out: list[tuple[float, int]] = []
+    for label in labels:
+        values = data[atlas == label]
+        values = values[np.isfinite(values)]
+        if ignore_zero:
+            values = values[values != 0]
+        out.append((float(np.median(values)) if values.size else float("nan"), int(values.size)))
+    return out
 
 
 def _parse_map_name(path: Path, pattern: str) -> dict[str, object]:

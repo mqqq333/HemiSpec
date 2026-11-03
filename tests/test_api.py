@@ -158,6 +158,46 @@ def test_roi_summary_ignores_zero_voxels_by_default(tmp_path):
     assert row["n_voxels"] == 2
 
 
+def test_roi_summary_mean_matches_per_label_reference(tmp_path):
+    maps_dir = tmp_path / "maps"
+    maps_dir.mkdir()
+    data = np.array(
+        [
+            [[0.0, 1.0, np.nan], [2.0, 0.0, 6.0]],
+            [[3.0, 4.0, 5.0], [0.0, 8.0, 10.0]],
+        ],
+        dtype=np.float32,
+    )
+    atlas = np.array(
+        [
+            [[0, 1, 1], [1, 2, 2]],
+            [[2, 1001, 1001], [1001, 1002, 1002]],
+        ],
+        dtype=np.int16,
+    )
+    _save(maps_dir / "sub-01_ANS.L.nii.gz", data)
+    nib.save(nib.Nifti1Image(atlas, np.eye(4)), str(tmp_path / "atlas.nii.gz"))
+
+    out = summarize_maps_by_atlas(
+        RoiSummaryConfig(
+            maps_glob=str(maps_dir / "*.nii.gz"),
+            atlas_path=tmp_path / "atlas.nii.gz",
+            out_csv=tmp_path / "roi.csv",
+            file_regex=r"(?P<subject>.+?)_(?P<kind>ANS|RNS)[._](?P<map_hemi>L|R)\.nii(?:\.gz)?$",
+        )
+    ).set_index("roi_label")
+
+    assert out.loc[1, "value"] == pytest.approx(1.5)
+    assert out.loc[1, "n_voxels"] == 2
+    assert out.loc[2, "value"] == pytest.approx(4.5)
+    assert out.loc[2, "n_voxels"] == 2
+    assert out.loc[1001, "value"] == pytest.approx(4.5)
+    assert out.loc[1001, "n_voxels"] == 2
+    assert out.loc[1002, "value"] == pytest.approx(9.0)
+    assert out.loc[1002, "n_voxels"] == 2
+    assert set(out["map_hemi"]) == {"L"}
+
+
 def test_validate_specificity_api_smoke(tmp_path):
     subjects = ["sub-MSC01", "sub-MSC02", "sub-MSC03"]
     for i, subject in enumerate(subjects):
