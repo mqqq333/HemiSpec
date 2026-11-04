@@ -69,7 +69,7 @@ hide:
   </figure>
   <figure class="hs-figure">
     <a href="assets/figures/hemispec-study-design.png"><img src="assets/figures/hemispec-study-design.png" alt="Cross-hemispheric reconstruction and ANS/RNS definitions" loading="lazy"></a>
-    <figcaption>Conceptual reconstruction framework and ANS/RNS definitions from Wang et al. (2024). HemiSpec starts from FSL-preprocessed GM maps. ANS/RNS are non-negative GM-derived measures, not distances in millimetres.</figcaption>
+    <figcaption>Figure: Ma, Q. et al., “Reconstruction-derived hemispheric specificity captures distributed structural information related to handedness” (manuscript in preparation). Conceptual reconstruction framework and ANS/RNS definitions from Wang et al. (2024). HemiSpec starts from FSL-preprocessed GM maps. ANS/RNS are non-negative GM-derived measures, not distances in millimetres.</figcaption>
   </figure>
   </div>
 <div class="hs-table-scroll">

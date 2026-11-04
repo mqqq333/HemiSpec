@@ -43,6 +43,8 @@ MNI 1.5 mm NIfTI 转换版属于派生 atlas 资产，并非原始分区本身�
 
 ## HemiSpec 下游论文
 
+- Ma, Q. 等. Reconstruction-derived hemispheric specificity captures distributed structural information related to handedness. 稿件准备中。首页的 HemiSpec 研究设计图来自该稿件；在有公开预印本或 DOI 之前，请勿将其作为正式引用，也不要引用其中的结果。
+
 “稿件准备中”不是稳定的公共文献。只有在预印本、期刊论文或归档记录公开后，才应将 HemiSpec 下游论文作为正式引用。在此之前，应描述“使用 HemiSpec 完成分析”，并报告准确的软件版本或 commit。
 
 ## 建议的方法描述

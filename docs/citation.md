@@ -43,6 +43,8 @@ Do not replace the Wang et al. citation with a software citation: the original s
 
 ## HemiSpec downstream manuscripts
 
+- Ma, Q. et al. Reconstruction-derived hemispheric specificity captures distributed structural information related to handedness. Manuscript in preparation. The HemiSpec study-design figure on the home page is from this manuscript; cite it formally only once a public preprint or DOI is available, and until then do not cite results from it.
+
 A manuscript marked “in preparation” is not a stable public citation. Cite a HemiSpec downstream manuscript only after a public preprint, journal article, or archival record exists. Until then, describe the analysis as performed with HemiSpec and report the exact software version/commit.
 
 ## Suggested Methods wording
