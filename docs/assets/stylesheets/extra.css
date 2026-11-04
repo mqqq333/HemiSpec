@@ -1122,6 +1122,26 @@
   text-align: center;
 }
 
+.hs-figures--pair {
+  align-items: center;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+}
+
+.hs-figure a {
+  border-bottom: 0;
+  display: block;
+  text-decoration: none;
+}
+
+.hs-figure a img {
+  border: 0;
+}
+
+.hs-figure figcaption a {
+  display: inline;
+  text-decoration: underline;
+}
+
 .hs-table-scroll {
   margin-top: 16px;
   max-width: 100%;
@@ -1412,6 +1432,10 @@
   }
 
   .hs-figures {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hs-figures--pair {
     grid-template-columns: minmax(0, 1fr);
   }
 
